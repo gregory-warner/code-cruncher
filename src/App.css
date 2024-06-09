@@ -1,0 +1,48 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+/* Set the base font size for desktop */
+html {
+  font-size: 16px;
+}
+
+/* Mobile devices */
+@media (max-width: 600px) {
+  html {
+    font-size: 14px; /* Smaller base font size for mobile */
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevents horizontal scrolling */
+  }
+
+  /* Adjust layout and font sizes for mobile */
+  .some-class {
+    font-size: 0.875rem; /* Use rem units, which are relative to the html font-size */
+  }
+
+  /* Other mobile-specific styles */
+}
+
+/* You can also use em units for media queries, which are relative to the current font size */
+@media (max-width: 37.5em) { /* 600px / 16px = 37.5em */
+  /* Additional mobile styles */
+}

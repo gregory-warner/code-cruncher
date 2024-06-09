@@ -1,0 +1,73 @@
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../../app/store';
+import { fetchActiveAssistants } from '../../api/server/index';
+import { isActor, setAssistant } from '../actor/actorSlice';
+import { clearConversation, updateDialog } from '../conversation/store/conversationSlice';
+import { selectUser } from '../user/userSlice';
+import { addAssistantToCache } from '../messageCard/store/messageCardSlice';
+
+export interface ActorDrawerState {
+    isOpen: boolean,
+    actors: Actor[],
+    selectedActor?: Actor,
+}
+
+const initialState: ActorDrawerState = {
+    isOpen: false,
+    actors: [],
+};
+
+export const fetchActors = createAsyncThunk("actors/getActiveActors", async () => {
+    const response = await fetchActiveAssistants();
+    return response.data;
+});
+
+export const actorDrawerSlice = createSlice({
+    name: "actorDrawer",
+    initialState,
+    reducers: {
+        toggleDrawer: (state) => {
+            state.isOpen = !state.isOpen;
+        },
+        setActors: (state, action: PayloadAction<Actor[]>) => {
+            state.actors = action.payload;
+        },
+        setSelectedActor: (state, action: PayloadAction<Actor>) => {
+            if (!isActor(action.payload)) {
+                return;
+            }
+            state.selectedActor = action.payload
+        },
+        setDrawer: (state, action: PayloadAction<boolean>) => {
+            state.isOpen = action.payload;
+        }
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchActors.fulfilled, (state, action) => {
+                const actors = action.payload;
+                state.actors = [...actors];
+            })
+      },
+});
+
+export const updateAssistantFromDrawer = createAsyncThunk<void, Actor>("actors/updateAssistant", async (selectedActor: Actor, { dispatch, getState }) => {
+    const state = getState() as RootState;
+
+    const user = selectUser(state);
+    dispatch(setAssistant(selectedActor));
+    dispatch(addAssistantToCache(selectedActor));
+    dispatch(clearConversation());
+    dispatch(setDrawerOpen(false));
+    dispatch(updateDialog({user, actor: selectedActor}));
+});
+
+export const { toggleDrawer, setActors, setSelectedActor, setDrawer: setDrawerOpen } = actorDrawerSlice.actions;
+
+export const isOpen = (state: RootState) => state.actorDrawer.isOpen;
+
+export const getActiveActors = (state: RootState) => state.actorDrawer.actors;
+
+export const getSelectedActor = (state: RootState) => state.actorDrawer.selectedActor;
+
+export default actorDrawerSlice.reducer;
