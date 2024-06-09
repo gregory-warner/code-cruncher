@@ -1,0 +1,26 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile-chat
+#    volumes:
+#      - .:/app
+    volumes:
+      - ./src:/app/src
+    # networks:
+    #   - chat-network
+    ports:
+      - ${VITE_PROJECT_PORT}:${VITE_PROJECT_PORT}
+    env_file:
+      - .env
+#  tts:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile-tts
+#     volumes:
+#       - .:/app
+#     ports:
+#       - 5002:5002
+
+  
