@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { getActiveActors, getActiveAssistant } from '../../api/server';
-import { addAssistantToCache } from '../messageCard/store/messageCardSlice';
 import {updateDialog} from "../conversation/store/conversationSlice";
 
 interface ActorState {

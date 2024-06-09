@@ -9,9 +9,9 @@ import {
     setIsPromptDrawerOpen,
     selectCurrentConfig, setCurrentConfig, setUpdatedConfig
 } from "./store/actorConfigDrawerSlice";
-import { fetchActors, getSelectedActor } from "../actorDrawer/ActorDrawerSlice";
+import {getSelectedActor} from "../actorDrawer/ActorDrawerSlice";
 import React, { useEffect } from "react";
-import { selectActors, updateActors } from "../actor/actorSlice";
+import {updateActors} from "../actor/actorSlice";
 import {updateActorPrompt} from "./store/remote";
 
 const drawerPaperProps = {

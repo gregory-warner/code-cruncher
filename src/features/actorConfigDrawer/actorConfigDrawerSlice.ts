@@ -107,7 +107,7 @@ export const selectCurrentConfig = (state: RootState) => state.actorConfigDrawer
 
 export const selectSelectedConfig = (state: RootState) => state.actorConfigDrawer.updatedConfig;
 
-export const updateChatModelsSelect = createAsyncThunk<void, void>("dialog/updateDialog", async (_, { dispatch, getState }) => {
+export const updateChatModelsSelect = createAsyncThunk<void, void>("dialog/updateDialog", async (_, { dispatch }) => {
     const models = await getChatModels() as Model[];
     dispatch(setModels(models));
 });

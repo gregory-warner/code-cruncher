@@ -60,9 +60,7 @@ export const postChat = async (postChatParams: PostChatParams): Promise<ChatMess
 
     const response = await apiClient.post<ApiResponse>(chatCompletionPath, params);
     console.log("response: ", response);
-    const message = response.data.choices[0]?.message ?? {role: "default", content: ""};
-    
-    return message;
+    return response.data.choices[0]?.message ?? {role: "default", content: ""};
 }; 
 
 export const postImageRequest = async (postChatParams: PostChatParams): Promise<ChatMessage> => {

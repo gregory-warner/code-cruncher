@@ -12,11 +12,6 @@ import {
     setIsPromptDrawerOpen, setUpdatedConfig
 } from "../../store/actorConfigDrawerSlice";
 
-interface ActorConfigSectionProps {
-  title: string;
-  avatar: string;
-}
-
 const ActorConfigSection: React.FC = () => {
     const dispatch = useAppDispatch();
     const selectedActor = useAppSelector(getSelectedActor);

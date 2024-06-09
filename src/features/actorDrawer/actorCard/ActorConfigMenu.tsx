@@ -13,8 +13,6 @@ import { setDrawerOpen } from "../ActorDrawerSlice";
 const ActorConfigMenu: React.FC = () => {
     const dispatch = useAppDispatch();
     const dialogId = useAppSelector(selectDialogId);
-    const assistant = useAppSelector(selectAssistant);
-    const user = useAppSelector(selectUser);
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
