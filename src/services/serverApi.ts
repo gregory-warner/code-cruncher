@@ -16,7 +16,7 @@ export const serverApi  = createApi({
                 method: 'GET',
             })
         }),
-        getActors: build.query({
+        getActors: build.query<Actor[], void>({
             query: () => 'actors/getActiveActors',
         })
     })

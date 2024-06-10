@@ -18,7 +18,7 @@ const ActorDrawer = () => {
     const selectedActor = useAppSelector(getSelectedActor);
     const actor = useAppSelector(selectActor);
 
-    const {data: actors, error: actorsError, isLoading: actorsLoading, refetch} = useGetActorsQuery({});
+    const {data: actors, error: actorsError, isLoading: actorsLoading, refetch} = useGetActorsQuery();
 
     useEffect(() => {
         if (!open) {
