@@ -5,12 +5,10 @@ import { Fragment, useState } from "react";
 import { Backspace } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { deleteCurrentDialog, selectDialogId, setMessages } from "../../conversation/store/conversationSlice";
-import { selectAssistant } from "../../actor/actorSlice";
-import { selectUser } from "../../user/userSlice";
 import { setActorConfigDrawerOpen } from "../../actorConfigDrawer/store/actorConfigDrawerSlice";
 import { setDrawerOpen } from "../ActorDrawerSlice";
 
-const ActorConfigMenu: React.FC = () => {
+const ActorConfigMenu = () => {
     const dispatch = useAppDispatch();
     const dialogId = useAppSelector(selectDialogId);
 
@@ -27,7 +25,6 @@ const ActorConfigMenu: React.FC = () => {
     const clearConversation = () => {
         dispatch(deleteCurrentDialog(dialogId));
         dispatch(setMessages([]));
-        // dispatch(updateDialogId({assistant, user}));
         handleClose();
     };
 
