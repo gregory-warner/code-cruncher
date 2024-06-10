@@ -6,7 +6,7 @@ import Typewriter from 'typewriter-effect';
 import {messengerTypes, selectMessages} from '../conversation/store/conversationSlice';
 import he from 'he';
 import {marked} from 'marked';
-import {useAppSelector} from "../../app/hooks";
+import {useAppSelector} from "../../store/hooks";
 
 interface MessageParserProps {
     message: Message,

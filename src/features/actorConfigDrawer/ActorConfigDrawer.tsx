@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Box, Button, Divider, Drawer, Grid } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
     isOpen,
     selectCurrentModel,

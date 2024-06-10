@@ -1,13 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import { Button, Grid, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { messengerTypes, selectDialogId, sendChatMessage } from '../conversation/store/conversationSlice';
 import { selectUser } from './userSlice';
 import './styles.css';
-import { getTimestamp } from '../chatApp/util';
+import { getTimestamp } from '../../utils/util';
 
-const UserInput = (): JSX.Element => {
+const UserInput = () => {
     const dispatch = useAppDispatch();
     const user = useAppSelector(selectUser);
     const dialogId = useAppSelector(selectDialogId);
@@ -45,21 +45,6 @@ const UserInput = (): JSX.Element => {
                 return;
             }
             onSend();
-        }
-    }
-
-    const ConvertToCodeBlock = (text: HTMLInputElement) => {
-        const { value, selectionStart, selectionEnd } = text;
-
-        if (selectionStart && selectionEnd) {
-            const selectedText = value.substring(selectionStart, selectionEnd);
-            const beforeText = value.substring(0, selectionStart);
-            const afterText = value.substring(selectionEnd);
-            
-            text.value = `${beforeText}\n\`${selectedText}\`\n${afterText}`;
-
-            const newCursorPosition = selectionEnd + 3; // account for newline and one backtick
-            text.setSelectionRange(newCursorPosition, newCursorPosition);
         }
     }
 

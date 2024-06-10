@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAppSelector } from '../../app/hooks';
+import { useAppSelector } from '../../store/hooks';
 import { Typography, Avatar, Card, Stack, Grid } from '@mui/material';
 import { selectCardStyle, selectMessenger, selectMessengerCache } from '../messageCard/store/messageCardSlice';
 import MessageImageCard from './MessageImageCard';

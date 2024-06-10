@@ -2,7 +2,6 @@ import {configureStore, ThunkAction, Action} from '@reduxjs/toolkit';
 import actorDrawerReducer from '../features/actorDrawer/ActorDrawerSlice';
 import actorReducer from '../features/actor/actorSlice';
 import conversationReducer from '../features/conversation/store/conversationSlice';
-import chatAppReducer from '../features/chatApp/store/chatAppSlice';
 import userReducer from '../features/user/userSlice';
 import messageCardReducer from '../features/messageCard/store/messageCardSlice';
 import actorConfigDrawerReducer from '../features/actorConfigDrawer/store/actorConfigDrawerSlice';
@@ -16,7 +15,6 @@ export const store = configureStore({
     actorDrawer: actorDrawerReducer,
     actor: actorReducer,
     conversation: conversationReducer,
-    chatApp: chatAppReducer,
     user: userReducer,
     messageCard: messageCardReducer,
     actorConfigDrawer: actorConfigDrawerReducer,

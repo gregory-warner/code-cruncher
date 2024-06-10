@@ -2,7 +2,7 @@ import { Button, Drawer, FormControl, Grid, InputLabel, TextField } from "@mui/m
 
 import './actorConfigDrawerStyle.css';
 
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
     selectUpdatedConfig,
     selectIsPromptDrawerOpen,

@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../../../app/store";
+import { RootState } from "../../../store/store";
 
 export interface ActorConfigDrawerState {
     isOpen: boolean,

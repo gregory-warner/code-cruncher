@@ -3,13 +3,12 @@ import Conversation from '../conversation/Conversation';
 import { Box, Grid } from '@mui/material';
 import UserInput from '../user/UserInput';
 import ActorDrawer from '../actorDrawer/ActorDrawer';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import {selectDialogId, selectMessages, updateDialog} from '../conversation/store/conversationSlice';
-import { defaultActor, selectActor } from '../actor/actorSlice';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import {updateDialog} from '../conversation/store/conversationSlice';
+import { defaultActor} from '../actor/actorSlice';
 import ChatAppHeader from './components/ChatAppHeader';
-import {defaultUser, isUser, selectUser, setUser, updateUser} from '../user/userSlice';
+import {defaultUser} from '../user/userSlice';
 import ActorConfigDrawer from '../actorConfigDrawer/ActorConfigDrawer';
-
 import {useGetAssistantQuery, useGetUserQuery} from "../../services/serverApi";
 
 const ChatApp = () => {
@@ -36,7 +35,7 @@ const ChatApp = () => {
                 <ChatAppHeader />
             </Grid>
             <Grid item xs sx={{ overflowY: "scroll" }} justifyContent={"stretch"}>
-                <Conversation messages={useAppSelector(selectMessages)}/>
+                <Conversation />
             </Grid>
 
             <Grid item>

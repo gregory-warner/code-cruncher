@@ -1,5 +1,5 @@
 import { Avatar, Box, Grid, Typography } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { setSelectedActor, getSelectedActor, updateAssistantFromDrawer } from '../ActorDrawerSlice';
 import ActorConfigMenu from './ActorConfigMenu';
 import './actorCardStyle.css';

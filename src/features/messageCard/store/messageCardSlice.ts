@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../../../app/store";
+import { RootState } from "../../../store/store";
 import { messengerTypeIds } from "../../conversation/store/conversationSlice";
 import {defaultCardStyle} from "./types";
 

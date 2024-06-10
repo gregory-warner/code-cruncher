@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../app/store';
+import { RootState } from '../../store/store';
 import { fetchActiveAssistants } from '../../api/server';
 import { isActor, setAssistant } from '../actor/actorSlice';
-import { clearConversation, updateDialog } from '../conversation/store/conversationSlice';
+import {updateDialog} from '../conversation/store/conversationSlice';
 import { selectUser } from '../user/userSlice';
 import { addAssistantToCache } from '../messageCard/store/messageCardSlice';
 

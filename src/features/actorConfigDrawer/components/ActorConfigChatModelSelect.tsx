@@ -1,5 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { selectCurrentModel, selectSelectedModel, setSelectedModel } from "../store/actorConfigDrawerSlice";
 import { getSelectedActor } from "../../actorDrawer/ActorDrawerSlice";
 import { useEffect } from "react";

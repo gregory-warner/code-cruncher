@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../app/store';
+import { RootState } from '../../store/store';
 import { getActiveUser } from '../../api/server';
 import { addUserMessenger } from '../messageCard/store/messageCardSlice';
 import {updateDialog, UpdateDialogResponse} from "../conversation/store/conversationSlice";

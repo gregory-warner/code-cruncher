@@ -1,9 +1,9 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {RootState} from '../../../app/store';
+import {RootState} from '../../../store/store';
 import {postChatRequest} from '../../../api/chat';
 import {addMessageToDialog, createDialog, deleteDialog, getDialogId, getMessagesByDialogId} from '../../../api/server';
 import {selectActor} from '../../actor/actorSlice';
-import {getTimestamp} from '../../chatApp/util';
+import {getTimestamp} from '../../../utils/util';
 
 export const messengerTypeIds = {
     user: 0,

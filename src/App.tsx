@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import ChatApp from './features/chatApp/ChatApp';
 import {darkTheme, lightTheme} from "./theme/theme";
-import {useAppSelector} from "./app/hooks";
+import {useAppSelector} from "./store/hooks";
 import {selectMode} from "./theme/themeSlice";
 import {ThemeProvider} from "@mui/system";
 
@@ -19,6 +19,6 @@ function App() {
             </div>
         </ThemeProvider>
     );
-};
+}
 
 export default App;

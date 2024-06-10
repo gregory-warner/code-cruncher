@@ -1,8 +1,8 @@
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { Drawer, Grid, Button, ListItem, List } from '@mui/material';
 import { useEffect } from 'react';
 import ActorCard from './actorCard/ActorCard';
-import { toggleDrawer, isOpen, getActiveActors, fetchActors, getSelectedActor, updateAssistantFromDrawer, setSelectedActor } from './ActorDrawerSlice';
+import { toggleDrawer, isOpen, getSelectedActor, updateAssistantFromDrawer, setSelectedActor } from './ActorDrawerSlice';
 import './actorDrawerStyles.css';
 import '../chatApp/chatAppStyle.css';
 import { selectActor } from '../actor/actorSlice';

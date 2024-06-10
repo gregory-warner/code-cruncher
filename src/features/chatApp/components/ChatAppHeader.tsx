@@ -1,7 +1,7 @@
 import ListTwoTone from '@mui/icons-material/ListTwoTone';
 import { Box, IconButton, Typography } from '@mui/material';
 import { toggleDrawer } from '../../actorDrawer/ActorDrawerSlice';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { selectActor } from '../../actor/actorSlice';
 import './chatAppHeaderStyle.css';
 

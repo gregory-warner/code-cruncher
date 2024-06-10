@@ -18,8 +18,15 @@ export const serverApi  = createApi({
         }),
         getActors: build.query<Actor[], void>({
             query: () => 'actors/getActiveActors',
-        })
+        }),
+        deleteMessage: build.mutation<void, number>({
+            query: (messageId: number) => ({
+                url: 'messages/deleteMessage',
+                method: 'PATCH',
+                body: { messageId }
+            }),
+        }),
     })
 });
 
-export const { useGetUserQuery, useGetAssistantQuery, useGetActorsQuery, useFetchActiveAssistantsQuery } = serverApi;
+export const { useDeleteMessageMutation, useGetUserQuery, useGetAssistantQuery, useGetActorsQuery, useFetchActiveAssistantsQuery } = serverApi;

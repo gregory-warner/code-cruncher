@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../../app/store";
+import { RootState } from "../../store/store";
 import { getChatModels } from "../../api/chat";
 import { getConfig, updateChatModel, updatePrompt, updateTtsModel } from "../../api/server";
 

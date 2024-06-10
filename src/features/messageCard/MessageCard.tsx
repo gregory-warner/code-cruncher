@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { Typography, Avatar, Card, Stack, IconButton, Box } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import MessageParser from './MessageParser';
@@ -7,10 +7,10 @@ import { selectCardStyle } from './store/messageCardSlice';
 import './messageCardStyle.css';
 import {selectMessages, setMessages} from "../conversation/store/conversationSlice";
 import {VolumeUp} from "@mui/icons-material";
-import {deleteChatMessage} from "../conversation/store/remote";
 import {defaultCardStyle} from "./store/types";
 import {selectActor} from "../actor/actorSlice";
 import {selectUser} from "../user/userSlice";
+import {useDeleteMessageMutation} from "../../services/serverApi";
 
 enum MessengerType {
     user,
@@ -30,6 +30,8 @@ const MessageCard = ({ message }: {message: Message}) => {
     const dispatch = useAppDispatch();
     const [avatarPath, setAvatarPath] = useState("src/img/default_avatar.png");
 
+    const [deleteMessage] = useDeleteMessageMutation();
+
     useEffect(() => {
         setMessenger(messengers[MessengerType[message.messengerTypeId]]);
     }, [message]);
@@ -44,10 +46,11 @@ const MessageCard = ({ message }: {message: Message}) => {
         setStyle(messenger.configuration?.colorTheme?.messageCard ?? defaultCardStyle);
     }, [messenger]);
 
-    const deleteMessageHandler = () => {
+    const deleteMessageHandler = async () => {
         const prunedMessages = messages.filter(m => m.id !== message.id);
-        dispatch(setMessages(prunedMessages));
-        dispatch(deleteChatMessage({messageId: message.id}));
+        dispatch(setMessages(prunedMessages)); // remove this and use the refetch message that should be created
+
+        await deleteMessage(message.id).unwrap();
     }
 
     const textToSpeech = () => {

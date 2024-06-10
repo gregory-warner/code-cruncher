@@ -2,8 +2,10 @@ import { useEffect, useRef } from 'react';
 import { List, ListItem } from '@mui/material';
 import MessageCard from '../messageCard/MessageCard';
 import MessageImageCards from '../messageImageCard/MessageImageCards';
+import {useAppSelector} from "../../store/hooks";
+import {selectMessages} from "./store/conversationSlice";
 
-const ScrollFocusPoint = ({ messages }: { messages: Message[] }): JSX.Element => {
+const ScrollFocusPoint = ({ messages }: { messages: Message[] }) => {
     const ref = useRef<HTMLInputElement|null>(null);
     const prevLength = useRef<number>(0);
     
@@ -23,7 +25,9 @@ const getMessageCardType = (message: Message) => {
     return <MessageCard message={message} />;
 }
 
-const Conversation = ({ messages }: { messages: Message[] }): JSX.Element => {
+const Conversation = () => {
+    const messages = useAppSelector(selectMessages);
+
     return (
         <List>
             {messages.map((message, idx) => {
