@@ -5,7 +5,7 @@ import UserInput from '../user/UserInput';
 import ActorDrawer from '../actorDrawer/ActorDrawer';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {selectDialogId, selectMessages, updateDialog} from '../conversation/store/conversationSlice';
-import { defaultActor, selectAssistant } from '../actor/actorSlice';
+import { defaultActor, selectActor } from '../actor/actorSlice';
 import ChatAppHeader from './components/ChatAppHeader';
 import {defaultUser, isUser, selectUser, setUser, updateUser} from '../user/userSlice';
 import ActorConfigDrawer from '../actorConfigDrawer/ActorConfigDrawer';
@@ -14,9 +14,6 @@ import {useGetAssistantQuery, useGetUserQuery} from "../../services/serverApi";
 
 const ChatApp = () => {
     const dispatch = useAppDispatch();
-    const assistant = useAppSelector(selectAssistant);
-    const user = useAppSelector(selectUser);
-    const dialogId = useAppSelector(selectDialogId);
 
     const { data: userData, error: userError, isLoading: userLoading } = useGetUserQuery(defaultUser);
     const { data: actorData, error: actorError, isLoading: actorLoading } = useGetAssistantQuery(defaultActor);
