@@ -6,6 +6,7 @@ import chatAppReducer from '../features/chatApp/store/chatAppSlice';
 import userReducer from '../features/user/userSlice';
 import messageCardReducer from '../features/messageCard/store/messageCardSlice';
 import actorConfigDrawerReducer from '../features/actorConfigDrawer/store/actorConfigDrawerSlice';
+import themeReducer from '../theme/themeSlice';
 import { serverApi } from "../services/serverApi";
 import {setupListeners} from "@reduxjs/toolkit/query";
 
@@ -19,6 +20,7 @@ export const store = configureStore({
     user: userReducer,
     messageCard: messageCardReducer,
     actorConfigDrawer: actorConfigDrawerReducer,
+    theme: themeReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(serverApi.middleware),
 });
