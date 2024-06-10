@@ -5,33 +5,38 @@ import ActorCard from './actorCard/ActorCard';
 import { toggleDrawer, isOpen, getActiveActors, fetchActors, getSelectedActor, updateAssistantFromDrawer, setSelectedActor } from './ActorDrawerSlice';
 import './actorDrawerStyles.css';
 import '../chatApp/chatAppStyle.css';
-import { selectAssistant } from '../actor/actorSlice';
+import { selectActor } from '../actor/actorSlice';
+import {useGetActorsQuery} from "../../services/serverApi";
 
 const drawerPaperProps = {
     backgroundColor: "rgba(34, 34, 34, 1)"
 };
 
 const ActorDrawer = () => {
-    debugger;
     const dispatch = useAppDispatch();
-    const actors = useAppSelector(getActiveActors);
     const open = useAppSelector(isOpen);
     const selectedActor = useAppSelector(getSelectedActor);
-    const assistant = useAppSelector(selectAssistant);
+    const actor = useAppSelector(selectActor);
+
+    const {data: actors, error: actorsError, isLoading: actorsLoading, refetch} = useGetActorsQuery({});
 
     useEffect(() => {
         if (!open) {
             return;
         }
 
-        dispatch(fetchActors()).catch(error => console.error(`Error fetching users: ${error}`));
-    }, [open])
+        refetch();
+    }, [open]);
+
+    if (actorsError) {
+        console.error(`Error fetching users: ${actorsError}`);
+    }
 
     const onFinish = () => dispatch(updateAssistantFromDrawer(selectedActor));
 
     const onClose = () => {
         dispatch(toggleDrawer());
-        dispatch(setSelectedActor(assistant));
+        dispatch(setSelectedActor(actor));
     }
 
     const footer = (
@@ -60,7 +65,7 @@ const ActorDrawer = () => {
             PaperProps={{ style: drawerPaperProps, className: 'drawer-paper' }}
         >
             <List className="Actor-Drawer-List">
-                {actors.map((actor, idx) => (
+                {actors?.map((actor, idx) => (
                     <ListItem key={`id-actor-list-item-${idx}`}>
                         <ActorCard actor={actor} />
                     </ListItem>

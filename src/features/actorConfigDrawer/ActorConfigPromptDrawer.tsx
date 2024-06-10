@@ -11,7 +11,6 @@ import {
 } from "./store/actorConfigDrawerSlice";
 import {getSelectedActor} from "../actorDrawer/ActorDrawerSlice";
 import React, { useEffect } from "react";
-import {updateActors} from "../actor/actorSlice";
 import {updateActorPrompt} from "./store/remote";
 
 const drawerPaperProps = {
@@ -32,7 +31,6 @@ const ActorConfigPromptDrawer: React.FC = () => {
 
     const onFinish = () => {
         dispatch(updateActorPrompt({actorId: selectedActor.actorId, prompt: updatedConfig.prompt ?? ""}));
-        dispatch(updateActors());
         dispatch(setIsPromptDrawerOpen(false));
     }
 

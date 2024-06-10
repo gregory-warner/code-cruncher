@@ -29,9 +29,6 @@ export const actorDrawerSlice = createSlice({
         toggleDrawer: (state) => {
             state.isOpen = !state.isOpen;
         },
-        setActors: (state, action: PayloadAction<Actor[]>) => {
-            state.actors = action.payload;
-        },
         setSelectedActor: (state, action: PayloadAction<Actor>) => {
             if (!isActor(action.payload)) {
                 return;
@@ -57,12 +54,11 @@ export const updateAssistantFromDrawer = createAsyncThunk<void, Actor>("actors/u
     const user = selectUser(state);
     dispatch(setAssistant(selectedActor));
     dispatch(addAssistantToCache(selectedActor));
-    dispatch(clearConversation());
     dispatch(setDrawerOpen(false));
     dispatch(updateDialog({user, actor: selectedActor}));
 });
 
-export const { toggleDrawer, setActors, setSelectedActor, setDrawer: setDrawerOpen } = actorDrawerSlice.actions;
+export const { toggleDrawer, setSelectedActor, setDrawer: setDrawerOpen } = actorDrawerSlice.actions;
 
 export const isOpen = (state: RootState) => state.actorDrawer.isOpen;
 

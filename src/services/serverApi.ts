@@ -15,8 +15,11 @@ export const serverApi  = createApi({
                 url: 'actors/getActiveAssistants',
                 method: 'GET',
             })
+        }),
+        getActors: build.query({
+            query: () => 'actors/getActiveActors',
         })
     })
 });
 
-export const { useGetUserQuery, useGetAssistantQuery, useFetchActiveAssistantsQuery } = serverApi;
+export const { useGetUserQuery, useGetAssistantQuery, useGetActorsQuery, useFetchActiveAssistantsQuery } = serverApi;

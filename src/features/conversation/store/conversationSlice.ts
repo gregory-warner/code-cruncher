@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../../../app/store';
 import {postChatRequest} from '../../../api/chat';
 import {addMessageToDialog, createDialog, deleteDialog, getDialogId, getMessagesByDialogId} from '../../../api/server';
-import {selectAssistant} from '../../actor/actorSlice';
+import {selectActor} from '../../actor/actorSlice';
 import {getTimestamp} from '../../chatApp/util';
 
 export const messengerTypeIds = {
@@ -104,7 +104,7 @@ export const sendChatMessage = createAsyncThunk<void, Message>("message/sendChat
     dispatch(addMessage(message));
     await addMessageToDialog(message);
 
-    const assistant = selectAssistant(state);
+    const assistant = selectActor(state);
     const chatMessages = getChatMessages(messages, assistant);
 
     const chatResponse: ChatMessage = await postChatRequest({chatMessages, chatModel: assistant.configuration?.chatModel});

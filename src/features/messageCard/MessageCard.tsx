@@ -9,7 +9,7 @@ import {selectMessages, setMessages} from "../conversation/store/conversationSli
 import {VolumeUp} from "@mui/icons-material";
 import {deleteChatMessage} from "../conversation/store/remote";
 import {defaultCardStyle} from "./store/types";
-import {selectAssistant} from "../actor/actorSlice";
+import {selectActor} from "../actor/actorSlice";
 import {selectUser} from "../user/userSlice";
 
 enum MessengerType {
@@ -24,7 +24,7 @@ const MessageCard = ({ message }: {message: Message}) => {
 
     const messengers = {
         user: useAppSelector(selectUser),
-        actor: useAppSelector(selectAssistant),
+        actor: useAppSelector(selectActor),
     }
 
     const dispatch = useAppDispatch();
