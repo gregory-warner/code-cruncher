@@ -25,12 +25,3 @@ export interface ApiLegacyChatResponse {
     status: number,
     choices: LegacyChatResponseChoice,
 }
-
-export type Messages = {
-    messages: Message[],
-};
-
-export type PostSizeOptions = {
-    size: number;
-};
-

@@ -139,7 +139,3 @@ interface TtsParams {
     text: string,
 }
 
-interface ActorPrompt {
-    actorId: internal, 
-    prompt: string,
-}

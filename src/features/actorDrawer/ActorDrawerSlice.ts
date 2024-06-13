@@ -4,7 +4,6 @@ import { fetchActiveAssistants } from '../../api/server';
 import { isActor, setAssistant } from '../actor/actorSlice';
 import {updateDialog} from '../conversation/store/conversationSlice';
 import { selectUser } from '../user/userSlice';
-import { addAssistantToCache } from '../messageCard/store/messageCardSlice';
 
 export interface ActorDrawerState {
     isOpen: boolean,
@@ -53,7 +52,7 @@ export const updateAssistantFromDrawer = createAsyncThunk<void, Actor>("actors/u
 
     const user = selectUser(state);
     dispatch(setAssistant(selectedActor));
-    dispatch(addAssistantToCache(selectedActor));
+    // dispatch(addAssistantToCache(selectedActor));
     dispatch(setDrawerOpen(false));
     dispatch(updateDialog({user, actor: selectedActor}));
 });

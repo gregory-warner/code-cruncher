@@ -11,11 +11,7 @@ import {defaultCardStyle} from "./store/types";
 import {selectActor} from "../actor/actorSlice";
 import {selectUser} from "../user/userSlice";
 import {useDeleteMessageMutation} from "../../services/serverApi";
-
-enum MessengerType {
-    user,
-    actor,
-}
+import {MessengerTypeIds} from "../../types";
 
 const MessageCard = ({ message }: {message: Message}) => {
     const [messenger, setMessenger] = useState(null);
@@ -33,7 +29,7 @@ const MessageCard = ({ message }: {message: Message}) => {
     const [deleteMessage] = useDeleteMessageMutation();
 
     useEffect(() => {
-        setMessenger(messengers[MessengerType[message.messengerTypeId]]);
+        setMessenger(messengers[MessengerTypeIds[message.messengerTypeId]]);
     }, [message]);
 
     useEffect(() => {

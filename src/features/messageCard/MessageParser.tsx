@@ -2,11 +2,8 @@ import { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-import Typewriter from 'typewriter-effect';
-import {messengerTypes, selectMessages} from '../conversation/store/conversationSlice';
 import he from 'he';
 import {marked} from 'marked';
-import {useAppSelector} from "../../store/hooks";
 
 interface MessageParserProps {
     message: Message,
@@ -17,9 +14,6 @@ const MessageParser = ({ message }: MessageParserProps): JSX.Element => {
     const [parsedContents, setParsedContents] = useState<{type: string, msg: string}[]>([]);
     const [displayContents, setDisplayContents] = useState([]);
     const [currentIdx, setCurrentIdx] = useState(-1);
-
-    const messages = useAppSelector(selectMessages);
-    const lastMessage = messages[messages.length-1];
 
     useEffect(() => {
         if (parsedContents.length > 0) {
@@ -59,57 +53,12 @@ const MessageParser = ({ message }: MessageParserProps): JSX.Element => {
         setCurrentIdx(0);
     }, [message]);
 
-    const setTypeWriterDisplayContents = async () => {
-        let currentContent = parsedContents[currentIdx];
-
-        if (currentContent.type === "general") {
-            currentContent.msg = await marked(currentContent.msg);
-            const formattedMessage = currentContent.msg.replace(new RegExp("\r?\n", "g"), "<br>");
-
-            setDisplayContents([
-                ...displayContents,
-                <Typewriter
-                    key={`id-message-general-${currentIdx}`}
-                    onInit={(typewriter) => {
-                        typewriter.changeDelay(15)
-                        .typeString(formattedMessage)
-                        .callFunction(() => setCurrentIdx(currentIdx+1))
-                        .start();
-                    }}
-                    options={{ cursor: "" }}
-                />
-            ]);
-        } else {
-            setDisplayContents([
-                ...displayContents,
-                <SyntaxHighlighter 
-                    key={`id-message-code-${currentIdx}`} 
-                    customStyle={{backgroundColor: "black", borderRadius: "5px"}} 
-                    language={currentContent.type} 
-                    style={a11yDark}
-                    wrapLines
-                    lineProps={{style: {wordBreak: "break-all", whiteSpace: "pre-wrap"}}}
-                    >
-                        {currentContent.msg}
-                </SyntaxHighlighter>,
-            ]);
-            setCurrentIdx(currentIdx+1);
-        }
-    }
-
     useEffect(() => {
         if (currentIdx < 0 || currentIdx >= parsedContents.length || currentIdx !== displayContents.length) {
             return;
         }
 
-        const messengerType = messengerTypes[message.messengerTypeId];
-
-
-        if (messengerType === "user" || message.id !== lastMessage.id) {
-            setStaticDisplayContents();
-        } else if (messengerType === "assistant") {
-            setTypeWriterDisplayContents();
-        }
+        setStaticDisplayContents();
     }, [parsedContents, currentIdx]);
 
     const setStaticDisplayContents = () => {

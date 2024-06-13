@@ -1,20 +1,27 @@
 import { useState, useEffect } from 'react';
 import { useAppSelector } from '../../store/hooks';
 import { Typography, Avatar, Card, Stack, Grid } from '@mui/material';
-import { selectCardStyle, selectMessenger, selectMessengerCache } from '../messageCard/store/messageCardSlice';
+import { selectCardStyle } from '../messageCard/store/messageCardSlice';
 import MessageImageCard from './MessageImageCard';
 import {defaultCardStyle} from "../messageCard/store/types";
+import {selectUser} from "../user/userSlice";
+import {selectActor} from "../actor/actorSlice";
+import {MessengerTypeIds} from "../../types";
 
-const MessageImageCards = ({ message }: {message: Message}): JSX.Element => {
-    const [messenger, setMessenger] = useState(useAppSelector(selectMessenger));
+const MessageImageCards = ({ message }: {message: Message}) => {
+
+    const messengers = {
+        user: useAppSelector(selectUser),
+        actor: useAppSelector(selectActor),
+    }
+
+    const [messenger, setMessenger] = useState(null);
     const [style, setStyle] = useState(useAppSelector(selectCardStyle));
-    const cache = useAppSelector(selectMessengerCache);
 
     const [avatarPath, setAvatarPath] = useState("src/img/default_avatar.png");
 
     useEffect(() => {
-        const cachedMessenger = cache[message.messengerTypeId.toString()][message.messengerId.toString()] as Messenger;
-        setMessenger(cachedMessenger);
+        setMessenger(messengers[MessengerTypeIds[message.messengerTypeId]]);
     }, [message]);
 
     useEffect(() => {

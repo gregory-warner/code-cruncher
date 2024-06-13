@@ -1,7 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store/store';
-import { getActiveUser } from '../../api/server';
-import { addUserMessenger } from '../messageCard/store/messageCardSlice';
 import {updateDialog, UpdateDialogResponse} from "../conversation/store/conversationSlice";
 
 export const defaultUser = "eagle-bonnet";
@@ -35,17 +33,6 @@ export const { setUser } = UserSlice.actions;
 
 export const selectUser = (state: RootState): User => {
     return state.user.user;
-};
-
-export const updateUser = createAsyncThunk<void, string>("user/updateUser", async (username: string, { dispatch }) => {
-    const response = await getActiveUser(username);
-    const user = response.data;
-    dispatch(setUser(user));
-    dispatch(addUserMessenger(user));
-});
-
-export const isUser = (user: User | null): user is User => {
-    return user && typeof user !== 'undefined';
 };
 
 export default UserSlice.reducer;
