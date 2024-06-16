@@ -54,29 +54,15 @@ const ActorConfigSection: React.FC = () => {
                     fullWidth
                     onChange={(event) => updateTitle(event.target.value)}
                 />
-
-            <div className="actor-config-section-avatar" >
-                <InputLabel sx={{ color: "white" }}>Avatar</InputLabel>
-                <TextField
-                    className="actor-config-section-text-field"
-                    sx={{ "& input": { color: "white" } }}
-                    value={currentConfig.avatar}
-                    fullWidth
-                    focused={false}
-                    InputProps={{
-                        readOnly: true,
-                    }}
-                />
-                <Button
-                    className="actor-config-button"
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    onClick={() => console.log('Change Avatar')}
-                >
-                    Change Avatar
-                </Button>
-            </div>
+            <Button
+                variant="contained"
+                className="actor-config-button"
+                color="primary"
+                fullWidth
+                onClick={() => console.log('Change Avatar')}
+            >
+                Change Avatar
+            </Button>
             <Button
                 variant="contained"
                 className="actor-config-button"

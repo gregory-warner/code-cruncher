@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, Button, Divider, Drawer, Grid } from "@mui/material";
+import {Box, Button, CssBaseline, Divider, Drawer, Grid, Typography} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
     isOpen,
@@ -85,6 +85,8 @@ const ActorConfigDrawer: React.FC = () => {
             PaperProps={{ style: drawerPaperProps, className: 'drawer-paper'  }}
         >
             <Box p={2}>
+                <Typography align={'center'} variant={'h4'}>{selectedActor?.name ?? ''}</Typography>
+                <CssBaseline />
                 <ActorConfigChatModelSelect />
                 <Divider />
                 <ActorConfigTtsModelSelect />

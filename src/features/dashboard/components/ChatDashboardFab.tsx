@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import React, { useState } from "react";
 import {Add, Delete, Edit} from "@mui/icons-material";
 
-const ChatAppFab: React.FC = () => {
+const ChatDashboardFab = () => {
     const [isFabOpen, setFabOpen] = useState(false);
 
     const handleFabClick = () => {
@@ -23,12 +23,12 @@ const ChatAppFab: React.FC = () => {
                 icon={<Add />}
                 open={isFabOpen}
                 onClick={handleFabClick}
-                FabProps={{
-                    style: {
-                        position: 'fixed',
-                        bottom: 100,
-                        right: 40,
-                    },
+                direction="up"
+
+                sx={{
+                    position: 'fixed',
+                    bottom: 20,
+                    right: 20,
                 }}
             >
                 <SpeedDialAction
@@ -43,4 +43,4 @@ const ChatAppFab: React.FC = () => {
     );
 };
 
-export default ChatAppFab;
+export default ChatDashboardFab;

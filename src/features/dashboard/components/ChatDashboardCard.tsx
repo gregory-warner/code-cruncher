@@ -33,15 +33,20 @@ const ChatDashboardCard = ({ actor }: ChatDashboardCardProps) => {
 
     const cardStyle = {
         borderRadius: '10px',
-        border: isSelected ? '2px solid #228B22' : '', // neon green border if selected
-        backgroundColor: config?.colorTheme.messageCard?.backgroundColor || (theme.palette.mode === 'dark' ? '#333' : '#fff'),
-        color: config?.colorTheme.messageCard?.textColor || (theme.palette.mode === 'dark' ? '#fff' : '#000'),
+        border: isSelected ? '2px solid #228B22' : '2px solid #000000', // neon green border if selected
+        backgroundColor:  (theme.palette.mode === 'dark' ? '#333' : '#fff'),
+        color: (theme.palette.mode === 'dark' ? '#fff' : '#000'),
         transition: 'transform 0.2s, box-shadow 0.2s',
         boxShadow: isSelected ? '0 0 10px neon' : '0 2px 4px rgba(0, 0, 0, 0.1)',
         '&:hover': {
             transform: 'translateY(-2px)',
             boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
         },
+    };
+
+    const bannerStyle = {
+        border: '2px solid #006400',
+        backgroundColor: config?.colorTheme?.messageCard?.backgroundColor || (theme.palette.mode === 'dark' ? '#333' : '#fff'),
     };
 
     return (
@@ -56,20 +61,20 @@ const ChatDashboardCard = ({ actor }: ChatDashboardCardProps) => {
             }}
         >
             <Card style={cardStyle}>
-                <CardContent>
-                    <Grid container alignItems="center" justifyContent="space-between">
-                        <Grid item xs={isSmallScreen || isMediumScreen ? 10 : 8} container alignItems="center" wrap="nowrap">
-                            <Avatar src={avatarUrl} style={{ width: 65, height: 65, marginRight: theme.spacing(2) }} />
-                            <Typography variant="h6" component="div" style={{ flexGrow: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                {actor.name}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={isSmallScreen ? 2 : 1} container justifyContent="flex-end">
-                            <IconButton onClick={handleConfigClick}>
-                                <SettingsIcon />
-                            </IconButton>
-                        </Grid>
+                <Grid container alignItems="center" justifyContent="space-between" style={bannerStyle}>
+                    <Grid item xs={isSmallScreen || isMediumScreen ? 10 : 8} container alignItems="center" wrap="nowrap">
+                        <Avatar src={avatarUrl} style={{ width: 65, height: 65, marginRight: theme.spacing(2) }} />
+                        <Typography variant="h6" component="div" style={{ flexGrow: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                            {actor.name}
+                        </Typography>
                     </Grid>
+                    <Grid item xs={isSmallScreen ? 2 : 1} container justifyContent="flex-end">
+                        <IconButton onClick={handleConfigClick}>
+                            <SettingsIcon />
+                        </IconButton>
+                    </Grid>
+                </Grid>
+                <CardContent>
                     <Stack spacing={2} mt={2}>
                         {!isSmallScreen && <Typography variant="body1">Title: {config.title}</Typography>}
                         {<Typography variant="body1">Chat Model: {config.chatModel}</Typography>}
