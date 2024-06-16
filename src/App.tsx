@@ -1,10 +1,12 @@
 import React from 'react';
-import './App.css';
 import ChatApp from './features/chatApp/ChatApp';
 import {darkTheme, lightTheme} from "./theme/theme";
 import {useAppSelector} from "./store/hooks";
 import {selectMode} from "./theme/themeSlice";
-import {ThemeProvider} from "@mui/system";
+import {ThemeProvider} from "@mui/system"
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import ChatDashboard from "./features/dashboard/ChatDashboard";
+import {CssBaseline} from "@mui/material";
 
 function App() {
     const mode = useAppSelector(selectMode);
@@ -12,11 +14,13 @@ function App() {
 
     return (
         <ThemeProvider theme={theme}>
-            <div className="App">
-                <header className="App-header">
-                        <ChatApp />
-                </header>
-            </div>
+            <CssBaseline />
+            <Router>
+                <Routes>
+                    <Route path='/' element={<ChatDashboard />} />
+                    <Route path='/chat' element={<ChatApp />} />
+                </Routes>
+            </Router>
         </ThemeProvider>
     );
 }

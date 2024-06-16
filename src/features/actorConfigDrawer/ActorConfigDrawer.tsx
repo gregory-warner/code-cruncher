@@ -11,7 +11,7 @@ import {
     setSelectedModel
 } from "./store/actorConfigDrawerSlice";
 import './actorConfigDrawerStyle.css';
-import { getSelectedActor, setDrawerOpen } from "../actorDrawer/ActorDrawerSlice";
+import { selectSelectedActor, setDrawerOpen } from "../actorDrawer/ActorDrawerSlice";
 import ActorConfigChatModelSelect from "./components/ActorConfigChatModelSelect";
 import ActorConfigTtsModelSelect from "./components/ActorConfigTtsModelSelect";
 import ActorConfigSection from "./components/actorConfigSection/ActorConfigSection";
@@ -32,7 +32,7 @@ const ActorConfigDrawer: React.FC = () => {
     const open = useAppSelector(isOpen);
     const currentModel = useAppSelector(selectCurrentModel);
     const selectedModel = useAppSelector(selectSelectedModel);
-    const selectedActor = useAppSelector(getSelectedActor)
+    const selectedActor = useAppSelector(selectSelectedActor)
     const currentTtsModel = useAppSelector(selectCurrentTtsModel);
     const selectedTtsModel = useAppSelector(selectSelectedTtsModel);
     const updatedConfig = useAppSelector(selectUpdatedConfig);

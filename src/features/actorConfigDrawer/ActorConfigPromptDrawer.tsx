@@ -9,7 +9,7 @@ import {
     setIsPromptDrawerOpen,
     selectCurrentConfig, setCurrentConfig, setUpdatedConfig
 } from "./store/actorConfigDrawerSlice";
-import {getSelectedActor} from "../actorDrawer/ActorDrawerSlice";
+import {selectSelectedActor} from "../actorDrawer/ActorDrawerSlice";
 import React, { useEffect } from "react";
 import {updateActorPrompt} from "./store/remote";
 
@@ -19,7 +19,7 @@ const drawerPaperProps = {
 
 const ActorConfigPromptDrawer: React.FC = () => {
     const isDrawerOpen = useAppSelector(selectIsPromptDrawerOpen);
-    const selectedActor = useAppSelector(getSelectedActor);
+    const selectedActor = useAppSelector(selectSelectedActor);
     const currentConfig = useAppSelector(selectCurrentConfig);
     const updatedConfig = useAppSelector(selectUpdatedConfig);
     const dispatch = useAppDispatch();

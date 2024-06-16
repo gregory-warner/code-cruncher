@@ -1,7 +1,7 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { selectCurrentModel, selectSelectedModel, setSelectedModel } from "../store/actorConfigDrawerSlice";
-import { getSelectedActor } from "../../actorDrawer/ActorDrawerSlice";
+import { selectSelectedActor } from "../../actorDrawer/ActorDrawerSlice";
 import { useEffect } from "react";
 import { validModels } from "../../../api/chat/utils/apiClient";
 import {updateInitialChatModel} from "../store/remote";
@@ -10,7 +10,7 @@ const ActorConfigChatModelSelect = () => {
     const dispatch = useAppDispatch();
     const currentModel = useAppSelector(selectCurrentModel);
     const selectedModel = useAppSelector(selectSelectedModel);
-    const selectedActor = useAppSelector(getSelectedActor)
+    const selectedActor = useAppSelector(selectSelectedActor)
 
     useEffect(() => {
         if (!selectedActor) {

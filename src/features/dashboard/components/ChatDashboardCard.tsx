@@ -1,0 +1,84 @@
+import React from "react";
+import {Avatar, Card, CardContent, Grid, IconButton, Stack, Typography, useMediaQuery, useTheme} from "@mui/material";
+import { Settings as SettingsIcon } from '@mui/icons-material';
+import {chatServerUrl} from "../../../../config";
+import {useAppDispatch, useAppSelector} from "../../../store/hooks";
+import {Box} from "@mui/system";
+import {selectSelectedActor, setSelectedActor} from "../chatDashboardSlice";
+
+interface ChatDashboardCardProps {
+    actor: Actor,
+}
+
+const ChatDashboardCard = ({ actor }: ChatDashboardCardProps) => {
+
+    const dispatch = useAppDispatch();
+    const theme = useTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+    const isMediumScreen = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+
+    const config = actor.configuration;
+    const avatarUrl = `${chatServerUrl}/images/${config.avatar}`;
+
+    const selectedActor = useAppSelector(selectSelectedActor);
+    const isSelected = selectedActor === actor;
+
+    const handleConfigClick = () => {
+        console.log('config clicked');
+    };
+
+    const handleCardClick = () => {
+        dispatch(setSelectedActor(actor));
+    };
+
+    const cardStyle = {
+        borderRadius: '10px',
+        border: isSelected ? '2px solid #228B22' : '', // neon green border if selected
+        backgroundColor: config?.colorTheme.messageCard?.backgroundColor || (theme.palette.mode === 'dark' ? '#333' : '#fff'),
+        color: config?.colorTheme.messageCard?.textColor || (theme.palette.mode === 'dark' ? '#fff' : '#000'),
+        transition: 'transform 0.2s, box-shadow 0.2s',
+        boxShadow: isSelected ? '0 0 10px neon' : '0 2px 4px rgba(0, 0, 0, 0.1)',
+        '&:hover': {
+            transform: 'translateY(-2px)',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+        },
+    };
+
+    return (
+        <Box
+            onClick={handleCardClick}
+            sx={{
+                ...cardStyle,
+                '&:hover': {
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                },
+            }}
+        >
+            <Card style={cardStyle}>
+                <CardContent>
+                    <Grid container alignItems="center" justifyContent="space-between">
+                        <Grid item xs={isSmallScreen || isMediumScreen ? 10 : 8} container alignItems="center" wrap="nowrap">
+                            <Avatar src={avatarUrl} style={{ width: 65, height: 65, marginRight: theme.spacing(2) }} />
+                            <Typography variant="h6" component="div" style={{ flexGrow: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                {actor.name}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={isSmallScreen ? 2 : 1} container justifyContent="flex-end">
+                            <IconButton onClick={handleConfigClick}>
+                                <SettingsIcon />
+                            </IconButton>
+                        </Grid>
+                    </Grid>
+                    <Stack spacing={2} mt={2}>
+                        {!isSmallScreen && <Typography variant="body1">Title: {config.title}</Typography>}
+                        {<Typography variant="body1">Chat Model: {config.chatModel}</Typography>}
+                        {!isSmallScreen && !isMediumScreen && <Typography variant="body1">TTS Model: {config.ttsModel}</Typography>}
+                    </Stack>
+                </CardContent>
+            </Card>
+        </Box>
+    );
+};
+
+export default ChatDashboardCard;

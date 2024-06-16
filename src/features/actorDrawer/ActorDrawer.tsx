@@ -2,11 +2,19 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { Drawer, Grid, Button, ListItem, List } from '@mui/material';
 import { useEffect } from 'react';
 import ActorCard from './actorCard/ActorCard';
-import { toggleDrawer, isOpen, getSelectedActor, updateAssistantFromDrawer, setSelectedActor } from './ActorDrawerSlice';
+import {
+    toggleDrawer,
+    isOpen,
+    selectSelectedActor,
+    setSelectedActor,
+    setDrawerOpen
+} from './ActorDrawerSlice';
 import './actorDrawerStyles.css';
 import '../chatApp/chatAppStyle.css';
 import { selectActor } from '../actor/actorSlice';
 import {useGetActorsQuery} from "../../services/serverApi";
+import {updateDialog} from "../conversation/store/conversationSlice";
+import {selectUser} from "../user/userSlice";
 
 const drawerPaperProps = {
     backgroundColor: "rgba(34, 34, 34, 1)"
@@ -15,7 +23,8 @@ const drawerPaperProps = {
 const ActorDrawer = () => {
     const dispatch = useAppDispatch();
     const open = useAppSelector(isOpen);
-    const selectedActor = useAppSelector(getSelectedActor);
+    const selectedActor = useAppSelector(selectSelectedActor);
+    const user = useAppSelector(selectUser);
     const actor = useAppSelector(selectActor);
 
     const {data: actors, error: actorsError, isLoading: actorsLoading, refetch} = useGetActorsQuery();
@@ -32,7 +41,10 @@ const ActorDrawer = () => {
         console.error(`Error fetching users: ${actorsError}`);
     }
 
-    const onFinish = () => dispatch(updateAssistantFromDrawer(selectedActor));
+    const onFinish = () => {
+        dispatch(setDrawerOpen(false));
+        dispatch(updateDialog({user, actor: selectedActor}));
+    }
 
     const onClose = () => {
         dispatch(toggleDrawer());

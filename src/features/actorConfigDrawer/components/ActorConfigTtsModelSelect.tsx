@@ -1,7 +1,7 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { selectCurrentTtsModel, selectSelectedTtsModel, setSelectedTtsModel } from "../store/actorConfigDrawerSlice";
-import { getSelectedActor } from "../../actorDrawer/ActorDrawerSlice";
+import { selectSelectedActor } from "../../actorDrawer/ActorDrawerSlice";
 import { useEffect } from "react";
 import { validTtsModels } from "../../../api/tts/utils/apiClient";
 import {updateInitialTtsModel} from "../store/remote";
@@ -10,7 +10,7 @@ const ActorConfigTtsModelSelect: React.FC = () => {
     const dispatch = useAppDispatch();
     const currentTtsModel = useAppSelector(selectCurrentTtsModel);
     const selectedTtsModel = useAppSelector(selectSelectedTtsModel);
-    const selectedActor = useAppSelector(getSelectedActor)
+    const selectedActor = useAppSelector(selectSelectedActor)
 
     useEffect(() => {
         if (!selectedActor) {

@@ -52,7 +52,6 @@ export const updateAssistantFromDrawer = createAsyncThunk<void, Actor>("actors/u
 
     const user = selectUser(state);
     dispatch(setAssistant(selectedActor));
-    // dispatch(addAssistantToCache(selectedActor));
     dispatch(setDrawerOpen(false));
     dispatch(updateDialog({user, actor: selectedActor}));
 });
@@ -63,6 +62,6 @@ export const isOpen = (state: RootState) => state.actorDrawer.isOpen;
 
 export const getActiveActors = (state: RootState) => state.actorDrawer.actors;
 
-export const getSelectedActor = (state: RootState) => state.actorDrawer.selectedActor;
+export const selectSelectedActor = (state: RootState) => state.actorDrawer.selectedActor;
 
 export default actorDrawerSlice.reducer;

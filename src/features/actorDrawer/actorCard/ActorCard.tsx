@@ -1,6 +1,6 @@
 import { Avatar, Box, Grid, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { setSelectedActor, getSelectedActor, updateAssistantFromDrawer } from '../ActorDrawerSlice';
+import { setSelectedActor, selectSelectedActor, updateAssistantFromDrawer } from '../ActorDrawerSlice';
 import ActorConfigMenu from './ActorConfigMenu';
 import './actorCardStyle.css';
 
@@ -11,7 +11,7 @@ interface ActorCardProps {
 const ActorCard = ({ actor } : ActorCardProps): JSX.Element => {
     const avatarPath = `src/img/${actor.configuration.avatar}`;
     const dispatch = useAppDispatch();
-    const selectedActor = useAppSelector(getSelectedActor);
+    const selectedActor = useAppSelector(selectSelectedActor);
     const cardClass = selectedActor?.actorId === actor.actorId ? "card-container-selected" : "card-container";
     const selectActor = () => dispatch(setSelectedActor(actor));
 

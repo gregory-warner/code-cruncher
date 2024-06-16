@@ -1,6 +1,6 @@
 import { Button, InputLabel, TextField } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-import { getSelectedActor } from "../../../actorDrawer/ActorDrawerSlice";
+import { selectSelectedActor } from "../../../actorDrawer/ActorDrawerSlice";
 import { useEffect } from "react";
 
 import './actorConfigSectionStyle.css';
@@ -14,7 +14,7 @@ import {
 
 const ActorConfigSection: React.FC = () => {
     const dispatch = useAppDispatch();
-    const selectedActor = useAppSelector(getSelectedActor);
+    const selectedActor = useAppSelector(selectSelectedActor);
     const currentConfig = useAppSelector(selectCurrentConfig);
     const updatedConfig = useAppSelector(selectUpdatedConfig);
 

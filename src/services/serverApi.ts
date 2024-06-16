@@ -1,8 +1,9 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
+import {chatServerUrl} from "../../config";
 
 export const serverApi  = createApi({
     reducerPath: 'serverApi',
-    baseQuery: fetchBaseQuery({ baseUrl: `http://localhost:${import.meta.env.VITE_SERVER_PORT}`,}),
+    baseQuery: fetchBaseQuery({ baseUrl: chatServerUrl,}),
     endpoints: (build) => ({
         getUser: build.query({
             query: (username: string) => `users/getUser/${username}`
@@ -26,7 +27,7 @@ export const serverApi  = createApi({
                 body: { messageId }
             }),
         }),
-    })
+    }),
 });
 
 export const { useDeleteMessageMutation, useGetUserQuery, useGetAssistantQuery, useGetActorsQuery, useFetchActiveAssistantsQuery } = serverApi;

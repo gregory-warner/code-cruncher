@@ -10,6 +10,12 @@ const lightTheme = createTheme({
         secondary: {
             main: '#dc004e',
         },
+        background: {
+            default: '#e3e3e3', // Soft gray background color
+        },
+        text: {
+            primary: '#000000', // Default text color
+        },
     },
 });
 
