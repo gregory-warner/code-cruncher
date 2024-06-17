@@ -1,19 +1,18 @@
-import {SpeedDial, SpeedDialAction} from "@mui/material";
+import {SpeedDial} from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useState } from "react";
-import {Add, Delete, Edit} from "@mui/icons-material";
+import React from "react";
+import {Add} from "@mui/icons-material";
+import {useAppDispatch} from "../../../store/hooks";
+import {
+    setIsActorCreationDrawerOpen
+} from "../../actorCreationDrawer/store/actorCreationDrawerSlice";
 
 const ChatDashboardFab = () => {
-    const [isFabOpen, setFabOpen] = useState(false);
+
+    const dispatch = useAppDispatch();
 
     const handleFabClick = () => {
-        setFabOpen((prevOpen) => !prevOpen);
-    };
-
-    const handleCreateNewClick = () => {
-        setFabOpen(false);
-        // Call your logic to open the drawer here
-        // e.g., openDrawer();
+        dispatch(setIsActorCreationDrawerOpen(true));
     };
 
     return (
@@ -21,7 +20,6 @@ const ChatDashboardFab = () => {
             <SpeedDial
                 ariaLabel="SpeedDial"
                 icon={<Add />}
-                open={isFabOpen}
                 onClick={handleFabClick}
                 direction="up"
 
@@ -31,13 +29,6 @@ const ChatDashboardFab = () => {
                     right: 20,
                 }}
             >
-                <SpeedDialAction
-                    icon={<Add />}
-                    tooltipTitle="Create New"
-                    onClick={handleCreateNewClick}
-                />
-                <SpeedDialAction icon={<Edit />} tooltipTitle="Edit" />
-                <SpeedDialAction icon={<Delete />} tooltipTitle="Delete" />
             </SpeedDial>
         </Box>
     );

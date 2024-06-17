@@ -1,8 +1,9 @@
 import * as React from "react";
 import {Grid} from "@mui/material";
-import {useGetActorsQuery} from "../../services/serverApi";
+import {useGetActorsQuery} from "../../services/server/serverApi";
 import ChatDashboardCard from "./components/ChatDashboardCard";
 import ChatDashboardFab from "./components/ChatDashboardFab";
+import ActorCreationDrawer from "../actorCreationDrawer/ActorCreationDrawer";
 
 const ChatDashboard = () => {
 
@@ -22,6 +23,7 @@ const ChatDashboard = () => {
                 ))}
             </Grid>
             <ChatDashboardFab />
+            <ActorCreationDrawer />
         </>
 
     );

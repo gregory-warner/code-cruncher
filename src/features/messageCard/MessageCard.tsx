@@ -7,7 +7,7 @@ import {selectMessages, setMessages} from "../conversation/store/conversationSli
 import {VolumeUp} from "@mui/icons-material";
 import {selectActor} from "../actor/actorSlice";
 import {selectUser} from "../user/userSlice";
-import {useDeleteMessageMutation} from "../../services/serverApi";
+import {useDeleteMessageMutation} from "../../services/server/serverApi";
 import {MessengerTypeIds} from "../../types";
 import {chatServerUrl} from "../../../config";
 
