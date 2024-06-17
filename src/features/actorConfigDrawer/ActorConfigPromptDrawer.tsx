@@ -11,7 +11,7 @@ import {
 } from "./store/actorConfigDrawerSlice";
 import {selectSelectedActor} from "../actorDrawer/ActorDrawerSlice";
 import React, { useEffect } from "react";
-import {updateActorPrompt} from "./store/remote";
+import {useUpdatePromptMutation} from "../../services/server/serverApi";
 
 const drawerPaperProps = {
     backgroundColor: "rgba(34, 34, 34, 1)",
@@ -24,13 +24,15 @@ const ActorConfigPromptDrawer: React.FC = () => {
     const updatedConfig = useAppSelector(selectUpdatedConfig);
     const dispatch = useAppDispatch();
 
+    const [updatePrompt] = useUpdatePromptMutation();
+
     const onBack = () => {
         dispatch(setIsPromptDrawerOpen(false));
         dispatch(setCurrentConfig(selectedActor.configuration));
     }
 
-    const onFinish = () => {
-        dispatch(updateActorPrompt({actorId: selectedActor.actorId, prompt: updatedConfig.prompt ?? ""}));
+    const onFinish = async () => {
+        await updatePrompt({actorId: selectedActor.actorId, prompt: updatedConfig.prompt ?? ""});
         dispatch(setIsPromptDrawerOpen(false));
     }
 
