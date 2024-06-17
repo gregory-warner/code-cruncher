@@ -10,6 +10,7 @@ import {selectIsActorCreationDrawerOpen, setIsActorCreationDrawerOpen} from "./s
 import {useGetModelsQuery} from "../../services/openai/openaiApi";
 import {validTtsModels} from "../../api/tts/utils/apiClient";
 import {useCreateActorMutation} from "../../services/server/serverApi";
+import {setSnackbar} from "../../store/appSlice";
 
 const ActorCreationDrawer = () => {
     const theme = useTheme();
@@ -60,9 +61,10 @@ const ActorCreationDrawer = () => {
         formData.append('ttsModel', ttsModel);
         formData.append('chatModel', chatModel);
 
-        const resp = await createActor(formData);
-        debugger;
-
+        const response = await createActor(formData);
+        if ('data' in response) {
+            dispatch(setSnackbar({ message: response.data.msg }))
+        }
     };
 
     return (

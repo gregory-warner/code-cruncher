@@ -7,6 +7,7 @@ import messageCardReducer from '../features/messageCard/store/messageCardSlice';
 import actorConfigDrawerReducer from '../features/actorConfigDrawer/store/actorConfigDrawerSlice';
 import chatDashboardReducer from '../features/dashboard/chatDashboardSlice';
 import actorCreationDrawerReducer from '../features/actorCreationDrawer/store/actorCreationDrawerSlice';
+import appReducer from './appSlice';
 import themeReducer from '../theme/themeSlice';
 import { serverApi } from "../services/server/serverApi";
 import { openaiApi } from "../services/openai/openaiApi";
@@ -25,6 +26,7 @@ export const store = configureStore({
     theme: themeReducer,
     chatDashboard: chatDashboardReducer,
     actorCreationDrawer: actorCreationDrawerReducer,
+    app: appReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(serverApi.middleware, openaiApi.middleware),
 });

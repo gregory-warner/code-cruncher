@@ -14,8 +14,8 @@ import {useGetAssistantQuery, useGetUserQuery} from "../../services/server/serve
 const ChatApp = () => {
     const dispatch = useAppDispatch();
 
-    const { data: userData, error: userError, isLoading: userLoading } = useGetUserQuery(defaultUser);
-    const { data: actorData, error: actorError, isLoading: actorLoading } = useGetAssistantQuery(defaultActor);
+    const { data: userData } = useGetUserQuery(defaultUser);
+    const { data: actorData } = useGetAssistantQuery(defaultActor);
 
     useEffect(() => {
         if (!userData || !actorData) {
