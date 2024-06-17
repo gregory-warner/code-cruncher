@@ -12,7 +12,7 @@ import {
 import './actorDrawerStyles.css';
 import '../chatApp/chatAppStyle.css';
 import { selectActor } from '../actor/actorSlice';
-import {useGetActorsQuery} from "../../services/serverApi";
+import {useGetActorsQuery} from "../../services/server/serverApi";
 import {updateDialog} from "../conversation/store/conversationSlice";
 import {selectUser} from "../user/userSlice";
 

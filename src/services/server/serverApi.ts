@@ -1,5 +1,6 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import {chatServerUrl} from "../../config";
+import {chatServerUrl} from "../../../config";
+import {ActorPrompt} from "./types";
 
 export const serverApi  = createApi({
     reducerPath: 'serverApi',
@@ -27,7 +28,21 @@ export const serverApi  = createApi({
                 body: { messageId }
             }),
         }),
+        updatePrompt: build.mutation<void, ActorPrompt>({
+            query: (actorPrompt: ActorPrompt) => ({
+                url: `prompts/updatePrompt`,
+                method: 'POST',
+                body: actorPrompt,
+            }),
+        }),
+        createActor: build.mutation<void, FormData>({
+            query: (formData: FormData) => ({
+                url: `actors/create`,
+                method: 'POST',
+                body: formData,
+            }),
+        }),
     }),
 });
 
-export const { useDeleteMessageMutation, useGetUserQuery, useGetAssistantQuery, useGetActorsQuery, useFetchActiveAssistantsQuery } = serverApi;
+export const { useCreateActorMutation, useUpdatePromptMutation, useDeleteMessageMutation, useGetUserQuery, useGetAssistantQuery, useGetActorsQuery, useFetchActiveAssistantsQuery } = serverApi;
