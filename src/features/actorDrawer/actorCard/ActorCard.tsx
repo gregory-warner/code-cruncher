@@ -3,13 +3,14 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { setSelectedActor, selectSelectedActor, updateAssistantFromDrawer } from '../ActorDrawerSlice';
 import ActorConfigMenu from './ActorConfigMenu';
 import './actorCardStyle.css';
+import {chatServerUrl} from "../../../../config";
 
 interface ActorCardProps {
     actor: Actor,
 }
 
 const ActorCard = ({ actor } : ActorCardProps): JSX.Element => {
-    const avatarPath = `src/img/${actor.configuration.avatar}`;
+    const avatarPath = `${chatServerUrl}/images/${actor.configuration.avatar}`;
     const dispatch = useAppDispatch();
     const selectedActor = useAppSelector(selectSelectedActor);
     const cardClass = selectedActor?.actorId === actor.actorId ? "card-container-selected" : "card-container";
