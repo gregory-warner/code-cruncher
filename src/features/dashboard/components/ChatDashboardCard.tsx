@@ -1,10 +1,11 @@
 import React from "react";
 import {Avatar, Card, CardContent, Grid, IconButton, Stack, Typography, useMediaQuery, useTheme} from "@mui/material";
-import { Settings as SettingsIcon } from '@mui/icons-material';
 import {chatServerUrl} from "../../../../config";
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import {Box} from "@mui/system";
 import {selectSelectedActor, setSelectedActor} from "../chatDashboardSlice";
+import {Settings as SettingsIcon} from "@mui/icons-material";
+import {setIsActorCreationDrawerOpen} from "../../actorCreationDrawer/store/actorCreationDrawerSlice";
 
 interface ChatDashboardCardProps {
     actor: Actor,
@@ -22,10 +23,6 @@ const ChatDashboardCard = ({ actor }: ChatDashboardCardProps) => {
 
     const selectedActor = useAppSelector(selectSelectedActor);
     const isSelected = selectedActor === actor;
-
-    const handleConfigClick = () => {
-        console.log('config clicked');
-    };
 
     const handleCardClick = () => {
         dispatch(setSelectedActor(actor));
@@ -48,6 +45,10 @@ const ChatDashboardCard = ({ actor }: ChatDashboardCardProps) => {
         border: '2px solid #006400',
         backgroundColor: config?.colorTheme?.messageCard?.backgroundColor || (theme.palette.mode === 'dark' ? '#333' : '#fff'),
     };
+
+    const handleConfigClick = () => {
+        dispatch(setIsActorCreationDrawerOpen(true));
+    }
 
     return (
         <Box

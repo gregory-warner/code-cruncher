@@ -7,6 +7,7 @@ interface Actor {
     prompt: string,
 }
 
+
 interface User {
     userId: number,
     name: string,
@@ -60,9 +61,9 @@ interface MessageCardColorTheme {
     contentsColor: string,
     backgroundColor: string,
     borderColor: string,
-    borderRadius: string,
-    boxShadow: string,
-    textColor: string,
+    borderRadius?: string,
+    boxShadow?: string,
+    textColor?: string,
 }
 
 /* ChatGPT Message */

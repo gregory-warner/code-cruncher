@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useReducer, useState} from 'react';
 import {Drawer, TextField, Button, Divider, MenuItem, Typography, IconButton, Collapse} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
@@ -11,59 +11,131 @@ import {useGetModelsQuery} from "../../services/openai/openaiApi";
 import {validTtsModels} from "../../api/tts/utils/apiClient";
 import {useCreateActorMutation} from "../../services/server/serverApi";
 import {setSnackbar} from "../../store/appSlice";
+import {EditableActor} from "./types";
 
-const ActorCreationDrawer = () => {
+const initialState: EditableActor = {
+    actorId: 0,
+    name: '',
+    configuration: {
+        title: '',
+        chatModel: '',
+        ttsModel: '',
+        colorTheme: {
+            messageCard: {
+                nameColor: '#000000',
+                contentsColor: '#000000',
+                backgroundColor: '#FFFDD0',
+                borderColor: '#000000',
+            },
+        },
+        avatar: '',
+        prompt: '',
+    }
+};
+
+type Action =
+    | { type: 'initialize'; payload: EditableActor }
+    | { type: 'updateName'; field: string, value: string }
+    | { type: 'updateConfiguration'; field: string, value: string|File }
+    | { type: 'updateMessageCard'; field: string, value: string }
+    | { type: 'reset' };
+
+const reducer = (state: EditableActor, action: Action): EditableActor => {
+    switch (action.type) {
+        case 'initialize':
+            return { ...state, ...action.payload };
+        case 'updateName':
+            return { ...state, [action.field]: action.value };
+        case 'updateConfiguration':
+            return {
+                ...state,
+                configuration: {
+                    ...state.configuration,
+                    [action.field]: action.value,
+                }
+            };
+        case 'updateMessageCard':
+            return {
+                ...state,
+                configuration: {
+                    ...state.configuration,
+                    colorTheme: {
+                        ...state.configuration.colorTheme,
+                        messageCard: {
+                            ...state.configuration.colorTheme.messageCard,
+                            [action.field]: action.value,
+                        },
+                    },
+                },
+            };
+        case 'reset':
+            return initialState;
+        default:
+            return state;
+    }
+};
+
+const ActorCreationDrawer: React.FC<{ actor: EditableActor | null }> = ({ actor }) => {
     const theme = useTheme();
-    const [name, setName] = useState('');
-    const [title, setTitle] = useState('');
-    const [chatModel, setChatModel] = useState('');
-    const [ttsModel, setTtsModel] = useState('');
-    const [nameColor, setNameColor] = useState('#000000');
-    const [contentsColor, setContentsColor] = useState('#000000');
-    const [backgroundColor, setBackgroundColor] = useState('#FFFDD0'); // Cream white background
-    const [borderColor, setBorderColor] = useState('#000000');
-    const [avatar, setAvatar] = useState<string|File>('');
-    const [prompt, setPrompt] = useState('');
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    useEffect(() => {
+        if (actor) {
+            dispatch({ type: 'initialize', payload: actor });
+        }
+    }, [actor]);
+
+    const handleReset = () => {
+        dispatch({ type: 'reset' });
+    };
+
+    const handleNameChange = (field: string, value: string) => {
+        dispatch({ type: 'updateName', field, value });
+    };
+
+    const handleConfigurationChange = (field: string, value: string|File) => {
+        dispatch({ type: 'updateConfiguration', field, value });
+    }
+
+    const handleMessageCardColorUpdate = (field: string, value: string) => {
+        dispatch({ type: 'updateMessageCard', field, value });
+    }
+
     const [isMessageCardOpen, setIsMessageCardOpen] = useState(false);
 
     const { data: models } = useGetModelsQuery();
 
-    const dispatch = useAppDispatch();
+    const appDispatch = useAppDispatch();
     const isDrawerOpen = useAppSelector(selectIsActorCreationDrawerOpen);
 
     const [createActor] = useCreateActorMutation();
-
-    useEffect(() => {
-        if (!models) { return; }
-
-    }, [models]);
 
     const toggleMessageCard = () => {
         setIsMessageCardOpen((prevOpen) => !prevOpen);
     };
 
     const onDrawerClose = () => {
-        dispatch(setIsActorCreationDrawerOpen(false));
+        appDispatch(setIsActorCreationDrawerOpen(false));
+        handleReset();
     };
 
     const onFinish = async () => {
         const formData = new FormData();
-        formData.append('name', name);
-        formData.append('title', title);
-        formData.append('messageCard', JSON.stringify({
-            nameColor,
-            contentsColor,
-            backgroundColor,
-            borderColor
-        }));
-        formData.append('prompt', prompt);
-        formData.append('avatar', avatar);
-        formData.append('ttsModel', ttsModel);
-        formData.append('chatModel', chatModel);
+        const config = state.configuration;
+        const cardColor = config.colorTheme.messageCard;
+
+        formData.append('name', state.name);
+        formData.append('title', config.title);
+        formData.append('messageCard', JSON.stringify({ ...cardColor }));
+        formData.append('prompt', config.prompt);
+        formData.append('avatar', config.avatar);
+        formData.append('ttsModel', config.ttsModel);
+        formData.append('chatModel', config.chatModel);
 
         const response = await createActor(formData);
         if ('data' in response) {
-            dispatch(setSnackbar({ message: response.data.msg }))
+            appDispatch(setSnackbar({ message: response.data.msg }))
+            onDrawerClose();
         }
     };
 
@@ -82,22 +154,22 @@ const ActorCreationDrawer = () => {
             >
                 <Box>
                     <Typography variant="h6" gutterBottom>
-                        Create New Actor
+                        {state.actorId ? 'Create New Actor' : `Updating ${state.name}`}
                     </Typography>
 
                     <TextField
                         fullWidth
                         label="Name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={state.name}
+                        onChange={(e) => handleNameChange('name', e.target.value)}
                         margin="normal"
                     />
 
                     <TextField
                         fullWidth
                         label="Title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
+                        value={state.configuration.title}
+                        onChange={(e) => handleConfigurationChange('title', e.target.value)}
                         margin="normal"
                     />
 
@@ -105,8 +177,8 @@ const ActorCreationDrawer = () => {
                         select
                         fullWidth
                         label="Chat Model"
-                        value={chatModel}
-                        onChange={(e) => setChatModel(e.target.value)}
+                        value={state.configuration.chatModel}
+                        onChange={(e) => handleConfigurationChange('chatModel', e.target.value)}
                         margin="normal"
                     >
                         {models && models.data.map((model) => (
@@ -120,8 +192,8 @@ const ActorCreationDrawer = () => {
                         select
                         fullWidth
                         label="TTS Model"
-                        value={ttsModel}
-                        onChange={(e) => setTtsModel(e.target.value)}
+                        value={state.configuration.ttsModel}
+                        onChange={(e) => handleConfigurationChange('ttsModel', e.target.value)}
                         margin="normal"
                     >
                         {Array.from(validTtsModels).map((model, idx) => {
@@ -143,22 +215,22 @@ const ActorCreationDrawer = () => {
                     <Collapse in={isMessageCardOpen}>
                         <Box sx={{ mb: 2 }}>
                             <Typography variant="body2">Name Color</Typography>
-                            <SketchPicker color={nameColor} onChangeComplete={(color) => setNameColor(color.hex)} />
+                            <SketchPicker color={state.configuration.colorTheme.messageCard.nameColor} onChangeComplete={(color) => handleMessageCardColorUpdate('nameColor', color.hex)} />
                         </Box>
 
                         <Box sx={{ mb: 2 }}>
                             <Typography variant="body2">Contents Color</Typography>
-                            <SketchPicker color={contentsColor} onChangeComplete={(color) => setContentsColor(color.hex)} />
+                            <SketchPicker color={state.configuration.colorTheme.messageCard.contentsColor} onChangeComplete={(color) => handleMessageCardColorUpdate('contentsColor', color.hex)} />
                         </Box>
 
                         <Box sx={{ mb: 2 }}>
                             <Typography variant="body2">Background Color</Typography>
-                            <SketchPicker color={backgroundColor} onChangeComplete={(color) => setBackgroundColor(color.hex)} />
+                            <SketchPicker color={state.configuration.colorTheme.messageCard.backgroundColor} onChangeComplete={(color) => handleMessageCardColorUpdate('backgroundColor', color.hex)} />
                         </Box>
 
                         <Box sx={{ mb: 2 }}>
                             <Typography variant="body2">Border Color</Typography>
-                            <SketchPicker color={borderColor} onChangeComplete={(color) => setBorderColor(color.hex)} />
+                            <SketchPicker color={state.configuration.colorTheme.messageCard.borderColor} onChangeComplete={(color) => handleMessageCardColorUpdate('borderColor', color.hex)} />
                         </Box>
                     </Collapse>
 
@@ -168,14 +240,14 @@ const ActorCreationDrawer = () => {
                         <Typography variant="body2">Avatar</Typography>
                         <Button variant="contained" component="label">
                             Upload File
-                            <input type="file" hidden onChange={(e) => setAvatar(e.target.files?.[0])} />
+                            <input type="file" hidden onChange={(e) => handleConfigurationChange('avatar', e.target.files?.[0])} />
                         </Button>
-                        {<Typography variant="body2">{avatar instanceof File ? avatar.name : ''}</Typography>}
+                        {<Typography variant="body2">{state.configuration.avatar instanceof File ? state.configuration.avatar.name : ''}</Typography>}
                         <TextField
                             fullWidth
                             label="Or Paste Image URL"
-                            value={avatar}
-                            onChange={(e) => setAvatar(e.target.value)}
+                            value={state.configuration.avatar}
+                            onChange={(e) => handleConfigurationChange('avatar', e.target.value)}
                             margin="normal"
                         />
                     </Box>
@@ -187,8 +259,8 @@ const ActorCreationDrawer = () => {
                         label="Prompt"
                         multiline
                         rows={4}
-                        value={prompt}
-                        onChange={(e) => setPrompt(e.target.value)}
+                        value={state.configuration.prompt}
+                        onChange={(e) => handleConfigurationChange('prompt', e.target.value)}
                         margin="normal"
                         sx={{ flexGrow: 1 }}
                     />

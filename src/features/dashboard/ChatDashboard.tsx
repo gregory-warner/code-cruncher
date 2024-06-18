@@ -4,10 +4,14 @@ import {useGetActorsQuery} from "../../services/server/serverApi";
 import ChatDashboardCard from "./components/ChatDashboardCard";
 import ChatDashboardFab from "./components/ChatDashboardFab";
 import ActorCreationDrawer from "../actorCreationDrawer/ActorCreationDrawer";
+import {selectSelectedActor} from "./chatDashboardSlice";
+import {useAppSelector} from "../../store/hooks";
 
 const ChatDashboard = () => {
 
     const { data: actors, isLoading: actorsLoading } = useGetActorsQuery();
+
+    const selectedActor = useAppSelector(selectSelectedActor);
 
     if (actorsLoading) {
         return <></>;
@@ -23,7 +27,7 @@ const ChatDashboard = () => {
                 ))}
             </Grid>
             <ChatDashboardFab />
-            <ActorCreationDrawer />
+            <ActorCreationDrawer actor={selectedActor} />
         </>
 
     );
