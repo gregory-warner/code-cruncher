@@ -5,6 +5,7 @@ import {ActorPrompt, CreateActorResponse} from "./types";
 export const serverApi  = createApi({
     reducerPath: 'serverApi',
     baseQuery: fetchBaseQuery({ baseUrl: chatServerUrl,}),
+    tagTypes: ['Messages'],
     endpoints: (build) => ({
         getUser: build.query({
             query: (username: string) => `users/getUser/${username}`
@@ -28,6 +29,23 @@ export const serverApi  = createApi({
                 body: { messageId }
             }),
         }),
+        updateMessage: build.mutation<{msg: string}, Message>({
+            query: (message: Message) => ({
+                url: 'messages/updateMessage',
+                method: 'PATCH',
+                body: { message },
+            }),
+            invalidatesTags: (result, error, { dialogId }) => [
+                { type: 'Messages', id: dialogId },
+            ],
+        }),
+        getMessages: build.query<Message[], number>({
+            query: (dialogId: number) => ({
+                url: `messages/getMessages/${dialogId}`,
+            }),
+            providesTags: (result, error, dialogId) =>
+                result ? [{ type: 'Messages', id: dialogId }] : [],
+        }),
         updatePrompt: build.mutation<void, ActorPrompt>({
             query: (actorPrompt: ActorPrompt) => ({
                 url: `prompts/updatePrompt`,
@@ -45,4 +63,4 @@ export const serverApi  = createApi({
     }),
 });
 
-export const { useCreateActorMutation, useUpdatePromptMutation, useDeleteMessageMutation, useGetUserQuery, useGetAssistantQuery, useGetActorsQuery, useFetchActiveAssistantsQuery } = serverApi;
+export const { useGetMessagesQuery, useLazyGetMessagesQuery, useUpdateMessageMutation, useCreateActorMutation, useUpdatePromptMutation, useDeleteMessageMutation, useGetUserQuery, useGetAssistantQuery, useGetActorsQuery, useFetchActiveAssistantsQuery } = serverApi;

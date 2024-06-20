@@ -3,18 +3,20 @@ import { Typography, Avatar, Card, Stack, IconButton, Box } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
 import MessageParser from './MessageParser';
 import './messageCardStyle.css';
-import {selectMessages, setMessages} from "../conversation/store/conversationSlice";
-import {VolumeUp} from "@mui/icons-material";
+import {LockOpen, VolumeUp} from "@mui/icons-material";
+import LockIcon from '@mui/icons-material/Lock';
 import {selectActor} from "../actor/actorSlice";
 import {selectUser} from "../user/userSlice";
-import {useDeleteMessageMutation} from "../../services/server/serverApi";
+import {
+    useDeleteMessageMutation,
+    useUpdateMessageMutation
+} from "../../services/server/serverApi";
 import {MessengerTypeIds} from "../../types";
 import {chatServerUrl} from "../../../config";
+import {setSnackbar} from "../../store/appSlice";
 
 const MessageCard = ({ message }: {message: Message}) => {
     const dispatch = useAppDispatch();
-
-    const messages = useAppSelector(selectMessages);
 
     const messengers = {
         user: useAppSelector(selectUser),
@@ -24,12 +26,13 @@ const MessageCard = ({ message }: {message: Message}) => {
     const style = messenger.configuration?.colorTheme?.messageCard;
 
     const [deleteMessage] = useDeleteMessageMutation();
+    const [updateMessage] = useUpdateMessageMutation();
 
     const deleteMessageHandler = async () => {
-        const prunedMessages = messages.filter(m => m.id !== message.id);
-        dispatch(setMessages(prunedMessages)); // remove this and use the refetch message that should be created
-
-        await deleteMessage(message.id).unwrap();
+        if (typeof message.id === 'number') {
+            const response =  await deleteMessage(message.id).unwrap();
+            dispatch(setSnackbar({message: 'Message was successfully deleted'}));
+        }
     }
 
     const textToSpeech = () => {
@@ -37,6 +40,15 @@ const MessageCard = ({ message }: {message: Message}) => {
         // if (messenger.configuration.ttsModel) {
         //     sayText({text: message.content, model: messenger.configuration.ttsModel});
         // }
+    }
+
+    const onMessageLock = async () => {
+        const updatedMessage = {
+            ...message,
+            isLocked: !message.isLocked,
+        }
+        const resp = await updateMessage(updatedMessage).unwrap();
+        resp.msg && dispatch(setSnackbar({message: 'Message was successfully updated'}));
     }
 
 
@@ -51,11 +63,14 @@ const MessageCard = ({ message }: {message: Message}) => {
             onClick={()=>{}}
         >
             <Stack direction={{ xs: "column", sm: "row" }} spacing={4} border={16} borderColor={style.borderColor} sx={{ display: "flex", alignItems: "center"  }}>
-                <Avatar className="mobile-hidden" alt={messenger ? `${messenger.name}'s avatar` : "default avatar"} src={`${chatServerUrl}/images/${messenger.configuration.avatar}`} sx={{ width: 100, height: 100, alignSelf: { xs: 'center', sm: 'flex-start' } }}/>
+                <Avatar className="mobile-hidden" alt={messenger ? `${messenger.name}'s avatar` : "default avatar"} src={`${chatServerUrl}/images/${messenger.configuration?.avatar}`} sx={{ width: 100, height: 100, alignSelf: { xs: 'center', sm: 'flex-start' } }}/>
                 <Stack direction={"column"} sx={{ flexGrow: 1 }}>
                     <Stack direction={"row"} sx={{ flexGrow: 1}}>
                         <Typography className="text-center-on-mobile" variant="h3" color={style.nameColor} fontFamily={"roboto"}>{messenger?.name ?? ""}</Typography>
                         <Box sx={{ flexGrow: 1 }}></Box>
+                        <IconButton onClick={onMessageLock} sx={{ minWidth: '40px', '&:hover': { backgroundColor: 'rgba(255,100,100,0.2)' } }}>
+                            {message.isLocked ? <LockIcon /> : <LockOpen />}
+                        </IconButton>
                         <IconButton onClick={textToSpeech} sx={{ minWidth: '40px', '&:hover': { backgroundColor: 'rgba(255,100,100,0.2)' } }}>
                             <VolumeUp />
                         </IconButton>

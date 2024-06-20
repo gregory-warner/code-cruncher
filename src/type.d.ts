@@ -34,7 +34,8 @@ interface Message {
     timestamp?: EpochTimeStamp,
     data?: {
         imageLinks?: string[],
-    }
+    },
+    isLocked?: boolean,
 }
 
 interface Prompts {
