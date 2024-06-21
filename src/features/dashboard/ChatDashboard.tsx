@@ -13,7 +13,7 @@ const ChatDashboard = () => {
 
     const selectedActor = useAppSelector(selectSelectedActor);
 
-    if (actorsLoading) {
+    if (actorsLoading || !Array.isArray(actors)) {
         return <></>;
     }
 
@@ -27,9 +27,8 @@ const ChatDashboard = () => {
                 ))}
             </Grid>
             <ChatDashboardFab />
-            <ActorCreationDrawer actor={selectedActor} />
+            {selectedActor && <ActorCreationDrawer actor={selectedActor} />}
         </>
-
     );
 };
 
