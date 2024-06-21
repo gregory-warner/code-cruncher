@@ -2,10 +2,15 @@ import React, { useState, useCallback } from 'react';
 import { Button, Grid, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { messengerTypes, selectDialogId, sendChatMessage } from '../conversation/store/conversationSlice';
+import {
+    messengerTypeIds,
+    selectDialogId,
+    sendChatMessage
+} from '../conversation/store/conversationSlice';
 import { selectUser } from './userSlice';
 import './styles.css';
-import { getTimestamp } from '../../utils/util';
+import {useAddMessageMutation} from "../../services/server/serverApi";
+import {selectActor} from "../actor/actorSlice";
 
 const UserInput = () => {
     const dispatch = useAppDispatch();
@@ -23,19 +28,29 @@ const UserInput = () => {
         setInput(event.target.value);
     }, []);
 
-    const onSend = () => {
+    const [addMessage] = useAddMessageMutation();
+
+    // find a way to not use actor in this, maybe try to ping out the chat request and listen to it or something
+    // assistant is needed for the current model, maybe set model as store state?
+    const selectedActor = useAppSelector(selectActor);
+
+    const onSend = async () => {
         if (!input) { return; }
 
         const message: Message = {
             dialogId: dialogId,
             messengerId: user.userId,
-            messengerTypeId: messengerTypes['user'] ?? 0,
+            messengerTypeId: messengerTypeIds['user'] ?? 0,
             content: input,
-            timestamp: getTimestamp(),
         };
 
-        setInput("");
+        // const messages  = await addMessage(message).unwrap();
+        // const chatMessages = getChatMessages(messages, selectedActor);
+        // const chatResponse: ChatMessage = await postChatRequest({chatMessages, chatModel: selectedActor.configuration?.chatModel});
+        //
         dispatch(sendChatMessage(message));
+
+        setInput("");
     };
 
     const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {

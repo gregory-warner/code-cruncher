@@ -21,8 +21,6 @@ interface ImageLinkResponse {
     url: string,
 }
 
-
-
 export const postChatRequest = async (postChatParams: PostChatParams): Promise<ChatMessage|null> => {
     if (legacyModels.has(postChatParams.chatModel)) {
         return await postLegacyChat(postChatParams);
@@ -48,7 +46,6 @@ export const postLegacyChat = async (postChatParams: PostChatParams): Promise<Ch
     console.log("response: ", response);
     return {role: "assistant", content: response.data.choices[0]?.text ?? "No text"};
 }; 
-
 
 export const postChat = async (postChatParams: PostChatParams): Promise<ChatMessage> => {
     const params = {
@@ -96,3 +93,4 @@ export const getChatModels = async () => {
     console.log(response);
     return response.data.data;
 };
+

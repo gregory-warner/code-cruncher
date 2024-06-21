@@ -1,9 +1,10 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../../../store/store';
 import {postChatRequest} from '../../../api/chat';
-import {addMessageToDialog, createDialog, deleteDialog, getDialogId, getMessagesByDialogId} from '../../../api/server';
+import {createDialog, deleteDialog, getDialogId, getMessagesByDialogId} from '../../../api/server';
 import {selectActor} from '../../actor/actorSlice';
 import {getTimestamp} from '../../../utils/util';
+import {serverApi} from "../../../services/server/serverApi";
 
 export const messengerTypeIds = {
     user: 0,
@@ -75,7 +76,7 @@ export const { addMessage, addMessages, setMessages, clearConversation, setDialo
 
 /* Message */
 
-const getChatMessages = (messages: Message[], assistant: Actor): ChatMessage[] => {
+export const getChatMessages = (messages: Message[], assistant: Actor): ChatMessage[] => {
     const prompt: ChatMessage = {
         role: "user",
         content: assistant.configuration.prompt ?? '',
@@ -95,14 +96,15 @@ const getChatMessages = (messages: Message[], assistant: Actor): ChatMessage[] =
 export const sendChatMessage = createAsyncThunk<void, Message>("message/sendChatMessage", async (message: Message, { dispatch, getState }) => {
     if (message.dialogId <= 0 || message.messengerId <= 0) { return; }
 
+    const dialogId = message.dialogId;
+
     const state = getState() as RootState;
-    const messages = [
-        ...selectMessages(state),
-        message,
-    ];              
-    
-    dispatch(addMessage(message));
-    await addMessageToDialog(message);
+
+    // Add the new message
+    const newMessage = await dispatch(serverApi.endpoints.addMessage.initiate(message)).unwrap();
+
+    // Get the updated messages
+    const messages = await pollForLatestMessages(dispatch, newMessage);
 
     const assistant = selectActor(state);
     const chatMessages = getChatMessages(messages, assistant);
@@ -113,7 +115,6 @@ export const sendChatMessage = createAsyncThunk<void, Message>("message/sendChat
     //     sayText({text: chatResponse.content, model: assistant.configuration.ttsModel});
     // }
 
-    const dialogId = selectDialogId(state);
     const messageResponse: Message = {
         messengerId: assistant.actorId,
         messengerTypeId: messengerTypeIds.assistant,
@@ -123,10 +124,26 @@ export const sendChatMessage = createAsyncThunk<void, Message>("message/sendChat
         data: chatResponse.data,
     };
 
-
-    await addMessageToDialog(messageResponse);
-    dispatch(addMessage(messageResponse));
+    await dispatch(serverApi.endpoints.addMessage.initiate(messageResponse)).unwrap();
 });
+
+const pollForLatestMessages = async (dispatch, message: {dialog_id: number, message_id: number}): Promise<Message[]> => {
+    let messages = [];
+    let attempts = 5;
+
+    while (attempts > 0) {
+        messages = await dispatch(serverApi.endpoints.getMessages.initiate(message.dialog_id)).unwrap();
+
+        if (messages.find(m => m.id === message.message_id)) {
+            break;
+        }
+
+        attempts -= 1;
+        await new Promise(resolve => setTimeout(resolve, 500));
+    }
+
+    return messages;
+}
 
 /* Dialog */
 
