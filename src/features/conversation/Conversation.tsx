@@ -35,7 +35,7 @@ const Conversation = () => {
         if (dialogId <= 0) {
             return;
         }
-        getMessages(dialogId);
+        getMessages(dialogId, false);
     }, [dialogId]);
 
     if (!Array.isArray(messages) || isLoading) {

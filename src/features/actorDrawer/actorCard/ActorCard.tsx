@@ -1,6 +1,6 @@
 import { Avatar, Box, Grid, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { setSelectedActor, selectSelectedActor, updateAssistantFromDrawer } from '../ActorDrawerSlice';
+import { setSelectedActor, selectSelectedActor, updateActorFromDrawer } from '../ActorDrawerSlice';
 import ActorConfigMenu from './ActorConfigMenu';
 import './actorCardStyle.css';
 import {chatServerUrl} from "../../../../config";
@@ -17,7 +17,7 @@ const ActorCard = ({ actor } : ActorCardProps): JSX.Element => {
     const selectActor = () => dispatch(setSelectedActor(actor));
 
     const onDoubleClick = () => {
-        dispatch(updateAssistantFromDrawer(actor));
+        dispatch(updateActorFromDrawer(actor));
     }
 
     return (
@@ -41,6 +41,7 @@ const ActorCard = ({ actor } : ActorCardProps): JSX.Element => {
                         <Grid item><Typography className={"Actor-Card-Model-Text"} variant="body2">{actor.configuration?.chatModel ?? ""}</Typography></Grid>
                     </Grid>
                     <Grid item xs={3} container direction="column" alignItems="flex-end">
+
                         <ActorConfigMenu />
                     </Grid>
                 </Grid>

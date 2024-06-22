@@ -4,8 +4,21 @@ import UserInput from '../user/UserInput';
 import ActorDrawer from '../actorDrawer/ActorDrawer';
 import ChatAppHeader from './components/ChatAppHeader';
 import ActorConfigDrawer from '../actorConfigDrawer/ActorConfigDrawer';
+import {useGetUserQuery} from "../../services/server/serverApi";
+import {defaultUser, selectUser, setUser} from "../user/userSlice";
+import {useAppDispatch, useAppSelector} from "../../store/hooks";
+import {useEffect} from "react";
 
 const ChatApp = () => {
+
+    const dispatch = useAppDispatch();
+    const { data: userData } = useGetUserQuery(defaultUser);
+    const user = useAppSelector(selectUser);
+    useEffect(() => {
+        if (userData && !user) {
+            dispatch(setUser(userData));
+        }
+    }, [userData]);
 
     return (
         <Grid container direction="column" sx={{ height: "100vh", overflowY: "auto"}}>
