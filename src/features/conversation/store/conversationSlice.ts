@@ -56,9 +56,6 @@ export const conversationSlice = createSlice({
         setMessages: (state, action: PayloadAction<Message[]>) => {
             state.messages = [...action.payload];
         },
-        clearConversation: (state) => {
-            state.messages = [];
-        },
         setDialogId: (state, action: PayloadAction<number>) => {
             state.dialogId = action.payload;
         },
@@ -71,7 +68,7 @@ export const conversationSlice = createSlice({
     }
 });
 
-export const { addMessage, addMessages, setMessages, clearConversation, setDialogId
+export const { addMessage, addMessages, setMessages, setDialogId
 } = conversationSlice.actions;
 
 /* Message */

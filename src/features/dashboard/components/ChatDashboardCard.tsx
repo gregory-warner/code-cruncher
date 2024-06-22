@@ -6,6 +6,9 @@ import {Box} from "@mui/system";
 import {selectSelectedActor, setSelectedActor} from "../chatDashboardSlice";
 import {Settings as SettingsIcon} from "@mui/icons-material";
 import {setIsActorCreationDrawerOpen} from "../../actorCreationDrawer/store/actorCreationDrawerSlice";
+import {useNavigate} from "react-router-dom";
+import {updateDialog} from "../../conversation/store/conversationSlice";
+import {selectUser} from "../../user/userSlice";
 
 interface ChatDashboardCardProps {
     actor: Actor,
@@ -18,11 +21,14 @@ const ChatDashboardCard = ({ actor }: ChatDashboardCardProps) => {
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const isMediumScreen = useMediaQuery(theme.breakpoints.between('sm', 'md'));
 
+    const navigate = useNavigate();
+
     const config = actor.configuration;
     const avatarUrl = `${chatServerUrl}/images/${config.avatar}`;
 
     const selectedActor = useAppSelector(selectSelectedActor);
     const isSelected = selectedActor === actor;
+    const user = useAppSelector(selectUser);
 
     const handleCardClick = () => {
         dispatch(setSelectedActor(actor));
@@ -48,11 +54,20 @@ const ChatDashboardCard = ({ actor }: ChatDashboardCardProps) => {
 
     const handleConfigClick = () => {
         dispatch(setIsActorCreationDrawerOpen(true));
-    }
+    };
+
+    const handleDoubleClick = () => {
+        dispatch(updateDialog({
+            user: user,
+            actor: selectedActor as Actor,
+        }));
+        navigate('/chat');
+    };
 
     return (
         <Box
             onClick={handleCardClick}
+            onDoubleClick={handleDoubleClick}
             sx={{
                 ...cardStyle,
                 '&:hover': {
