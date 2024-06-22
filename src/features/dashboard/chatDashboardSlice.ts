@@ -13,7 +13,7 @@ export const chatDashboardSlice = createSlice({
     name: "chatDashboard",
     initialState,
     reducers: {
-        setSelectedActor: (state, action: PayloadAction<EditableActor>) => {
+        setSelectedActor: (state, action: PayloadAction<EditableActor|null>) => {
             state.selectedActor = action.payload
         },
     },

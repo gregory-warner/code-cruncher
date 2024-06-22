@@ -80,9 +80,12 @@ const ActorCreationDrawer: React.FC<{ actor: EditableActor | null }> = ({ actor 
     const [state, dispatch] = useReducer(reducer, initialState);
 
     useEffect(() => {
-        if (actor) {
-            dispatch({ type: 'initialize', payload: actor });
+        if (!actor) {
+            dispatch({ type: 'reset' });
+            return;
         }
+
+        dispatch({ type: 'initialize', payload: actor });
     }, [actor]);
 
     const handleReset = () => {

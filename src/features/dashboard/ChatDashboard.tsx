@@ -35,7 +35,7 @@ const ChatDashboard = () => {
                 ))}
             </Grid>
             <ChatDashboardFab />
-            {selectedActor && <ActorCreationDrawer actor={selectedActor} />}
+            {<ActorCreationDrawer actor={selectedActor} />}
         </>
     );
 };

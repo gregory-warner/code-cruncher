@@ -6,12 +6,14 @@ import {useAppDispatch} from "../../../store/hooks";
 import {
     setIsActorCreationDrawerOpen
 } from "../../actorCreationDrawer/store/actorCreationDrawerSlice";
+import {setSelectedActor} from "../chatDashboardSlice";
 
 const ChatDashboardFab = () => {
 
     const dispatch = useAppDispatch();
 
     const handleFabClick = () => {
+        dispatch(setSelectedActor(null));
         dispatch(setIsActorCreationDrawerOpen(true));
     };
 
