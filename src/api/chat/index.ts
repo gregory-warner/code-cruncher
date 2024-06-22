@@ -7,7 +7,6 @@ import {
     imageRequestPath,
     legacyCompletionPath,
     legacyModels,
-    models
 } from './utils/apiClient';
 
 export interface PostChatParams {

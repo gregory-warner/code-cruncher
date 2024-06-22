@@ -9,8 +9,6 @@ import {
 } from '../conversation/store/conversationSlice';
 import { selectUser } from './userSlice';
 import './styles.css';
-import {useAddMessageMutation} from "../../services/server/serverApi";
-import {selectActor} from "../actor/actorSlice";
 
 const UserInput = () => {
     const dispatch = useAppDispatch();

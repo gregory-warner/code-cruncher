@@ -21,7 +21,7 @@ export const ActorSlice = createSlice({
     name: "actor",
     initialState, 
     reducers: {
-        setAssistant: (state, action: PayloadAction<Actor>) => {
+        setActor: (state, action: PayloadAction<Actor>) => {
             state.actor = action.payload ?? initialState.actor;
         },
     },
@@ -32,23 +32,7 @@ export const ActorSlice = createSlice({
     }
 });
 
-export const { setAssistant } = ActorSlice.actions;
-
-export const updateAssistant = createAsyncThunk<void, string>("actors/updateAssistant", async (username: string, { dispatch }) => {
-    const assistant: Actor|null = await getAssistantByUsername(defaultActor);
-    if (!isActor(assistant)) {
-        return;
-    }
-
-    dispatch(setAssistant(assistant));
-});
-
-/* Actor */
-
-export const getAssistantByUsername = async (username: string) => {
-    const response = await getActiveAssistant(username);
-    return response.data;
-};
+export const { setActor } = ActorSlice.actions;
 
 export const selectActor = (state: RootState): Actor => {
     return state.actor.actor;
