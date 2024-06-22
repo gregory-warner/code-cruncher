@@ -28,12 +28,6 @@ const UserInput = () => {
         setInput(event.target.value);
     }, []);
 
-    const [addMessage] = useAddMessageMutation();
-
-    // find a way to not use actor in this, maybe try to ping out the chat request and listen to it or something
-    // assistant is needed for the current model, maybe set model as store state?
-    const selectedActor = useAppSelector(selectActor);
-
     const onSend = async () => {
         if (!input) { return; }
 
@@ -44,10 +38,6 @@ const UserInput = () => {
             content: input,
         };
 
-        // const messages  = await addMessage(message).unwrap();
-        // const chatMessages = getChatMessages(messages, selectedActor);
-        // const chatResponse: ChatMessage = await postChatRequest({chatMessages, chatModel: selectedActor.configuration?.chatModel});
-        //
         dispatch(sendChatMessage(message));
 
         setInput("");

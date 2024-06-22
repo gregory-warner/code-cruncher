@@ -3,6 +3,6 @@ export interface ActorPrompt {
     prompt: string,
 }
 
-export interface CreateActorResponse {
+export interface ServerResponse {
     msg: string,
 }
