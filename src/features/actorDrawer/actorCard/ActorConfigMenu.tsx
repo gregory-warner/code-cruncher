@@ -7,10 +7,13 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { deleteCurrentDialog, selectDialogId, setMessages } from "../../conversation/store/conversationSlice";
 import { setActorConfigDrawerOpen } from "../../actorConfigDrawer/store/actorConfigDrawerSlice";
 import { setDrawerOpen } from "../ActorDrawerSlice";
+import { useDeleteDialogMutation } from "../../../services/server/serverApi";
 
 const ActorConfigMenu = () => {
     const dispatch = useAppDispatch();
     const dialogId = useAppSelector(selectDialogId);
+
+    const [deleteDialog] = useDeleteDialogMutation();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -23,8 +26,7 @@ const ActorConfigMenu = () => {
     };
 
     const clearConversation = () => {
-        dispatch(deleteCurrentDialog(dialogId));
-        dispatch(setMessages([]));
+        deleteDialog(dialogId);
         handleClose();
     };
 

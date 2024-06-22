@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store/store';
 import { fetchActiveAssistants } from '../../api/server';
-import { isActor, setAssistant } from '../actor/actorSlice';
+import {isActor, setActor} from '../actor/actorSlice';
 import {updateDialog} from '../conversation/store/conversationSlice';
 import { selectUser } from '../user/userSlice';
 
@@ -51,7 +51,7 @@ export const updateAssistantFromDrawer = createAsyncThunk<void, Actor>("actors/u
     const state = getState() as RootState;
 
     const user = selectUser(state);
-    dispatch(setAssistant(selectedActor));
+    dispatch(setActor(selectedActor));
     dispatch(setDrawerOpen(false));
     dispatch(updateDialog({user, actor: selectedActor}));
 });
