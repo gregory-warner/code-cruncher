@@ -51,8 +51,9 @@ export const postChat = async (postChatParams: PostChatParams): Promise<ChatMess
     const params = {
         messages: postChatParams.chatMessages,
         model: postChatParams.chatModel || ChatModel.CHAT_35_TURBO_16K,
-        max_tokens: postChatParams.maxTokens || 2000,
-        temperature: postChatParams.temperature || 0.6,
+        max_tokens: postChatParams.maxTokens || 4096,
+        temperature: postChatParams.temperature || 0.8,
+        frequency_penalty: 1.333
     }
 
     const response = await apiClient.post<ApiResponse>(chatCompletionPath, params);
@@ -87,10 +88,3 @@ export const postImageRequest = async (postChatParams: PostChatParams): Promise<
         }
     };
 }
-
-export const getChatModels = async () => {
-    const response = await apiClient.get(models);
-    console.log(response);
-    return response.data.data;
-};
-

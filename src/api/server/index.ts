@@ -37,10 +37,6 @@ export const updateTtsModel = async (actorModel: ActorModel): Promise<void> => {
     await apiClient.patch(`actorConfigurations/updateTtsModel`, actorModel);
 }
 
-export const updatePrompt = async (actorPrompt: ActorPrompt): Promise<void> => {
-    await apiClient.post(`prompts/updatePrompt`, actorPrompt)
-};
-
 /* Dialog */
 export const getDialogId = async (actorId: number, userId: number): Promise<AxiosResponse<number>> => {
     return await apiClient.get(`dialogs/getDialogId`, {
@@ -61,19 +57,3 @@ export const getMessagesByDialogId = async (dialogId: number): Promise<AxiosResp
     return await apiClient.get(`messages/getMessages/${dialogId}`);
 };
 
-export const addMessageToDialog = async (message: Message): Promise<AxiosResponse<Message>> => {
-    return await apiClient.post(`messages/addMessage`, {message});
-};
-
-export const getMessengerByType = async (messengerType: MessengerType): Promise<AxiosResponse<User|Actor>> => {
-    return await apiClient.get(`messages/getMessenger`, {
-        params: {
-            messengerId: messengerType.id,
-            messengerType: messengerType.type
-        }
-    })
-}
-
-export const deleteMessage = async (messageId: number): Promise<AxiosResponse<null>> => {
-    return await apiClient.patch(`messages/deleteMessage`, { messageId });
-}
