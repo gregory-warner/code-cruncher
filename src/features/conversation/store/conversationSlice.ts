@@ -17,12 +17,10 @@ export const messengerTypes = Object.entries(messengerTypeIds).reduce((acc, [key
 }, {});
 
 export interface ConversationState {
-    messages: Message[],
     dialogId: number|null,
 }
 
 const initialState: ConversationState = {
-    messages: [],
     dialogId: null,
 };
 
@@ -30,46 +28,18 @@ export const conversationSlice = createSlice({
     name: "conversation",
     initialState,
     reducers: {
-        addMessage: (state, action: PayloadAction<Message>) => {
-            const messageCount = state.messages.length;
-
-            state.messages = [
-                ...state.messages,
-                {id: messageCount, ...action.payload},
-            ];
-        },
-        addMessages: (state, action: PayloadAction<Message[]>) => {
-            let messageCount = state.messages.length;
-            const messages = action.payload;
-            const numOfMessages = messages.length;
-
-            for(let i = 0; i < numOfMessages; ++i) {
-                messages[i].id = messageCount;
-                messageCount++;
-            }
-
-            state.messages = [
-                ...state.messages,
-                ...messages,
-            ];
-        }, 
-        setMessages: (state, action: PayloadAction<Message[]>) => {
-            state.messages = [...action.payload];
-        },
         setDialogId: (state, action: PayloadAction<number>) => {
             state.dialogId = action.payload;
         },
     },
-    extraReducers: (builder) => {
-        builder.addCase(updateDialog.fulfilled, (state: ConversationState, action) => {
-            state.dialogId = action.payload.dialogId;
-            state.messages = action.payload.messages;
+    extraReducers: builder => {
+        builder.addCase(updateDialogId.fulfilled, (state, action) => {
+            state.dialogId = action.payload;
         });
     }
 });
 
-export const { addMessage, addMessages, setMessages, setDialogId
-} = conversationSlice.actions;
+export const { setDialogId} = conversationSlice.actions;
 
 /* Message */
 
@@ -156,6 +126,13 @@ export interface UpdateDialogResponse {
     messages: Message[],
 }
 
+export const updateDialogId = createAsyncThunk<number, UpdateDialogPayload>(
+    'dialog/updateDialogId',
+    async (payload: UpdateDialogPayload) => {
+        const { user, actor } = payload;
+        return await getCurrentDialogId(actor.actorId, user.userId);
+    });
+
 export const updateDialog = createAsyncThunk<UpdateDialogResponse, UpdateDialogPayload>("dialog/updateDialog", async (payload: UpdateDialogPayload) => {
     const { user, actor } = payload;
     const actorId = actor.actorId ?? -1;
@@ -188,8 +165,6 @@ const getCurrentDialogId = async (actorId: number, userId: number): Promise<numb
 export const deleteCurrentDialog = createAsyncThunk<void, number>("dialogs/deleteDialog", async (dialogId: number) => {
     await deleteDialog(dialogId);
 });
-
-export const selectMessages = (state: RootState) => state.conversation.messages;
 
 export const selectDialogId = (state: RootState): number => state.conversation.dialogId ?? -1;
 

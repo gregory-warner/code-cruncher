@@ -51,8 +51,8 @@ export const postChat = async (postChatParams: PostChatParams): Promise<ChatMess
         messages: postChatParams.chatMessages,
         model: postChatParams.chatModel || ChatModel.CHAT_35_TURBO_16K,
         max_tokens: postChatParams.maxTokens || 4096,
-        temperature: postChatParams.temperature || 0.8,
-        frequency_penalty: 1.333
+        temperature: postChatParams.temperature || 0.6,
+        frequency_penalty: 1
     }
 
     const response = await apiClient.post<ApiResponse>(chatCompletionPath, params);
