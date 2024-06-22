@@ -4,7 +4,7 @@ import ConstructionIcon from '@mui/icons-material/Construction';
 import { Fragment, useState } from "react";
 import { Backspace } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { deleteCurrentDialog, selectDialogId, setMessages } from "../../conversation/store/conversationSlice";
+import {selectDialogId} from "../../conversation/store/conversationSlice";
 import { setActorConfigDrawerOpen } from "../../actorConfigDrawer/store/actorConfigDrawerSlice";
 import { setDrawerOpen } from "../ActorDrawerSlice";
 import { useDeleteDialogMutation } from "../../../services/server/serverApi";

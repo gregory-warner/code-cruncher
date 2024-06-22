@@ -1,6 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import { RootState } from '../../store/store';
-import {getActiveAssistant} from '../../api/server';
 import {updateDialog} from "../conversation/store/conversationSlice";
 
 interface ActorState {
