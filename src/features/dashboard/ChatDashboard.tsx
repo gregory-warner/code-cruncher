@@ -1,17 +1,25 @@
 import * as React from "react";
 import {Grid} from "@mui/material";
-import {useGetActorsQuery} from "../../services/server/serverApi";
+import {useGetActorsQuery, useGetUserQuery} from "../../services/server/serverApi";
 import ChatDashboardCard from "./components/ChatDashboardCard";
 import ChatDashboardFab from "./components/ChatDashboardFab";
 import ActorCreationDrawer from "../actorCreationDrawer/ActorCreationDrawer";
 import {selectSelectedActor} from "./chatDashboardSlice";
-import {useAppSelector} from "../../store/hooks";
+import {useAppDispatch, useAppSelector} from "../../store/hooks";
+import {defaultUser, setUser} from "../user/userSlice";
+import {useEffect} from "react";
 
 const ChatDashboard = () => {
 
+    const dispatch = useAppDispatch();
     const { data: actors, isLoading: actorsLoading } = useGetActorsQuery();
+    const { data: userData } = useGetUserQuery(defaultUser);
 
     const selectedActor = useAppSelector(selectSelectedActor);
+
+    useEffect(() => {
+        userData && dispatch(setUser(userData));
+    }, [userData])
 
     if (actorsLoading || !Array.isArray(actors)) {
         return <></>;
