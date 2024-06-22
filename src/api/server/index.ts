@@ -6,22 +6,8 @@ export const getActiveUser = async (username: string): Promise<AxiosResponse<Use
     return await apiClient.get(`users/getUser/${username}`);
 };
 
-/* Assitant */
-export const getActiveAssistant = async (username: string): Promise<AxiosResponse<Actor>> => {
-    return await apiClient.get(`actors/getAssistant/${username}`);
-};
-
 export const fetchActiveAssistants = async () => {
     return await apiClient.get("actors/getActiveAssistants");
-};
-
-/* Actor */
-export const getActiveActor = async (username: string): Promise<AxiosResponse<Actor>> => {
-    return await apiClient.get(`actors/getActor/${username}`);
-};
-
-export const getActiveActors = async (): Promise<AxiosResponse<Actor[]|null>> => {
-    return await apiClient.get(`actors/getActiveActors`);
 };
 
 /* Actor Configuration */
