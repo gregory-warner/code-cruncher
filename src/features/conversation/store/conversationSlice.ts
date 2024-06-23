@@ -143,6 +143,9 @@ export const updateDialog = createAsyncThunk<UpdateDialogResponse, UpdateDialogP
     }
 
     const dialogId = await getCurrentDialogId(actorId, userId);
+    if (dialogId <= 0) {
+        return;
+    }
 
     const response = await getMessagesByDialogId(dialogId);
     const messages = response.data;
@@ -151,6 +154,10 @@ export const updateDialog = createAsyncThunk<UpdateDialogResponse, UpdateDialogP
 });
 
 const getCurrentDialogId = async (actorId: number, userId: number): Promise<number> => {
+    if (actorId <= 0 || userId <= 0) {
+        console.log('Unable to get dialog ID: ', actorId, ': ', userId);
+        return -1;
+    }
     const currentDialog = await getDialogId(actorId, userId);
     let currentDialogId = currentDialog.data ?? -1;
 
@@ -162,9 +169,6 @@ const getCurrentDialogId = async (actorId: number, userId: number): Promise<numb
     return dialog.data.dialogId ?? -1;
 };
 
-export const deleteCurrentDialog = createAsyncThunk<void, number>("dialogs/deleteDialog", async (dialogId: number) => {
-    await deleteDialog(dialogId);
-});
 
 export const selectDialogId = (state: RootState): number => state.conversation.dialogId ?? -1;
 

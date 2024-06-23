@@ -7,8 +7,9 @@ import {selectSelectedActor, setSelectedActor} from "../chatDashboardSlice";
 import {Settings as SettingsIcon} from "@mui/icons-material";
 import {setIsActorCreationDrawerOpen} from "../../actorCreationDrawer/store/actorCreationDrawerSlice";
 import {useNavigate} from "react-router-dom";
-import {updateDialog} from "../../conversation/store/conversationSlice";
+import {updateDialogId} from "../../conversation/store/conversationSlice";
 import {selectUser} from "../../user/userSlice";
+import {setActor} from "../../actor/actorSlice";
 
 interface ChatDashboardCardProps {
     actor: Actor,
@@ -57,10 +58,7 @@ const ChatDashboardCard = ({ actor }: ChatDashboardCardProps) => {
     };
 
     const handleDoubleClick = () => {
-        dispatch(updateDialog({
-            user: user,
-            actor: selectedActor as Actor,
-        }));
+        dispatch(setActor(selectedActor as Actor));
         navigate('/chat');
     };
 
