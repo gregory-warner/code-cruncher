@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../../../store/store';
 import {postChatRequest} from '../../../api/chat';
-import {createDialog, deleteDialog, getDialogId, getMessagesByDialogId} from '../../../api/server';
+import {createDialog, getDialogId, getMessagesByDialogId} from '../../../api/server';
 import {selectActor} from '../../actor/actorSlice';
 import {getTimestamp} from '../../../utils/util';
 import {serverApi} from "../../../services/server/serverApi";
@@ -63,20 +63,17 @@ export const getChatMessages = (messages: Message[], assistant: Actor): ChatMess
 export const sendChatMessage = createAsyncThunk<void, Message>("message/sendChatMessage", async (message: Message, { dispatch, getState }) => {
     if (message.dialogId <= 0 || message.messengerId <= 0) { return; }
 
-    const dialogId = message.dialogId;
-
     const state = getState() as RootState;
 
-    // Add the new message
-    const newMessage = await dispatch(serverApi.endpoints.addMessage.initiate(message)).unwrap();
-
-    // Get the updated messages
-    const messages = await pollForLatestMessages(dispatch, newMessage);
-
+    const dialogId = message.dialogId;
     const assistant = selectActor(state);
-    const chatMessages = getChatMessages(messages, assistant);
 
+    const messages = await dispatch(serverApi.endpoints.getMessages.initiate(dialogId)).unwrap();
+    const chatMessages = getChatMessages([...messages, message], assistant);
+
+    await dispatch(serverApi.endpoints.addMessage.initiate(message)).unwrap();
     const chatResponse: ChatMessage = await postChatRequest({chatMessages, chatModel: assistant.configuration?.chatModel});
+
     debugger;
     // if (assistant.configuration.ttsModel) {
     //     sayText({text: chatResponse.content, model: assistant.configuration.ttsModel});
@@ -93,24 +90,6 @@ export const sendChatMessage = createAsyncThunk<void, Message>("message/sendChat
 
     await dispatch(serverApi.endpoints.addMessage.initiate(messageResponse)).unwrap();
 });
-
-const pollForLatestMessages = async (dispatch, message: {dialog_id: number, message_id: number}): Promise<Message[]> => {
-    let messages = [];
-    let attempts = 5;
-
-    while (attempts > 0) {
-        messages = await dispatch(serverApi.endpoints.getMessages.initiate(message.dialog_id)).unwrap();
-
-        if (messages.find(m => m.id === message.message_id)) {
-            break;
-        }
-
-        attempts -= 1;
-        await new Promise(resolve => setTimeout(resolve, 500));
-    }
-
-    return messages;
-}
 
 /* Dialog */
 

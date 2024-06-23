@@ -4,9 +4,9 @@ import MessageCard from '../messageCard/MessageCard';
 import MessageImageCards from '../messageImageCard/MessageImageCards';
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {selectDialogId, updateDialogId} from "./store/conversationSlice";
-import {useLazyGetMessagesQuery} from "../../services/server/serverApi";
+import {useGetUserQuery, useLazyGetMessagesQuery} from "../../services/server/serverApi";
 import {selectActor} from "../actor/actorSlice";
-import {selectUser} from "../user/userSlice";
+import {defaultUser, selectUser, setUser} from "../user/userSlice";
 
 const ScrollFocusPoint = ({ messages }: { messages: Message[] }) => {
     const ref = useRef<HTMLInputElement|null>(null);
@@ -35,9 +35,17 @@ const Conversation = () => {
     const actor = useAppSelector(selectActor);
     const user = useAppSelector(selectUser);
 
+    const { data: userData } = useGetUserQuery(defaultUser);
+
     const [getMessages, {data: messages, isLoading }] = useLazyGetMessagesQuery();
 
     useEffect(() => {
+        userData && dispatch(setUser(userData));
+    }, [userData]);
+
+    useEffect(() => {
+        if (!actor || !user) return;
+
         dispatch(updateDialogId({user, actor}));
     }, [user, actor]);
 
@@ -53,7 +61,7 @@ const Conversation = () => {
     }
 
     if (!Array.isArray(messages) || isLoading) {
-        return (<>An error occurred</>);
+        return (<>Loading...</>);
     }
 
     return (

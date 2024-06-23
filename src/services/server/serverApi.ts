@@ -5,7 +5,7 @@ import {ActorPrompt, ServerResponse} from "./types";
 export const serverApi  = createApi({
     reducerPath: 'serverApi',
     baseQuery: fetchBaseQuery({ baseUrl: chatServerUrl,}),
-    tagTypes: ['Messages'],
+    tagTypes: ['Messages', 'Actors'],
     endpoints: (build) => ({
         getUser: build.query<User, string>({
             query: (username: string) => `users/getUser/${username}`
@@ -21,6 +21,7 @@ export const serverApi  = createApi({
         }),
         getActors: build.query<Actor[], void>({
             query: () => 'actors/getActiveActors',
+            providesTags: [{ type: 'Actors', id: 'LIST' }],
         }),
         addMessage: build.mutation<Message, Message>({
             query: (message: Message) => ({
@@ -72,6 +73,7 @@ export const serverApi  = createApi({
                 method: 'POST',
                 body: formData,
             }),
+            invalidatesTags: [{ type: 'Actors' }],
         }),
         deleteDialog: build.mutation<ServerResponse, number>({
             query: (dialogId: number) => ({

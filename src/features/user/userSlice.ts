@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store/store';
-import {updateDialog, UpdateDialogResponse} from "../conversation/store/conversationSlice";
 
 export const defaultUser = "eagle-bonnet";
 
@@ -22,11 +21,11 @@ export const UserSlice = createSlice({
             state.user = action.payload ?? initialState.user;
         },
     },
-    extraReducers: (builder) => {
-        builder.addCase(updateDialog.fulfilled, (state: UserState, action: PayloadAction<UpdateDialogResponse>) => {
-            state.user = action.payload.user;
-        });
-    }
+    // extraReducers: (builder) => {
+    //     builder.addCase(updateDialog.fulfilled, (state: UserState, action: PayloadAction<UpdateDialogResponse>) => {
+    //         state.user = action.payload.user;
+    //     });
+    // }
 });
 
 export const { setUser } = UserSlice.actions;
