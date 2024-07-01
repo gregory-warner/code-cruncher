@@ -78,7 +78,7 @@ const MessageCard = ({ message }: {message: Message}) => {
                             <CloseIcon />
                         </IconButton>
                     </Stack>
-                    {<div style={{ color: style.textColor ?? "black" }}><MessageParser message={message} /></div>}
+                    {<MessageParser message={message} textColor={style.textColor ?? style.contentsColor ?? "black"} />}
                 </Stack>
             </Stack>
         </Card>

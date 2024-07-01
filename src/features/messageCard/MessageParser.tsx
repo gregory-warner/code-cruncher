@@ -7,9 +7,10 @@ import {marked} from 'marked';
 
 interface MessageParserProps {
     message: Message,
+    textColor: string,
 }
 
-const MessageParser = ({ message }: MessageParserProps): JSX.Element => {
+const MessageParser = ({ message, textColor }: MessageParserProps): JSX.Element => {
     const pattern = /```(\w+)?\n([\s\S]*?)```/g;
     const [parsedContents, setParsedContents] = useState<{type: string, msg: string}[]>([]);
     const [displayContents, setDisplayContents] = useState([]);
@@ -69,7 +70,7 @@ const MessageParser = ({ message }: MessageParserProps): JSX.Element => {
                     sx={{whiteSpace: "pre-wrap", wordWrap: "break-word"}} 
                     align={"left"} 
                     variant="h4" 
-                    color={"black"} 
+                    color={textColor}
                     fontFamily={"roboto"}
                     >
                         {he.decode(content.msg)}
