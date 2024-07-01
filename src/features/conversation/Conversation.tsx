@@ -7,6 +7,7 @@ import {selectDialogId, updateDialogId} from "./store/conversationSlice";
 import {useGetUserQuery, useLazyGetMessagesQuery} from "../../services/server/serverApi";
 import {selectActor} from "../actor/actorSlice";
 import {defaultUser, selectUser, setUser} from "../user/userSlice";
+import {useNavigate} from "react-router-dom";
 
 const ScrollFocusPoint = ({ messages }: { messages: Message[] }) => {
     const ref = useRef<HTMLInputElement|null>(null);
@@ -35,6 +36,8 @@ const Conversation = () => {
     const actor = useAppSelector(selectActor);
     const user = useAppSelector(selectUser);
 
+    const navigate = useNavigate();
+
     const { data: userData } = useGetUserQuery(defaultUser);
 
     const [getMessages, {data: messages, isLoading }] = useLazyGetMessagesQuery();
@@ -57,6 +60,7 @@ const Conversation = () => {
     }, [dialogId]);
 
     if (!actor || !user) {
+        navigate('/');
         return (<h1>Unable to get participants</h1>)
     }
 
