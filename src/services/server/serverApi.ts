@@ -75,6 +75,14 @@ export const serverApi  = createApi({
             }),
             invalidatesTags: [{ type: 'Actors' }],
         }),
+        updateActor: build.mutation<ServerResponse, FormData>({
+            query: (formData: FormData) => ({
+                url: `actors/update`,
+                method: 'POST',
+                body: formData,
+            }),
+            invalidatesTags: [{ type: 'Actors' }],
+        }),
         deleteDialog: build.mutation<ServerResponse, number>({
             query: (dialogId: number) => ({
                 url: `dialogs/deleteDialog/${dialogId}`,
@@ -87,4 +95,4 @@ export const serverApi  = createApi({
     }),
 });
 
-export const { useDeleteDialogMutation, useAddMessageMutation, useLazyGetMessagesQuery, useUpdateMessageMutation, useCreateActorMutation, useUpdatePromptMutation, useDeleteMessageMutation, useGetUserQuery, useGetAssistantQuery, useGetActorsQuery, useFetchActiveAssistantsQuery } = serverApi;
+export const { useUpdateActorMutation, useDeleteDialogMutation, useAddMessageMutation, useLazyGetMessagesQuery, useUpdateMessageMutation, useCreateActorMutation, useUpdatePromptMutation, useDeleteMessageMutation, useGetUserQuery, useGetAssistantQuery, useGetActorsQuery, useFetchActiveAssistantsQuery } = serverApi;
