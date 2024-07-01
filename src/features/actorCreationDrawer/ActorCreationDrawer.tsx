@@ -9,9 +9,10 @@ import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {selectIsActorCreationDrawerOpen, setIsActorCreationDrawerOpen} from "./store/actorCreationDrawerSlice";
 import {useGetModelsQuery} from "../../services/openai/openaiApi";
 import {validTtsModels} from "../../api/tts/utils/apiClient";
-import {useCreateActorMutation} from "../../services/server/serverApi";
+import {useCreateActorMutation, useUpdateActorMutation} from "../../services/server/serverApi";
 import {setSnackbar} from "../../store/appSlice";
 import {EditableActor} from "./types";
+import {isFile} from "../../utils/util";
 
 const initialState: EditableActor = {
     actorId: 0,
@@ -112,6 +113,7 @@ const ActorCreationDrawer: React.FC<{ actor: EditableActor | null }> = ({ actor 
     const isDrawerOpen = useAppSelector(selectIsActorCreationDrawerOpen);
 
     const [createActor] = useCreateActorMutation();
+    const [updateActor] = useUpdateActorMutation();
 
     const toggleMessageCard = () => {
         setIsMessageCardOpen((prevOpen) => !prevOpen);
@@ -129,12 +131,25 @@ const ActorCreationDrawer: React.FC<{ actor: EditableActor | null }> = ({ actor 
 
         formData.append('name', state.name);
         formData.append('title', config.title);
-        formData.append('messageCard', JSON.stringify({ ...cardColor }));
+        formData.append('messageCard', JSON.stringify({ ...cardColor, textColor: cardColor.contentsColor }));
         formData.append('prompt', config.prompt);
         formData.append('avatar', config.avatar);
         formData.append('ttsModel', config.ttsModel);
         formData.append('chatModel', config.chatModel);
 
+        if (state.actorId) {
+            await onUpdateActor(formData);
+            return;
+        }
+
+        await onCreateActor(formData);
+    };
+
+    const onUpdateActor = async (formData: FormData) => {
+        const response = await updateActor(formData);
+    };
+
+    const onCreateActor = async (formData: FormData) => {
         const response = await createActor(formData);
         if ('data' in response) {
             appDispatch(setSnackbar({ message: response.data.msg }))
@@ -245,11 +260,11 @@ const ActorCreationDrawer: React.FC<{ actor: EditableActor | null }> = ({ actor 
                             Upload File
                             <input type="file" hidden onChange={(e) => handleConfigurationChange('avatar', e.target.files?.[0])} />
                         </Button>
-                        {<Typography variant="body2">{state.configuration.avatar instanceof File ? state.configuration.avatar.name : ''}</Typography>}
+                        {<Typography variant="body2">{isFile(state.configuration?.avatar) ? state.configuration.avatar.name : ''}</Typography>}
                         <TextField
                             fullWidth
                             label="Or Paste Image URL"
-                            value={state.configuration.avatar}
+                            value={typeof state.configuration.avatar === 'string' ? state.configuration.avatar : 'Uploaded file'}
                             onChange={(e) => handleConfigurationChange('avatar', e.target.value)}
                             margin="normal"
                         />
