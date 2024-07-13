@@ -2,7 +2,6 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../../../store/store';
 import {postChatRequest} from '../../../api/chat';
 import {createDialog, getDialogId, getMessagesByDialogId} from '../../../api/server';
-import {selectActor} from '../../actor/actorSlice';
 import {getTimestamp} from '../../../utils/util';
 import {serverApi} from "../../../services/server/serverApi";
 
@@ -18,10 +17,14 @@ export const messengerTypes = Object.entries(messengerTypeIds).reduce((acc, [key
 
 export interface ConversationState {
     dialogId: number|null,
+    user: User|null,
+    actor: Actor|null,
 }
 
 const initialState: ConversationState = {
     dialogId: null,
+    user: null,
+    actor: null,
 };
 
 export const conversationSlice = createSlice({
@@ -31,6 +34,9 @@ export const conversationSlice = createSlice({
         setDialogId: (state, action: PayloadAction<number>) => {
             state.dialogId = action.payload;
         },
+        setActor: (state, action: PayloadAction<Actor>) => {
+            state.actor = action.payload ?? initialState.actor;
+        },
     },
     extraReducers: builder => {
         builder.addCase(updateDialogId.fulfilled, (state, action) => {
@@ -39,7 +45,7 @@ export const conversationSlice = createSlice({
     }
 });
 
-export const { setDialogId} = conversationSlice.actions;
+export const { setDialogId, setActor} = conversationSlice.actions;
 
 /* Message */
 
@@ -149,6 +155,7 @@ const getCurrentDialogId = async (actorId: number, userId: number): Promise<numb
 };
 
 
-export const selectDialogId = (state: RootState): number => state.conversation.dialogId ?? -1;
+export const selectDialogId = (state: RootState): number => state.conversation.dialogId;
+export const selectActor = (state: RootState): Actor => state.conversation.actor;
 
 export default conversationSlice.reducer;

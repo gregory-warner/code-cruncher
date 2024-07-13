@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store/store';
 import { fetchActiveAssistants } from '../../api/server';
-import {isActor, setActor} from '../actor/actorSlice';
+import {isActor} from "../../utils/util";
+import {setActor} from "../conversation/store/conversationSlice";
 
 export interface ActorDrawerState {
     isOpen: boolean,

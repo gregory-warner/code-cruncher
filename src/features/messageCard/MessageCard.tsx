@@ -5,7 +5,6 @@ import MessageParser from './MessageParser';
 import './messageCardStyle.css';
 import {LockOpen, VolumeUp} from "@mui/icons-material";
 import LockIcon from '@mui/icons-material/Lock';
-import {selectActor} from "../actor/actorSlice";
 import {selectUser} from "../user/userSlice";
 import {
     useDeleteMessageMutation,
@@ -14,6 +13,7 @@ import {
 import {MessengerTypeIds} from "../../types";
 import {chatServerUrl} from "../../../config";
 import {setSnackbar} from "../../store/appSlice";
+import {selectActor} from "../conversation/store/conversationSlice";
 
 const MessageCard = ({ message }: {message: Message}) => {
     const dispatch = useAppDispatch();

@@ -7,9 +7,8 @@ import {selectSelectedActor, setSelectedActor} from "../chatDashboardSlice";
 import {Settings as SettingsIcon} from "@mui/icons-material";
 import {setIsActorCreationDrawerOpen} from "../../actorCreationDrawer/store/actorCreationDrawerSlice";
 import {useNavigate} from "react-router-dom";
-import {updateDialogId} from "../../conversation/store/conversationSlice";
 import {selectUser} from "../../user/userSlice";
-import {setActor} from "../../actor/actorSlice";
+import {setActor} from "../../conversation/store/conversationSlice";
 
 interface ChatDashboardCardProps {
     actor: Actor,
@@ -29,7 +28,6 @@ const ChatDashboardCard = ({ actor }: ChatDashboardCardProps) => {
 
     const selectedActor = useAppSelector(selectSelectedActor);
     const isSelected = selectedActor === actor;
-    const user = useAppSelector(selectUser);
 
     const handleCardClick = () => {
         dispatch(setSelectedActor(actor));
