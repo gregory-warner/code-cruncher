@@ -1,7 +1,6 @@
 import {configureStore, ThunkAction, Action} from '@reduxjs/toolkit';
 import actorDrawerReducer from '../features/actorDrawer/ActorDrawerSlice';
 import conversationReducer from '../features/conversation/store/conversationSlice';
-import userReducer from '../features/user/userSlice';
 import messageCardReducer from '../features/messageCard/store/messageCardSlice';
 import actorConfigDrawerReducer from '../features/actorConfigDrawer/store/actorConfigDrawerSlice';
 import chatDashboardReducer from '../features/dashboard/chatDashboardSlice';
@@ -18,7 +17,6 @@ export const store = configureStore({
     [openaiApi.reducerPath]: openaiApi.reducer,
     actorDrawer: actorDrawerReducer,
     conversation: conversationReducer,
-    user: userReducer,
     messageCard: messageCardReducer,
     actorConfigDrawer: actorConfigDrawerReducer,
     theme: themeReducer,

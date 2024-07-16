@@ -1,6 +1,6 @@
 import Conversation from '../conversation/Conversation';
 import { Box, Grid } from '@mui/material';
-import UserInput from '../user/UserInput';
+import UserInput from './components/userInput/UserInput';
 import ActorDrawer from '../actorDrawer/ActorDrawer';
 import ChatAppHeader from './components/ChatAppHeader';
 import ActorConfigDrawer from '../actorConfigDrawer/ActorConfigDrawer';

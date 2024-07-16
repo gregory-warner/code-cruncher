@@ -4,9 +4,8 @@ import { Typography, Avatar, Card, Stack, Grid } from '@mui/material';
 import { selectCardStyle } from '../messageCard/store/messageCardSlice';
 import MessageImageCard from './MessageImageCard';
 import {defaultCardStyle} from "../messageCard/store/types";
-import {selectUser} from "../user/userSlice";
 import {MessengerTypeIds} from "../../types";
-import {selectActor} from "../conversation/store/conversationSlice";
+import {selectActor, selectUser} from "../conversation/store/conversationSlice";
 
 const MessageImageCards = ({ message }: {message: Message}) => {
 

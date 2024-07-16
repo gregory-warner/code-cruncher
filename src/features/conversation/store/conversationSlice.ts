@@ -5,6 +5,8 @@ import {createDialog, getDialogId, getMessagesByDialogId} from '../../../api/ser
 import {getTimestamp} from '../../../utils/util';
 import {serverApi} from "../../../services/server/serverApi";
 
+export const defaultUser = "eagle-bonnet";
+
 export const messengerTypeIds = {
     user: 0,
     assistant: 1,
@@ -37,6 +39,9 @@ export const conversationSlice = createSlice({
         setActor: (state, action: PayloadAction<Actor>) => {
             state.actor = action.payload ?? initialState.actor;
         },
+        setUser: (state, action: PayloadAction<User>) => {
+            state.user = action.payload ?? initialState.user;
+        },
     },
     extraReducers: builder => {
         builder.addCase(updateDialogId.fulfilled, (state, action) => {
@@ -45,7 +50,7 @@ export const conversationSlice = createSlice({
     }
 });
 
-export const { setDialogId, setActor} = conversationSlice.actions;
+export const { setDialogId, setActor, setUser} = conversationSlice.actions;
 
 /* Message */
 
@@ -157,5 +162,6 @@ const getCurrentDialogId = async (actorId: number, userId: number): Promise<numb
 
 export const selectDialogId = (state: RootState): number => state.conversation.dialogId;
 export const selectActor = (state: RootState): Actor => state.conversation.actor;
+export const selectUser = (state: RootState): User => state.conversation.user;
 
 export default conversationSlice.reducer;

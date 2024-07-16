@@ -7,7 +7,6 @@ import {selectSelectedActor, setSelectedActor} from "../chatDashboardSlice";
 import {Settings as SettingsIcon} from "@mui/icons-material";
 import {setIsActorCreationDrawerOpen} from "../../actorCreationDrawer/store/actorCreationDrawerSlice";
 import {useNavigate} from "react-router-dom";
-import {selectUser} from "../../user/userSlice";
 import {setActor} from "../../conversation/store/conversationSlice";
 
 interface ChatDashboardCardProps {

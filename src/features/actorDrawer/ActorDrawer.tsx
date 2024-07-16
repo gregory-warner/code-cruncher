@@ -12,8 +12,7 @@ import {
 import './actorDrawerStyles.css';
 import '../chatApp/chatAppStyle.css';
 import {useGetActorsQuery} from "../../services/server/serverApi";
-import {selectActor, updateDialog} from "../conversation/store/conversationSlice";
-import {selectUser} from "../user/userSlice";
+import {selectActor, selectUser, updateDialog} from "../conversation/store/conversationSlice";
 
 const drawerPaperProps = {
     backgroundColor: "rgba(34, 34, 34, 1)"

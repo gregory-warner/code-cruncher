@@ -1,13 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import { Button, Grid, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import {
     messengerTypeIds,
     selectDialogId,
+    selectUser,
     sendChatMessage
-} from '../conversation/store/conversationSlice';
-import { selectUser } from './userSlice';
+} from '../../../conversation/store/conversationSlice';
 import './styles.css';
 
 const UserInput = () => {

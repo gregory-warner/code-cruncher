@@ -6,8 +6,8 @@ import ChatDashboardFab from "./components/ChatDashboardFab";
 import ActorCreationDrawer from "../actorCreationDrawer/ActorCreationDrawer";
 import {selectSelectedActor} from "./chatDashboardSlice";
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
-import {defaultUser, setUser} from "../user/userSlice";
 import {useEffect} from "react";
+import {defaultUser, setUser} from "../conversation/store/conversationSlice";
 
 const ChatDashboard = () => {
 
