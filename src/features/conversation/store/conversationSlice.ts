@@ -56,7 +56,7 @@ export const { setDialogId, setActor, setUser} = conversationSlice.actions;
 
 export const getChatMessages = (messages: Message[], assistant: Actor): ChatMessage[] => {
     const prompt: ChatMessage = {
-        role: "user",
+        role: "system",
         content: assistant.configuration.prompt ?? '',
     };
     let chatMessages: ChatMessage[] = [prompt];
