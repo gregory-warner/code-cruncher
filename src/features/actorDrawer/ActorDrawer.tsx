@@ -9,8 +9,6 @@ import {
     setSelectedActor,
     setDrawerOpen
 } from './ActorDrawerSlice';
-import './actorDrawerStyles.css';
-import '../chatApp/chatAppStyle.css';
 import {useGetActorsQuery} from "../../services/server/serverApi";
 import {selectActor, selectUser, updateDialog} from "../conversation/store/conversationSlice";
 

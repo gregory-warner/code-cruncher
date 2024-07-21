@@ -8,7 +8,6 @@ import {
     selectUser,
     sendChatMessage
 } from '../../../conversation/store/conversationSlice';
-import './styles.css';
 
 const UserInput = () => {
     const dispatch = useAppDispatch();
@@ -27,7 +26,7 @@ const UserInput = () => {
     }, []);
 
     const onSend = async () => {
-        if (!input) { return; }
+        if (!input.trim()) { return; }
 
         const message: Message = {
             dialogId: dialogId,
@@ -52,8 +51,8 @@ const UserInput = () => {
     }
 
     return(
-        <Grid className="input-bar" direction={"row"} border={0} container alignContent={"center"} alignItems={"stretch"} justifyContent={"space-between"}>
-            <Grid item xs={10}  borderRight={4} borderColor={"rgba(34, 34, 34, 1)"} color={"rgba(34, 34, 34, 1)"}>
+        <Grid direction={"column"} container alignContent={"center"} alignItems={"stretch"} justifyContent={"space-between"} sx={{height: '100%', border: '1px solid black'}}>
+            <Grid item xs={11}  borderRight={4} borderColor={"rgba(34, 34, 34, 1)"} color={"rgba(34, 34, 34, 1)"} sx={{width: '100%'}}>
                 <TextField 
                     id="id-user-input" 
                     label="Question" 
@@ -62,24 +61,27 @@ const UserInput = () => {
                     multiline
                     fullWidth
                     value={input}
-                    minRows={1}
-                    inputProps={{ style: textStyle }}
+                    minRows={14}
                     onChange={onInputChange}
                     onKeyUp={handleKeyUp}
                 />                
             </Grid>
-            <Grid item xs={2} border={0} alignItems={"center"} color={"white"}>
-                <Button 
-                    className="Send-Button"
-                    fullWidth 
-                    variant="contained" 
-                    size="large" 
-                    endIcon={<SendIcon />}
-                    onClick={onSend}
-                >
-                    Send
-                </Button>
+            <Grid container alignItems={'center'} spacing={2}>
+                <Grid item xs={3}></Grid>
+                <Grid item xs={3}></Grid>
+                <Grid item xs={3}></Grid>
+                <Grid container item xs={3} textAlign={'right'} alignItems={'center'} justifyContent={'flex-end'} padding={0.1}>
+                    <Button
+                        variant="contained"
+                        size="small"
+                        endIcon={<SendIcon />}
+                        onClick={onSend}
+                    >
+                        Send
+                    </Button>
+                </Grid>
             </Grid>
+
         </Grid>
     );
 };

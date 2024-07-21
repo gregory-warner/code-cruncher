@@ -4,7 +4,6 @@ import { selectSelectedActor } from "../../../actorDrawer/ActorDrawerSlice";
 import { useEffect } from "react";
 
 import './actorConfigSectionStyle.css';
-import '../../../chatApp/chatAppStyle.css';
 import {
     selectCurrentConfig,
     selectUpdatedConfig,
