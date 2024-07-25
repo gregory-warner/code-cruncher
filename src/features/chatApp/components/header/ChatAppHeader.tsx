@@ -1,9 +1,9 @@
 import React from 'react';
 import ListTwoTone from '@mui/icons-material/ListTwoTone';
 import {Box, IconButton, Typography, useTheme} from '@mui/material';
-import { toggleDrawer } from '../../actorDrawer/ActorDrawerSlice';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import {selectActor} from "../../conversation/store/conversationSlice";
+import { toggleDrawer } from '../../../actorDrawer/ActorDrawerSlice';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
+import {selectActor} from "../../../conversation/store/conversationSlice";
 
 const ChatAppHeader: React.FC = () => {
     const dispatch = useAppDispatch();

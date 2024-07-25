@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {chatServerUrl} from "../../../config";
-import {ActorPrompt, ServerResponse} from "./types";
+import {ActorPrompt, ServerResponse, UpdateActorInput} from "./types";
 
 export const serverApi  = createApi({
     reducerPath: 'serverApi',
@@ -75,12 +75,14 @@ export const serverApi  = createApi({
             }),
             invalidatesTags: [{ type: 'Actors' }],
         }),
-        updateActor: build.mutation<ServerResponse, FormData>({
-            query: (formData: FormData) => ({
-                url: `actors/update`,
-                method: 'POST',
-                body: formData,
-            }),
+        updateActor: build.mutation<ServerResponse, UpdateActorInput>({
+            query: (data: UpdateActorInput) => {
+                return ({
+                    url: `actors/update`,
+                    method: 'POST',
+                    body: data,
+                });
+            },
             invalidatesTags: [{ type: 'Actors' }],
         }),
         deleteDialog: build.mutation<ServerResponse, number>({

@@ -1,5 +1,5 @@
-const headerHeight = '5vh';
-const mainHeight = '90v';
+const headerHeight = '3vh';
+const mainHeight = '94vh';
 const footerHeight = `calc(100vh - ${headerHeight} - ${mainHeight})`;
 
 const chatAppDesign = {
@@ -19,10 +19,11 @@ const chatAppDesign = {
         overflowY: "scroll",
         maxHeight: '50vh',
         flexGrow: 1,
-        border: '1px solid darkgray'
+        border: '2px solid black'
     },
     userInput: {
         height: '100%',
+        border: '2px solid black'
     },
     details: {
         height: mainHeight,

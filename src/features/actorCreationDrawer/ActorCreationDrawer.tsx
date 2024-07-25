@@ -13,6 +13,7 @@ import {useCreateActorMutation, useUpdateActorMutation} from "../../services/ser
 import {setSnackbar} from "../../store/appSlice";
 import {EditableActor} from "./types";
 import {isFile} from "../../utils/util";
+import {UpdateActorInput} from "../../services/server/types";
 
 const initialState: EditableActor = {
     actorId: 0,
@@ -138,15 +139,29 @@ const ActorCreationDrawer: React.FC<{ actor: EditableActor | null }> = ({ actor 
         formData.append('chatModel', config.chatModel);
 
         if (state.actorId) {
-            await onUpdateActor(formData);
+            const actor = {
+                name: state.name,
+                title: config.title,
+                messageCard: JSON.stringify({ ...cardColor, textColor: cardColor.contentsColor }),
+                prompt: config.prompt,
+                avatar: config.avatar,
+                ttsModel: config.ttsModel,
+                chatModel: config.chatModel,
+                actorId: state.actorId,
+            }
+            await onUpdateActor(actor);
             return;
         }
 
         await onCreateActor(formData);
     };
 
-    const onUpdateActor = async (formData: FormData) => {
-        const response = await updateActor(formData);
+    const onUpdateActor = async (data: UpdateActorInput) => {
+        const response = await updateActor(data);
+        if ('data' in response) {
+            appDispatch(setSnackbar({ message: response.data.msg }))
+            onDrawerClose();
+        }
     };
 
     const onCreateActor = async (formData: FormData) => {

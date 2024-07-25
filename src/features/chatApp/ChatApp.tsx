@@ -2,7 +2,7 @@ import Conversation from '../conversation/Conversation';
 import { Box, Grid } from '@mui/material';
 import UserInput from './components/userInput/UserInput';
 import ActorDrawer from '../actorDrawer/ActorDrawer';
-import ChatAppHeader from './components/ChatAppHeader';
+import ChatAppHeader from './components/header/ChatAppHeader';
 import ActorConfigDrawer from '../actorConfigDrawer/ActorConfigDrawer';
 import style from './styles';
 

@@ -16,11 +16,6 @@ const UserInput = () => {
 
     const [input, setInput] = useState("");
 
-    const textStyle = {
-        color: "#F8F8FF",
-        backgroundColor: "rgba(34, 34, 56, 10)",
-    };
-    
     const onInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setInput(event.target.value);
     }, []);
@@ -55,7 +50,7 @@ const UserInput = () => {
             <Grid item xs={11}  borderRight={4} borderColor={"rgba(34, 34, 34, 1)"} color={"rgba(34, 34, 34, 1)"} sx={{width: '100%'}}>
                 <TextField 
                     id="id-user-input" 
-                    label="Question" 
+                    label="Message"
                     variant="filled" 
                     color="primary"
                     multiline
