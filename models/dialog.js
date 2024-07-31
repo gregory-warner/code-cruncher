@@ -8,6 +8,12 @@ const Dialog = sequelize.define("dialog", {
         primaryKey: true,
         field: "dialog_id",
     },
+    dialog_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'Untitled',
+        field: "dialog_name"
+    },
     user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -38,6 +44,14 @@ const Dialog = sequelize.define("dialog", {
         defaultValue: false,
         field: "is_deleted",
     }
+}, {
+    indexes: [
+        {
+            unique: false,
+            fields: ['actor_id', 'user_id']
+        }
+    ]
+
 });
 
 export default Dialog;
