@@ -75,12 +75,12 @@ export const serverApi  = createApi({
             }),
             invalidatesTags: [{ type: 'Actors' }],
         }),
-        updateActor: build.mutation<ServerResponse, UpdateActorInput>({
-            query: (data: UpdateActorInput) => {
+        updateActor: build.mutation<ServerResponse, FormData>({
+            query: (formData: FormData) => {
                 return ({
                     url: `actors/update`,
                     method: 'POST',
-                    body: data,
+                    body: formData,
                 });
             },
             invalidatesTags: [{ type: 'Actors' }],

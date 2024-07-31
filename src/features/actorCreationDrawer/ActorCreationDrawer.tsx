@@ -139,25 +139,16 @@ const ActorCreationDrawer: React.FC<{ actor: EditableActor | null }> = ({ actor 
         formData.append('chatModel', config.chatModel);
 
         if (state.actorId) {
-            const actor = {
-                name: state.name,
-                title: config.title,
-                messageCard: JSON.stringify({ ...cardColor, textColor: cardColor.contentsColor }),
-                prompt: config.prompt,
-                avatar: config.avatar,
-                ttsModel: config.ttsModel,
-                chatModel: config.chatModel,
-                actorId: state.actorId,
-            }
-            await onUpdateActor(actor);
+            formData.append('actorId', state.actorId.toString());
+            await onUpdateActor(formData);
             return;
         }
 
         await onCreateActor(formData);
     };
 
-    const onUpdateActor = async (data: UpdateActorInput) => {
-        const response = await updateActor(data);
+    const onUpdateActor = async (formData: FormData)=> {
+        const response = await updateActor(formData);
         if ('data' in response) {
             appDispatch(setSnackbar({ message: response.data.msg }))
             onDrawerClose();
