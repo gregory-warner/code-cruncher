@@ -39,7 +39,6 @@ const ChatApp = () => {
             <Grid item xs={12} sx={style.footer}></Grid>
 
             <Grid container item xs={0}>
-                <ActorDrawer />
                 <ActorConfigDrawer />
             </Grid>
         </Grid>
