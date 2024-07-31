@@ -3,6 +3,7 @@ import { Box, Grid } from '@mui/material';
 import UserInput from './components/userInput/UserInput';
 import ChatAppHeader from './components/header/ChatAppHeader';
 import style from './styles';
+import SessionItem from "./components/sessions/SessionItem";
 
 const ChatApp = () => {
     return (
@@ -13,6 +14,7 @@ const ChatApp = () => {
 
             <Grid container item xs={12} direction="row" sx={style.main}>
                 <Grid item xs={2} sx={style.session}>
+                    <SessionItem sessionId={1}/>
                 </Grid>
 
                 <Grid container direction={'column'} xs={8} sx={style.conversationContainer}>
