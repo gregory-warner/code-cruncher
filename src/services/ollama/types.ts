@@ -20,6 +20,10 @@ interface ModelDetails {
     quantization_level: string;
 }
 
+export interface ModelResponse {
+    models: Model[],
+}
+
 export interface Model {
     name: string;
     model: string;
