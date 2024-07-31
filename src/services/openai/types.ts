@@ -1,4 +1,4 @@
-interface ChatApiModel {
+export interface ChatApiModel {
     created: number,
     id: string,
     object: string,
