@@ -3,7 +3,7 @@ import {Grid} from "@mui/material";
 import {useGetActorsQuery, useGetUserQuery} from "../../services/server/serverApi";
 import ChatDashboardCard from "./components/ChatDashboardCard";
 import ChatDashboardFab from "./components/ChatDashboardFab";
-import ActorCreationDrawer from "../actorCreationDrawer/ActorCreationDrawer";
+import ActorDrawer from "../actorDrawer/ActorDrawer";
 import {selectSelectedActor} from "./chatDashboardSlice";
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {useEffect} from "react";
@@ -35,7 +35,7 @@ const ChatDashboard = () => {
                 ))}
             </Grid>
             <ChatDashboardFab />
-            <ActorCreationDrawer actor={selectedActor} />
+            <ActorDrawer actor={selectedActor} />
         </>
     );
 };

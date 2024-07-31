@@ -6,7 +6,7 @@ import { SketchPicker } from 'react-color';
 import { useTheme } from '@mui/material/styles';
 import { Box } from '@mui/system';
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
-import {selectIsActorCreationDrawerOpen, setIsActorCreationDrawerOpen} from "./store/actorCreationDrawerSlice";
+import {selectIsActorCreationDrawerOpen, setIsActorCreationDrawerOpen} from "./store/actorDrawerSlice";
 import {useGetModelsQuery} from "../../services/openai/openaiApi";
 import {validTtsModels} from "../../api/tts/utils/apiClient";
 import {useCreateActorMutation, useUpdateActorMutation} from "../../services/server/serverApi";
@@ -78,7 +78,7 @@ const reducer = (state: EditableActor, action: Action): EditableActor => {
     }
 };
 
-const ActorCreationDrawer: React.FC<{ actor: EditableActor | null }> = ({ actor }) => {
+const ActorDrawer: React.FC<{ actor: EditableActor | null }> = ({ actor }) => {
     const theme = useTheme();
     const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -295,4 +295,4 @@ const ActorCreationDrawer: React.FC<{ actor: EditableActor | null }> = ({ actor 
     );
 };
 
-export default ActorCreationDrawer;
+export default ActorDrawer;

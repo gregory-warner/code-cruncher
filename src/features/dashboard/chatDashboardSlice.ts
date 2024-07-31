@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store/store';
-import {EditableActor} from "../actorCreationDrawer/types";
+import {EditableActor} from "../actorDrawer/types";
 
 export interface ChatDashboardState {
     selectedActor?: EditableActor|null,

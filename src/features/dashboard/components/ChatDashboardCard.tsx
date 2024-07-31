@@ -5,7 +5,7 @@ import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import {Box} from "@mui/system";
 import {selectSelectedActor, setSelectedActor} from "../chatDashboardSlice";
 import {Settings as SettingsIcon} from "@mui/icons-material";
-import {setIsActorCreationDrawerOpen} from "../../actorCreationDrawer/store/actorCreationDrawerSlice";
+import {setIsActorCreationDrawerOpen} from "../../actorDrawer/store/actorDrawerSlice";
 import {useNavigate} from "react-router-dom";
 import {setActor} from "../../conversation/store/conversationSlice";
 

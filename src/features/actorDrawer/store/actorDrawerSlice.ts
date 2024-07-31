@@ -9,7 +9,7 @@ const initialState: ActorCreationDrawerState = {
     isOpen: false,
 };
 
-export const actorCreationDrawerSlice = createSlice({
+export const actorDrawerSlice = createSlice({
     name: "actorCreationDrawer",
     initialState,
     reducers: {
@@ -21,8 +21,8 @@ export const actorCreationDrawerSlice = createSlice({
 
 export const {
     setIsActorCreationDrawerOpen,
-} = actorCreationDrawerSlice.actions;
+} = actorDrawerSlice.actions;
 
 export const selectIsActorCreationDrawerOpen = (state: RootState) => state.actorCreationDrawer.isOpen;
 
-export default actorCreationDrawerSlice.reducer;
+export default actorDrawerSlice.reducer;

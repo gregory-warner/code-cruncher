@@ -5,7 +5,7 @@ import {Add} from "@mui/icons-material";
 import {useAppDispatch} from "../../../store/hooks";
 import {
     setIsActorCreationDrawerOpen
-} from "../../actorCreationDrawer/store/actorCreationDrawerSlice";
+} from "../../actorDrawer/store/actorDrawerSlice";
 import {setSelectedActor} from "../chatDashboardSlice";
 
 const ChatDashboardFab = () => {

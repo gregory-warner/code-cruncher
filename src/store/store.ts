@@ -2,7 +2,7 @@ import {configureStore, ThunkAction, Action} from '@reduxjs/toolkit';
 import conversationReducer from '../features/conversation/store/conversationSlice';
 import messageCardReducer from '../features/messageCard/store/messageCardSlice';
 import chatDashboardReducer from '../features/dashboard/chatDashboardSlice';
-import actorCreationDrawerReducer from '../features/actorCreationDrawer/store/actorCreationDrawerSlice';
+import actorCreationDrawerReducer from '../features/actorDrawer/store/actorDrawerSlice';
 import appReducer from './appSlice';
 import themeReducer from '../theme/themeSlice';
 import { serverApi } from "../services/server/serverApi";
