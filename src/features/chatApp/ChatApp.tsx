@@ -1,9 +1,7 @@
 import Conversation from '../conversation/Conversation';
 import { Box, Grid } from '@mui/material';
 import UserInput from './components/userInput/UserInput';
-import ActorDrawer from '../actorDrawer/ActorDrawer';
 import ChatAppHeader from './components/header/ChatAppHeader';
-import ActorConfigDrawer from '../actorConfigDrawer/ActorConfigDrawer';
 import style from './styles';
 
 const ChatApp = () => {
@@ -38,9 +36,6 @@ const ChatApp = () => {
 
             <Grid item xs={12} sx={style.footer}></Grid>
 
-            <Grid container item xs={0}>
-                <ActorConfigDrawer />
-            </Grid>
         </Grid>
     );
 };
