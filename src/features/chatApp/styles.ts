@@ -17,7 +17,7 @@ const chatAppDesign = {
     },
     conversation: {
         overflowY: "scroll",
-        maxHeight: '50vh',
+        maxHeight: '48vh',
         flexGrow: 1,
         border: '2px solid black'
     },
