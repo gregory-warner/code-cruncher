@@ -13,7 +13,8 @@ import {useCreateActorMutation, useUpdateActorMutation} from "../../services/ser
 import {setSnackbar} from "../../store/appSlice";
 import {EditableActor} from "./types";
 import {isFile} from "../../utils/util";
-import {UpdateActorInput} from "../../services/server/types";
+import {useModelsQuery} from "../../services/ollama/ollamaApi";
+import ModelSelect from "./components/ModelSelect";
 
 const initialState: EditableActor = {
     actorId: 0,
@@ -108,8 +109,6 @@ const ActorCreationDrawer: React.FC<{ actor: EditableActor | null }> = ({ actor 
 
     const [isMessageCardOpen, setIsMessageCardOpen] = useState(false);
 
-    const { data: models } = useGetModelsQuery();
-
     const appDispatch = useAppDispatch();
     const isDrawerOpen = useAppSelector(selectIsActorCreationDrawerOpen);
 
@@ -196,21 +195,10 @@ const ActorCreationDrawer: React.FC<{ actor: EditableActor | null }> = ({ actor 
                         onChange={(e) => handleConfigurationChange('title', e.target.value)}
                         margin="normal"
                     />
-
-                    <TextField
-                        select
-                        fullWidth
-                        label="Chat Model"
-                        value={state.configuration.chatModel}
-                        onChange={(e) => handleConfigurationChange('chatModel', e.target.value)}
-                        margin="normal"
-                    >
-                        {models && models.data.map((model) => (
-                            <MenuItem key={`${model.id}-${model.created}`} value={model.id}>
-                                {model.id}
-                            </MenuItem>
-                        ))}
-                    </TextField>
+                    <ModelSelect
+                        selectedModel={state.configuration.chatModel}
+                        handleModelChange={(e: React.ChangeEvent<HTMLInputElement>) => handleConfigurationChange('chatModel', e.target.value)}
+                    />
 
                     <TextField
                         select
