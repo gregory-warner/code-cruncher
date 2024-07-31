@@ -42,13 +42,13 @@ export const ollamaApi  = createApi({
                 method: 'GET',
             }),
         }),
-        runningModels: build.query<Model[], null>({
+        runningModels: build.query<Model[], void>({
             query: () => ({
                 url: 'api/ps',
                 method: 'GET',
             }),
         }),
-        models: build.query<Model[], string>({
+        models: build.query<ModelResponse, void>({
             query: () => ({
                 url: 'api/tags',
                 method: 'GET',
@@ -70,6 +70,6 @@ export const {
     useLazyShowQuery,
     useHeartbeatQuery,
     useLazyRunningModelsQuery,
-    useLazyModelsQuery,
+    useModelsQuery,
     useChatQuery,
 } = ollamaApi;
