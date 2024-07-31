@@ -178,63 +178,67 @@ router.get("/getAssistant/:username", async (req, res) => {
 });
 
 router.get("/getActiveAssistants", async (_, res, next) => {
-    const assistants = await Actor.findAll({
-        attributes: [
-            ["actor_id", "actorId"],
-            "username",
-            "name",
-        ],
-        include: [
-            {
-                model: ActorConfiguration,
-                as: "configuration",
-                attributes: [
-                    "avatar",
-                    "title",
-                    "prompt",
-                    ["color_theme", "colorTheme"],
-                    ["chat_model", "chatModel"],
-                    ["tts_model", "ttsModel"],
-                ],
-                include: [
-                    {
-                        model: Prompt,
-                        as: "prompts",
-                        attributes: ['prompt'],
-                        where: {
-                            is_deleted: false,
-                        },
-                    }
-                ]
+    try {
+        const assistants = await Actor.findAll({
+            attributes: [
+                ["actor_id", "actorId"],
+                "username",
+                "name",
+            ],
+            include: [
+                {
+                    model: ActorConfiguration,
+                    as: "configuration",
+                    attributes: [
+                        "avatar",
+                        "title",
+                        "prompt",
+                        ["color_theme", "colorTheme"],
+                        ["chat_model", "chatModel"],
+                        ["tts_model", "ttsModel"],
+                    ],
+                    include: [
+                        {
+                            model: Prompt,
+                            as: "prompts",
+                            attributes: ['prompt'],
+                            where: {
+                                is_deleted: false,
+                            },
+                        }
+                    ]
+                },
+            ],
+            nest: true,
+            where: {
+                is_deleted: false,
             },
-        ],
-        nest: true,
-        where: {
-            is_deleted: false,
-        },
-        order: [["actor_id", "ASC"]],
-    });
+            order: [["actor_id", "ASC"]],
+        });
 
-    const transformedAssistants = assistants.map(assistant => {
-        if (!assistant.configuration) {
+        const transformedAssistants = assistants.map(assistant => {
+            if (!assistant.configuration) {
+                return assistant;
+            }
+
+            const { configuration } = assistant;
+
+            // Get the first prompt
+            const [firstPrompt] = configuration.prompts ?? [];
+
+            // Replace the prompts array with the first prompt
+            configuration.prompt = firstPrompt.prompt;
+
+            // Remove the prompts property
+            delete assistant.configuration.dataValues.prompts;
+
             return assistant;
-        }
+        });
 
-        const { configuration } = assistant;
-
-        // Get the first prompt
-        const [firstPrompt] = configuration.prompts ?? [];
-
-        // Replace the prompts array with the first prompt
-        configuration.prompt = firstPrompt.prompt;
-
-        // Remove the prompts property
-        delete assistant.configuration.dataValues.prompts;
-
-        return assistant;
-    });
-
-    res.json(transformedAssistants);
+        res.json(transformedAssistants);
+    } catch (error) {
+        next(error);
+    }
 });
 
 // Configure multer to save files to the 'uploads' folder
@@ -277,7 +281,7 @@ router.post('/create', upload.single('avatar'), async (req, res, next) => {
             }
         );
 
-        const actorPrompt = await Prompt.create({actor_configuration_id: config.actor_configuration_id, prompt });
+        await Prompt.create({actor_configuration_id: config.actor_configuration_id, prompt });
 
         res.json({ msg: 'The actor was successfully created' });
     } catch (error) {
