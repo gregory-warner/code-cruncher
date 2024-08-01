@@ -17,7 +17,7 @@ const ChatApp = () => {
                     <SessionItem sessionId={1}/>
                 </Grid>
 
-                <Grid container direction={'column'} xs={8} sx={style.conversationContainer}>
+                <Grid container item direction={'column'} xs={8} sx={style.conversationContainer}>
                     <Grid item sx={style.conversation}>
                         <Conversation />
                     </Grid>

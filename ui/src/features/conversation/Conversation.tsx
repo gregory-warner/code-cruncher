@@ -45,7 +45,9 @@ const Conversation = () => {
     }, [userData]);
 
     useEffect(() => {
-        if (!actor || !user) return;
+        if (!actor || !user) {
+            navigate('/');
+        }
 
         dispatch(updateDialogId({user, actor}));
     }, [user, actor]);
@@ -57,10 +59,6 @@ const Conversation = () => {
         getMessages(dialogId, false);
     }, [dialogId]);
 
-    if (!actor || !user) {
-        navigate('/');
-        return (<h1>Unable to get participants</h1>)
-    }
 
     if (!Array.isArray(messages) || isLoading) {
         return (<>Loading...</>);
