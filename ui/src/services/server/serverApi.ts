@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {chatServerUrl} from "../../../config";
-import {ActorPrompt, ServerResponse, UpdateActorInput} from "./types";
+import {ActorPrompt, ServerResponse} from "./types";
 
 export const serverApi  = createApi({
     reducerPath: 'serverApi',

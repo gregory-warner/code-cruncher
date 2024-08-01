@@ -29,7 +29,7 @@ const MessageCard = ({ message }: {message: Message}) => {
 
     const deleteMessageHandler = async () => {
         if (typeof message.id === 'number') {
-            const response =  await deleteMessage(message.id).unwrap();
+            await deleteMessage(message.id).unwrap();
             dispatch(setSnackbar({message: 'Message was successfully deleted'}));
         }
     }

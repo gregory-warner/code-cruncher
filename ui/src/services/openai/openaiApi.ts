@@ -7,7 +7,7 @@ export const openaiApi  = createApi({
     reducerPath: 'openaiApi',
     baseQuery: fetchBaseQuery({
         baseUrl,
-        prepareHeaders: (headers, { getState: RootState }) => {
+        prepareHeaders: (headers) => {
             headers.set('Authorization', `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`);
         },
     }),

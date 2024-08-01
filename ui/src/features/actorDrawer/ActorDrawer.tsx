@@ -7,13 +7,11 @@ import { useTheme } from '@mui/material/styles';
 import { Box } from '@mui/system';
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {selectIsActorCreationDrawerOpen, setIsActorCreationDrawerOpen} from "./store/actorDrawerSlice";
-import {useGetModelsQuery} from "../../services/openai/openaiApi";
 import {validTtsModels} from "../../api/tts/utils/apiClient";
 import {useCreateActorMutation, useUpdateActorMutation} from "../../services/server/serverApi";
 import {setSnackbar} from "../../store/appSlice";
 import {EditableActor} from "./types";
 import {isFile} from "../../utils/util";
-import {useModelsQuery} from "../../services/ollama/ollamaApi";
 import ModelSelect from "./components/ModelSelect";
 
 const initialState: EditableActor = {
