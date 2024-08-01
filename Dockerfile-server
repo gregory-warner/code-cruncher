@@ -1,0 +1,14 @@
+# Build stage
+FROM node:19-alpine
+
+WORKDIR /app/server
+
+COPY ./server/package*.json ./
+
+RUN npm install  && npm cache clean --force
+
+COPY ./server .
+
+EXPOSE 5001 5433
+
+CMD ["npm", "run", "server"]

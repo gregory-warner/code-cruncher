@@ -1,15 +1,46 @@
 version: '3'
 services:
-  app:
+  ui:
     build:
       context: .
-      dockerfile: Dockerfile-chat
+      dockerfile: Dockerfile-ui
     volumes:
-      - ./src:/app/src
+      - ./ui/src:/app/ui/src
     ports:
       - ${VITE_PROJECT_PORT}:${VITE_PROJECT_PORT}
     env_file:
       - .env
-
+    networks:
+      - chat-network
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile-server
+    volumes:
+      - ./server:/app/server
+      - ./server/uploads/img:/app/server/uploads/img
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+    env_file:
+      - .env
+    depends_on:
+      - pgdb
+    networks:
+      - chat-network
+  pgdb:
+    image: postgres
+    ports:
+      - ${POSTGRES_PORT_MAP}:${POSTGRES_PORT}
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWD}
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+    networks:
+      - chat-network
+networks:
+  chat-network:
+    external: true
 
   

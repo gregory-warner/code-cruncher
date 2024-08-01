@@ -2,16 +2,13 @@
 
 FROM node:19-alpine
 
-WORKDIR /app
+WORKDIR /app/ui
 
-COPY package*.json ./
+COPY ./ui/package*.json ./
 
 RUN npm install  && npm cache clean --force
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-COPY ./ ./
+COPY ./ui ./
 
 EXPOSE 5005 5433 3005 5002 5010
 

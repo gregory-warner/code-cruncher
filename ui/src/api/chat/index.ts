@@ -2,7 +2,6 @@ import {ApiLegacyChatResponse, ApiResponse} from './types';
 import {
     apiClient,
     chatCompletionPath,
-    ChatModel,
     imageModels,
     imageRequestPath,
     legacyCompletionPath,
@@ -37,7 +36,7 @@ export const postLegacyChat = async (postChatParams: PostChatParams): Promise<Ch
 
     const params = {
         prompt,
-        model: postChatParams.chatModel || ChatModel.CHAT_35_TURBO_16K,
+        model: postChatParams.chatModel,
         max_tokens: postChatParams.maxTokens || 3000,
     }
 
@@ -49,7 +48,7 @@ export const postLegacyChat = async (postChatParams: PostChatParams): Promise<Ch
 export const postChat = async (postChatParams: PostChatParams): Promise<ChatMessage> => {
     const params = {
         messages: postChatParams.chatMessages,
-        model: postChatParams.chatModel || ChatModel.CHAT_35_TURBO_16K,
+        model: postChatParams.chatModel,
         max_tokens: postChatParams.maxTokens || 4096,
         temperature: postChatParams.temperature || 0.6,
         frequency_penalty: 0.5
