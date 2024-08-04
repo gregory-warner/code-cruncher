@@ -1,11 +1,11 @@
 import React from 'react';
-import ChatApp from './features/chatApp/ChatApp';
-import {darkTheme, lightTheme} from "./theme/theme";
-import {useAppDispatch, useAppSelector} from "./store/hooks";
-import {selectMode} from "./theme/themeSlice";
+import ChatApp from '../features/chatApp/ChatApp';
+import {darkTheme, lightTheme} from "../theme/theme";
+import {useAppDispatch, useAppSelector} from "../store/hooks";
+import {selectMode} from "../theme/themeSlice";
 import {ThemeProvider} from "@mui/system"
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ChatDashboard from "./features/dashboard/ChatDashboard";
+import ChatDashboard from "../features/dashboard/ChatDashboard";
 import {CssBaseline, Snackbar} from "@mui/material";
 import {selectSnackbar, setSnackbar} from "./store/appSlice";
 

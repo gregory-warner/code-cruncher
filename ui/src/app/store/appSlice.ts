@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {ChatSnackbar} from "../types";
-import {RootState} from "./store";
+import {ChatSnackbar} from "../../types";
+import {RootState} from "../../store/store";
 
 export interface AppState {
     snackbar: ChatSnackbar,
