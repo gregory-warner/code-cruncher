@@ -51,7 +51,7 @@ const Sessions = () => {
                         <SessionItem
                             key={`key-session-item-${idx}`}
                             sessionId={idx}
-                            sessionName={session.dialogName}
+                            session={session}
                         />
                     </Grid>
                 ))}

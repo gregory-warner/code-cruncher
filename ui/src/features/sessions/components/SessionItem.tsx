@@ -1,10 +1,17 @@
 import React from "react";
-import {Box, Button, Grid, IconButton, Paper, styled, Typography, useTheme} from "@mui/material";
+import {Box, Button, Grid, IconButton, Typography, useTheme} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {useDeleteDialogMutation} from "../../../services/server/serverApi";
 
-const SessionItem = ({sessionId, sessionName}) => {
+const SessionItem = ({sessionId, session}) => {
     const theme = useTheme();
+
+    const [deleteDialog] = useDeleteDialogMutation();
+
+    const deleteSession = () => {
+        deleteDialog(session.dialogId);
+    };
 
     return (
         <Button
@@ -32,7 +39,7 @@ const SessionItem = ({sessionId, sessionName}) => {
                         <Typography variant='body1'>{`${sessionId+1}.) `}</Typography>
                     </Grid>
                     <Grid item xs={7}>
-                        <Typography variant='body1'>{sessionName}</Typography>
+                        <Typography variant='body1'>{session.dialogName}</Typography>
                     </Grid>
                     <Grid item xs={2}>
                         <IconButton aria-label="edit">
@@ -40,7 +47,7 @@ const SessionItem = ({sessionId, sessionName}) => {
                         </IconButton>
                     </Grid>
                     <Grid item xs={2}>
-                        <IconButton aria-label="delete">
+                        <IconButton aria-label="delete" onClick={deleteSession}>
                             <DeleteIcon />
                         </IconButton>
                     </Grid>

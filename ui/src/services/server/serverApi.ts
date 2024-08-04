@@ -92,6 +92,7 @@ export const serverApi  = createApi({
             }),
             invalidatesTags: (result, error, dialogId) => [
                 { type: 'Messages', id: dialogId },
+                { type: 'Dialogs' },
             ],
         }),
         getDialogs: build.query<DialogsResponse, DialogsRequest>({
@@ -108,7 +109,7 @@ export const serverApi  = createApi({
                 method: 'POST',
                 body: request,
             }),
-            invalidatesTags: (result, error, req) => [
+            invalidatesTags: () => [
                 { type: 'Dialogs' },
             ],
         }),
