@@ -1,11 +1,11 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {chatServerUrl} from "../../../config";
-import {ActorPrompt, ServerResponse} from "./types";
+import {ActorPrompt, DialogsResponse, ServerResponse, DialogsRequest, CreateDialogResponse} from "./types";
 
 export const serverApi  = createApi({
     reducerPath: 'serverApi',
     baseQuery: fetchBaseQuery({ baseUrl: chatServerUrl,}),
-    tagTypes: ['Messages', 'Actors'],
+    tagTypes: ['Messages', 'Actors', 'Dialogs'],
     endpoints: (build) => ({
         getUser: build.query<User, string>({
             query: (username: string) => `users/getUser/${username}`
@@ -94,7 +94,25 @@ export const serverApi  = createApi({
                 { type: 'Messages', id: dialogId },
             ],
         }),
+        getDialogs: build.query<DialogsResponse, DialogsRequest>({
+            query: (request: DialogsRequest) => ({
+                url: `dialogs/dialogs`,
+                method: 'GET',
+                params: request,
+            }),
+            providesTags: [{ type: 'Dialogs', id: 'LIST' }],
+        }),
+        createDialog: build.mutation<CreateDialogResponse, DialogsRequest>({
+            query: (request: DialogsRequest) => ({
+                url: `dialogs/createDialog`,
+                method: 'POST',
+                body: request,
+            }),
+            invalidatesTags: (result, error, req) => [
+                { type: 'Dialogs' },
+            ],
+        }),
     }),
 });
 
-export const { useUpdateActorMutation, useDeleteDialogMutation, useAddMessageMutation, useLazyGetMessagesQuery, useUpdateMessageMutation, useCreateActorMutation, useUpdatePromptMutation, useDeleteMessageMutation, useGetUserQuery, useGetAssistantQuery, useGetActorsQuery, useFetchActiveAssistantsQuery } = serverApi;
+export const { useCreateDialogMutation, useGetDialogsQuery, useUpdateActorMutation, useDeleteDialogMutation, useAddMessageMutation, useLazyGetMessagesQuery, useUpdateMessageMutation, useCreateActorMutation, useUpdatePromptMutation, useDeleteMessageMutation, useGetUserQuery, useGetAssistantQuery, useGetActorsQuery, useFetchActiveAssistantsQuery } = serverApi;
