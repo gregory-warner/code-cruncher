@@ -7,7 +7,6 @@ interface Actor {
     prompt: string,
 }
 
-
 interface User {
     userId: number,
     name: string,
@@ -17,12 +16,6 @@ interface User {
         colorTheme?: any,
     },
     timeCreated?: EpochTimeStamp,
-}
-
-interface Dialog {
-    dialogId: number,
-    userId: number,
-    actorId: number,
 }
 
 interface Message {
@@ -76,16 +69,6 @@ interface ChatMessage {
     }
 }
 
-type MessageAction = {
-    type: string,
-    message: Message,
-};
-
-interface MessengerType {
-    id: number,
-    type: number,
-}
-
 interface Messenger {
     name: string,
     username: string,
@@ -94,19 +77,6 @@ interface Messenger {
         colorTheme?: any,
     },
     timeCreated?: EpochTimeStamp,
-}
-
-type MessengerCacheType = {
-    messengerType: string,
-    messengerId: string,
-}
-
-interface MessengerCache {
-    [messengerType: string]: {
-        [messengerId: string]: {
-            messenger?: Messenger|Null,
-        }
-    }
 }
 
 type MessageCardStyle = {

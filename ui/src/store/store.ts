@@ -3,10 +3,10 @@ import conversationReducer from '../features/conversation/store/conversationSlic
 import messageCardReducer from '../features/messageCard/store/messageCardSlice';
 import chatDashboardReducer from '../features/dashboard/chatDashboardSlice';
 import actorCreationDrawerReducer from '../features/actorDrawer/store/actorDrawerSlice';
-import appReducer from './appSlice';
+import appReducer from '../app/store/appSlice';
 import themeReducer from '../theme/themeSlice';
-import { serverApi } from "../services/server/serverApi";
-import { openaiApi } from "../services/openai/openaiApi";
+import {serverApi} from "../services/server/serverApi";
+import {openaiApi} from "../services/openai/openaiApi";
 import {ollamaApi} from "../services/ollama/ollamaApi";
 import {setupListeners} from "@reduxjs/toolkit/query";
 
