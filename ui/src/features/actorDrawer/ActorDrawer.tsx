@@ -9,7 +9,7 @@ import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {selectIsActorCreationDrawerOpen, setIsActorCreationDrawerOpen} from "./store/actorDrawerSlice";
 import {validTtsModels} from "../../api/tts/utils/apiClient";
 import {useCreateActorMutation, useUpdateActorMutation} from "../../services/server/serverApi";
-import {setSnackbar} from "../../store/appSlice";
+import {setSnackbar} from "../../app/store/appSlice";
 import {EditableActor} from "./types";
 import {isFile} from "../../utils/util";
 import ModelSelect from "./components/ModelSelect";
