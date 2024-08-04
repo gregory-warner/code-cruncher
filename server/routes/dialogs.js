@@ -2,6 +2,7 @@ import express from 'express';
 import logger from '../log/logger.js';
 import { Dialog, Message } from '../models/models.js';
 import validator from './validator.js';
+import {transformKeys} from "../utils/utils.js";
 
 const router = express.Router();
 
@@ -123,7 +124,9 @@ router.get('/dialogs', async (req, res, next) => {
             },
         });
 
-        res.status(200).json({ dialogs });
+        const transformedDialogs = dialogs.map(dialog => transformKeys(dialog.toJSON()));
+
+        res.status(200).json({ dialogs: transformedDialogs });
     } catch (error) {
         console.error('Error fetching dialog IDs:', error);
         next(error.message);
