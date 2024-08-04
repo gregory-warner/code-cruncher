@@ -11,7 +11,7 @@ import {
 } from "../../services/server/serverApi";
 import {MessengerTypeIds} from "../../types";
 import {chatServerUrl} from "../../../config";
-import {setSnackbar} from "../../store/appSlice";
+import {setSnackbar} from "../../app/store/appSlice";
 import {selectActor, selectUser} from "../conversation/store/conversationSlice";
 
 const MessageCard = ({ message }: {message: Message}) => {
