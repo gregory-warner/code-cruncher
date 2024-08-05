@@ -109,39 +109,12 @@ interface UpdateDialogPayload {
     actor: Actor;
 }
 
-export interface UpdateDialogResponse {
-    user: User,
-    actor: Actor,
-    dialogId: number,
-    messages: Message[],
-}
-
 export const updateDialogId = createAsyncThunk<number, UpdateDialogPayload>(
     'dialog/updateDialogId',
     async (payload: UpdateDialogPayload) => {
         const { user, actor } = payload;
         return await getCurrentDialogId(actor.actorId, user.userId);
     });
-
-export const updateDialog = createAsyncThunk<UpdateDialogResponse, UpdateDialogPayload>("dialog/updateDialog", async (payload: UpdateDialogPayload) => {
-    const { user, actor } = payload;
-    const actorId = actor.actorId ?? -1;
-    const userId = user.userId ?? -1;
-
-    if (actorId <= 0 || userId <= 0) {
-        throw Error('Actor and User IDs must be greater than 0');
-    }
-
-    const dialogId = await getCurrentDialogId(actorId, userId);
-    if (dialogId <= 0) {
-        return;
-    }
-
-    const response = await getMessagesByDialogId(dialogId);
-    const messages = response.data;
-
-    return { user, actor, dialogId, messages };
-});
 
 const getCurrentDialogId = async (actorId: number, userId: number): Promise<number> => {
     if (actorId <= 0 || userId <= 0) {
@@ -158,7 +131,6 @@ const getCurrentDialogId = async (actorId: number, userId: number): Promise<numb
     const dialog = await createDialog(actorId, userId);
     return dialog.data.dialogId ?? -1;
 };
-
 
 export const selectDialogId = (state: RootState): number => state.conversation.dialogId;
 export const selectActor = (state: RootState): Actor => state.conversation.actor;

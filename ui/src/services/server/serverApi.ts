@@ -130,7 +130,7 @@ export const serverApi  = createApi({
             invalidatesTags: () => [
                 { type: 'Dialogs' },
             ],
-        })
+        }),
     }),
 });
 
