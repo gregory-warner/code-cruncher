@@ -1,6 +1,14 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {chatServerUrl} from "../../../config";
-import {ActorPrompt, DialogsResponse, ServerResponse, DialogsRequest, CreateDialogResponse} from "./types";
+import {
+    ActorPrompt,
+    DialogsResponse,
+    ServerResponse,
+    DialogsRequest,
+    CreateDialogResponse,
+    UpdateDialogNameRequest
+} from "./types";
+import {Dialog} from "../../types";
 
 export const serverApi  = createApi({
     reducerPath: 'serverApi',
@@ -113,7 +121,17 @@ export const serverApi  = createApi({
                 { type: 'Dialogs' },
             ],
         }),
+        updateDialogName: build.mutation<Dialog, UpdateDialogNameRequest>({
+            query: (request: UpdateDialogNameRequest) => ({
+                url: `dialogs/updateDialogName`,
+                method: 'PATCH',
+                body: request,
+            }),
+            invalidatesTags: () => [
+                { type: 'Dialogs' },
+            ],
+        })
     }),
 });
 
-export const { useCreateDialogMutation, useGetDialogsQuery, useUpdateActorMutation, useDeleteDialogMutation, useAddMessageMutation, useLazyGetMessagesQuery, useUpdateMessageMutation, useCreateActorMutation, useUpdatePromptMutation, useDeleteMessageMutation, useGetUserQuery, useGetAssistantQuery, useGetActorsQuery, useFetchActiveAssistantsQuery } = serverApi;
+export const { useUpdateDialogNameMutation, useCreateDialogMutation, useGetDialogsQuery, useUpdateActorMutation, useDeleteDialogMutation, useAddMessageMutation, useLazyGetMessagesQuery, useUpdateMessageMutation, useCreateActorMutation, useUpdatePromptMutation, useDeleteMessageMutation, useGetUserQuery, useGetAssistantQuery, useGetActorsQuery, useFetchActiveAssistantsQuery } = serverApi;
