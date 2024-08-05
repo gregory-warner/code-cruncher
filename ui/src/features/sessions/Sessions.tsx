@@ -31,7 +31,7 @@ const Sessions = () => {
     const createNewDialog = async () => {
         const dialog = await createDialog({actorId: actor.actorId, userId: user.userId}).unwrap();
         dispatch(setDialogId(dialog.dialogId));
-    }
+    };
 
     return (
         <Stack sx={{border: '1px solid black'}}>
