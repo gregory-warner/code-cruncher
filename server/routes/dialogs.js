@@ -133,6 +133,32 @@ router.get('/dialogs', async (req, res, next) => {
     }
 });
 
+router.patch("/updateDialogName", async (req, res, next) => {
+    try {
+        const { dialogId, dialogName } = req.body;
+
+        if (!dialogId || !dialogName) {
+            throw new Error('Dialog ID and dialog name are required to update name');
+        }
+
+        const [numUpdatedRows, updatedRows] = await Dialog.update({ dialog_name: dialogName }, {
+            where: {
+                dialog_id: dialogId,
+            },
+        });
+
+        if (numUpdatedRows === 0) {
+            return res.status(404).json({ error: 'Dialog not found'});
+        }
+
+        const updatedRow = transformKeys(updatedRows[0]);
+
+        res.json({updatedRow});
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.patch("/deleteDialog/:dialogId", async (req, res, next) => {
     try {
         const dialogId = req.params.dialogId;
