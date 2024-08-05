@@ -20,16 +20,13 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const logErrors = (err, req, res, next) => {
+const errorHandler = (err, req, res, next) => {
     console.error(err.stack ?? "Server Error");
     logger.error(err.stack);
-    next(err);
+
+    res.status(500).json({ error: err.message });
 };
 
-const errorHandler = (err, req, res, next) => {
-    res.status(500);
-    res.render('error', { error: err });
-};
 
 // Set up Multer for file uploads
 const storage = multer.diskStorage({
@@ -56,7 +53,6 @@ app.use("/messages", messagesRouter);
 app.use("/actorConfigurations", actorConfigurationRouter);
 app.use("/prompts", prompts);
 
-app.use(logErrors);
 app.use(errorHandler);
 
 const port = process.env.VITE_SERVER_PORT;
