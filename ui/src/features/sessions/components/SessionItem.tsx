@@ -1,16 +1,29 @@
-import React from "react";
-import {Box, Button, Grid, IconButton, Typography, useTheme} from "@mui/material";
+import React, {useState} from "react";
+import {Box, Button, Grid, IconButton, TextField, Typography, useTheme} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {useDeleteDialogMutation} from "../../../services/server/serverApi";
+import SaveIcon from '@mui/icons-material/Save';
+import {useDeleteDialogMutation, useUpdateDialogNameMutation} from "../../../services/server/serverApi";
 
 const SessionItem = ({sessionId, session}) => {
     const theme = useTheme();
 
+    const [editMode, setEditMode] = useState(false);
+    const [editedSessionName, setEditedSessionName] = useState<string>(session.dialogName);
+
     const [deleteDialog] = useDeleteDialogMutation();
+    const [updateDialogName] = useUpdateDialogNameMutation();
 
     const deleteSession = () => {
         deleteDialog(session.dialogId);
+    };
+
+    const editSessionName = () => {
+        if (editMode) {
+            updateDialogName({dialogName: editedSessionName, dialogId: session.dialogId});
+        }
+
+        setEditMode(!editMode);
     };
 
     return (
@@ -39,11 +52,30 @@ const SessionItem = ({sessionId, session}) => {
                         <Typography variant='body1'>{`${sessionId+1}.) `}</Typography>
                     </Grid>
                     <Grid item xs={7}>
-                        <Typography variant='body1'>{session.dialogName}</Typography>
+                        {
+                            editMode ? (
+                                <TextField
+                                    value={editedSessionName}
+                                    onChange={(e) => setEditedSessionName(e.target.value)}
+                                    size="small"
+                                />
+                            ) : (
+                                <Typography
+                                    whiteSpace='nowrap'
+                                    overflow='hidden'
+                                    textOverflow='ellipsis'
+                                    paddingLeft='3px'
+                                    align='left'
+                                    variant='body1'
+                                >
+                                    {session.dialogName}
+                                </Typography>
+                            )
+                        }
                     </Grid>
                     <Grid item xs={2}>
-                        <IconButton aria-label="edit">
-                            <EditIcon />
+                        <IconButton aria-label={editMode ? 'save' : 'edit'} onClick={editSessionName}>
+                            {editMode ? <SaveIcon /> : <EditIcon />}
                         </IconButton>
                     </Grid>
                     <Grid item xs={2}>

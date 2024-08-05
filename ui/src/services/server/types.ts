@@ -32,3 +32,8 @@ export interface DialogsRequest {
 export interface CreateDialogResponse {
     dialogId: number;
 }
+
+export interface UpdateDialogNameRequest {
+    dialogId: number;
+    dialogName: string;
+}
