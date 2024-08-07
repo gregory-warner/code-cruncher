@@ -1,21 +1,11 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../../../store/store';
-import {postChatRequest} from '../../../api/chat';
-import {createDialog, getDialogId, getMessagesByDialogId} from '../../../api/server';
-import {getTimestamp} from '../../../utils/util';
+import {sendChatRequest} from '../../../api/chat';
+import {createDialog, getDialogId} from '../../../api/server';
+import {getTimestamp, messengerTypeIds, messengerTypes} from '../../../utils/util';
 import {serverApi} from "../../../services/server/serverApi";
 
 export const defaultUser = "eagle-bonnet";
-
-export const messengerTypeIds = {
-    user: 0,
-    assistant: 1,
-};
-
-export const messengerTypes = Object.entries(messengerTypeIds).reduce((acc, [key, value]) => {
-    acc[value] = key;
-    return acc;
-}, {});
 
 export interface ConversationState {
     dialogId: number|null,
@@ -83,9 +73,8 @@ export const sendChatMessage = createAsyncThunk<void, Message>("message/sendChat
     const chatMessages = getChatMessages([...messages, message], assistant);
 
     await dispatch(serverApi.endpoints.addMessage.initiate(message)).unwrap();
-    const chatResponse: ChatMessage = await postChatRequest({chatMessages, chatModel: assistant.configuration?.chatModel});
+    const chatResponse: ChatMessage = await sendChatRequest({chatMessages, chatModel: assistant.configuration?.chatModel});
 
-    debugger;
     // if (assistant.configuration.ttsModel) {
     //     sayText({text: chatResponse.content, model: assistant.configuration.ttsModel});
     // }

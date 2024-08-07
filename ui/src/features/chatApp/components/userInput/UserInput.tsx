@@ -3,11 +3,11 @@ import { Button, Grid, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import {
-    messengerTypeIds,
     selectDialogId,
     selectUser,
     sendChatMessage
 } from '../../../conversation/store/conversationSlice';
+import {messengerTypeIds} from "../../../../utils/util";
 
 const UserInput = () => {
     const dispatch = useAppDispatch();
