@@ -11,13 +11,11 @@ const ChatAppHeader: React.FC = () => {
     return (
         <Box sx={{maxHeight: '8vh'}} display={"flex"} justifyContent={"center"}>
             <Grid container justifyContent={"space-between"} alignItems={"center"} bgcolor="rgba(34, 34, 34, 0.9)">
-                <Grid item xs={3} sx={{flexGrow: 1}}></Grid>
-                <Grid item xs={6}>
-                    <Box display="flex" alignItems="center" sx={{paddingRight: 4}}>
-                        <Typography color={theme.palette.text.primary} variant={"h4"}>{assistant?.name ?? ""}</Typography>
-                    </Box>
+                <Grid item xs={2} sx={{flexGrow: 1}}></Grid>
+                <Grid item xs={8}>
+                    <Typography align='center' color={theme.palette.text.primary} variant={"h4"}>{assistant?.name ?? ""}</Typography>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={2}>
                     <ChatAppMenu />
                 </Grid>
             </Grid>
