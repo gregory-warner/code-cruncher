@@ -70,21 +70,21 @@ interface ToolFunction {
     };
 }
 
-export interface Message {
+export interface OllamaMessage {
     role: string;
     content: string;
-    images: ImageData[];
-    tool_calls: ToolCall[];
+    images?: ImageData[];
+    tool_calls?: ToolCall[];
 }
 
 export interface ChatRequest {
     model: string;
-    messages: Message[];
+    messages: OllamaMessage[];
     stream: boolean;
-    format: string;
-    keep_alive: 0|1|-1;
-    tools: Tool[];
-    options: Options;
+    format?: string;
+    keep_alive?: 0|1|-1;
+    tools?: Tool[];
+    options?: Options;
 }
 
 interface Options {
@@ -128,7 +128,7 @@ interface Runner {
 export interface ChatResponse {
     model: string;
     created_at: Date;
-    message: Message;
+    message: OllamaMessage;
     done_reason?: string;
     done: boolean;
     total_duration?: number;
