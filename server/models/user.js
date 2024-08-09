@@ -2,7 +2,7 @@ import { DataTypes, Sequelize } from 'sequelize';
 import sequelize from '../db.js';
 
 const User = sequelize.define("user", {
-    user_id: {
+    userId: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
@@ -11,7 +11,7 @@ const User = sequelize.define("user", {
     name: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: "",
+        defaultValue: "user1",
         field: "name",
     },
     username: {
@@ -20,13 +20,24 @@ const User = sequelize.define("user", {
         defaultValue: "default_username",
         field: "username",
     },
-    time_created: {
+    avatar: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "",
+        field: "avatar",
+    },
+    colorTheme: {
+        type: DataTypes.JSON,
+        allowNull: true,
+        field: "color_theme",
+    },
+    createdAt: {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: Sequelize.literal("extract(epoch from now())"),
-        field: "time_created",
+        field: "created_at",
     },
-    is_deleted: {
+    isDeleted: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
