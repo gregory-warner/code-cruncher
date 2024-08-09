@@ -21,7 +21,9 @@ const UserInput = () => {
     }, []);
 
     const onSend = async () => {
-        if (!input.trim()) { return; }
+        if (!input.trim() || dialogId <= 0 || user.userId <= 0) {
+            return;
+        }
 
         const message: Message = {
             dialogId: dialogId,
