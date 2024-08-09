@@ -2,7 +2,7 @@ import { DataTypes, Sequelize } from 'sequelize';
 import sequelize from '../db.js';
 
 const Actor = sequelize.define("actor", {
-    actor_id: {
+    actorId: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
@@ -20,13 +20,35 @@ const Actor = sequelize.define("actor", {
         defaultValue: "default_username",
         field: "username",
     },
-    time_created: {
+    avatar: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "",
+        field: "avatar",
+    },
+    colorTheme: {
+        type: DataTypes.JSON,
+        allowNull: true,
+        field: "color_theme",
+    },
+    title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "",
+        field: "title",
+    },
+    promptId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: Sequelize.literal("extract(epoch from now())"),
-        field: "time_created",
+        defaultValue: 0,
+        field: "prompt_id",
     },
-    is_deleted: {
+    modelId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: "model_id",
+    },
+    isDeleted: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
