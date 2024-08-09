@@ -9,17 +9,15 @@ export const sayText = async (ttsParams: TtsParams) => {
                 style_wav: "",
                 language_id: "",
             },
-            responseType: 'blob', // This tells Axios to expect a binary response
+            responseType: 'blob',
             headers: {
-                Accept: "audio/wav", // This tells the server what content type you accept
+                Accept: "audio/wav",
             }
         });
 
-        // Now, ye have yer audio blob, let's create an object URL for it
         const audioBlob = new Blob([response.data], { type: "audio/wav" });
         const audioUrl = window.URL.createObjectURL(audioBlob);
 
-        // And then, ye can play the audio
         const audio = new Audio(audioUrl);
         audio.load();
         await audio.play();
