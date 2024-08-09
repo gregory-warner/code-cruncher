@@ -14,16 +14,12 @@ const Session = sequelize.define('session', {
         defaultValue: 'Untitled',
         field: 'session_name'
     },
-    modelId: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        field: 'model_id',
-    },
-    createdDate: {
+    sessionTypeId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: Sequelize.literal('extract(epoch from now())'),
-        field: 'created_date',
+        defaultValue: 0,
+        field: 'session_type_id',
+        comment: 'Used to distinguish the session type e.g. code, chat'
     },
     createdBy: {
         type: DataTypes.INTEGER,
@@ -37,10 +33,6 @@ const Session = sequelize.define('session', {
         defaultValue: false,
         field: 'is_deleted',
     }
-}, {
-    indexes: [
-
-    ]
 });
 
 export default Session;

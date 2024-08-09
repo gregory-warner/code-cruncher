@@ -23,12 +23,6 @@ const SessionParticipant = sequelize.define('session_participant', {
         allowNull: false,
         field: 'participant_type_id',
     },
-    createdDate: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: Sequelize.literal('extract(epoch from now())'),
-        field: 'created_date',
-    },
     createdBy: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -44,7 +38,7 @@ const SessionParticipant = sequelize.define('session_participant', {
 }, {
     indexes: [
         {
-            fields: ['sessionId']
+            fields: ['session_id']
         }
     ]
 });

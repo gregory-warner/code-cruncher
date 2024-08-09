@@ -1,80 +1,88 @@
 import { DataTypes, Sequelize } from 'sequelize';
 import sequelize from '../db.js';
-import Dialog from './dialog.js';
+import {Session} from './models.js';
 
-const Message = sequelize.define("message", {
-    message_id: {
+const Message = sequelize.define('message', {
+    messageId: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-        field: "message_id",
+        field: 'message_id',
     },
-    dialog_id: {
+    sessionId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        field: "dialog_id",
+        field: 'session_id',
         references: {
-            model: Dialog,
-            key: "dialog_id",
+            model: Session,
+            key: 'session_id',
         }
     },
-    messenger_id: {
+    messageTypeId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,
-        field: "messenger_id",
+        field: 'message_type_id',
+        commend: 'used to determine if the message type e.g. question, answer, general'
     },
-    messenger_type_id: {
+    messageLinkId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,
-        field: "messenger_type_id",
+        field: 'message_link_id',
+        comment: 'used to link one message to another e.g. question to answers'
+    },
+    messengerId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+        field: 'messenger_id',
+    },
+    messengerTypeId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+        field: 'messenger_type_id',
+        comment: 'used to distinguish the messenger type e.g. actor, user'
     },
     content: {
         type: DataTypes.TEXT,
         allowNull: false,
-        defaultValue: "",
-        field: "content",
+        defaultValue: '',
+        field: 'content',
     },
     data: {
         type: DataTypes.JSON,
         allowNull: true,
-        field: "data",
+        field: 'data',
     },
-    time_created: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: Sequelize.literal("extract(epoch from now())"),
-        field: "time_created",
-    },
-    is_deleted: {
+    isDeleted: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
-        field: "is_deleted",
+        field: 'is_deleted',
     },
-    is_locked: {
+    isLocked: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
-        field: "is_locked",
+        field: 'is_locked',
     },
-
 },{
     indexes: [
         {
-            fields: ["dialog_id"],
+            fields: ['session_id'],
             where: {
                 is_deleted: false,
             },
-            name: "idx_active_dialog_messages",
+            name: 'idx_active_session_messages',
         },
         {
-            fields: ["messenger_id", "messenger_type_id"],
+            fields: ['messenger_id', 'messenger_type_id'],
             where: {
                 is_deleted: false,
             },
-            name: "idx_active_messenger_messages"
+            name: 'idx_active_messenger_messages'
         }
     ]
 });

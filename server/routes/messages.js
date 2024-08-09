@@ -56,24 +56,32 @@ const validateMessage = (message) => {
     return true;
 }
 
-router.post("/addMessage", async (req, res) => {
-    const message = req.body.message;
-    if (!validateMessage(message)) {
-        res.status(500).json({"message": "Unable to add message"});
-        return;
+router.post("/addMessage", async (req, res, next) => {
+    try {
+        const message = req.body.message;
+        if (!validateMessage(message)) {
+            res.status(500).json({"message": "Unable to add message"});
+            return;
+        }
+
+        const content = validator.escape(message.content);
+
+        const newMessage = await Message.create({
+            "dialog_id": message.dialogId,
+            "messenger_id": message.messengerId,
+            "messenger_type_id": message.messengerTypeId,
+            "content": content,
+            "data": message.data,
+        });
+
+        if (!newMessage instanceof Message) {
+            throw new Error('Unable to add new message');
+        }
+
+        res.json(newMessage.get({plain: true}));
+    } catch (error) {
+        next(error);
     }
-
-    const content = validator.escape(message.content);
-
-    const newMessage = await Message.create({
-        "dialog_id": message.dialogId, 
-        "messenger_id": message.messengerId, 
-        "messenger_type_id": message.messengerTypeId, 
-        "content": content,
-        "data": message.data,
-    });
-
-    res.json(newMessage.get({plain: true}));
 });
 
 router.get("/getMessenger", async (req, res) => {

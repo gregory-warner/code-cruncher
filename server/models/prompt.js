@@ -2,47 +2,38 @@ import { DataTypes, Sequelize } from 'sequelize';
 import sequelize from '../db.js';
 
 const Prompt = sequelize.define("prompt", {
-    prompt_id: {
+    promptId: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         field: "prompt_id",
     },
-    actor_configuration_id: {
-        type: DataTypes.INTEGER,
+    promptName: {
+        type: DataTypes.TEXT,
         allowNull: false,
-        field: "actor_configuration_id",
+        defaultValue: "",
+        field: "prompt_name",
     },
     prompt: {
         type: DataTypes.TEXT,
         allowNull: false,
         defaultValue: "",
         field: "prompt",
+        comment: 'used to add consistent information before a chain of messages'
     },
     postfix: {
         type: DataTypes.TEXT,
         allowNull: false,
         defaultValue: "",
         field: "postfix",
+        comment: 'used to add consistent information after a chain of messages'
     },
-    time_created: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: Sequelize.literal("extract(epoch from now())"),
-        field: "time_created",
-    },
-    is_deleted: {
+    isDeleted: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
         field: "is_deleted",
     }
-}, {
-    fields: ["actor_configuration_id"],
-    where: {
-        is_deleted: false,
-    },
-    name: "idx_active_actor_configuration_prompt",
 });
 
 export default Prompt;

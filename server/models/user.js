@@ -31,12 +31,6 @@ const User = sequelize.define("user", {
         allowNull: true,
         field: "color_theme",
     },
-    createdAt: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: Sequelize.literal("extract(epoch from now())"),
-        field: "created_at",
-    },
     isDeleted: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
