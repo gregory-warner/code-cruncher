@@ -1,64 +1,14 @@
 import Actor from './actor.js';
-import Dialog from './dialog.js';
 import Message from './message.js';
 import User from './user.js';
 import ActorConfiguration from './actorConfiguration.js';
-import UserConfiguration from './userConfiguration.js';
 import Prompt from './prompt.js';
-
-export const messengerTypeIds = {
-    user: 0,
-    assistant: 1,
-};
-
-export const messengerTypes = Object.entries(messengerTypeIds).reduce((acc, [key, value]) => {
-    acc[value] = key;
-    return acc;
-}, {});
+import SessionParticipant from "./sessionParticipant.js";
+import Session from "./session.js";
 
 Actor.hasOne(ActorConfiguration, {
     foreignKey: "actor_id", 
     as: "configuration"
-});
-
-Actor.hasMany(Dialog, {
-    foreignKey: "actor_id", 
-    targetKey: "actor_id"
-});
-
-Dialog.hasMany(Message, {
-    foreignKey: "dialog_id",
-    targetKey: "dialog_id"
-});
-
-Dialog.hasMany(Actor, {
-    foreignKey: "actor_id", 
-    targetKey: "actor_id"
-});
-
-Dialog.hasMany(User, {
-    foreignKey: "user_id", 
-    targetKey: "user_id"
-});
-
-Message.belongsTo(Dialog, {
-    foreignKey: "dialog_id",
-    targetKey: "dialog_id"
-});
-
-User.hasOne(UserConfiguration, {
-    foreignKey: "user_id", 
-    as: "configuration"
-});
-
-User.hasMany(Dialog, {
-    foreignKey: "user_id", 
-    targetKey: "user_id"
-});
-
-UserConfiguration.belongsTo(User, {
-    foreignKey: "user_id", 
-    targetKey: "user_id"
 });
 
 ActorConfiguration.hasMany(Prompt, {
@@ -72,12 +22,16 @@ Prompt.belongsTo(ActorConfiguration, {
     as: 'actor_prompt',
 });
 
+SessionParticipant.belongsTo(Session, { foreignKey: 'session_id' });
+SessionParticipant.belongsTo(User, { foreignKey: 'participant_id', constraints: false, scope: { participant_type_id: 0 } });
+SessionParticipant.belongsTo(Actor, { foreignKey: 'participant_id', constraints: false, scope: { participant_type_id: 1 } });
+
 export {
     Actor,
     ActorConfiguration,
     User,
-    UserConfiguration,
-    Dialog,
     Message,
     Prompt,
+    SessionParticipant,
+    Session,
 };
