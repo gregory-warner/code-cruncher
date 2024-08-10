@@ -10,16 +10,16 @@ import LanguageModel from "./languageModel.js";
 import AIModel from "./aimodel.js";
 
 Actor.belongsTo(Prompt, { foreignKey: 'prompt_id' });
-Actor.belongsTo(AIModel, { foreignKey: 'model_id' });
+Actor.belongsTo(AIModel, { foreignKey: 'model_id', as: 'aiModel' });
 
 LanguageModel.belongsTo(AIModel, { foreignKey: 'model_id', constraints: false, scope: { model_type_id: 0 } });
 ImageModel.belongsTo(AIModel, { foreignKey: 'model_id', constraints: false, scope: { model_type_id: 1 } });
 TextModel.belongsTo(AIModel, { foreignKey: 'model_id', constraints: false, scope: { model_type_id: 2 } });
 
-AIModel.hasOne(LanguageModel, { foreignKey: 'model_id', constraints: false });
-AIModel.hasOne(ImageModel, { foreignKey: 'model_id', constraints: false });
-AIModel.hasOne(TextModel, { foreignKey: 'model_id', constraints: false });
-AIModel.hasMany(Actor, { foreignKey: 'modelId' });
+AIModel.hasOne(LanguageModel, { foreignKey: 'model_id', constraints: false, as: 'languageModel' });
+AIModel.hasOne(ImageModel, { foreignKey: 'model_id', constraints: false, as: 'imageModel' });
+AIModel.hasOne(TextModel, { foreignKey: 'model_id', constraints: false, as: 'textModel' });
+AIModel.hasMany(Actor, { foreignKey: 'model_id' });
 
 SessionParticipant.belongsTo(Session, { foreignKey: 'session_id' });
 SessionParticipant.belongsTo(User, { foreignKey: 'participant_id', constraints: false, scope: { participant_type_id: 0 } });
