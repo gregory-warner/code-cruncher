@@ -7,6 +7,19 @@ import Session from "./session.js";
 import ImageModel from "./imageModel.js";
 import TextModel from "./textModel.js";
 import LanguageModel from "./languageModel.js";
+import AIModel from "./aimodel.js";
+
+Actor.belongsTo(Prompt, { foreignKey: 'prompt_id' });
+Actor.belongsTo(AIModel, { foreignKey: 'model_id' });
+
+LanguageModel.belongsTo(AIModel, { foreignKey: 'model_id', constraints: false, scope: { model_type_id: 0 } });
+ImageModel.belongsTo(AIModel, { foreignKey: 'model_id', constraints: false, scope: { model_type_id: 1 } });
+TextModel.belongsTo(AIModel, { foreignKey: 'model_id', constraints: false, scope: { model_type_id: 2 } });
+
+AIModel.hasOne(LanguageModel, { foreignKey: 'model_id', constraints: false });
+AIModel.hasOne(ImageModel, { foreignKey: 'model_id', constraints: false });
+AIModel.hasOne(TextModel, { foreignKey: 'model_id', constraints: false });
+AIModel.hasMany(Actor, { foreignKey: 'modelId' });
 
 SessionParticipant.belongsTo(Session, { foreignKey: 'session_id' });
 SessionParticipant.belongsTo(User, { foreignKey: 'participant_id', constraints: false, scope: { participant_type_id: 0 } });
@@ -22,4 +35,5 @@ export {
     ImageModel,
     TextModel,
     LanguageModel,
+    AIModel,
 };
