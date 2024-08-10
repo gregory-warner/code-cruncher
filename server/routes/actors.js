@@ -1,9 +1,9 @@
 import express from 'express';
 import {Actor} from '../models/models.js';
 import Prompt from '../models/prompt.js';
-import multer from "multer";
-import path from 'path';
 import {getActorByUsername, getActors} from "../services/actorService.js";
+import createUploadMiddleware from "../middlewares/uploadMiddleware.js";
+
 
 const router = express.Router();
 
@@ -25,19 +25,7 @@ router.get("/getActor/:username", async (req, res, next) => {
     }
 });
 
-// Configure multer to save files to the 'uploads' folder
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/img');
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + path.extname(file.originalname)); // Append the file extension
-    },
-});
-
-const upload = multer({ storage: storage });
-
-router.post('/create', upload.single('avatar'), async (req, res, next) => {
+router.post('/create', createUploadMiddleware('avatar'), async (req, res, next) => {
     try {
         const { name, title, prompt, messageCard, ttsModel, chatModel } = req.body;
 
