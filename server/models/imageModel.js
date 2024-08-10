@@ -1,55 +1,42 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db.js';
 
-const ImageModel = sequelize.define("image_model", {
-    modelId: {
+const ImageModel = sequelize.define('image_model', {
+    imageModelId: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-        field: "model_id",
+        field: 'image_model_id',
     },
-    modelName: {
-        type: DataTypes.TEXT,
+    modelId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: "",
-        field: "model_name",
-    },
-    modelIdentifier: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-        defaultValue: "",
-        field: "model_identifier",
+        field: 'model_id',
     },
     num: {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 1,
-        field: "num",
+        field: 'num',
     },
     size: {
         type: DataTypes.STRING,
         allowNull: false,
         defaultValue: '1024x1024',
-        field: "size",
+        field: 'size',
     },
     quality: {
         type: DataTypes.ENUM('hd', 'standard'),
         allowNull: false,
         defaultValue: 'hd',
-        field: "quality",
+        field: 'quality',
     },
     style: {
         type: DataTypes.ENUM('natural', 'artistic'),
         allowNull: false,
         defaultValue: 'natural',
-        field: "style",
+        field: 'style',
     },
-    isLocal: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-        field: "is_local",
-    }
 });
 
 export default ImageModel;

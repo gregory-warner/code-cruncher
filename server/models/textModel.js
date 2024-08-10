@@ -2,23 +2,16 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../db.js';
 
 const TextModel = sequelize.define("text_model", {
-    modelId: {
+    textModelId: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-        field: "model_id",
+        field: "text_model_id",
     },
-    modelName: {
-        type: DataTypes.TEXT,
+    modelId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: "",
-        field: "model_name",
-    },
-    modelIdentifier: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-        defaultValue: "",
-        field: "model_identifier",
+        field: 'model_id',
     },
     preset: {
         type: DataTypes.TEXT,
@@ -38,12 +31,6 @@ const TextModel = sequelize.define("text_model", {
         defaultValue: 0.5,
         field: 'frequency_penalty',
     },
-    isLocal: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-        field: "is_local",
-    }
 });
 
 export default TextModel;
