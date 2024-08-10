@@ -1,241 +1,25 @@
 import express from 'express';
-import { Actor, ActorConfiguration } from '../models/models.js';
-import inputValidator from './validator.js';
-import logger from '../log/logger.js';
+import {Actor} from '../models/models.js';
 import Prompt from '../models/prompt.js';
 import multer from "multer";
 import path from 'path';
+import {getActorByUsername, getActors} from "../services/actorService.js";
 
 const router = express.Router();
 
-router.get("/getActiveActors", async (_, res) => {
-    const actors = await Actor.findAll({
-        attributes: [["actor_id", "actorId"], "username", "name"],
-        include: [
-            {
-                model: ActorConfiguration,
-                as: "configuration",
-                attributes: ["avatar", "title", ["color_theme", "colorTheme"], ["chat_model", "chatModel"], ["tts_model", "ttsModel"]],
-                include: [
-                    {
-                        model: Prompt,
-                        as: "prompts",
-                        attributes: ['prompt'],
-                        where: {
-                            is_deleted: false,
-                        },
-                    }
-                ]
-            },
-        ],
-        nest: true,
-        where: {
-            is_deleted: false,
-        }
-    });
-
-    const promptActors = actors.map(actor => {
-        const actorData = actor.get({plain: true});
-        actorData.configuration.prompt = actorData.configuration?.prompts[0].prompt?? '';
-        delete actorData.configuration?.prompts;
-        return actorData;
-    });
-
-    res.json(promptActors);
+router.get("/", async (_, res, next) => {
+    try {
+        const actors = await getActors();
+        return res.json(actors);
+    } catch (error) {
+        next(error);
+    }
 });
-
-export const getActorById = async (actorId) => {
-    return await Actor.findOne({
-        attributes: [["actor_id", "actorId"], "name", "username"],
-        where: {
-            is_deleted: false,
-            actor_id: actorId
-        },
-        include: [
-            {
-                model: ActorConfiguration,
-                as: "configuration",
-                attributes: ["avatar", "title", ["color_theme", "colorTheme"], ["chat_model", "chatModel"], ["tts_model", "ttsModel"]],
-                include: [
-                    {
-                        model: Prompt,
-                        as: "prompts",
-                        attributes: ['prompt'],
-                        where: {
-                            is_deleted: false,
-                        },
-                    }
-                ]
-            },
-        ],
-        nest: true,
-    });
-};
 
 router.get("/getActor/:username", async (req, res, next) => {
-    const username = req.params.username ?? null;
-
-    if (!inputValidator.isUsername(username)) { 
-        next("Invalid username"); 
-        return;
-    }
-
-    const actor = await Actor.findOne({
-        attributes: [["actor_id", "actorId"], "name", "username"],
-        where: {
-            is_deleted: false,
-            username: username
-        },
-        include: [
-            {
-                model: ActorConfiguration,
-                as: "configuration",
-                attributes: ["avatar", "title", ["color_theme", "colorTheme"], ["chat_model", "chatModel"], ["tts_model", "ttsModel"]],
-                include: [
-                    {
-                        model: Prompt,
-                        as: "prompts",
-                        attributes: ['prompt'],
-                        where: {
-                            is_deleted: false,
-                        },
-                    }
-                ]
-            },
-        ],
-        nest: true,
-    });
-
-    res.json(actor);
-});
-
-// needs rework with prompt
-router.post("/addActor", async (req, res) => {
-    const actor = await Actor.create(req.body.actor ?? {});
-    if (!(actor instanceof Actor)) { 
-        next("Unable to create actor"); 
-        return;
-    }
-
-    const actorId = actor.actor_id ?? -1;
-    if (actorId <= 0) { 
-        next("Unable to set actor configuration for actor ID: "+actorId); 
-        return;
-    }
-
-    const configuration = await ActorConfiguration.create(req.body.configuration ?? {});
-    if (!(configuration instanceof ActorConfiguration)) { 
-        next("Unable to set actor configuration for actor ID: "+actorId); 
-        return;
-    }
-
-    res.json({response: "Actor successfully created"});
-});
-
-const getActor = async (username) => {
-    if (!inputValidator.isUsername(username)) {
-        logger.error("Unable to get actor");
-        return null;
-    }
-
-    return await Actor.findOne({
-        attributes: [["actor_id", "actorId"], "name", "username"],
-        where: {
-            is_deleted: false,
-            username: username,
-        },
-        include: [
-            {
-                model: ActorConfiguration,
-                as: "configuration",
-                attributes: ["avatar", "title", "prompt", ["color_theme", "colorTheme"], ["chat_model", "chatModel"], ["tts_model", "ttsModel"]],
-                include: [
-                    {
-                        model: Prompt,
-                        as: "prompts",
-                        attributes: ['prompt'],
-                        where: {
-                            is_deleted: false,
-                        },
-                    }
-                ]
-            },
-        ],
-    });
-};
-
-/* Assistant */
-router.get("/getAssistant/:username", async (req, res) => {
-    const username = req.params.username ?? null;
-    console.log(username);
-    const actor = await getActor(username);
-
-    if (actor instanceof Actor) {
-        res.json(actor);
-        return;
-    }
-    res.json(null);
-});
-
-router.get("/getActiveAssistants", async (_, res, next) => {
     try {
-        const assistants = await Actor.findAll({
-            attributes: [
-                ["actor_id", "actorId"],
-                "username",
-                "name",
-            ],
-            include: [
-                {
-                    model: ActorConfiguration,
-                    as: "configuration",
-                    attributes: [
-                        "avatar",
-                        "title",
-                        "prompt",
-                        ["color_theme", "colorTheme"],
-                        ["chat_model", "chatModel"],
-                        ["tts_model", "ttsModel"],
-                    ],
-                    include: [
-                        {
-                            model: Prompt,
-                            as: "prompts",
-                            attributes: ['prompt'],
-                            where: {
-                                is_deleted: false,
-                            },
-                        }
-                    ]
-                },
-            ],
-            nest: true,
-            where: {
-                is_deleted: false,
-            },
-            order: [["actor_id", "ASC"]],
-        });
-
-        const transformedAssistants = assistants.map(assistant => {
-            if (!assistant.configuration) {
-                return assistant;
-            }
-
-            const { configuration } = assistant;
-
-            // Get the first prompt
-            const [firstPrompt] = configuration.prompts ?? [];
-
-            // Replace the prompts array with the first prompt
-            configuration.prompt = firstPrompt.prompt;
-
-            // Remove the prompts property
-            delete assistant.configuration.dataValues.prompts;
-
-            return assistant;
-        });
-
-        res.json(transformedAssistants);
+        const actor = await getActorByUsername(req.params.username)
+        return res.json(actor);
     } catch (error) {
         next(error);
     }
