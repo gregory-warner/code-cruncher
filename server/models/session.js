@@ -1,4 +1,4 @@
-import { DataTypes, Sequelize } from 'sequelize';
+import { DataTypes } from 'sequelize';
 import sequelize from '../db.js';
 
 const Session = sequelize.define('session', {
@@ -27,12 +27,8 @@ const Session = sequelize.define('session', {
         defaultValue: 0,
         field: 'created_by',
     },
-    isDeleted: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-        field: 'is_deleted',
-    }
+}, {
+    paranoid: true,
 });
 
 export default Session;

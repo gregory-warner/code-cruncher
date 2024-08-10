@@ -1,4 +1,4 @@
-import { DataTypes, Sequelize } from 'sequelize';
+import { DataTypes } from 'sequelize';
 import sequelize from '../db.js';
 
 const Prompt = sequelize.define("prompt", {
@@ -28,12 +28,8 @@ const Prompt = sequelize.define("prompt", {
         field: "postfix",
         comment: 'used to add consistent information after a chain of messages'
     },
-    isDeleted: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-        field: "is_deleted",
-    }
+}, {
+    paranoid: true,
 });
 
 export default Prompt;

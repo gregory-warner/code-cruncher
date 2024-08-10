@@ -1,4 +1,4 @@
-import { DataTypes, Sequelize } from 'sequelize';
+import { DataTypes } from 'sequelize';
 import sequelize from '../db.js';
 
 const Actor = sequelize.define("actor", {
@@ -48,12 +48,8 @@ const Actor = sequelize.define("actor", {
         allowNull: false,
         field: "model_id",
     },
-    isDeleted: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-        field: "is_deleted",
-    }
+}, {
+    paranoid: true,
 });
 
 export default Actor;

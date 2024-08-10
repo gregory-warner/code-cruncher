@@ -1,4 +1,4 @@
-import { DataTypes, Sequelize } from 'sequelize';
+import { DataTypes } from 'sequelize';
 import sequelize from '../db.js';
 import {Session} from './models.js';
 
@@ -56,19 +56,15 @@ const Message = sequelize.define('message', {
         allowNull: true,
         field: 'data',
     },
-    isDeleted: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-        field: 'is_deleted',
-    },
     isLocked: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
         field: 'is_locked',
+        comment: 'used to prohibit the message from being deleted',
     },
 },{
+    paranoid: true,
     indexes: [
         {
             fields: ['session_id'],
