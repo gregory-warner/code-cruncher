@@ -18,14 +18,8 @@ export const serverApi  = createApi({
         getUser: build.query<User, string>({
             query: (username: string) => `users/getUser/${username}`
         }),
-        getAssistant: build.query({
-            query: (username: string) => `actors/getAssistant/${username}`,
-        }),
-        fetchActiveAssistants: build.query({
-            query: () => ({
-                url: 'actors/getActiveAssistants',
-                method: 'GET',
-            })
+        getActor: build.query({
+            query: (username: string) => `actors/getActor/${username}`,
         }),
         getActors: build.query<Actor[], void>({
             query: () => 'actors/',
@@ -134,4 +128,4 @@ export const serverApi  = createApi({
     }),
 });
 
-export const { useUpdateDialogNameMutation, useCreateDialogMutation, useGetDialogsQuery, useUpdateActorMutation, useDeleteDialogMutation, useAddMessageMutation, useLazyGetMessagesQuery, useUpdateMessageMutation, useCreateActorMutation, useUpdatePromptMutation, useDeleteMessageMutation, useGetUserQuery, useGetAssistantQuery, useGetActorsQuery, useFetchActiveAssistantsQuery } = serverApi;
+export const { useUpdateDialogNameMutation, useCreateDialogMutation, useGetDialogsQuery, useUpdateActorMutation, useDeleteDialogMutation, useAddMessageMutation, useLazyGetMessagesQuery, useUpdateMessageMutation, useCreateActorMutation, useUpdatePromptMutation, useDeleteMessageMutation, useGetUserQuery, useGetActorQuery: useGetActorQuery, useGetActorsQuery } = serverApi;
