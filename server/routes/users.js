@@ -1,49 +1,24 @@
 import express from 'express';
-import { User, UserConfiguration } from '../models/models.js';
-import inputValidator from './validator.js';
-import validator from 'validator';
+import {getUserById, getUserByUsername} from "../services/userService.js";
 
 const router = express.Router();
 
-router.get("/getUser/:username", async (req, res, next) => {
-    const username = req.params.username ?? null;
-    if (!inputValidator.isUsername(username)) {
-        next("Invalid username: "+validator.escape(username+""));
-    }
-
-    const user = await User.findOne({
-        attributes: [["user_id", "userId"], "name", "username"],
-        where: {
-            is_deleted: false,
-            username: username,
-        },
-        include: [{
-            model: UserConfiguration,
-            as: "configuration",
-            attributes: [["color_theme", "colorTheme"], "avatar"],
-        }],
-    });
-
-    if (user instanceof User) {
+router.get("/:username", async (req, res, next) => {
+    try {
+        const user = await getUserByUsername(req.params.username);
         res.json(user);
-        return;
+    } catch (err) {
+        return next(err);
     }
-    res.json(null);
 });
 
-export const getUserById = async (userId) => {
-    return await User.findOne({
-        attributes: [["user_id", "userId"], "name", "username"],
-        where: {
-            is_deleted: false,
-            user_id: userId,
-        },
-        include: [{
-            model: UserConfiguration,
-            as: "configuration",
-            attributes: [["color_theme", "colorTheme"], "avatar"],
-        }],
-    });
-};
+router.get('/:userId', async (req, res, next) => {
+    try {
+        const user = await getUserById(req.params.userId);
+        res.json(user);
+    } catch (err) {
+        next(err);
+    }
+});
 
 export default router;
