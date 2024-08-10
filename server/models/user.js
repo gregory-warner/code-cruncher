@@ -31,12 +31,8 @@ const User = sequelize.define("user", {
         allowNull: true,
         field: "color_theme",
     },
-    isDeleted: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-        field: "is_deleted",
-    }
+}, {
+    paranoid: true,
 });
 
 export default User;

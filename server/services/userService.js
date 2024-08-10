@@ -7,9 +7,7 @@ export const getUserById = async (userId) => {
     if (!user instanceof User) {
         throw new Error(`User with id ${userId} not found`);
     }
-    if (user.isDeleted) {
-        throw new Error(`User with id ${userId} is deleted`);
-    }
+
     return user;
 };
 
