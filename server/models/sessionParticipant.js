@@ -23,6 +23,12 @@ const SessionParticipant = sequelize.define('session_participant', {
         allowNull: false,
         field: 'participant_type_id',
     },
+    participantSequence: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+        field: 'participant_sequence',
+    },
     createdBy: {
         type: DataTypes.INTEGER,
         allowNull: false,
