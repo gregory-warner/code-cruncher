@@ -1,12 +1,11 @@
 import express from 'express';
-import inputValidator from './validator.js';
+import inputValidator from '../utils/validator.js';
 import validator from 'validator';
 import { Message, messengerTypeIds } from '../models/models.js'
 const router = express.Router();
 import logger from '../log/logger.js';
 import { getActorById } from './actors.js';
 import { getUserById } from './users.js';
-import { Sequelize } from 'sequelize';
 
 const getMessages = async (dialogId) => {
     return await Message.findAll({
