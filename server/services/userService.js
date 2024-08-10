@@ -1,5 +1,5 @@
 import {User} from "../models/models.js";
-import inputValidator from "../routes/validator.js";
+import inputValidator from "../utils/validator.js";
 import validator from "validator";
 
 export const getUserById = async (userId) => {
