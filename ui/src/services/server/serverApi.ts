@@ -28,7 +28,7 @@ export const serverApi  = createApi({
             })
         }),
         getActors: build.query<Actor[], void>({
-            query: () => 'actors/getActiveActors',
+            query: () => 'actors/',
             providesTags: [{ type: 'Actors', id: 'LIST' }],
         }),
         addMessage: build.mutation<Message, Message>({
