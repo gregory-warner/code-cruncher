@@ -46,11 +46,13 @@ const Actor = sequelize.define('actor', {
     modelId: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        defaultValue: 0,
         field: 'model_id',
     },
     modelTypeId: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        defaultValue: 0,
         field: 'model_type_id',
     },
 }, {

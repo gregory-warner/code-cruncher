@@ -27,33 +27,29 @@ router.get("/getActor/:username", async (req, res, next) => {
 
 router.post('/create', createUploadMiddleware('avatar'), async (req, res, next) => {
     try {
-        const { name, title, prompt, messageCard, ttsModel, chatModel } = req.body;
+        const { name, username, title, colorTheme, prompt, model } = req.body;
 
-        if (!name || !title || !prompt || !messageCard || !ttsModel || !chatModel) {
+        if (!name || !username || !title || !prompt || !colorTheme || !model) {
             throw new Error('Missing required parameters');
         }
-
-        const username = name.toLowerCase().split(' ').join('_');
-        const actor = await Actor.create({ name, username });
 
         if (!req.file) {
             throw new Error('Avatar file is missing');
         }
 
-        const fileName = req.file.filename;
-        let color = getMessageCardStyle(messageCard);
+        const avatar = req.file.filename;
 
-        const config = await ActorConfiguration.create({
-                actor_id: actor.actor_id,
-                avatar: fileName,
-                color_theme: { messageCard: color },
-                title,
-                chat_model: chatModel,
-                tts_model: ttsModel
-            }
-        );
+        const actor = await Actor.create({
+            name,
+            username,
+            avatar,
+            colorTheme,
+            title
+        });
 
-        await Prompt.create({actor_configuration_id: config.actor_configuration_id, prompt });
+        const actorPrompt = await Prompt.create({ ...prompt });
+
+
 
         res.json({ msg: 'The actor was successfully created' });
     } catch (error) {
