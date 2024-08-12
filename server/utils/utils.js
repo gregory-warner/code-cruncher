@@ -15,3 +15,16 @@ export const transformKeys = (obj) => {
         return newObj
     }, {});
 };
+
+/**
+ * Removes the property in an object and returns the properties value
+ *
+ * @param object
+ * @param property
+ * @returns {*}
+ */
+export const removeProperty = (object, property) => {
+    const p = object[property];
+    delete object[property];
+    return p;
+};
