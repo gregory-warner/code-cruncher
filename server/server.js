@@ -6,7 +6,6 @@ import actorsRouter from './routes/actors.js';
 import dialogsRouter from './routes/dialogs.js';
 import messagesRouter from './routes/messages.js';
 import userRouter from './routes/users.js';
-import actorConfigurationRouter from './routes/actorConfigurations.js';
 import prompts from "./routes/prompts.js"
 import fs from 'fs';
 import path from 'path';
@@ -50,7 +49,6 @@ app.use("/actors", actorsRouter);
 app.use("/users", userRouter);
 app.use("/dialogs", dialogsRouter);
 app.use("/messages", messagesRouter);
-app.use("/actorConfigurations", actorConfigurationRouter);
 app.use("/prompts", prompts);
 
 app.use(errorHandler);
