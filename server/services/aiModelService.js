@@ -1,4 +1,5 @@
 import {AIModel, ImageModel, LanguageModel, TextModel} from "../models/models.js";
+import {removeProperty} from "../utils/utils.js";
 
 const modelType = {
     language: 0,
@@ -19,96 +20,94 @@ export const getModelDetails = async (aiModel) => {
     }
 };
 
+/**
+ * Adds a model to the database. parameter needs to have a typeDetails property with the expected values
+ * for the model type e.g. ('size', 'num', 'quality', 'style') for ImageModel type.
+ *
+ * @param model
+ * @returns {Promise<{success: boolean, model: any}>}
+ */
 export const addModel = async (model) => {
-    const ollamaModel = 'digest' in model && 'details' in model;
-    const openaiModel = 'object' in model && 'owned_by' in model;
-
-    if (ollamaModel) {
-        return addOllamaModel(model);
+    if (!'typeDetails' in model) {
+        throw new Error(`missing typeDetails for model with name ${model.name}`);
     }
-};
 
-const addOllamaModel = async (model) => {
-    const typeId = modelType[getModelType(model)];
+    const modelProviderDetails = getModelProviderDetails(model);
 
-    const aiModel = await AIModel.create({
-        modelName: model.name,
-        modelIdentifier: model.digest,
-        modelTypeId:typeId,
-        isLocal: true,
-    });
+    const aiModel = await AIModel.create(modelProviderDetails);
 
     if (!aiModel instanceof AIModel) {
         throw new Error(`unable to create AI Model with type ${typeId} and name ${model.name}`);
     }
 
-    if (!'typeDetails' in model) {
-        throw new Error(`missing type details for model with name ${model.name}`);
-    }
-
-    const typeModel = await createTypeModel({
+    const typeDetails = {
         ...model.typeDetails,
         modelId: aiModel.modelId,
         typeId,
-    });
+    };
 
-    const newModel = {
+    const typeModel = await createTypeModel(typeDetails);
+
+    return {
         ...aiModel.toJSON(),
-        type: {
+        modelType: {
             ...typeModel.toJSON(),
         }
-    }
-
-    return { success: true, model: newModel };
+    };
 };
 
 const createTypeModel = async (typeDetails) => {
-    switch (typeDetails.typeId) {
+    const typeId = removeProperty(typeDetails, 'typeId');
+
+    switch (typeId) {
         case modelType.language:
             return await LanguageModel.create({
-                ...model.typeDetails,
+                ...typeDetails,
             });
         case modelType.image:
             return await ImageModel.create({
-                ...model.typeDetails,
+                ...typeDetails,
             });
         case modelType.text:
             return await TextModel.create({
-                ...model.typeDetails,
+                ...typeDetails,
             });
         default:
             throw new Error(`unable to create type model with model id ${typeDetails.modelId}`);
     }
 };
 
-export const getModelProviderDetails = async (model) => {
+const getModelProviderDetails = (model) => {
+    const typeId = modelType[getModelType(model)];
 
-    if ('digest' in model && 'details' in model) {
+    const ollamaModel = 'digest' in model && 'details' in model;
+    const openaiModel = 'object' in model && 'owned_by' in model;
+
+    if (ollamaModel) {
         return {
-            provider: 'ollama',
-            name: model.name,
-            identifier: model.digest,
-            type,
+            modelName: model.name,
+            modelIdentifier: model.digest,
+            modelTypeId: typeId,
             isLocal: true,
         };
     }
 
-    if ('object' in model && 'owned_by' in model) {
+    if (openaiModel) {
         return {
-            provider: 'openai',
-            name: model.id,
-            identifier: model.id,
-            type,
+            modelName: model.id,
+            modelIdentifier: model.id,
+            modelTypeId: typeId,
             isLocal: false,
         };
     }
 
-    throw new Error(`Unable to find model provider for model with name ${model.modelName ?? 'N/A'}`);
-}
+    throw new Error(`Unable to determine model provider for model id ${model.id}`);
+};
 
-// todo: add additional logic to determine model type
 export const getModelType = (model) => {
-    if (model.id?.includes('dall-e')) {
+    const typeDetails = model.typeDetails;
+
+    if ('size' in typeDetails && 'quality' in typeDetails) {
         return 'image';
     }
 
