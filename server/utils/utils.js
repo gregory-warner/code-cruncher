@@ -28,3 +28,13 @@ export const removeProperty = (object, property) => {
     delete object[property];
     return p;
 };
+
+export const messengerTypeIds = {
+    user: 0,
+    assistant: 1,
+};
+
+export const messengerTypes = Object.entries(messengerTypeIds).reduce((acc, [key, value]) => {
+    acc[value] = key;
+    return acc;
+}, {});

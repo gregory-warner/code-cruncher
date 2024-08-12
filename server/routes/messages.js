@@ -1,11 +1,12 @@
 import express from 'express';
 import inputValidator from '../utils/validator.js';
 import validator from 'validator';
-import { Message, messengerTypeIds } from '../models/models.js'
+import { Message } from '../models/models.js'
 const router = express.Router();
 import logger from '../log/logger.js';
 import {getActorById} from "../services/actorService.js";
 import {getUserById} from "../services/userService.js";
+import {messengerTypeIds} from "../utils/utils.js";
 
 const getMessages = async (dialogId) => {
     return await Message.findAll({
@@ -86,7 +87,6 @@ router.post("/addMessage", async (req, res, next) => {
 router.get("/getMessenger", async (req, res) => {
     const messengerType = parseInt(req.query.messengerType) ?? 0;
     const messengerId = parseInt(req.query.messengerId) ?? 0;
-
 
     if (messengerType === messengerTypeIds.user) {
         const user = await getUserById(messengerId)
