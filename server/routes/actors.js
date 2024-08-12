@@ -3,6 +3,7 @@ import {Actor} from '../models/models.js';
 import Prompt from '../models/prompt.js';
 import {getActorByUsername, getActors} from "../services/actorService.js";
 import createUploadMiddleware from "../middlewares/uploadMiddleware.js";
+import {addModel} from "../services/aiModelService.js";
 
 
 const router = express.Router();
@@ -49,7 +50,9 @@ router.post('/create', createUploadMiddleware('avatar'), async (req, res, next) 
 
         const actorPrompt = await Prompt.create({ ...prompt });
 
+        const actorModel = await addModel(model);
 
+        await actor.update({ promptId: actorPrompt.promptId, modelId: actorModel.modelId });
 
         res.json({ msg: 'The actor was successfully created' });
     } catch (error) {
@@ -59,16 +62,24 @@ router.post('/create', createUploadMiddleware('avatar'), async (req, res, next) 
 
 router.post('/update', upload.single('avatar'), async (req, res, next) => {
     try {
-        const {name, title, prompt, ttsModel, chatModel, actorId, messageCard} = req.body;
+        const { actorId, name, username, title, colorTheme, prompt, model } = req.body;
 
-        console.log(req.body);
-        // if (!name || !title || !prompt || !chatModel || !actorId || !messageCard) {
-        //     throw new Error('Missing required parameters');
-        // }
+        if (!name || !username || !title || !prompt || !colorTheme || !model) {
+            throw new Error('Missing required parameters');
+        }
 
-        const username = name.toLowerCase().split(' ').join('_');
+        const avatar = req.file?.filename;
 
-        const [rowsUpdated] = await Actor.update({name, username}, {
+        // todo: delete prompt, add new prompt, set id to actor,
+        // todo: model update is either search for existing details and set to that or create new, probably not delete previous
+
+        const [rowsUpdated] = await Actor.update({
+            name,
+            username,
+            avatar,
+            colorTheme,
+            title
+        }, {
             where: {
                 actor_id: actorId,
             },
@@ -78,31 +89,6 @@ router.post('/update', upload.single('avatar'), async (req, res, next) => {
             return res.status(404).json({ msg: 'The actor was not found' });
         }
 
-        let color = getMessageCardStyle(messageCard);
-
-        const [_, [updatedConfig]] = await ActorConfiguration.update({
-                title,
-                chat_model: chatModel,
-                tts_model: ttsModel ?? '',
-                messageCard: color,
-                avatar: req.file ? req.file.filename : undefined,
-            }, {
-                where: {
-                    actor_id: actorId,
-                },
-                returning: true,
-            }
-        );
-
-        const config_id = updatedConfig?.actor_configuration_id;
-
-        if (!config_id) {
-            throw new Error('Unable to get actor config id');
-        }
-
-        await Prompt.update({ is_deleted: true }, { where: { actor_configuration_id: config_id } });
-
-        await Prompt.create({actor_configuration_id: config_id, prompt });
 
         res.json({ msg: 'The actor was successfully updated' });
     } catch (error) {
@@ -110,6 +96,7 @@ router.post('/update', upload.single('avatar'), async (req, res, next) => {
     }
 });
 
+// todo: determine if needed for default values
 const getMessageCardStyle = (messageCard) => {
     let color = JSON.parse(messageCard);
     color.transform = "translateY(-5px)";
