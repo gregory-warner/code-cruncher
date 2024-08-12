@@ -60,7 +60,7 @@ router.post('/create', createUploadMiddleware('avatar'), async (req, res, next) 
     }
 });
 
-router.post('/update', upload.single('avatar'), async (req, res, next) => {
+router.post('/update', createUploadMiddleware('avatar'), async (req, res, next) => {
     try {
         const { actorId, name, username, title, colorTheme, prompt, model } = req.body;
 
