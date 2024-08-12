@@ -1,6 +1,5 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db.js';
-import {Session} from './models.js';
 
 const Message = sequelize.define('message', {
     messageId: {
@@ -13,10 +12,6 @@ const Message = sequelize.define('message', {
         type: DataTypes.INTEGER,
         allowNull: false,
         field: 'session_id',
-        references: {
-            model: Session,
-            key: 'session_id',
-        }
     },
     messageTypeId: {
         type: DataTypes.INTEGER,
