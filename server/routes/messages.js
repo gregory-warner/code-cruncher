@@ -4,8 +4,8 @@ import validator from 'validator';
 import { Message, messengerTypeIds } from '../models/models.js'
 const router = express.Router();
 import logger from '../log/logger.js';
-import { getActorById } from './actors.js';
-import { getUserById } from './users.js';
+import {getActorById} from "../services/actorService.js";
+import {getUserById} from "../services/userService.js";
 
 const getMessages = async (dialogId) => {
     return await Message.findAll({
