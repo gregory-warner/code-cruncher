@@ -1,7 +1,7 @@
 import express from 'express';
 import logger from '../log/logger.js';
 import { Dialog, Message } from '../models/models.js';
-import validator from './validator.js';
+import validator from '../utils/validator.js';
 import {transformKeys} from "../utils/utils.js";
 
 const router = express.Router();

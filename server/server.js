@@ -3,7 +3,6 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import actorsRouter from './routes/actors.js';
-import dialogsRouter from './routes/dialogs.js';
 import messagesRouter from './routes/messages.js';
 import userRouter from './routes/users.js';
 import prompts from "./routes/prompts.js"
@@ -47,7 +46,6 @@ app.use('/images', express.static(path.join(__dirname, 'uploads/img')));
 
 app.use("/actors", actorsRouter);
 app.use("/users", userRouter);
-app.use("/dialogs", dialogsRouter);
 app.use("/messages", messagesRouter);
 app.use("/prompts", prompts);
 
