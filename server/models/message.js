@@ -56,16 +56,10 @@ const Message = sequelize.define('message', {
     indexes: [
         {
             fields: ['session_id'],
-            where: {
-                is_deleted: false,
-            },
             name: 'idx_active_session_messages',
         },
         {
-            fields: ['messenger_id', 'messenger_type_id'],
-            where: {
-                is_deleted: false,
-            },
+            fields: ['messenger_id'],
             name: 'idx_active_messenger_messages'
         }
     ]
