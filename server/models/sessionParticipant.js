@@ -22,6 +22,7 @@ const SessionParticipant = sequelize.define('session_participant', {
         type: DataTypes.INTEGER,
         allowNull: false,
         field: 'participant_type_id',
+        comment: 'used to distinguish between different participants e.g. 0 for user, 1 for actor'
     },
     participantSequence: {
         type: DataTypes.INTEGER,
