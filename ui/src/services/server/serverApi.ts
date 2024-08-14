@@ -16,7 +16,7 @@ export const serverApi  = createApi({
     tagTypes: ['Messages', 'Actors', 'Dialogs'],
     endpoints: (build) => ({
         getUser: build.query<User, string>({
-            query: (username: string) => `users/getUser/${username}`
+            query: (username: string) => `users/get-user/${username}`
         }),
         getActor: build.query({
             query: (username: string) => `actors/getActor/${username}`,

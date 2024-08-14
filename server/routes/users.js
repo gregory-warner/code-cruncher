@@ -3,7 +3,7 @@ import {getUserById, getUserByUsername} from "../services/userService.js";
 
 const router = express.Router();
 
-router.get("/getUser/:username", async (req, res, next) => {
+router.get("/get-user/:username", async (req, res, next) => {
     try {
         const user = await getUserByUsername(req.params.username);
         return res.json(user);
