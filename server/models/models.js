@@ -22,8 +22,8 @@ AIModel.hasOne(TextModel, { foreignKey: 'model_id', constraints: false, as: 'tex
 AIModel.hasMany(Actor, { foreignKey: 'model_id', constraints: false });
 
 SessionParticipant.belongsTo(Session, { foreignKey: 'session_id' });
-SessionParticipant.belongsTo(User, { foreignKey: 'participant_id', constraints: false, scope: { participant_type_id: 0 } });
-SessionParticipant.belongsTo(Actor, { foreignKey: 'participant_id', constraints: false, scope: { participant_type_id: 1 } });
+SessionParticipant.belongsTo(User, { foreignKey: 'participant_id', constraints: false,  as: 'user' });
+SessionParticipant.belongsTo(Actor, { foreignKey: 'participant_id', constraints: false, as: 'actor' });
 
 Session.hasMany(SessionParticipant, { foreignKey: 'session_id', as: 'sessionParticipant' });
 SessionParticipant.belongsTo(Session, { foreignKey: 'session_id' });
