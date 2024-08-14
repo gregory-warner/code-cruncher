@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router();
-import {createSession, getSessionById, getSessionParticipants} from '../services/sessionService.js';
+import {createSession, getSessionById} from '../services/sessionService.js';
+import {addSessionParticipant, getSessionParticipants} from "../services/sessionParticipantService.js";
 
 router.post('/create', async (req, res, next) => {
     try {
@@ -24,6 +25,15 @@ router.get('/:id/participants', async (req, res, next) => {
     try {
         const participants = await getSessionParticipants(req.params.id);
         return res.json(participants);
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.post('/add-participant', async (req, res, next) => {
+    try {
+        const participant = await addSessionParticipant(req.body);
+        return res.json(participant);
     } catch (err) {
         next(err);
     }

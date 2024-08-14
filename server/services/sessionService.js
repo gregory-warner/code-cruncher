@@ -1,4 +1,4 @@
-import {Actor, Session, SessionParticipant, User} from '../models/models.js';
+import {Session} from '../models/models.js';
 
 export const getSessionById = async (sessionId) => {
     const session = await Session.findByPk(sessionId);
@@ -8,19 +8,6 @@ export const getSessionById = async (sessionId) => {
 
     return session;
 };
-
-export const getSessionParticipants = async (sessionId) => {
-    const participants = await SessionParticipant.findAll({
-        where: { session_id: sessionId },
-        include: [
-            { model: Actor, as: 'actor' },
-            { model: User, as: 'user' }
-        ]
-    });
-
-    return participants.map(participant => participant.actor || participant.user);
-};
-
 
 export const createSession = async (sessionData) => {
     console.log(sessionData);
