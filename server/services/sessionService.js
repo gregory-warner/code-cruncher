@@ -43,3 +43,13 @@ export const updateSessionTypeId = async ({ sessionId, sessionTypeId }) => {
     await session.save();
     return session;
 };
+
+export const deleteSession = async (sessionId) => {
+    const session = await Session.findByPk(sessionId);
+    if (!session instanceof Session) {
+        throw new Error(`No session found with ID ${sessionId}`);
+    }
+
+    await session.destroy();
+    return session;
+}

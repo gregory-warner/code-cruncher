@@ -1,6 +1,12 @@
 import express from 'express';
 const router = express.Router();
-import {createSession, getSessionById, updateSessionName, updateSessionTypeId} from '../services/sessionService.js';
+import {
+    createSession,
+    deleteSession,
+    getSessionById,
+    updateSessionName,
+    updateSessionTypeId
+} from '../services/sessionService.js';
 import {addSessionParticipant, getSessionParticipants} from "../services/sessionParticipantService.js";
 
 router.post('/create', async (req, res, next) => {
@@ -51,6 +57,15 @@ router.patch('/:id/name', async (req, res, next) => {
 router.patch('/:id/typeId', async (req, res, next) => {
     try {
         const session = await updateSessionTypeId({ sessionId: req.params.id, sessionTypeId: req.body.sessionTypeId });
+        return res.json(session);
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.delete('/:id', async (req, res, next) => {
+    try {
+        const session = await deleteSession(req.params.id);
         return res.json(session);
     } catch (err) {
         next(err);
