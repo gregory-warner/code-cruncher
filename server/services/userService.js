@@ -36,3 +36,13 @@ export const getUserByUsername = async (username) => {
 
     return user;
 };
+
+export const deleteUser = async (userId) => {
+    const user = await User.findByPk(userId);
+    if (!user instanceof User) {
+        throw new Error(`No user found with ID ${userId}`);
+    }
+
+    await user.destroy();
+    return user;
+}

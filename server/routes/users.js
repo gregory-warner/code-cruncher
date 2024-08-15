@@ -1,5 +1,5 @@
 import express from 'express';
-import {getUserById, getUserByUsername} from "../services/userService.js";
+import {deleteUser, getUserById, getUserByUsername} from "../services/userService.js";
 
 const router = express.Router();
 
@@ -12,24 +12,22 @@ router.get("/get-user/:username", async (req, res, next) => {
     }
 });
 
-router.get('/:userId', async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
     try {
-        const user = await getUserById(req.params.userId);
+        const user = await getUserById(req.params.id);
         return res.json(user);
     } catch (err) {
         next(err);
     }
 });
 
-router.delete("/:userId", async (req, res, next) => {
-    const user = await getUserById(req.params.userId);
-    await user.destroy();
-
-    if (user.isSoftDeleted()) {
-        return res.json({success: true});
+router.delete("/:id", async (req, res, next) => {
+    try {
+        const user = await deleteUser(req.params.id);
+        return res.json(user);
+    } catch (err) {
+        next(err);
     }
-
-    return res.json({success: false});
 });
 
 export default router;
