@@ -19,7 +19,7 @@ export const serverApi  = createApi({
             query: (username: string) => `users/get-user/${username}`
         }),
         getActor: build.query({
-            query: (username: string) => `actors/getActor/${username}`,
+            query: (username: string) => `actors/actor/${username}`,
         }),
         getActors: build.query<Actor[], void>({
             query: () => 'actors/',

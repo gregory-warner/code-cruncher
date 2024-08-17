@@ -5,7 +5,6 @@ import {getActorByUsername, getActors} from "../services/actorService.js";
 import createUploadMiddleware from "../middlewares/uploadMiddleware.js";
 import {addModel} from "../services/aiModelService.js";
 
-
 const router = express.Router();
 
 router.get("/", async (_, res, next) => {
@@ -17,7 +16,7 @@ router.get("/", async (_, res, next) => {
     }
 });
 
-router.get("/getActor/:username", async (req, res, next) => {
+router.get("/actor/:username", async (req, res, next) => {
     try {
         const actor = await getActorByUsername(req.params.username)
         return res.json(actor);
