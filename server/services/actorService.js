@@ -48,3 +48,24 @@ export const getActorByUsername = async (username) => {
         },
     });
 };
+
+export const updateActorPrompt = async (actorId, data) => {
+    if (!Number.isInteger(actorId)) {
+        throw new Error("Invalid actor ID: " + validator.escape(actorId.toString()));
+    }
+
+    const actor = await Actor.findByPk(actorId);
+    if (!actor instanceof Actor) {
+        throw new Error(`Actor with id ${actorId} not found`);
+    }
+
+    if (actor.promptId > 0) {
+        await Prompt.destroy({ where: { promptId: actor.promptId } });
+    }
+
+    const newPrompt = await Prompt.create(data);
+    actor.promptId = newPrompt.promptId;
+    await actor.save();
+
+    return actor;
+};
