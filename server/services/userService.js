@@ -16,19 +16,7 @@ export const getUserByUsername = async (username) => {
         throw new Error("Invalid username: " + validator.escape(username+""));
     }
 
-    const user = await User.findOne({
-        attributes: [
-            "userId",
-            "name",
-            "username",
-            "avatar",
-            "colorTheme",
-        ],
-        where: {
-            is_deleted: false,
-            username: username,
-        },
-    });
+    const user = await User.findOne({ where: { username } });
 
     if (!user instanceof User) {
         throw new Error(`User with username ${username} not found`);
