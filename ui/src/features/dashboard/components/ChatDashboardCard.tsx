@@ -8,6 +8,7 @@ import {Settings as SettingsIcon} from "@mui/icons-material";
 import {setIsActorCreationDrawerOpen} from "../../actorDrawer/store/actorDrawerSlice";
 import {useNavigate} from "react-router-dom";
 import {setActor} from "../../conversation/store/conversationSlice";
+import {Actor, AIModel, ColorTheme} from "../../../types";
 
 interface ChatDashboardCardProps {
     actor: Actor,
@@ -22,8 +23,9 @@ const ChatDashboardCard = ({ actor }: ChatDashboardCardProps) => {
 
     const navigate = useNavigate();
 
-    const config = actor.configuration;
-    const avatarUrl = `${chatServerUrl}/images/${config.avatar}`;
+    const avatarUrl = `${chatServerUrl}/images/${actor.avatar}`;
+    const actorColorTheme: ColorTheme = JSON.parse(actor.colorTheme);
+    const model: AIModel = actor.aiModel;
 
     const selectedActor = useAppSelector(selectSelectedActor);
     const isSelected = selectedActor === actor;
@@ -47,7 +49,7 @@ const ChatDashboardCard = ({ actor }: ChatDashboardCardProps) => {
 
     const bannerStyle = {
         border: '2px solid #006400',
-        backgroundColor: config?.colorTheme?.messageCard?.backgroundColor || (theme.palette.mode === 'dark' ? '#333' : '#fff'),
+        backgroundColor: actorColorTheme.backgroundColor || (theme.palette.mode === 'dark' ? '#333' : '#fff'),
     };
 
     const handleConfigClick = () => {
@@ -87,9 +89,8 @@ const ChatDashboardCard = ({ actor }: ChatDashboardCardProps) => {
                 </Grid>
                 <CardContent>
                     <Stack spacing={2} mt={2}>
-                        {!isSmallScreen && <Typography variant="body1">Title: {config.title}</Typography>}
-                        {<Typography variant="body1">Chat Model: {config.chatModel}</Typography>}
-                        {!isSmallScreen && !isMediumScreen && <Typography variant="body1">TTS Model: {config.ttsModel}</Typography>}
+                        {!isSmallScreen && <Typography variant="body1">Title: {actor.title}</Typography>}
+                        {<Typography variant="body1">AI Model: {model.modelName ?? 'N/A'}</Typography>}
                     </Stack>
                 </CardContent>
             </Card>
