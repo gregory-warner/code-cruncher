@@ -1,7 +1,7 @@
 import express from 'express';
 import {Actor} from '../models/models.js';
 import Prompt from '../models/prompt.js';
-import {getActorByUsername, getActors} from "../services/actorService.js";
+import {getActorByUsername, getActors, updateActorPrompt} from "../services/actorService.js";
 import createUploadMiddleware from "../middlewares/uploadMiddleware.js";
 import {addModel} from "../services/aiModelService.js";
 
@@ -39,21 +39,21 @@ router.post('/create', createUploadMiddleware('avatar'), async (req, res, next) 
 
         const avatar = req.file.filename;
 
+        const actorPrompt = await Prompt.create({ ...JSON.parse(prompt) });
+
+        const actorModel = await addModel(JSON.parse(model));
+
         const actor = await Actor.create({
             name,
             username,
             avatar,
             colorTheme,
-            title
+            title,
+            promptId: actorPrompt.promptId,
+            modelId: actorModel.modelId,
         });
 
-        const actorPrompt = await Prompt.create({ ...prompt });
-
-        const actorModel = await addModel(model);
-
-        await actor.update({ promptId: actorPrompt.promptId, modelId: actorModel.modelId });
-
-        res.json({ msg: 'The actor was successfully created' });
+        res.json({actor});
     } catch (error) {
         next(error);
     }
@@ -69,7 +69,7 @@ router.post('/update', createUploadMiddleware('avatar'), async (req, res, next) 
 
         const avatar = req.file?.filename;
 
-        // todo: delete prompt, add new prompt, set id to actor,
+        await updateActorPrompt(actorId, prompt);
         // todo: model update is either search for existing details and set to that or create new, probably not delete previous
 
         const [rowsUpdated] = await Actor.update({

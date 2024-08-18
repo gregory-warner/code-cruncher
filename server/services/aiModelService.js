@@ -37,13 +37,13 @@ export const addModel = async (model) => {
     const aiModel = await AIModel.create(modelProviderDetails);
 
     if (!aiModel instanceof AIModel) {
-        throw new Error(`unable to create AI Model with type ${typeId} and name ${model.name}`);
+        throw new Error(`unable to create AI Model with type ${modelProviderDetails.modelTypeId} and name ${model.name}`);
     }
 
     const typeDetails = {
         ...model.typeDetails,
         modelId: aiModel.modelId,
-        typeId,
+        typeId: modelProviderDetails.modelTypeId,
     };
 
     const typeModel = await createTypeModel(typeDetails);
@@ -80,13 +80,13 @@ const createTypeModel = async (typeDetails) => {
 const getModelProviderDetails = (model) => {
     const typeId = modelType[getModelType(model)];
 
-    const ollamaModel = 'digest' in model && 'details' in model;
+    const ollamaModel = 'details' in model;
     const openaiModel = 'object' in model && 'owned_by' in model;
 
     if (ollamaModel) {
         return {
             modelName: model.name,
-            modelIdentifier: model.digest,
+            modelIdentifier: model.details.family,
             modelTypeId: typeId,
             isLocal: true,
         };
