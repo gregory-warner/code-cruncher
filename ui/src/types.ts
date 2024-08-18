@@ -9,11 +9,59 @@ export interface ChatSnackbar {
     message: string,
 }
 
-export interface Dialog {
-    dialogId: number;
-    dialogName: string;
-    userId: number;
-    actorId: number;
-    timeCreated: number;
-    isDeleted: boolean;
+export interface Prompt {
+    promptId: number;
+    promptName: string;
+    prompt: string;
+    postfix: string;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: null | string;
 }
+
+export interface AIModel {
+    modelId: number;
+    modelTypeId: number;
+    modelName: string;
+    modelIdentifier: string;
+    isLocal: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface Actor {
+    actorId: number;
+    name: string;
+    username: string;
+    avatar: string;
+    colorTheme: string;
+    title: string;
+    promptId: number;
+    modelId: number;
+    modelTypeId: number;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: null | string;
+    prompt_id: number;
+    model_id: number;
+    prompt: Prompt;
+    aiModel: AIModel;
+}
+
+export interface ColorTheme {
+    nameColor: string;
+    contentsColor: string;
+    backgroundColor: string;
+    borderColor: string;
+    borderRadius: string;
+    border: string;
+    transition: string;
+    boxShadow: string;
+    width: string;
+    "&:hover": {
+        boxShadow: string;
+        transform: string;
+    };
+    textColor: string;
+}
+
