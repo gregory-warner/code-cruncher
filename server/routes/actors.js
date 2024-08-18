@@ -69,7 +69,7 @@ router.post('/update', createUploadMiddleware('avatar'), async (req, res, next) 
 
         const avatar = req.file?.filename;
 
-        await updateActorPrompt(actorId, prompt);
+        await updateActorPrompt(actorId, JSON.parse(prompt));
         // todo: model update is either search for existing details and set to that or create new, probably not delete previous
 
         const [rowsUpdated] = await Actor.update({
@@ -95,19 +95,8 @@ router.post('/update', createUploadMiddleware('avatar'), async (req, res, next) 
     }
 });
 
-// todo: determine if needed for default values
-const getMessageCardStyle = (messageCard) => {
-    let color = JSON.parse(messageCard);
-    color.transform = "translateY(-5px)";
-    color.borderRadius = "5px";
-    color.border = "4px solid #ccc";
-    color.transition = "all 0.3s ease-in-out";
-    color.width = "100%";
-    color["&:hover"] = {
-        boxShadow: "0px 0px 8px 3px rgba(255,255,0,0.5)",
-    };
-
-    return color;
+const getDefaultMessageCardStyle = () => {
+    return {"nameColor":"#3776AB","contentsColor":"black","backgroundColor":"#F9DC5C","borderColor":"#222222","borderRadius":"5px","border":"4px solid #ccc","transition":"all 0.3s ease-in-out","boxShadow":"","width":"100%","&:hover":{"boxShadow":"0px 0px 8px 3px rgba(255,255,0,0.5)","transform":"translateY(-5px)"},"textColor":"black"};
 };
 
 export default router;
