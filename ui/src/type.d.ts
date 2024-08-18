@@ -1,12 +1,3 @@
-interface Actor {
-    actorId: number,
-    name: string,
-    username: string,
-    configuration: ActorConfiguration,
-    timeCreated: EpochTimeStamp,
-    prompt: string,
-}
-
 interface User {
     userId: number,
     name: string,
@@ -29,25 +20,6 @@ interface Message {
         imageLinks?: string[],
     },
     isLocked?: boolean,
-}
-
-interface Prompts {
-    prompts: string,
-}
-
-interface ActorConfiguration {
-    actorId?: number,
-    avatar?: string,
-    colorTheme?: ColorTheme,
-    title?: string,
-    prompt?: string,
-    chatModel?: string,
-    ttsModel?: string,
-    prompts?: Prompts,
-}
-
-interface ColorTheme {
-    messageCard: MessageCardColorTheme,
 }
 
 interface MessageCardColorTheme {
