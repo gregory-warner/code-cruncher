@@ -1,5 +1,5 @@
 import {configureStore, ThunkAction, Action} from '@reduxjs/toolkit';
-import conversationReducer from '../features/conversation/store/conversationSlice';
+import sessionReducer from '../features/session/store/sessionSlice';
 import messageCardReducer from '../features/messageCard/store/messageCardSlice';
 import chatDashboardReducer from '../features/dashboard/chatDashboardSlice';
 import actorCreationDrawerReducer from '../features/actorDrawer/store/actorDrawerSlice';
@@ -15,7 +15,7 @@ export const store = configureStore({
     [serverApi.reducerPath]: serverApi.reducer,
     [openaiApi.reducerPath]: openaiApi.reducer,
     [ollamaApi.reducerPath]: ollamaApi.reducer,
-    conversation: conversationReducer,
+    session: sessionReducer,
     messageCard: messageCardReducer,
     theme: themeReducer,
     chatDashboard: chatDashboardReducer,

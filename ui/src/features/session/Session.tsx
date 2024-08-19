@@ -3,9 +3,10 @@ import { List, ListItem } from '@mui/material';
 import MessageCard from '../messageCard/MessageCard';
 import MessageImageCards from '../messageImageCard/MessageImageCards';
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
-import {defaultUser, selectActor, selectDialogId, selectUser, setUser, updateDialogId} from "./store/conversationSlice";
+import {defaultUser, selectActor, selectDialogId, selectUser, setUser, updateDialogId} from "./store/sessionSlice";
 import {useGetUserQuery, useLazyGetMessagesQuery} from "../../services/server/serverApi";
 import {useNavigate} from "react-router-dom";
+import {Message} from "../../types";
 
 const ScrollFocusPoint = ({ messages }: { messages: Message[] }) => {
     const ref = useRef<HTMLInputElement|null>(null);
@@ -27,7 +28,7 @@ const getMessageCardType = (message: Message) => {
     return <MessageCard message={message} />;
 }
 
-const Conversation = () => {
+const Session = () => {
 
     const dispatch = useAppDispatch();
     const dialogId = useAppSelector(selectDialogId);
@@ -75,4 +76,4 @@ const Conversation = () => {
     );
 };
 
-export default Conversation;
+export default Session;
