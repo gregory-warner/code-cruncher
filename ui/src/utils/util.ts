@@ -1,5 +1,6 @@
 import {Model} from "../services/ollama/types";
 import {ChatApiModel} from "../services/openai/types";
+import {Actor} from "../types";
 
 export const getTimestamp = () => Math.floor(Date.now()/1000);
 
