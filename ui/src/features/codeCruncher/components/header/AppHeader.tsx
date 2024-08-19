@@ -2,9 +2,9 @@ import React from 'react';
 import {Box, Grid, Typography, useTheme} from '@mui/material';
 import { useAppSelector } from '../../../../store/hooks';
 import {selectCurrentSpeaker} from "../../../session/store/sessionSlice";
-import ChatAppMenu from "../chatAppMenu/ChatAppMenu";
+import AppMenu from "../appMenu/AppMenu";
 
-const ChatAppHeader: React.FC = () => {
+const AppHeader: React.FC = () => {
     const currentSpeaker = useAppSelector(selectCurrentSpeaker);
     const theme = useTheme();
 
@@ -18,11 +18,11 @@ const ChatAppHeader: React.FC = () => {
                     <Typography align='center' color={theme.palette.text.primary} variant={"h4"}>{speakerName}</Typography>
                 </Grid>
                 <Grid item xs={2}>
-                    <ChatAppMenu />
+                    <AppMenu />
                 </Grid>
             </Grid>
         </Box>
     );
 };
 
-export default ChatAppHeader;
+export default AppHeader;

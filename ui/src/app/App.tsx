@@ -1,11 +1,10 @@
 import React from 'react';
-import ChatApp from '../features/chatApp/ChatApp';
+import CodeCruncherApp from '../features/codeCruncher/CodeCruncherApp';
 import {darkTheme, lightTheme} from "../theme/theme";
 import {useAppSelector} from "../store/hooks";
 import {selectMode} from "../theme/themeSlice";
 import {ThemeProvider} from "@mui/system"
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ChatDashboard from "../features/dashboard/ChatDashboard";
 import {CssBaseline} from "@mui/material";
 import CruncherSnackbar from "./components/CruncherSnackbar";
 
@@ -18,8 +17,7 @@ function App() {
             <CssBaseline />
             <Router>
                 <Routes>
-                    <Route path='/' element={<ChatDashboard />} />
-                    <Route path='/chat' element={<ChatApp />} />
+                    <Route path='/' element={<CodeCruncherApp />} />
                 </Routes>
             </Router>
             <CruncherSnackbar />

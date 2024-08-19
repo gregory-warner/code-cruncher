@@ -5,7 +5,7 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-const ChatAppMenu = () => {
+const AppMenu = () => {
 
     return (
         <Grid container spacing={2}>
@@ -33,4 +33,4 @@ const ChatAppMenu = () => {
     );
 };
 
-export default ChatAppMenu;
+export default AppMenu;

@@ -1,15 +1,15 @@
 import Session from '../session/Session';
 import { Box, Grid } from '@mui/material';
 import UserInput from './components/userInput/UserInput';
-import ChatAppHeader from './components/header/ChatAppHeader';
+import AppHeader from './components/header/AppHeader';
 import style from './styles';
 import SessionsSection from "../sessionsSection/SessionsSection";
 
-const ChatApp = () => {
+const CodeCruncherApp = () => {
     return (
         <Grid container direction="column" sx={{ overflowY: "hidden",}}>
             <Grid item xs={12} sx={style.header}>
-                <ChatAppHeader />
+                <AppHeader />
             </Grid>
 
             <Grid container item xs={12} direction="row" sx={style.main}>
@@ -42,4 +42,4 @@ const ChatApp = () => {
     );
 };
 
-export default ChatApp;
+export default CodeCruncherApp;
