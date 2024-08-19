@@ -3,41 +3,40 @@ import {Grid, IconButton, ListItem, TextField, Typography, useTheme} from "@mui/
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
-import {useDeleteDialogMutation, useUpdateDialogNameMutation} from "../../../services/server/serverApi";
-import {Dialog} from "../../../types";
-import {setDialogId} from "../../conversation/store/conversationSlice";
 import {useAppDispatch} from "../../../store/hooks";
+import {Session} from "../../../types";
+import {useDeleteSessionMutation, useUpdateSessionNameMutation} from "../../../services/server/serverApi";
 
-const SessionItem = ({sessionId, session}) => {
+interface SessionItemParams {
+    sessionId: number;
+    session: Session;
+}
+
+const SessionItem = ({ sessionId, session }: SessionItemParams) => {
     const theme = useTheme();
 
     const dispatch = useAppDispatch();
 
     const [editMode, setEditMode] = useState(false);
-    const [editedSessionName, setEditedSessionName] = useState<string>(session.dialogName);
+    const [editedSessionName, setEditedSessionName] = useState<string>(session.sessionName);
 
-    const [deleteDialog] = useDeleteDialogMutation();
-    const [updateDialogName] = useUpdateDialogNameMutation();
-
-    const deleteSession = () => {
-        deleteDialog(session.dialogId);
-    };
+    const [deleteSession] = useDeleteSessionMutation();
+    const [updateSessionName] = useUpdateSessionNameMutation();
 
     const editSessionName = () => {
         if (editMode) {
-            updateDialogName({dialogName: editedSessionName, dialogId: session.dialogId});
+            updateSessionName({sessionName: editedSessionName, sessionId: session.sessionId});
         }
-
         setEditMode(!editMode);
     };
 
-    const updateCurrentDialogSession = (session: Dialog) => {
-        dispatch(setDialogId(session.dialogId));
+    const updateCurrentSession = (session: Session) => {
+        dispatch(setDialogId(session.sessionId));
     };
 
     return (
         <ListItem
-            onClick={() => updateCurrentDialogSession(session)}
+            onClick={() => updateCurrentSession(session)}
             sx={{
                 width: '95%',
                 textTransform: 'none',
@@ -88,7 +87,7 @@ const SessionItem = ({sessionId, session}) => {
                     </IconButton>
                 </Grid>
                 <Grid item xs={2}>
-                    <IconButton aria-label="delete" onClick={deleteSession}>
+                    <IconButton aria-label="delete" onClick={() => deleteSession(session.sessionId)}>
                         <DeleteIcon />
                     </IconButton>
                 </Grid>
