@@ -1,24 +1,12 @@
 import {Button, CircularProgress, Grid, List, Stack, Typography} from '@mui/material';
-import {useAppDispatch, useAppSelector} from "../../store/hooks";
-import {selectActor, selectUser, setDialogId} from "../conversation/store/conversationSlice";
-import {useCreateDialogMutation, useGetDialogsQuery} from "../../services/server/serverApi";
+import {useCreateSessionMutation, useGetDialogsQuery, useGetSessionsQuery} from "../../services/server/serverApi";
 import SessionItem from "./components/SessionItem";
 import React from "react";
 
+const SessionsSection = () => {
+    const [createSession] = useCreateSessionMutation();
 
-const Sessions = () => {
-    const actor = useAppSelector(selectActor);
-    const user = useAppSelector(selectUser);
-
-    const dispatch = useAppDispatch();
-
-    if (!actor || !user) {
-        return <></>;
-    }
-
-    const [createDialog] = useCreateDialogMutation();
-
-    const {data, isLoading } = useGetDialogsQuery({actorId: actor.actorId, userId: user.userId});
+    const {data, isLoading} = useGetSessionsQuery();
 
     if (isLoading) {
         return (
@@ -28,9 +16,9 @@ const Sessions = () => {
         );
     }
 
-    const createNewDialog = async () => {
-        const dialog = await createDialog({actorId: actor.actorId, userId: user.userId}).unwrap();
-        dispatch(setDialogId(dialog.dialogId));
+    const createNewSession = async () => {
+        // const dialog = await createDialog({actorId: actor.actorId, userId: user.userId}).unwrap();
+        // dispatch(setDialogId(dialog.dialogId));
     };
 
     return (
@@ -42,11 +30,11 @@ const Sessions = () => {
                     </Typography>
                 </Grid>
                 <Grid item xs={6}>
-                    <Button sx={{ width: '100%' }} onClick={createNewDialog}>+ New Session</Button>
+                    <Button sx={{ width: '100%' }} onClick={createNewSession}>+ New Session</Button>
                 </Grid>
             </Grid>
             <List>
-                {data.dialogs.map((session, idx) => (
+                {data.map((session, idx) => (
                     <Grid key={`key-session-item-${idx}`} container justifyContent="center" alignItems="center">
                         <SessionItem
                             key={`key-session-item-${idx}`}
@@ -60,4 +48,4 @@ const Sessions = () => {
     );
 };
 
-export default Sessions;
+export default SessionsSection;
