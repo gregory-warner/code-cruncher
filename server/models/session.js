@@ -29,6 +29,7 @@ const Session = sequelize.define('session', {
     },
 }, {
     paranoid: true,
+    timestamps: true,
 });
 
 export default Session;

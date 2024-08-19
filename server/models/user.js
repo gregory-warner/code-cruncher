@@ -33,6 +33,7 @@ const User = sequelize.define("user", {
     },
 }, {
     paranoid: true,
+    timestamps: true,
 });
 
 export default User;

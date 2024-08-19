@@ -57,6 +57,7 @@ const Actor = sequelize.define('actor', {
     },
 }, {
     paranoid: true,
+    timestamps: true,
 });
 
 export default Actor;

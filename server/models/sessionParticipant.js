@@ -38,6 +38,7 @@ const SessionParticipant = sequelize.define('session_participant', {
     },
 }, {
     paranoid: true,
+    timestamps: true,
     indexes: [
         {
             fields: ['session_id']

@@ -53,6 +53,7 @@ const Message = sequelize.define('message', {
     },
 },{
     paranoid: true,
+    timestamps: true,
     indexes: [
         {
             fields: ['session_id'],

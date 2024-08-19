@@ -30,6 +30,7 @@ const Prompt = sequelize.define("prompt", {
     },
 }, {
     paranoid: true,
+    timestamps: true,
 });
 
 export default Prompt;
