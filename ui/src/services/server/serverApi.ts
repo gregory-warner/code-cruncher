@@ -1,22 +1,17 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {chatServerUrl} from "../../../config";
 import {
-    ActorPrompt,
-    DialogsResponse,
-    ServerResponse,
-    DialogsRequest,
-    CreateDialogResponse,
-    UpdateDialogNameRequest
+    ActorPrompt, SessionNameRequest, SessionRequest,
 } from "./types";
-import {Dialog} from "../../types";
+import {Actor, Message, Session} from "../../types";
 
 export const serverApi  = createApi({
     reducerPath: 'serverApi',
     baseQuery: fetchBaseQuery({ baseUrl: chatServerUrl,}),
-    tagTypes: ['Messages', 'Actors', 'Dialogs'],
+    tagTypes: ['Messages', 'Actors', 'Sessions'],
     endpoints: (build) => ({
         getUser: build.query<User, string>({
-            query: (username: string) => `users/get-user/${username}`
+            query: (username: string) => `users/user/${username}`
         }),
         getActor: build.query({
             query: (username: string) => `actors/actor/${username}`,
@@ -27,19 +22,18 @@ export const serverApi  = createApi({
         }),
         addMessage: build.mutation<Message, Message>({
             query: (message: Message) => ({
-                url: 'messages/addMessage',
+                url: 'messages/create',
                 method: 'POST',
                 body: { message },
             }),
-            invalidatesTags: (result, error, { dialogId }) => [
-                { type: 'Messages', id: dialogId },
+            invalidatesTags: (result, error, { sessionId }) => [
+                { type: 'Messages', id: sessionId },
             ],
         }),
         deleteMessage: build.mutation<Message, number>({
-            query: (messageId: number) => ({
-                url: 'messages/deleteMessage',
-                method: 'PATCH',
-                body: { messageId }
+            query: (id: number) => ({
+                url: `messages/${id}`,
+                method: 'DELETE',
             }),
             invalidatesTags: () => [
                 { type: 'Messages' }
@@ -47,20 +41,20 @@ export const serverApi  = createApi({
         }),
         updateMessage: build.mutation<{msg: string}, Message>({
             query: (message: Message) => ({
-                url: 'messages/updateMessage',
+                url: `messages/${message.messageId}`,
                 method: 'PATCH',
                 body: { message },
             }),
-            invalidatesTags: (result, error, { dialogId }) => [
-                { type: 'Messages', id: dialogId },
+            invalidatesTags: (result, error, { sessionId }) => [
+                { type: 'Messages', id: sessionId },
             ],
         }),
         getMessages: build.query<Message[], number>({
-            query: (dialogId: number) => ({
-                url: `messages/getMessages/${dialogId}`,
+            query: (sessionId: number) => ({
+                url: `messages/${sessionId}`,
             }),
-            providesTags: (result, error, dialogId) =>
-                result ? [{ type: 'Messages', id: dialogId }] : [],
+            providesTags: (result, error, sessionId) =>
+                result ? [{ type: 'Messages', id: sessionId }] : [],
         }),
         updatePrompt: build.mutation<void, ActorPrompt>({
             query: (actorPrompt: ActorPrompt) => ({
@@ -69,7 +63,7 @@ export const serverApi  = createApi({
                 body: actorPrompt,
             }),
         }),
-        createActor: build.mutation<ServerResponse, FormData>({
+        createActor: build.mutation<{actor: Actor}, FormData>({
             query: (formData: FormData) => ({
                 url: `actors/create`,
                 method: 'POST',
@@ -77,7 +71,7 @@ export const serverApi  = createApi({
             }),
             invalidatesTags: [{ type: 'Actors' }],
         }),
-        updateActor: build.mutation<ServerResponse, FormData>({
+        updateActor: build.mutation<{actor: Actor}, FormData>({
             query: (formData: FormData) => {
                 return ({
                     url: `actors/update`,
@@ -87,45 +81,45 @@ export const serverApi  = createApi({
             },
             invalidatesTags: [{ type: 'Actors' }],
         }),
-        deleteDialog: build.mutation<ServerResponse, number>({
-            query: (dialogId: number) => ({
-                url: `dialogs/deleteDialog/${dialogId}`,
-                method: 'PATCH',
+        deleteSession: build.mutation<Session, number>({
+            query: (sessionId: number) => ({
+                url: `sessions/${sessionId}`,
+                method: 'DELETE',
             }),
-            invalidatesTags: (result, error, dialogId) => [
-                { type: 'Messages', id: dialogId },
-                { type: 'Dialogs' },
+            invalidatesTags: (result, error, sessionId) => [
+                { type: 'Messages', id: sessionId },
+                { type: 'Sessions' },
             ],
         }),
-        getDialogs: build.query<DialogsResponse, DialogsRequest>({
-            query: (request: DialogsRequest) => ({
-                url: `dialogs/dialogs`,
-                method: 'GET',
-                params: request,
-            }),
-            providesTags: [{ type: 'Dialogs', id: 'LIST' }],
-        }),
-        createDialog: build.mutation<CreateDialogResponse, DialogsRequest>({
-            query: (request: DialogsRequest) => ({
-                url: `dialogs/createDialog`,
+        // getDialogs: build.query<DialogsResponse, DialogsRequest>({
+        //     query: (request: DialogsRequest) => ({
+        //         url: `dialogs/dialogs`,
+        //         method: 'GET',
+        //         params: request,
+        //     }),
+        //     providesTags: [{ type: 'Dialogs', id: 'LIST' }],
+        // }),
+        createSession: build.mutation<{session: Session}, SessionRequest>({
+            query: (request: SessionRequest) => ({
+                url: `sessions/create`,
                 method: 'POST',
                 body: request,
             }),
             invalidatesTags: () => [
-                { type: 'Dialogs' },
+                { type: 'Sessions' },
             ],
         }),
-        updateDialogName: build.mutation<Dialog, UpdateDialogNameRequest>({
-            query: (request: UpdateDialogNameRequest) => ({
-                url: `dialogs/updateDialogName`,
+        updateSessionName: build.mutation<Session, SessionNameRequest>({
+            query: (request: SessionNameRequest) => ({
+                url: `sessions/${request.sessionId}/name`,
                 method: 'PATCH',
-                body: request,
+                body: { sessionName: request.sessionName },
             }),
             invalidatesTags: () => [
-                { type: 'Dialogs' },
+                { type: 'Sessions' },
             ],
         }),
     }),
 });
 
-export const { useUpdateDialogNameMutation, useCreateDialogMutation, useGetDialogsQuery, useUpdateActorMutation, useDeleteDialogMutation, useAddMessageMutation, useLazyGetMessagesQuery, useUpdateMessageMutation, useCreateActorMutation, useUpdatePromptMutation, useDeleteMessageMutation, useGetUserQuery, useGetActorQuery: useGetActorQuery, useGetActorsQuery } = serverApi;
+export const { useUpdateActorMutation, useAddMessageMutation, useLazyGetMessagesQuery, useUpdateMessageMutation, useCreateActorMutation, useUpdatePromptMutation, useDeleteMessageMutation, useGetUserQuery, useGetActorQuery: useGetActorQuery, useGetActorsQuery } = serverApi;
