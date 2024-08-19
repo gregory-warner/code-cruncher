@@ -91,14 +91,13 @@ export const serverApi  = createApi({
                 { type: 'Sessions' },
             ],
         }),
-        // getDialogs: build.query<DialogsResponse, DialogsRequest>({
-        //     query: (request: DialogsRequest) => ({
-        //         url: `dialogs/dialogs`,
-        //         method: 'GET',
-        //         params: request,
-        //     }),
-        //     providesTags: [{ type: 'Dialogs', id: 'LIST' }],
-        // }),
+        getSessions: build.query<Session[], null>({
+            query: () => ({
+                url: `sessions/`,
+                method: 'GET',
+            }),
+            providesTags: [{ type: 'Sessions', id: 'LIST' }],
+        }),
         createSession: build.mutation<{session: Session}, SessionRequest>({
             query: (request: SessionRequest) => ({
                 url: `sessions/create`,
@@ -122,4 +121,16 @@ export const serverApi  = createApi({
     }),
 });
 
-export const { useUpdateActorMutation, useAddMessageMutation, useLazyGetMessagesQuery, useUpdateMessageMutation, useCreateActorMutation, useUpdatePromptMutation, useDeleteMessageMutation, useGetUserQuery, useGetActorQuery: useGetActorQuery, useGetActorsQuery } = serverApi;
+export const {
+    useUpdateActorMutation,
+    useLazyGetMessagesQuery,
+    useUpdateMessageMutation,
+    useCreateActorMutation,
+    useDeleteMessageMutation,
+    useGetUserQuery,
+    useGetActorsQuery,
+    useDeleteSessionMutation,
+    useUpdateSessionNameMutation,
+    useCreateSessionMutation,
+    useGetSessionsQuery,
+} = serverApi;

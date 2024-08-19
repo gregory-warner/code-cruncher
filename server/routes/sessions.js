@@ -3,11 +3,20 @@ const router = express.Router();
 import {
     createSession,
     deleteSession,
-    getSessionById,
+    getSessionById, getSessions,
     updateSessionName,
     updateSessionTypeId
 } from '../services/sessionService.js';
 import {addSessionParticipant, getSessionParticipants} from "../services/sessionParticipantService.js";
+
+router.get('/', async (req, res, next) => {
+    try {
+        const sessions = await getSessions();
+        return res.json(sessions);
+    } catch (err) {
+        next(err);
+    }
+});
 
 router.post('/create', async (req, res, next) => {
     try {

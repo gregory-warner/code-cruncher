@@ -62,3 +62,7 @@ export const deleteSession = async (sessionId) => {
     await session.destroy();
     return session;
 }
+
+export const getSessions = async () => {
+    return await Session.findAll();
+}
