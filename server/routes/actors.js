@@ -95,6 +95,16 @@ router.post('/update', createUploadMiddleware('avatar'), async (req, res, next) 
     }
 });
 
+router.patch('/update-prompt', async (req, res, next) => {
+    try {
+        const { actorId, prompt } = req.body;
+        const actor = await updateActorPrompt(actorId, prompt);
+        return res.json({actor});
+    } catch (err) {
+        next(err);
+    }
+});
+
 const getDefaultMessageCardStyle = () => {
     return {"nameColor":"#3776AB","contentsColor":"black","backgroundColor":"#F9DC5C","borderColor":"#222222","borderRadius":"5px","border":"4px solid #ccc","transition":"all 0.3s ease-in-out","boxShadow":"","width":"100%","&:hover":{"boxShadow":"0px 0px 8px 3px rgba(255,255,0,0.5)","transform":"translateY(-5px)"},"textColor":"black"};
 };

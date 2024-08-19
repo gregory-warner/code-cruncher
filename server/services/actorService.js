@@ -1,8 +1,9 @@
-import {Actor, AIModel} from "../models/models.js";
-import Prompt from "../models/prompt.js";
-import {getModelDetails} from "./aiModelService.js";
-import inputValidator from "../utils/validator.js";
-import validator from "validator";
+import {Actor, AIModel} from '../models/models.js';
+import Prompt from '../models/prompt.js';
+import {getModelDetails} from './aiModelService.js';
+import inputValidator from '../utils/validator.js';
+import validator from 'validator';
+import {validatePromptParameters} from "./promptService.js";
 
 export const getActors = async () => {
     return await Actor.findAll({
@@ -38,7 +39,7 @@ export const getActorById = async (actorId) => {
 
 export const getActorByUsername = async (username) => {
     if (!inputValidator.isUsername(username)) {
-        throw new Error("Invalid username: " + validator.escape(username+""));
+        throw new Error('Invalid username: ' + validator.escape(username+''));
     }
 
     return await Actor.findOne({
@@ -51,8 +52,10 @@ export const getActorByUsername = async (username) => {
 
 export const updateActorPrompt = async (actorId, data) => {
     if (!Number.isInteger(actorId)) {
-        throw new Error("Invalid actor ID: " + validator.escape(actorId.toString()));
+        throw new Error('Invalid actor ID: ' + validator.escape(actorId.toString()));
     }
+
+    validatePromptParameters(data);
 
     const actor = await Actor.findByPk(actorId);
     if (!actor instanceof Actor) {
