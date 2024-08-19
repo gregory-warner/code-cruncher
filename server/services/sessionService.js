@@ -9,11 +9,20 @@ export const getSessionById = async (sessionId) => {
     return session;
 };
 
-export const createSession = async (sessionData) => {
-    console.log(sessionData);
-    if (!'sessionName' in sessionData || !'sessionTypeId' in sessionData || !'createdBy' in sessionData) {
-        throw new Error(`Session creation missing required data: sessionName, sessionTypeId, createdBy`);
+export const validateSessionParameters = (session) => {
+    if (!'sessionName' in session) {
+        throw new Error(`Missing required data: sessionName`);
     }
+    if (!'sessionTypeId' in session) {
+        throw new Error(`Missing required data: sessionTypeId`);
+    }
+    if (!'createdBy' in session) {
+        throw new Error(`Missing required data: createdBy`);
+    }
+};
+
+export const createSession = async (sessionData) => {
+    validateSessionParameters(sessionData);
 
     const session = await Session.create(sessionData);
 
