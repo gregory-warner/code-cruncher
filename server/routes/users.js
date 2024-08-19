@@ -3,7 +3,7 @@ import {deleteUser, getUserById, getUserByUsername} from "../services/userServic
 
 const router = express.Router();
 
-router.get("/get-user/:username", async (req, res, next) => {
+router.get("/user/:username", async (req, res, next) => {
     try {
         const user = await getUserByUsername(req.params.username);
         return res.json(user);
