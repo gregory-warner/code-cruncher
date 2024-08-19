@@ -5,7 +5,7 @@ import { selectCardStyle } from '../messageCard/store/messageCardSlice';
 import MessageImageCard from './MessageImageCard';
 import {defaultCardStyle} from "../messageCard/store/types";
 import {MessengerTypeIds} from "../../types";
-import {selectActor, selectUser} from "../conversation/store/conversationSlice";
+import {selectActor, selectUser} from "../session/store/sessionSlice";
 
 const MessageImageCards = ({ message }: {message: Message}) => {
 

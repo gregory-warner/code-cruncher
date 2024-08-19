@@ -1,9 +1,9 @@
-import Conversation from '../conversation/Conversation';
+import Session from '../session/Session';
 import { Box, Grid } from '@mui/material';
 import UserInput from './components/userInput/UserInput';
 import ChatAppHeader from './components/header/ChatAppHeader';
 import style from './styles';
-import Sessions from "../sessions/Sessions";
+import SessionsSection from "../sessionsSection/SessionsSection";
 
 const ChatApp = () => {
     return (
@@ -14,12 +14,12 @@ const ChatApp = () => {
 
             <Grid container item xs={12} direction="row" sx={style.main}>
                 <Grid item xs={2} sx={style.session}>
-                    <Sessions />
+                    <SessionsSection />
                 </Grid>
 
                 <Grid container item direction={'column'} xs={8} sx={style.conversationContainer}>
                     <Grid item sx={style.conversation}>
-                        <Conversation />
+                        {/*<Session />*/}
                     </Grid>
                     <Grid item xs={true}>
                         <Box
@@ -28,7 +28,7 @@ const ChatApp = () => {
                             alignItems="center"
                             justifyContent="center"
                             sx={style.userInput}>
-                            <UserInput />
+                            {/*<UserInput />*/}
                         </Box>
                     </Grid>
                 </Grid>

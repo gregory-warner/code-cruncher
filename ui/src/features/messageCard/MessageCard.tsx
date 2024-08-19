@@ -12,7 +12,7 @@ import {
 import {MessengerTypeIds} from "../../types";
 import {chatServerUrl} from "../../../config";
 import {setSnackbar} from "../../app/store/appSlice";
-import {selectActor, selectUser} from "../conversation/store/conversationSlice";
+import {selectActor, selectUser} from "../session/store/sessionSlice";
 
 const MessageCard = ({ message }: {message: Message}) => {
     const dispatch = useAppDispatch();

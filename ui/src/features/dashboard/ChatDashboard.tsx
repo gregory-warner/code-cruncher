@@ -7,7 +7,7 @@ import ActorDrawer from "../actorDrawer/ActorDrawer";
 import {selectSelectedActor} from "./chatDashboardSlice";
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {useEffect} from "react";
-import {defaultUser, setUser} from "../conversation/store/conversationSlice";
+import {defaultUser, setUser} from "../session/store/sessionSlice";
 
 const ChatDashboard = () => {
 

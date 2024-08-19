@@ -6,7 +6,7 @@ import {
     selectDialogId,
     selectUser,
     sendChatMessage
-} from '../../../conversation/store/conversationSlice';
+} from '../../../session/store/sessionSlice';
 import {messengerTypeIds} from "../../../../utils/util";
 
 const UserInput = () => {
