@@ -4,9 +4,9 @@ export enum MessengerTypeIds {
 }
 
 export interface ChatSnackbar {
-    isOpen?: boolean,
-    duration?: number,
-    message: string,
+    isOpen?: boolean;
+    duration?: number;
+    message: string;
 }
 
 export interface Prompt {
@@ -16,7 +16,7 @@ export interface Prompt {
     postfix: string;
     createdAt: string;
     updatedAt: string;
-    deletedAt: null | string;
+    deletedAt?: null | string;
 }
 
 export interface AIModel {
@@ -65,3 +65,21 @@ export interface ColorTheme {
     textColor: string;
 }
 
+export interface Message {
+    messageId: number;
+    sessionId: number;
+    messageTypeId: number;
+    messageLinkId: number;
+    messengerId: number;
+    content: string;
+    data?: any;
+    isLocked: boolean;
+}
+
+export interface Session {
+    sessionId: number;
+    sessionName: string;
+    sessionTypeId: number;
+    createdBy: number;
+    deletedAt?: Date | null;
+}

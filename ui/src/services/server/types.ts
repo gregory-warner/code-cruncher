@@ -1,39 +1,28 @@
-import {Dialog} from "../../types";
+import {Prompt, Session} from "../../types";
 
 export interface ActorPrompt {
     actorId: number;
+    prompt: PromptRequest
+}
+
+interface PromptRequest extends Partial<Prompt> {
+    promptId?: number;
+    promptName: string;
     prompt: string;
+    postfix: string;
+    createdAt?: string;
+    updatedAt?: string;
+    deletedAt?: null | string;
 }
 
-export interface ServerResponse {
-    msg: string;
+export interface SessionRequest extends Partial<Session> {
+    sessionId?: number;
+    sessionName: string;
+    sessionTypeId: number;
+    createdBy: number;
 }
 
-export interface UpdateActorInput {
-    name: string;
-    title: string;
-    messageCard: string;
-    prompt: string;
-    avatar: File|string;
-    ttsModel: string;
-    chatModel: string;
-    actorId: number;
-}
-
-export interface DialogsResponse {
-    dialogs: Dialog[];
-}
-
-export interface DialogsRequest {
-    userId: number;
-    actorId: number;
-}
-
-export interface CreateDialogResponse {
-    dialogId: number;
-}
-
-export interface UpdateDialogNameRequest {
-    dialogId: number;
-    dialogName: string;
+export interface SessionNameRequest {
+    sessionId: number;
+    sessionName: string;
 }

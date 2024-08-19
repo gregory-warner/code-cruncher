@@ -9,19 +9,6 @@ interface User {
     timeCreated?: EpochTimeStamp,
 }
 
-interface Message {
-    id?: number,
-    dialogId?: number,
-    messengerId?: number,
-    messengerTypeId?: number,
-    content: string,
-    timestamp?: EpochTimeStamp,
-    data?: {
-        imageLinks?: string[],
-    },
-    isLocked?: boolean,
-}
-
 interface MessageCardColorTheme {
     nameColor: string,
     contentsColor: string,
@@ -72,14 +59,3 @@ type MessageCardStyle = {
 type Model = {
     id: string,
 }
-
-interface ActorModel {
-    actorId: number,
-    model: string,
-}
-
-interface TtsParams {
-    model: string,
-    text: string,
-}
-
