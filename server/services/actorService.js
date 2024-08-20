@@ -18,7 +18,7 @@ export const getActorById = async (actorId) => {
     const actor = await Actor.findByPk(actorId, {
         include: [
             { model: Prompt, required: true },
-            { model: AIModel, required: true },
+            { model: AIModel, required: true, as: 'aiModel' },
         ],
     });
 
