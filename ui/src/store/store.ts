@@ -4,6 +4,7 @@ import messageCardReducer from '../features/messageCard/store/messageCardSlice';
 import chatDashboardReducer from '../features/dashboard/chatDashboardSlice';
 import actorCreationDrawerReducer from '../features/actorDrawer/store/actorDrawerSlice';
 import appReducer from '../app/store/appSlice';
+import userReducer from '../features/user/userSlice';
 import themeReducer from '../theme/themeSlice';
 import {serverApi} from "../services/server/serverApi";
 import {openaiApi} from "../services/openai/openaiApi";
@@ -21,6 +22,7 @@ export const store = configureStore({
     chatDashboard: chatDashboardReducer,
     actorCreationDrawer: actorCreationDrawerReducer,
     app: appReducer,
+    user: userReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(serverApi.middleware, openaiApi.middleware, ollamaApi.middleware),
 });
