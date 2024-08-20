@@ -21,7 +21,7 @@ router.get('/', async (req, res, next) => {
 router.post('/create', async (req, res, next) => {
     try {
         const session = await createSession(req.body);
-        return res.json({session});
+        return res.json(session);
     } catch (err) {
         next(err);
     }
