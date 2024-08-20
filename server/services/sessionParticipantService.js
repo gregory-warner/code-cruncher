@@ -34,9 +34,34 @@ export const addSessionParticipant = async (sessionParticipant) => {
     sessionParticipant.participantSequence = count + 1;
 
     const participant = await SessionParticipant.create(sessionParticipant);
+
     if (!participant instanceof SessionParticipant) {
         throw new Error(`Unable to add session participant for session id ${sessionParticipant.sessionId}`);
     }
 
-    return participant;
+    const participantType = getSessionParticipantTypeModel(sessionParticipant.participantTypeId);
+    return await SessionParticipant.findByPk(participant.participantId, {
+        include: [
+            { model: participantType.model, as: participantType.alias },
+        ]
+    });
 };
+
+const getSessionParticipantTypeModel = (participantTypeId) => {
+    switch (participantTypeId) {
+        case 0:
+            return { model: User, alias: 'user' };
+        case 1:
+            return { model: Actor, alias: 'actor' };
+        default:
+            throw new Error(`Unknown participant type with id ${participantTypeId}`);
+    }
+};
+
+export const deleteSessionParticipants = async (sessionId) => {
+    return await SessionParticipant.destroy({
+        where: {
+            sessionId,
+        },
+    });
+}
