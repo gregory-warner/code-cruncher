@@ -6,6 +6,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import {useAppDispatch} from "../../../store/hooks";
 import {Session} from "../../../types";
 import {useDeleteSessionMutation, useUpdateSessionNameMutation} from "../../../services/server/serverApi";
+import {setSessionId} from "../../session/store/sessionSlice";
 
 interface SessionItemParams {
     sessionId: number;
@@ -31,7 +32,7 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
     };
 
     const updateCurrentSession = (session: Session) => {
-        dispatch(setDialogId(session.sessionId));
+        dispatch(setSessionId(session.sessionId));
     };
 
     return (
@@ -76,7 +77,7 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
                                 align='left'
                                 variant='body1'
                             >
-                                {session.dialogName}
+                                {session.sessionName}
                             </Typography>
                         )
                     }
