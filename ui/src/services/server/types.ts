@@ -22,6 +22,12 @@ export interface SessionRequest extends Partial<Session> {
     createdBy: number;
 }
 
+export interface SessionParticipantRequest {
+    sessionId: number;
+    participantId: number;
+    participantTypeId: number;
+}
+
 export interface SessionNameRequest {
     sessionId: number;
     sessionName: string;

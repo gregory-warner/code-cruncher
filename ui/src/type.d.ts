@@ -1,23 +1,3 @@
-interface User {
-    userId: number,
-    name: string,
-    username: string,
-    configuration?: {
-        avatar?: string,
-        colorTheme?: any,
-    },
-    timeCreated?: EpochTimeStamp,
-}
-
-interface MessageCardColorTheme {
-    nameColor: string,
-    contentsColor: string,
-    backgroundColor: string,
-    borderColor: string,
-    borderRadius?: string,
-    boxShadow?: string,
-    textColor?: string,
-}
 
 /* ChatGPT Message */
 interface ChatMessage {

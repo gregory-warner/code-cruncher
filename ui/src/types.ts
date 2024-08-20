@@ -82,4 +82,37 @@ export interface Session {
     sessionTypeId: number;
     createdBy: number;
     deletedAt?: Date | null;
+    createdAt?: Date | null;
+    updatedAt?: Date | null;
+}
+
+export enum SessionType {
+    code = 0,
+    chat = 1,
+}
+
+export interface User {
+    userId: number;
+    name: string;
+    username: string;
+    avatar: string;
+    colorTheme?: ColorTheme;
+}
+
+export enum SessionParticipantType {
+    user = 0,
+    actor = 1,
+}
+
+export interface SessionParticipant {
+    sessionParticipantId?: number;
+    sessionId: number;
+    participantId: number;
+    participantTypeId: number;
+    participantSequence: number;
+    createdBy?: number;
+    createdAt?: Date;
+    updatedAt?: Date;
+    deletedAt?: Date | null;
+
 }
