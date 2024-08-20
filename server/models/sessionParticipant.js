@@ -32,8 +32,7 @@ const SessionParticipant = sequelize.define('session_participant', {
     },
     createdBy: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0,
+        allowNull: true,
         field: 'created_by',
     },
 }, {
