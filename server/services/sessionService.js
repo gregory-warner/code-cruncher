@@ -1,4 +1,5 @@
 import {Session} from '../models/models.js';
+import {deleteSessionParticipants} from "./sessionParticipantService.js";
 
 export const getSessionById = async (sessionId) => {
     const session = await Session.findByPk(sessionId);
@@ -60,6 +61,7 @@ export const deleteSession = async (sessionId) => {
     }
 
     await session.destroy();
+    await deleteSessionParticipants(sessionId);
     return session;
 }
 
