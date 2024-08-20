@@ -1,14 +1,27 @@
 import {Button, CircularProgress, Grid, List, Stack, Typography} from '@mui/material';
-import {useCreateSessionMutation, useGetDialogsQuery, useGetSessionsQuery} from "../../services/server/serverApi";
+import {
+    useAddParticipantMutation,
+    useCreateSessionMutation,
+    useGetSessionsQuery
+} from "../../services/server/serverApi";
 import SessionItem from "./components/SessionItem";
 import React from "react";
+import {SessionRequest} from "../../services/server/types";
+import {Session, SessionParticipantType, SessionType, User} from "../../types";
+import {useAppDispatch, useAppSelector} from "../../store/hooks";
+import {selectUser} from "../user/userSlice";
+import {addSessionParticipant, setSessionId} from "../session/store/sessionSlice";
+import {isUser} from "../../utils/util";
 
 const SessionsSection = () => {
-    const [createSession] = useCreateSessionMutation();
+    const dispatch = useAppDispatch();
+    const user: User = useAppSelector(selectUser);
 
+    const [createSession] = useCreateSessionMutation();
+    const [addParticipant] = useAddParticipantMutation();
     const {data, isLoading} = useGetSessionsQuery();
 
-    if (isLoading) {
+    if (isLoading || !isUser(user)) {
         return (
             <CircularProgress
                 aria-label="Loading sessions..."
@@ -17,8 +30,30 @@ const SessionsSection = () => {
     }
 
     const createNewSession = async () => {
-        // const dialog = await createDialog({actorId: actor.actorId, userId: user.userId}).unwrap();
-        // dispatch(setDialogId(dialog.dialogId));
+        const request: SessionRequest = {
+            sessionName: 'Untitled',
+            sessionTypeId: SessionType.code,
+            createdBy: user.userId,
+        }
+        const session: Session = await createSession(request).unwrap();
+        dispatch(setSessionId(session.sessionId));
+        await addDefaultParticipants(session.sessionId);
+    };
+
+    const addDefaultParticipants = async (sessionId: number) => {
+        const userParticipant = await addParticipant({
+            sessionId: sessionId,
+            participantId: user.userId,
+            participantTypeId: SessionParticipantType['user'],
+        }).unwrap();
+        dispatch(addSessionParticipant(userParticipant));
+
+        const actorParticipant = await addParticipant({
+            sessionId: sessionId,
+            participantId: 1,
+            participantTypeId: SessionParticipantType['actor'],
+        }).unwrap();
+        dispatch(addSessionParticipant(actorParticipant));
     };
 
     return (
@@ -29,7 +64,7 @@ const SessionsSection = () => {
                         Sessions
                     </Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={7}>
                     <Button sx={{ width: '100%' }} onClick={createNewSession}>+ New Session</Button>
                 </Grid>
             </Grid>
