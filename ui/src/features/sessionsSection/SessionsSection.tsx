@@ -37,23 +37,6 @@ const SessionsSection = () => {
         }
         const session: Session = await createSession(request).unwrap();
         dispatch(setSessionId(session.sessionId));
-        await addDefaultParticipants(session.sessionId);
-    };
-
-    const addDefaultParticipants = async (sessionId: number) => {
-        const userParticipant = await addParticipant({
-            sessionId: sessionId,
-            participantId: user.userId,
-            participantTypeId: SessionParticipantType['user'],
-        }).unwrap();
-        dispatch(addSessionParticipant(userParticipant));
-
-        const actorParticipant = await addParticipant({
-            sessionId: sessionId,
-            participantId: 1,
-            participantTypeId: SessionParticipantType['actor'],
-        }).unwrap();
-        dispatch(addSessionParticipant(actorParticipant));
     };
 
     return (

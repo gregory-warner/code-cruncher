@@ -72,3 +72,9 @@ export const updateActorPrompt = async (actorId, data) => {
 
     return actor;
 };
+
+export const getFirstActor = async () => {
+    return await Actor.findOne({
+        order: [['actorId', 'ASC']]
+    });
+}

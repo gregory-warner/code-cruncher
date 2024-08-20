@@ -1,9 +1,16 @@
 import {Actor, SessionParticipant, User} from "../models/models.js";
+import {getFirstUser} from "./userService.js";
+import {getFirstActor} from "./actorService.js";
 
 const sessionParticipantType = {
     0: 'user',
     1: 'actor',
 };
+
+const sessionParticipant = Object.entries(sessionParticipantType).reduce((acc, [key, value]) => {
+    acc[value] = parseInt(key);
+    return acc;
+}, {});
 
 export const getSessionParticipants = async (sessionId) => {
     const participants = await SessionParticipant.findAll({
@@ -65,3 +72,24 @@ export const deleteSessionParticipants = async (sessionId) => {
         },
     });
 }
+
+/**
+ * adds the first user and actor to the session
+ *
+ * @param sessionId
+ * @returns {Promise<void>}
+ */
+export const addDefaultParticipants = async (sessionId) => {
+    const user = await getFirstUser();
+    const userParticipant = await addSessionParticipant({
+        sessionId,
+        participantId: user.userId,
+        participantTypeId: sessionParticipant.user,
+    })
+    const actor = await getFirstActor();
+    const actorParticipant = await addSessionParticipant({
+        sessionId,
+        participantId: actor.actorId,
+        participantTypeId: sessionParticipant.actor,
+    })
+};

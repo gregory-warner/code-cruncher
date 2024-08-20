@@ -1,5 +1,5 @@
 import {Session} from '../models/models.js';
-import {deleteSessionParticipants} from "./sessionParticipantService.js";
+import {addDefaultParticipants, deleteSessionParticipants} from "./sessionParticipantService.js";
 
 export const getSessionById = async (sessionId) => {
     const session = await Session.findByPk(sessionId);
@@ -30,6 +30,8 @@ export const createSession = async (sessionData) => {
     if (!session instanceof Session) {
         throw new Error(`Unable to create session`);
     }
+
+    await addDefaultParticipants(session.sessionId);
 
     return session;
 }

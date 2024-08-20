@@ -34,3 +34,9 @@ export const deleteUser = async (userId) => {
     await user.destroy();
     return user;
 }
+
+export const getFirstUser = async () => {
+    return await User.findOne({
+        order: [['userId', 'ASC']],
+    });
+};
