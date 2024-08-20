@@ -1,16 +1,19 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {chatServerUrl} from "../../../config";
 import {
-    ActorPrompt, SessionNameRequest, SessionRequest,
+    ActorPrompt, SessionNameRequest, SessionParticipantRequest, SessionRequest,
 } from "./types";
-import {Actor, Message, Session} from "../../types";
+import {Actor, Message, Session, SessionParticipant, User} from "../../types";
 
 export const serverApi  = createApi({
     reducerPath: 'serverApi',
     baseQuery: fetchBaseQuery({ baseUrl: chatServerUrl,}),
     tagTypes: ['Messages', 'Actors', 'Sessions'],
     endpoints: (build) => ({
-        getUser: build.query<User, string>({
+        getUser: build.query<User, number>({
+            query: (id: number) => `users/${id}`,
+        }),
+        getUserByUsername: build.query<User, string>({
             query: (username: string) => `users/user/${username}`
         }),
         getActor: build.query({
@@ -91,14 +94,14 @@ export const serverApi  = createApi({
                 { type: 'Sessions' },
             ],
         }),
-        getSessions: build.query<Session[], null>({
+        getSessions: build.query<Session[], void>({
             query: () => ({
                 url: `sessions/`,
                 method: 'GET',
             }),
             providesTags: [{ type: 'Sessions', id: 'LIST' }],
         }),
-        createSession: build.mutation<{session: Session}, SessionRequest>({
+        createSession: build.mutation<Session, SessionRequest>({
             query: (request: SessionRequest) => ({
                 url: `sessions/create`,
                 method: 'POST',
@@ -113,6 +116,16 @@ export const serverApi  = createApi({
                 url: `sessions/${request.sessionId}/name`,
                 method: 'PATCH',
                 body: { sessionName: request.sessionName },
+            }),
+            invalidatesTags: () => [
+                { type: 'Sessions' },
+            ],
+        }),
+        addParticipant: build.mutation<SessionParticipant, SessionParticipantRequest>({
+            query: (request: SessionParticipantRequest) => ({
+                url: `sessions/add-participant`,
+                method: 'POST',
+                body: request,
             }),
             invalidatesTags: () => [
                 { type: 'Sessions' },
@@ -133,4 +146,5 @@ export const {
     useUpdateSessionNameMutation,
     useCreateSessionMutation,
     useGetSessionsQuery,
+    useAddParticipantMutation,
 } = serverApi;
