@@ -60,7 +60,7 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
                 <Grid item xs={1}>
                     <Typography variant='body1'>{`${sessionId+1}.) `}</Typography>
                 </Grid>
-                <Grid item xs={7}>
+                <Grid item xs={7} sx={{ paddingLeft: '5px'}}>
                     {
                         editMode ? (
                             <TextField
