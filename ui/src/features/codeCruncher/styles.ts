@@ -1,24 +1,37 @@
-const headerHeight = '3vh';
-const mainHeight = '94vh';
-const footerHeight = `calc(100vh - ${headerHeight} - ${mainHeight})`;
-
-const chatAppDesign = {
+const codeCruncherStyle = {
     header: {
-        minHeight: headerHeight,
+        width: '100%',
+        flexGrow: 0,
+        minHeight: '7vh'
     },
     main: {
-        maxHeight: mainHeight,
+        display: 'flex',
+        width: '100%',
+        maxHeight: '90vh',
+        flexGrow: 1,
+        flexShrink: 0
+    },
+    sessionsSection: {
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '90vh',
+        width: '30%',
+        flexGrow: 0,
+        flexShrink: 0
+    },
+    sessionContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '90vh',
+        width: '60%',
+        flexGrow: 0,
+        flexShrink: 0
     },
     session: {
-        height: mainHeight,
-    },
-    conversationContainer: {
-        maxHeight: mainHeight,
-    },
-    conversation: {
-        overflowY: "scroll",
-        maxHeight: '48vh',
+        overflowY: 'scroll',
+        minHeight: '60%',
         flexGrow: 1,
+        flexShrink: 0,
         border: '2px solid black'
     },
     userInput: {
@@ -26,11 +39,16 @@ const chatAppDesign = {
         border: '2px solid black'
     },
     details: {
-        height: mainHeight,
+        minHeight: '90vh',
+        width: '30%',
+        flexGrow: 0,
+        flexShrink: 0
     },
     footer: {
-        height: footerHeight,
+        width: '100%',
+        minHeight: '3vh'
     }
 };
 
-export default chatAppDesign;
+
+export default codeCruncherStyle;
