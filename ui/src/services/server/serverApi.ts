@@ -131,6 +131,12 @@ export const serverApi  = createApi({
                 { type: 'Sessions' },
             ],
         }),
+        getSessionParticipants: build.query<any, number>({
+            query: (sessionId: number) => ({
+                url: `sessions/${sessionId}/participants`,
+                method: 'GET',
+            })
+        }),
     }),
 });
 
