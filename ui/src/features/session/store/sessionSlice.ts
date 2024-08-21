@@ -1,13 +1,12 @@
-import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../../../store/store';
-import {createDialog, getDialogId} from '../../../api/server';
 import {Actor, Message, SessionParticipant, User} from "../../../types";
 
 
 
 export interface SessionState {
     sessionId: number|null,
-    participants: SessionParticipant[]
+    participants: (Actor | User)[]
     currentSpeaker: User | Actor | null,
 }
 
@@ -24,10 +23,10 @@ export const sessionSlice = createSlice({
         setSessionId: (state, action: PayloadAction<number>) => {
             state.sessionId = action.payload;
         },
-        setParticipants: (state, action: PayloadAction<SessionParticipant[]>) => {
+        setParticipants: (state, action: PayloadAction<(Actor | User)[]>) => {
             state.participants = action.payload;
         },
-        addSessionParticipant: (state, action: PayloadAction<SessionParticipant>) => {
+        addSessionParticipant: (state, action: PayloadAction<(Actor | User)>) => {
             state.participants = [
                 ...state.participants,
                 action.payload,
@@ -43,7 +42,7 @@ export const {
 } = sessionSlice.actions;
 
 export const selectSessionId = (state: RootState): number => state.session.sessionId;
-export const selectParticipants = (state: RootState): SessionParticipant[] => state.session.participants;
+export const selectParticipants = (state: RootState): (Actor | User)[] => state.session.participants;
 export const selectCurrentSpeaker = (state: RootState): User | Actor | null => state.session.currentSpeaker;
 
 
