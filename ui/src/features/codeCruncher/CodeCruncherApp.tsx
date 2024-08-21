@@ -34,12 +34,12 @@ const CodeCruncherApp = () => {
             </Grid>
 
             <Grid container item xs={12} direction="row" sx={style.main}>
-                <Grid item xs={2} sx={style.session}>
+                <Grid item xs={2} sx={style.sessionsSection}>
                     <SessionsSection />
                 </Grid>
 
-                <Grid container item direction={'column'} xs={8} sx={style.conversationContainer}>
-                    <Grid item sx={style.conversation}>
+                <Grid container item direction={'column'} xs={8} sx={style.sessionContainer}>
+                    <Grid item sx={style.session}>
                         {/*<Session />*/}
                     </Grid>
                     <Grid item xs={true}>
