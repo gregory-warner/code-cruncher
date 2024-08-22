@@ -17,6 +17,7 @@ const SessionParticipant = sequelize.define('session_participant', {
         type: DataTypes.INTEGER,
         allowNull: false,
         field: 'participant_id',
+        comment: 'used to determine the id or the user or actor based on the participant type id'
     },
     participantTypeId: {
         type: DataTypes.INTEGER,
@@ -24,11 +25,12 @@ const SessionParticipant = sequelize.define('session_participant', {
         field: 'participant_type_id',
         comment: 'used to distinguish between different participants e.g. 0 for user, 1 for actor'
     },
-    participantSequence: {
+    participantSequenceId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,
-        field: 'participant_sequence',
+        field: 'participant_sequence_id',
+        comment: 'used to determine the expected speaker sequence in the session'
     },
     createdBy: {
         type: DataTypes.INTEGER,
