@@ -99,10 +99,8 @@ export interface User {
     colorTheme?: ColorTheme;
 }
 
-export enum SessionParticipantType {
-    user = 0,
-    actor = 1,
-}
+
+export type SessionParticipantType = Actor | User;
 
 export interface SessionParticipant {
     sessionParticipantId?: number;
