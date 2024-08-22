@@ -18,7 +18,8 @@ export const getSessionParticipants = async (sessionId) => {
         include: [
             { model: Actor, as: 'actor' },
             { model: User, as: 'user' }
-        ]
+        ],
+        order: [['participantSequenceId', 'ASC']],
     });
 
     return participants.map(participant => participant[sessionParticipantType[participant.participantTypeId]]);
@@ -52,6 +53,8 @@ export const addSessionParticipant = async (sessionParticipant) => {
             { model: participantType.model, as: participantType.alias },
         ]
     });
+
+    // return newSessionParticipant[sessionParticipantType[newSessionParticipant.participantTypeId]];
 };
 
 const getSessionParticipantTypeModel = (participantTypeId) => {
