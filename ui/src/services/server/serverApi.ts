@@ -1,9 +1,9 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {chatServerUrl} from "../../../config";
 import {
-    ActorPrompt, SessionNameRequest, SessionParticipantRequest, SessionRequest,
+    ActorPrompt, MessageRequest, SessionNameRequest, SessionParticipantRequest, SessionRequest,
 } from "./types";
-import {Actor, Message, Session, SessionParticipant, User} from "../../types";
+import {Actor, Message, Session, SessionParticipant, SessionParticipantType, User} from "../../types";
 
 export const serverApi  = createApi({
     reducerPath: 'serverApi',
@@ -23,8 +23,8 @@ export const serverApi  = createApi({
             query: () => 'actors/',
             providesTags: [{ type: 'Actors', id: 'LIST' }],
         }),
-        addMessage: build.mutation<Message, Message>({
-            query: (message: Message) => ({
+        addMessage: build.mutation<Message, MessageRequest>({
+            query: (message: MessageRequest) => ({
                 url: 'messages/create',
                 method: 'POST',
                 body: { message },
@@ -131,7 +131,7 @@ export const serverApi  = createApi({
                 { type: 'Sessions' },
             ],
         }),
-        getSessionParticipants: build.query<any, number>({
+        getSessionParticipants: build.query<SessionParticipantType[], number>({
             query: (sessionId: number) => ({
                 url: `sessions/${sessionId}/participants`,
                 method: 'GET',
@@ -153,4 +153,6 @@ export const {
     useCreateSessionMutation,
     useGetSessionsQuery,
     useAddParticipantMutation,
+    useLazyGetSessionParticipantsQuery,
+    useAddMessageMutation,
 } = serverApi;
