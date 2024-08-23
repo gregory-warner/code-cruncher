@@ -3,7 +3,7 @@ export enum MessengerTypeIds {
     actor,
 }
 
-export interface ChatSnackbar {
+export interface CruncherSnackbar {
     isOpen?: boolean;
     duration?: number;
     message: string;
@@ -112,5 +112,10 @@ export interface SessionParticipant {
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date | null;
+}
 
+export enum MessageTypeId {
+    general = 0,
+    question = 1,
+    answer  ,
 }
