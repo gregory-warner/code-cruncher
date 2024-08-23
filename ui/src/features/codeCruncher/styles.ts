@@ -29,14 +29,10 @@ const codeCruncherStyle = {
     },
     session: {
         overflowY: 'scroll',
-        minHeight: '60%',
-        flexGrow: 1,
-        flexShrink: 0,
+        minHeight: '43%',
         border: '2px solid black'
     },
     userInput: {
-        height: '100%',
-        border: '2px solid black'
     },
     details: {
         minHeight: '90vh',
