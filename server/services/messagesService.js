@@ -12,7 +12,7 @@ export const getMessages = async (sessionId) => {
 };
 
 export const validateMessage = (message) => {
-    const requiredFields = ['sessionId', 'messengerId', 'messengerTypeId', 'content'];
+    const requiredFields = ['sessionId', 'messengerId', 'messageTypeId', 'content'];
 
     for (const field of requiredFields) {
         if (!field in message) {
