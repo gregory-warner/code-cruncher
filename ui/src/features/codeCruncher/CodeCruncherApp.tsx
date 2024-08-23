@@ -7,6 +7,8 @@ import React, {useEffect} from "react";
 import {useAppDispatch} from "../../store/hooks";
 import {defaultUserId, setUser} from "../user/userSlice";
 import {isUser} from "../../utils/util";
+import Session from "../session/Session";
+import UserInput from "../session/component/userInput/UserInput";
 
 const CodeCruncherApp = () => {
     const dispatch = useAppDispatch();
@@ -40,7 +42,7 @@ const CodeCruncherApp = () => {
 
                 <Grid container item direction={'column'} xs={8} sx={style.sessionContainer}>
                     <Grid item sx={style.session}>
-                        {/*<Session />*/}
+                        <Session />
                     </Grid>
                     <Grid item xs={true}>
                         <Box
@@ -49,7 +51,7 @@ const CodeCruncherApp = () => {
                             alignItems="center"
                             justifyContent="center"
                             sx={style.userInput}>
-                            {/*<UserInput />*/}
+                            <UserInput />
                         </Box>
                     </Grid>
                 </Grid>

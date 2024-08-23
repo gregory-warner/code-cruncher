@@ -1,9 +1,9 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {ChatSnackbar} from "../../types";
+import {CruncherSnackbar} from "../../types";
 import {RootState} from "../../store/store";
 
 export interface AppState {
-    snackbar: ChatSnackbar,
+    snackbar: CruncherSnackbar,
 }
 
 const initialState: AppState = {
@@ -18,7 +18,7 @@ export const appSlice = createSlice({
     name: "app",
     initialState,
     reducers: {
-        setSnackbar: (state, action: PayloadAction<ChatSnackbar>) => {
+        setSnackbar: (state, action: PayloadAction<CruncherSnackbar>) => {
             state.snackbar = {
                 isOpen: action.payload.isOpen ?? true,
                 duration: action.payload.duration ?? 4000,
