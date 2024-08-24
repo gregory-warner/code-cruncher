@@ -17,7 +17,7 @@ export interface PostLegacyParams {
 }
 
 export interface PostChatParams {
-    messages: ChatMessage[],
+    messages: OpenAIMessage[],
     model: string,
     max_tokens: number,
     temperature: number,
@@ -31,4 +31,12 @@ export interface PostImageParams {
     quality: string,
     style: string,
     model: number,
+}
+
+export interface OpenAIMessage {
+    role: string;
+    content: string;
+    data?: {
+        imageLinks?: string[];
+    }
 }
