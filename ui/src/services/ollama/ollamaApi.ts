@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {ollamaUrl} from "../../../config";
-import {ModelResponse, Model, ChatRequest, ChatResponse} from "./types";
+import {ModelResponse, Model, OllamaRequest, OllamaResponse} from "./types";
 
 export const ollamaApi  = createApi({
     reducerPath: 'ollamaApi',
@@ -54,8 +54,8 @@ export const ollamaApi  = createApi({
                 method: 'GET',
             }),
         }),
-        chat: build.query<ChatResponse, ChatRequest>({
-            query: (request: ChatRequest) =>  ({
+        chat: build.mutation<OllamaResponse, OllamaRequest>({
+            query: (request: OllamaRequest) =>  ({
                 url:  `api/chat`,
                 method: 'POST',
                 body: request,
@@ -71,5 +71,5 @@ export const {
     useHeartbeatQuery,
     useLazyRunningModelsQuery,
     useModelsQuery,
-    useChatQuery,
+    useChatMutation,
 } = ollamaApi;
