@@ -86,7 +86,7 @@ const getModelProviderDetails = (model) => {
     if (ollamaModel) {
         return {
             modelName: model.name,
-            modelIdentifier: model.details.family,
+            modelIdentifier: 'ollama',
             modelTypeId: typeId,
             isLocal: true,
         };
@@ -95,7 +95,7 @@ const getModelProviderDetails = (model) => {
     if (openaiModel) {
         return {
             modelName: model.id,
-            modelIdentifier: model.id,
+            modelIdentifier: 'openai',
             modelTypeId: typeId,
             isLocal: false,
         };
