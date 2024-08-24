@@ -26,6 +26,7 @@ const AIModel = sequelize.define('ai_model', {
         allowNull: true,
         defaultValue: '',
         field: 'model_identifier',
+        comment: 'used to determine the owner or distributor of the model e.g. ollama, openai'
     },
     isLocal: {
         type: DataTypes.BOOLEAN,
