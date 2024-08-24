@@ -1,18 +1,21 @@
-import {Message} from '../models/models.js';
-import {messengerTypes, removeProperty} from "../utils/utils.js";
-import {getUserById} from "./userService.js";
-import {getActorById} from "./actorService.js";
+import {Actor, Message, User} from '../models/models.js';
+import {messengerTypeIds, removeProperty} from "../utils/utils.js";
 import validator from "validator";
+import {Sequelize} from "sequelize";
 
 export const getMessages = async (sessionId) => {
     return await Message.findAll({
         where: { sessionId },
-        order: [['messageId', 'ASC']]
+        order: [['messageId', 'ASC']],
+        include: [
+            { model: User, required: false, where: { id: Sequelize.col('Message.messengerId'), messengerTypeId: messengerTypeIds.user } },
+            { model: Actor, required: false, where: { id: Sequelize.col('Message.messengerId'), messengerTypeId: messengerTypeIds.assistant } }
+        ]
     });
 };
 
 export const validateMessage = (message) => {
-    const requiredFields = ['sessionId', 'messengerId', 'messageTypeId', 'content'];
+    const requiredFields = ['sessionId', 'messengerId', 'messengerTypeId', 'content'];
 
     for (const field of requiredFields) {
         if (!field in message) {
@@ -20,17 +23,6 @@ export const validateMessage = (message) => {
         }
     }
 }
-
-export const getMessenger = async (messengerId, messengerTypeId) => {
-    switch (messengerTypes[messengerTypeId]) {
-        case 'user':
-            return await getUserById(messengerId);
-        case 'actor':
-            return await getActorById(messengerId);
-        default:
-            throw new Error(`Unable to find messenger with id: ${ messengerId }`);
-    }
-};
 
 export const createMessage = async (message) => {
     validateMessage(message)
@@ -40,6 +32,7 @@ export const createMessage = async (message) => {
         messengerId: message.messengerId,
         messengerTypeId: message.messengerTypeId,
         content: validator.escape(message.content),
+        messageTypeId: message.messageTypeId,
         data: message.data ?? {},
     });
 
