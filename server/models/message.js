@@ -32,6 +32,14 @@ const Message = sequelize.define('message', {
         allowNull: false,
         defaultValue: 0,
         field: 'messenger_id',
+        comment: 'used as the primary key of the messenger e.g. actorId, userId'
+    },
+    messengerTypeId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+        field: 'messenger_type_id',
+        comment: 'used to distinguish the messenger type e.g. user, actor'
     },
     content: {
         type: DataTypes.TEXT,
