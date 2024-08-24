@@ -1,4 +1,4 @@
-import {Actor, SessionParticipant, User} from "../models/models.js";
+import {Actor, AIModel, Prompt, SessionParticipant, User} from "../models/models.js";
 import {getFirstUser} from "./userService.js";
 import {getFirstActor} from "./actorService.js";
 
@@ -16,7 +16,14 @@ export const getSessionParticipants = async (sessionId) => {
     const participants = await SessionParticipant.findAll({
         where: { session_id: sessionId },
         include: [
-            { model: Actor, as: 'actor' },
+            {
+                model: Actor,
+                as: 'actor',
+                include: [
+                    { model: Prompt, as: 'prompt', required: true },
+                    { model: AIModel, as: 'aiModel', required: true },
+                ]
+            },
             { model: User, as: 'user' }
         ],
         order: [['participantSequenceId', 'ASC']],
