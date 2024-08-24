@@ -1,8 +1,3 @@
-export interface LoadModel {
-    model: string;
-    keep_alive: 0|1|-1;
-}
-
 export interface ModelResponse {
     model: string;
     created_at: string;
@@ -10,6 +5,8 @@ export interface ModelResponse {
     done: boolean;
     done_reason: string;
 }
+
+export type OllamaKeepAlive = 0|1|-1;
 
 interface ModelDetails {
     parent_model: string;
@@ -40,7 +37,6 @@ interface ToolCallFunction {
     arguments: ToolCallFunctionArguments;
 }
 
-// ToolCallFunctionArguments is a map of strings to any type.
 interface ToolCallFunctionArguments {
     [key: string]: any;
 }
@@ -77,12 +73,12 @@ export interface OllamaMessage {
     tool_calls?: ToolCall[];
 }
 
-export interface ChatRequest {
+export interface OllamaRequest {
     model: string;
     messages: OllamaMessage[];
     stream: boolean;
     format?: string;
-    keep_alive?: 0|1|-1;
+    keep_alive?: OllamaKeepAlive;
     tools?: Tool[];
     options?: Options;
 }
@@ -125,7 +121,7 @@ interface Runner {
     num_thread?: number;
 }
 
-export interface ChatResponse {
+export interface OllamaResponse {
     model: string;
     created_at: Date;
     message: OllamaMessage;
