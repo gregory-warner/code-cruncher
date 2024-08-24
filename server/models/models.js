@@ -35,8 +35,8 @@ Actor.belongsTo(Prompt, { foreignKey: 'prompt_id', constraints: false });
 
 User.hasMany(Message, { foreignKey: 'messenger_id' });
 Actor.hasMany(Message, { foreignKey: 'messenger_id' });
-Message.belongsTo(User, { foreignKey: 'messenger_id', constraints: false, scope: { messenger_type_id: 0 } });
-Message.belongsTo(Actor, { foreignKey: 'messenger_id', constraints: false, scope: { messenger_type_id: 1 } });
+Message.belongsTo(User, { foreignKey: 'messenger_id', constraints: false });
+Message.belongsTo(Actor, { foreignKey: 'messenger_id', constraints: false });
 
 Message.belongsTo(Message, { foreignKey: 'message_link_id' });
 Message.hasMany(Message, { foreignKey: 'message_link_id' });
