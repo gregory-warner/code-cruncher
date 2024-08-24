@@ -1,21 +1,3 @@
-const toCamelCase = (str) => {
-    return str.replace(/_([a-z])/g, (match, group1) => group1.toUpperCase());
-};
-
-/**
- * Transform an objects snake_case keys to camelCase
- *
- * @param obj
- * @returns {{}}
- */
-export const transformKeys = (obj) => {
-    return Object.keys(obj).reduce((newObj, key) => {
-        const newKey = toCamelCase(key);
-        newObj[newKey] = obj[key];
-        return newObj
-    }, {});
-};
-
 /**
  * Removes the property in an object and returns the properties value
  *
@@ -30,8 +12,9 @@ export const removeProperty = (object, property) => {
 };
 
 export const messengerTypeIds = {
-    user: 0,
-    assistant: 1,
+    system: 0,
+    user: 1,
+    assistant: 2,
 };
 
 export const messengerTypes = Object.entries(messengerTypeIds).reduce((acc, [key, value]) => {
