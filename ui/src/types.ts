@@ -71,6 +71,7 @@ export interface Message {
     messageTypeId: number;
     messageLinkId: number;
     messengerId: number;
+    messengerTypeId: number;
     content: string;
     data?: any;
     isLocked: boolean;
@@ -117,5 +118,5 @@ export interface SessionParticipant {
 export enum MessageTypeId {
     general = 0,
     question = 1,
-    answer  ,
+    answer = 2,
 }
