@@ -5,7 +5,7 @@ import {useAppDispatch, useAppSelector} from '../../../../store/hooks';
 import {incrementCurrentSequenceId, selectCurrentSpeaker, selectSessionId} from '../../store/sessionSlice';
 import {selectUser} from "../../../user/userSlice";
 import {useAddMessageMutation} from "../../../../services/server/serverApi";
-import {MessageRequest} from "../../../../services/server/types";
+import {AddMessageRequest} from "../../../../services/server/types";
 import {MessageTypeId, MessengerTypeIds} from "../../../../types";
 import {setSnackbar} from "../../../../app/store/appSlice";
 
@@ -36,7 +36,7 @@ const UserInput = () => {
             return;
         }
 
-        const message: MessageRequest = {
+        const message: AddMessageRequest = {
             sessionId,
             messengerId: user.userId,
             messageTypeId: MessageTypeId.general,

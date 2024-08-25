@@ -1,9 +1,12 @@
 import {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
-import {selectCurrentSpeaker, selectSessionId} from "../store/sessionSlice";
-import {useLazyGetMessagesQuery} from "../../../services/server/serverApi";
+import {incrementCurrentSequenceId, selectCurrentSpeaker, selectSessionId} from "../store/sessionSlice";
+import {useAddMessageMutation, useGetMessagesQuery, useLazyGetMessagesQuery} from "../../../services/server/serverApi";
 import {ServiceFactory} from "../services/serviceFactory";
 import {ChatService} from "../types";
+import {skipToken} from "@reduxjs/toolkit/query";
+import {AddMessageRequest} from "../../../services/server/types";
+import {Actor, MessengerTypeIds} from "../../../types";
 
 export const useActor = () => {
     const dispatch = useAppDispatch();
@@ -12,27 +15,41 @@ export const useActor = () => {
 
     const [aiService, setAiService] = useState<ChatService>(null);
 
-    const [getMessages] = useLazyGetMessagesQuery();
+    const { data: messages } = useGetMessagesQuery(sessionId || skipToken);
+    const [addMessage] = useAddMessageMutation();
 
     const isActor = currentSpeaker && 'actorId' in currentSpeaker;
 
     useEffect(() => {
-        if (!isActor || !sessionId) {
+        if (!Array.isArray(messages) || !isActor || !sessionId) {
             return;
         }
 
         setAiService(ServiceFactory.create(currentSpeaker));
-    }, [currentSpeaker]);
+    }, [messages]);
 
     useEffect(() => {
         if (!aiService) {
             return;
-
         }
 
-        getMessages(sessionId).then(({ data: messages})=> {
-            dispatch(aiService.chat(messages));
+        dispatch(aiService.chat(messages)).then(({data: response}) => {
+            const actor = currentSpeaker as Actor;
+
+            const message: AddMessageRequest = {
+                sessionId,
+                messageTypeId: 0,
+                messengerTypeId: MessengerTypeIds.actor,
+                messengerId: actor.actorId,
+                content: aiService.getMessageResponse(response),
+            };
+
+            addMessage(message).then((messageResponse) => {
+
+                dispatch(incrementCurrentSequenceId());
+            });
         });
+
     }, [aiService]);
 
 };

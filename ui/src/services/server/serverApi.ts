@@ -1,7 +1,7 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {chatServerUrl} from "../../../config";
 import {
-    ActorPrompt, MessageRequest, SessionNameRequest, SessionParticipantRequest, SessionRequest,
+    ActorPrompt, AddMessageRequest, SessionNameRequest, SessionParticipantRequest, SessionRequest,
 } from "./types";
 import {Actor, Message, Session, SessionParticipant, SessionParticipantType, User} from "../../types";
 
@@ -23,8 +23,8 @@ export const serverApi  = createApi({
             query: () => 'actors/',
             providesTags: [{ type: 'Actors', id: 'LIST' }],
         }),
-        addMessage: build.mutation<Message, MessageRequest>({
-            query: (message: MessageRequest) => ({
+        addMessage: build.mutation<Message, AddMessageRequest>({
+            query: (message: AddMessageRequest) => ({
                 url: 'messages/create',
                 method: 'POST',
                 body: { message },
@@ -155,4 +155,5 @@ export const {
     useAddParticipantMutation,
     useLazyGetSessionParticipantsQuery,
     useAddMessageMutation,
+    useGetMessagesQuery,
 } = serverApi;

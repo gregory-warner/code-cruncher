@@ -33,7 +33,7 @@ export interface SessionNameRequest {
     sessionName: string;
 }
 
-export interface MessageRequest {
+export interface AddMessageRequest {
     sessionId: number;
     messageTypeId: number;
     messengerId: number;

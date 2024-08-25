@@ -1,5 +1,5 @@
 import {Actor, Message} from "../../../types";
-import {OllamaKeepAlive, OllamaMessage, OllamaRequest} from "../../../services/ollama/types";
+import {OllamaKeepAlive, OllamaMessage, OllamaRequest, OllamaResponse} from "../../../services/ollama/types";
 import {messengerTypes} from "../../../utils/util";
 import {ollamaApi} from "../../../services/ollama/ollamaApi";
 import {ChatService} from "../types";
@@ -52,6 +52,10 @@ class OllamaService implements ChatService {
         };
 
         return this.api.endpoints.chat.initiate(request);
+    }
+
+    public getMessageResponse(response: OllamaResponse): string {
+        return response.message.content;
     }
 }
 

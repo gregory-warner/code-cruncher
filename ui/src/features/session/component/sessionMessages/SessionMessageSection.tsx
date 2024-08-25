@@ -9,7 +9,7 @@ import SessionMessageScrollFocus from "./SessionMessageScrollFocus";
 const SessionMessageSection = () => {
     const sessionId = useAppSelector(selectSessionId);
 
-    const [getMessages, { data: messages, isLoading, error }] = useLazyGetMessagesQuery(); // Use the hook to get a reference to the lazy getMessages query function and its results
+    const [getMessages, { data: messages, isLoading, error }] = useLazyGetMessagesQuery();
 
     useEffect(() => {
         if (sessionId > 0) {
