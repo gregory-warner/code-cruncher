@@ -68,7 +68,7 @@ const Message = sequelize.define('message', {
             name: 'idx_active_session_messages',
         },
         {
-            fields: ['messenger_id'],
+            fields: ['messenger_id', 'messenger_type_id'],
             name: 'idx_active_messenger_messages'
         }
     ]
