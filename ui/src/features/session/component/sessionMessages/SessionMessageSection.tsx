@@ -7,24 +7,28 @@ import SessionMessage from "./SessionMessage";
 import SessionMessageScrollFocus from "./SessionMessageScrollFocus";
 
 const SessionMessageSection = () => {
-    const [getMessages, {data: messages, isLoading }] = useLazyGetMessagesQuery();
     const sessionId = useAppSelector(selectSessionId);
 
-    if (isLoading) {
+    const [getMessages, { data: messages, isLoading, error }] = useLazyGetMessagesQuery(); // Use the hook to get a reference to the lazy getMessages query function and its results
+
+    useEffect(() => {
+        if (sessionId > 0) {
+            getMessages(sessionId);
+        }
+    }, [sessionId]);
+
+    if (!sessionId) {
+        return <>Please start a session</>
+    }
+
+    if (isLoading || !Array.isArray(messages)) {
         return <CircularProgress />;
     }
 
-    if (!Array.isArray(messages)) {
-        return <>No messages found</>
+    if (error) {
+        console.log((error as Error).message);
+        return <>Unable to load messages</>
     }
-
-    useEffect(() => {
-        if (sessionId <= 0) {
-            return;
-        }
-
-        getMessages(sessionId, false);
-    }, [sessionId]);
 
     return (
         <List>
