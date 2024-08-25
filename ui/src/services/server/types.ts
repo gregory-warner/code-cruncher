@@ -32,3 +32,11 @@ export interface SessionNameRequest {
     sessionId: number;
     sessionName: string;
 }
+
+export interface MessageRequest {
+    sessionId: number;
+    messageTypeId: number;
+    messengerId: number;
+    messengerTypeId: number;
+    content: string;
+}
