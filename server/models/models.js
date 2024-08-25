@@ -38,8 +38,8 @@ Actor.hasMany(Message, { foreignKey: 'messenger_id' });
 Message.belongsTo(User, { foreignKey: 'messenger_id', constraints: false });
 Message.belongsTo(Actor, { foreignKey: 'messenger_id', constraints: false });
 
-Message.belongsTo(Message, { foreignKey: 'message_link_id' });
-Message.hasMany(Message, { foreignKey: 'message_link_id' });
+Message.belongsTo(Message, { foreignKey: 'message_link_id', constraints: false  });
+Message.hasMany(Message, { foreignKey: 'message_link_id', constraints: false  });
 
 export {
     Actor,
