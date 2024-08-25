@@ -16,7 +16,7 @@ export interface PostLegacyParams {
     max_tokens: number,
 }
 
-export interface PostChatParams {
+export interface OpenAIRequest {
     messages: OpenAIMessage[],
     model: string,
     max_tokens: number,
@@ -39,4 +39,15 @@ export interface OpenAIMessage {
     data?: {
         imageLinks?: string[];
     }
+}
+
+export interface ResponseChoice {
+    message: OpenAIMessage,
+    finish_reason: string,
+    index: number,
+}
+
+export interface OpenAiResponse {
+    status: number,
+    choices: ResponseChoice[],
 }

@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import {GetModelResponse, PostChatParams} from "./types";
+import {GetModelResponse, OpenAIRequest, OpenAiResponse} from "./types";
 
 const baseUrl = 'https://api.openai.com/v1';
 
@@ -12,11 +12,14 @@ export const openaiApi  = createApi({
         },
     }),
     endpoints: (build) => ({
-        getModels: build.query<GetModelResponse, void>({
-            query: () => 'models',
+        openaiModels: build.query<GetModelResponse, void>({
+            query: () => ({
+                url: 'models',
+                method: 'GET',
+            }),
         }),
-        postChat: build.mutation<any, PostChatParams>({
-            query: (params: PostChatParams) => ({
+        chat: build.mutation<OpenAiResponse, OpenAIRequest>({
+            query: (params: OpenAIRequest) => ({
                 url: 'chat/completions',
                 method: 'POST',
                 body: params,
@@ -25,4 +28,4 @@ export const openaiApi  = createApi({
     }),
 });
 
-export const { usePostChatMutation, useGetModelsQuery } = openaiApi;
+export const { useChatMutation, useOpenaiModelsQuery } = openaiApi;
