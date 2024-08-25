@@ -6,7 +6,7 @@ import {incrementCurrentSequenceId, selectCurrentSpeaker, selectSessionId} from 
 import {selectUser} from "../../../user/userSlice";
 import {useAddMessageMutation} from "../../../../services/server/serverApi";
 import {MessageRequest} from "../../../../services/server/types";
-import {MessageTypeId} from "../../../../types";
+import {MessageTypeId, MessengerTypeIds} from "../../../../types";
 import {setSnackbar} from "../../../../app/store/appSlice";
 
 const UserInput = () => {
@@ -40,6 +40,7 @@ const UserInput = () => {
             sessionId,
             messengerId: user.userId,
             messageTypeId: MessageTypeId.general,
+            messengerTypeId: MessengerTypeIds.user,
             content: input,
         };
 
