@@ -1,16 +1,18 @@
 import {useEffect, useState} from "react";
-import {useAppSelector} from "../../../store/hooks";
+import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import {selectCurrentSpeaker, selectSessionId} from "../store/sessionSlice";
 import {useLazyGetMessagesQuery} from "../../../services/server/serverApi";
+import {ServiceFactory} from "../services/serviceFactory";
+import {ChatService} from "../types";
 
 export const useActor = () => {
+    const dispatch = useAppDispatch();
     const currentSpeaker = useAppSelector(selectCurrentSpeaker);
     const sessionId = useAppSelector(selectSessionId);
 
-    const [response, setResponse] = useState<string>('');
+    const [aiService, setAiService] = useState<ChatService>(null);
 
-    const [getMessages, {data: messages, isLoading }] = useLazyGetMessagesQuery();
-
+    const [getMessages] = useLazyGetMessagesQuery();
 
     const isActor = currentSpeaker && 'actorId' in currentSpeaker;
 
@@ -19,9 +21,18 @@ export const useActor = () => {
             return;
         }
 
-        getMessages(sessionId).then(messages => {
-
-        });
-
+        setAiService(ServiceFactory.create(currentSpeaker));
     }, [currentSpeaker]);
+
+    useEffect(() => {
+        if (!aiService) {
+            return;
+
+        }
+
+        getMessages(sessionId).then(({ data: messages})=> {
+            dispatch(aiService.chat(messages));
+        });
+    }, [aiService]);
+
 };
