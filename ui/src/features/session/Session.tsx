@@ -9,6 +9,7 @@ import {
     setParticipants
 } from "./store/sessionSlice";
 import SessionMessageSection from "./component/sessionMessages/SessionMessageSection";
+import {useActor} from "./hooks/useActor";
 
 const Session = () => {
     const dispatch = useAppDispatch();
@@ -17,6 +18,8 @@ const Session = () => {
     const currentSequenceId = useAppSelector(selectCurrentSequenceId);
 
     const [getSessionParticipants] = useLazyGetSessionParticipantsQuery();
+
+    useActor();
 
     useEffect(() => {
         if (sessionId <= 0) {
