@@ -1,4 +1,4 @@
-import {Box, CircularProgress, Grid} from '@mui/material';
+import {CircularProgress, Grid} from '@mui/material';
 import AppHeader from './components/header/AppHeader';
 import style from './styles';
 import SessionsSection from "../sessionsSection/SessionsSection";
@@ -40,21 +40,15 @@ const CodeCruncherApp = () => {
                     <SessionsSection />
                 </Grid>
 
-                <Grid container item direction={'column'} xs={8} sx={style.sessionContainer}>
-                    <Grid item sx={style.session}>
+                <Grid container direction="column" sx={style.sessionContainer}>
+                    <Grid item sx={style.sessionMessageContainer}>
                         <Session />
                     </Grid>
-                    <Grid item xs={true}>
-                        <Box
-                            bgcolor="rgba(34, 34, 34, 1)"
-                            display="flex"
-                            alignItems="center"
-                            justifyContent="center"
-                            sx={style.userInput}>
-                            <UserInput />
-                        </Box>
+                    <Grid container direction='column' item sx={style.userInputContainer}>
+                        <UserInput />
                     </Grid>
                 </Grid>
+
                 <Grid item xs={2} sx={style.details}>
                 </Grid>
             </Grid>
