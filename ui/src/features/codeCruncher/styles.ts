@@ -14,35 +14,34 @@ const codeCruncherStyle = {
     sessionsSection: {
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '90vh',
+        minHeight: '93vh',
         width: '30%',
         flexGrow: 0,
         flexShrink: 0
     },
     sessionContainer: {
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '90vh',
-        width: '60%',
-        flexGrow: 0,
-        flexShrink: 0
+        height: '90vh',
+        width: '60%'
     },
-    session: {
-        overflowY: 'scroll',
-        minHeight: '43%',
-        border: '2px solid black'
+    sessionMessageContainer: {
+        flexGrow: 1,
+        maxHeight: '50vh',
+        overflowY: 'auto'
     },
-    userInput: {
+    userInputContainer: {
+        flexGrow: 1,
+        maxHeight: '40vh',
+        display: 'flex'
     },
-    details: {
-        minHeight: '90vh',
-        width: '30%',
-        flexGrow: 0,
-        flexShrink: 0
+    details:{
+        minHeight :'93vh',
+        width :'30%',
+        flexGrow :0,
+        flexShrink :0
     },
-    footer: {
-        width: '100%',
-        minHeight: '3vh'
+    footer:{
+        width :'100%',
+        minHeight :'3vh'
     }
 };
 
