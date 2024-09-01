@@ -1,16 +1,11 @@
-import {Actor, Message, User} from '../models/models.js';
-import {messengerTypeIds, removeProperty} from "../utils/utils.js";
+import {Message} from '../models/models.js';
+import {removeProperty} from "../utils/utils.js";
 import validator from "validator";
-import {Sequelize} from "sequelize";
 
 export const getMessages = async (sessionId) => {
     return await Message.findAll({
         where: { sessionId },
         order: [['messageId', 'ASC']],
-        include: [
-            { model: User, required: false, where: { id: Sequelize.col('Message.messengerId'), messengerTypeId: messengerTypeIds.user } },
-            { model: Actor, required: false, where: { id: Sequelize.col('Message.messengerId'), messengerTypeId: messengerTypeIds.assistant } }
-        ]
     });
 };
 
@@ -60,5 +55,5 @@ export const updateMessage = async (message) => {
         where: { messageId }
     });
 
-    return message;
+    return Message.findByPk(messageId);
 };
