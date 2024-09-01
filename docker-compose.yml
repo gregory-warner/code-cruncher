@@ -12,6 +12,18 @@ services:
       - .env
     networks:
       - chat-network
+  pgdb:
+    image: postgres
+    ports:
+      - ${POSTGRES_PORT_MAP}:${POSTGRES_PORT}
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWD}
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+    networks:
+      - chat-network
   server:
     build:
       context: .
@@ -25,18 +37,6 @@ services:
       - .env
     depends_on:
       - pgdb
-    networks:
-      - chat-network
-  pgdb:
-    image: postgres
-    ports:
-      - ${POSTGRES_PORT_MAP}:${POSTGRES_PORT}
-    env_file:
-      - .env
-    environment:
-      POSTGRES_USER: ${POSTGRES_USERNAME}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWD}
-      POSTGRES_DB: ${POSTGRES_DATABASE}
     networks:
       - chat-network
 networks:

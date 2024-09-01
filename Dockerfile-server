@@ -5,9 +5,11 @@ WORKDIR /app/server
 
 COPY ./server/package*.json ./
 
+COPY ./server .
+
 RUN npm install  && npm cache clean --force
 
-COPY ./server .
+RUN npm install -g nodemon
 
 EXPOSE 5001 5433
 
