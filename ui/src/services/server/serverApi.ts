@@ -42,11 +42,11 @@ export const serverApi  = createApi({
                 { type: 'Messages' }
             ]
         }),
-        updateMessage: build.mutation<{msg: string}, Message>({
+        updateMessage: build.mutation<Message, Message>({
             query: (message: Message) => ({
                 url: `messages/${message.messageId}`,
                 method: 'PATCH',
-                body: { message },
+                body: message,
             }),
             invalidatesTags: (result, error, { sessionId }) => [
                 { type: 'Messages', id: sessionId },
