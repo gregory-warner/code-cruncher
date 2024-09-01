@@ -8,7 +8,7 @@ import {
     setCurrentSpeaker,
     setParticipants
 } from "./store/sessionSlice";
-import SessionMessageSection from "./component/sessionMessages/SessionMessageSection";
+import SessionMessagesSection from "./component/sessionMessagesSection/SessionMessagesSection";
 import {useActor} from "./hooks/useActor";
 
 const Session = () => {
@@ -44,7 +44,7 @@ const Session = () => {
     }, [currentSequenceId]);
 
     return (
-        <SessionMessageSection />
+        <SessionMessagesSection />
     );
 };
 

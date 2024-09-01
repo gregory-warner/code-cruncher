@@ -1,15 +1,18 @@
 import {CircularProgress, List, ListItem} from "@mui/material";
 import {useLazyGetMessagesQuery} from "../../../../services/server/serverApi";
 import React, {useEffect} from "react";
-import {selectSessionId} from "../../store/sessionSlice";
+import {selectParticipants, selectSessionId} from "../../store/sessionSlice";
 import {useAppSelector} from "../../../../store/hooks";
-import SessionMessage from "./SessionMessage";
+import SessionMessage from "../sessionMessage/SessionMessage";
 import SessionMessageScrollFocus from "./SessionMessageScrollFocus";
+import {MessengerTypeIds, SessionParticipantType} from "../../../../types";
+import {isActor, isUser} from "../../../../utils/util";
 
-const SessionMessageSection = () => {
+const SessionMessagesSection = () => {
     const sessionId = useAppSelector(selectSessionId);
 
     const [getMessages, { data: messages, isLoading, error }] = useLazyGetMessagesQuery();
+    const participants = useAppSelector(selectParticipants);
 
     useEffect(() => {
         if (sessionId > 0) {
@@ -17,7 +20,7 @@ const SessionMessageSection = () => {
         }
     }, [sessionId]);
 
-    if (!sessionId) {
+    if (!sessionId || !Array.isArray(participants) || participants.length === 0) {
         return <>Please start a session</>
     }
 
@@ -30,12 +33,19 @@ const SessionMessageSection = () => {
         return <>Unable to load messages</>
     }
 
+    const getMessenger = (messengerId: number, messengerTypeId: number): SessionParticipantType => {
+        if (messengerTypeId === MessengerTypeIds.actor) {
+            return participants.find(participant => isActor(participant) && participant.actorId === messengerId);
+        }
+        return participants.find(participant => isUser(participant) && participant.userId === messengerId);
+    }
+
     return (
-        <List>
+        <List >
             {
                 messages.map((message, idx) => (
                     <ListItem key={`session-message-${idx}`}>
-                        {<SessionMessage message={message} />}
+                        {<SessionMessage message={message} messenger={getMessenger(message.messengerId, message.messengerTypeId)} />}
                     </ListItem>
                 ))
             }
@@ -44,4 +54,4 @@ const SessionMessageSection = () => {
     );
 };
 
-export default SessionMessageSection;
+export default SessionMessagesSection;
