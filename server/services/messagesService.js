@@ -38,13 +38,13 @@ export const createMessage = async (message) => {
     return newMessage;
 };
 
-export const deleteMessage = (messageId) => {
-    const message = Message.findByPk(messageId);
+export const deleteMessage = async (messageId) => {
+    const message = await Message.findByPk(messageId);
     if (!message instanceof Message) {
         throw new Error(`Unable to find message with id ${messageId}`);
     }
 
-    message.destroy();
+    await message.destroy();
     return message;
 }
 
