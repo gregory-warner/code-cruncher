@@ -1,12 +1,12 @@
 import React, { useState, useCallback } from 'react';
-import {Box, Button, Grid, TextField} from '@mui/material';
+import {Box, Button, TextField} from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import {useAppDispatch, useAppSelector} from '../../../../store/hooks';
 import {incrementCurrentSequenceId, selectCurrentSpeaker, selectSessionId} from '../../store/sessionSlice';
 import {selectUser} from "../../../user/userSlice";
 import {useAddMessageMutation} from "../../../../services/server/serverApi";
 import {AddMessageRequest} from "../../../../services/server/types";
-import {MessageTypeId, MessengerTypeIds} from "../../../../types";
+import {MessageTypeIds, MessengerTypeIds} from "../../../../types";
 import {setSnackbar} from "../../../../app/store/appSlice";
 
 const UserInput = () => {
@@ -39,7 +39,7 @@ const UserInput = () => {
         const message: AddMessageRequest = {
             sessionId,
             messengerId: user.userId,
-            messageTypeId: MessageTypeId.general,
+            messageTypeId: MessageTypeIds.general,
             messengerTypeId: MessengerTypeIds.user,
             content: input,
         };
@@ -51,7 +51,7 @@ const UserInput = () => {
             return;
         }
 
-        // dispatch(incrementCurrentSequenceId());
+        dispatch(incrementCurrentSequenceId());
 
         setInput("");
     };

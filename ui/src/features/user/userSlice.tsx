@@ -2,7 +2,6 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {User} from '../../types';
 import {RootState} from '../../store/store';
 
-export const defaultUser = 'eagle-bonnet';
 export const defaultUserId = 1;
 
 export interface UserState {
