@@ -34,7 +34,7 @@ export interface Actor {
     name: string;
     username: string;
     avatar: string;
-    colorTheme: string;
+    colorTheme: ColorTheme;
     title: string;
     promptId: number;
     modelId: number;
@@ -48,7 +48,7 @@ export interface Actor {
     aiModel: AIModel;
 }
 
-export interface ColorTheme {
+export interface MessageCard {
     nameColor: string;
     contentsColor: string;
     backgroundColor: string;
@@ -63,6 +63,10 @@ export interface ColorTheme {
         transform: string;
     };
     textColor: string;
+}
+
+export interface ColorTheme {
+    messageCard: MessageCard;
 }
 
 export interface Message {
@@ -115,8 +119,19 @@ export interface SessionParticipant {
     deletedAt?: Date | null;
 }
 
-export enum MessageTypeId {
+export enum MessageTypeIds {
     general = 0,
     question = 1,
     answer = 2,
+}
+
+export enum MessageContentTypes {
+    general,
+    code,
+}
+
+export interface ParsedMessage {
+    lang?: string;
+    type: MessageContentTypes;
+    content: string;
 }
