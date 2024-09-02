@@ -94,7 +94,7 @@ export const createActor = async (actorData) => {
         name,
         username,
         avatar,
-        colorTheme,
+        colorTheme: JSON.parse(colorTheme),
         title,
         promptId: actorPrompt.promptId,
         modelId: actorModel.modelId,
