@@ -7,7 +7,7 @@ const codeCruncherStyle = {
     main: {
         display: 'flex',
         width: '100%',
-        maxHeight: '90vh',
+        maxHeight: '93vh',
         flexGrow: 1,
         flexShrink: 0
     },
@@ -20,7 +20,7 @@ const codeCruncherStyle = {
         flexShrink: 0
     },
     sessionContainer: {
-        height: '90vh',
+        height: '93vh',
         width: '60%'
     },
     sessionMessageContainer: {
@@ -30,7 +30,7 @@ const codeCruncherStyle = {
     },
     userInputContainer: {
         flexGrow: 1,
-        maxHeight: '40vh',
+        maxHeight: '43vh',
         display: 'flex'
     },
     details:{
@@ -39,10 +39,6 @@ const codeCruncherStyle = {
         flexGrow :0,
         flexShrink :0
     },
-    footer:{
-        width :'100%',
-        minHeight :'3vh'
-    }
 };
 
 
