@@ -51,3 +51,13 @@ export interface OpenAiResponse {
     status: number,
     choices: ResponseChoice[],
 }
+
+export interface OpenAiImage {
+    revised_prompt: string;
+    url: string;
+}
+
+export interface OpenAiImageResponse {
+    created: number;
+    data: OpenAIMessage[];
+}
