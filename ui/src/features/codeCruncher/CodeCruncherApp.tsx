@@ -9,6 +9,8 @@ import {defaultUserId, setUser} from "../user/userSlice";
 import {isUser} from "../../utils/util";
 import Session from "../session/Session";
 import UserInput from "../session/component/userInput/UserInput";
+import DetailsSection from "../detailsSection/DetailsSection";
+import UserCodeInput from "../session/component/userInput/UserCodeInput";
 
 const CodeCruncherApp = () => {
     const dispatch = useAppDispatch();
@@ -45,16 +47,14 @@ const CodeCruncherApp = () => {
                         <Session />
                     </Grid>
                     <Grid container direction='column' item sx={style.userInputContainer}>
-                        <UserInput />
+                        <UserCodeInput />
                     </Grid>
                 </Grid>
 
                 <Grid item xs={2} sx={style.details}>
+                    <DetailsSection />
                 </Grid>
             </Grid>
-
-            <Grid item xs={12} sx={style.footer}></Grid>
-
         </Grid>
     );
 };
