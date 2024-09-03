@@ -55,7 +55,7 @@ const SessionsSection = () => {
                 </Grid>
             </Grid>
             <List sx={{ overflowY: 'auto', height: 'calc(100% - 56px)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                {[...data].reverse().map((session, idx) => (
+                {data.map((session, idx) => (
                     <SessionItem
                         key={`key-session-item-${idx}`}
                         sessionId={idx}
