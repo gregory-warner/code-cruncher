@@ -8,7 +8,7 @@ import {Actor, Message, Session, SessionParticipant, SessionParticipantType, Use
 export const serverApi  = createApi({
     reducerPath: 'serverApi',
     baseQuery: fetchBaseQuery({ baseUrl: chatServerUrl,}),
-    tagTypes: ['Messages', 'Actors', 'Sessions'],
+    tagTypes: ['Messages', 'Actors', 'Sessions', 'Session'],
     endpoints: (build) => ({
         getUser: build.query<User, number>({
             query: (id: number) => `users/${id}`,
@@ -137,6 +137,14 @@ export const serverApi  = createApi({
                 method: 'GET',
             })
         }),
+        getSession: build.query<any, number>({
+            query: (sessionId: number) => ({
+                url: `sessions/${sessionId}`,
+                method: 'GET',
+            }),
+            providesTags: (result, error, sessionId) =>
+                result ? [{ type: 'Session', id: sessionId }] : [],
+        }),
     }),
 });
 
@@ -156,4 +164,5 @@ export const {
     useLazyGetSessionParticipantsQuery,
     useAddMessageMutation,
     useGetMessagesQuery,
+    useGetSessionQuery,
 } = serverApi;

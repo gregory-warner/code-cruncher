@@ -25,13 +25,13 @@ const codeCruncherStyle = {
     },
     sessionMessageContainer: {
         flexGrow: 1,
-        maxHeight: '50vh',
+        maxHeight: '48vh',
         overflowY: 'auto'
     },
     userInputContainer: {
         flexGrow: 1,
-        maxHeight: '43vh',
-        display: 'flex'
+        maxHeight: '45vh',
+        display: 'flex',
     },
     details:{
         minHeight :'93vh',

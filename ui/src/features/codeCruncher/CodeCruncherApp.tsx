@@ -8,9 +8,8 @@ import {useAppDispatch} from "../../store/hooks";
 import {defaultUserId, setUser} from "../user/userSlice";
 import {isUser} from "../../utils/util";
 import Session from "../session/Session";
-import UserInput from "../session/component/userInput/UserInput";
+import UserInputSection from "../session/component/userInput/UserInputSection";
 import DetailsSection from "../detailsSection/DetailsSection";
-import UserCodeInput from "../session/component/userInput/UserCodeInput";
 
 const CodeCruncherApp = () => {
     const dispatch = useAppDispatch();
@@ -47,7 +46,7 @@ const CodeCruncherApp = () => {
                         <Session />
                     </Grid>
                     <Grid container direction='column' item sx={style.userInputContainer}>
-                        <UserCodeInput />
+                        <UserInputSection />
                     </Grid>
                 </Grid>
 
