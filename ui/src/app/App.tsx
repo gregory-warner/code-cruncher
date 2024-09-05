@@ -6,7 +6,7 @@ import {selectMode} from "../theme/themeSlice";
 import {ThemeProvider} from "@mui/system"
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import {CssBaseline} from "@mui/material";
-import CruncherSnackbar from "./components/CruncherSnackbar";
+import CodeCruncherSnackbar from "./components/CodeCruncherSnackbar";
 
 function App() {
     const mode = useAppSelector(selectMode);
@@ -20,7 +20,7 @@ function App() {
                     <Route path='/' element={<CodeCruncherApp />} />
                 </Routes>
             </Router>
-            <CruncherSnackbar />
+            <CodeCruncherSnackbar />
         </ThemeProvider>
     );
 }
