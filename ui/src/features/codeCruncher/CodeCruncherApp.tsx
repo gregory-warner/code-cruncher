@@ -41,7 +41,7 @@ const CodeCruncherApp = () => {
                     <SessionsSection />
                 </Grid>
 
-                <Grid container direction="column" sx={style.sessionContainer}>
+                <Grid container item xs={8} direction="column" sx={style.sessionContainer}>
                     <Grid item sx={style.sessionMessageContainer}>
                         <Session />
                     </Grid>
