@@ -58,6 +58,7 @@ export const {
     addSessionParticipant,
     incrementCurrentSequenceId,
     setCurrentSpeaker,
+    setSelectedParticipant,
 } = sessionSlice.actions;
 
 export const selectSessionId = (state: RootState): number => state.session.sessionId;
