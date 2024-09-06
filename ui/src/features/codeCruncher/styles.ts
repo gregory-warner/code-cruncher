@@ -9,35 +9,34 @@ const codeCruncherStyle = {
         width: '100%',
         maxHeight: '93vh',
         flexGrow: 1,
-        flexShrink: 0
+        flexShrink: 0,
     },
     sessionsSection: {
         display: 'flex',
         flexDirection: 'column',
         minHeight: '93vh',
-        width: '30%',
+        width: '20%',
         flexGrow: 0,
-        flexShrink: 0
+        flexShrink: 0,
     },
     sessionContainer: {
         height: '93vh',
-        width: '60%'
+        width: '60%',
     },
     sessionMessageContainer: {
         flexGrow: 1,
         maxHeight: '48vh',
-        overflowY: 'auto'
+        overflowY: 'auto',
     },
     userInputContainer: {
         flexGrow: 1,
-        maxHeight: '45vh',
+        maxHeight: '43vh',
         display: 'flex',
     },
     details:{
         minHeight :'93vh',
-        width :'30%',
-        flexGrow :0,
-        flexShrink :0
+        flexGrow :1,
+        flexShrink :0,
     },
 };
 
