@@ -1,7 +1,7 @@
 import {CircularProgress, Grid} from '@mui/material';
 import AppHeader from './components/header/AppHeader';
 import style from './styles';
-import SessionsSection from "../sessionsSection/SessionsSection";
+import SessionsSection from "../session/component/sessionsSection/SessionsSection";
 import {useGetUserQuery} from "../../services/server/serverApi";
 import React, {useEffect} from "react";
 import {useAppDispatch} from "../../store/hooks";
@@ -9,7 +9,7 @@ import {defaultUserId, setUser} from "../user/userSlice";
 import {isUser} from "../../utils/util";
 import Session from "../session/Session";
 import UserInputSection from "../session/component/userInput/UserInputSection";
-import DetailsSection from "../detailsSection/DetailsSection";
+import SettingsSection from "../session/component/settingsSection/SettingsSection";
 
 const CodeCruncherApp = () => {
     const dispatch = useAppDispatch();
@@ -51,7 +51,7 @@ const CodeCruncherApp = () => {
                 </Grid>
 
                 <Grid item xs={2} sx={style.details}>
-                    <DetailsSection />
+                    <SettingsSection />
                 </Grid>
             </Grid>
         </Grid>
