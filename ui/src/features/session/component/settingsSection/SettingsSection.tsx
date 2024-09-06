@@ -1,9 +1,10 @@
-import {Button, Grid, Stack, Typography} from "@mui/material";
+import {Button, Grid, Typography} from "@mui/material";
 import React from "react";
+import ParticipantsSection from "./components/ParticipantsSection";
 
-const DetailsSection = () => {
+const SettingsSection = () => {
     return (
-        <Stack sx={{ height: '100%' }}>
+        <Grid >
             <Grid container direction='row' alignItems='center'>
                 <Grid item xs={5} textAlign='center'>
                     <Typography variant='h6' sx={{paddingLeft: '5px', paddingRight: '5px'}}>
@@ -18,8 +19,11 @@ const DetailsSection = () => {
                     </Button>
                 </Grid>
             </Grid>
-        </Stack>
+            <Grid container item xs={12}>
+                <ParticipantsSection />
+            </Grid>
+        </Grid>
     );
 };
 
-export default DetailsSection;
+export default SettingsSection;

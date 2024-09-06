@@ -3,10 +3,10 @@ import {Grid, IconButton, ListItem, TextField, Typography, useTheme} from "@mui/
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
-import {useAppDispatch} from "../../../store/hooks";
-import {Session} from "../../../types";
-import {useDeleteSessionMutation, useUpdateSessionNameMutation} from "../../../services/server/serverApi";
-import {setSessionId} from "../../session/store/sessionSlice";
+import {useAppDispatch} from "../../../../../store/hooks";
+import {Session} from "../../../../../types";
+import {useDeleteSessionMutation, useUpdateSessionNameMutation} from "../../../../../services/server/serverApi";
+import {setSessionId} from "../../../store/sessionSlice";
 
 interface SessionItemParams {
     sessionId: number;

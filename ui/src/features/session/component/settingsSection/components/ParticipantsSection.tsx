@@ -1,8 +1,8 @@
 import React from 'react';
-import {useAppSelector} from '../../../store/hooks';
-import {selectParticipants} from '../../session/store/sessionSlice';
+import {useAppSelector} from '../../../../../store/hooks';
+import {selectParticipants} from '../../../store/sessionSlice';
 import {Avatar, Box, Grid, Typography, useTheme} from '@mui/material';
-import {chatServerUrl} from '../../../../config';
+import {chatServerUrl} from '../../../../../../config';
 import {Add} from '@mui/icons-material';
 
 const ParticipantsSection = () => {
@@ -15,8 +15,8 @@ const ParticipantsSection = () => {
     const theme = useTheme();
 
     return (
-        <Grid container direction='column' alignItems='center' justifyItems='center' sx={{border: '1px solid green'}}>
-            <Typography variant='subtitle2' gutterBottom>
+        <Grid container direction='column' alignItems='center' justifyItems='center' padding={1}>
+            <Typography align='left' variant='subtitle2' sx={{width: '100%', pl: 1}}>
                 Participants
             </Typography>
             <Grid

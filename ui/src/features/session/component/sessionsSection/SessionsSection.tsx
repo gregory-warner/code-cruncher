@@ -3,15 +3,15 @@ import {
     useAddParticipantMutation,
     useCreateSessionMutation,
     useGetSessionsQuery
-} from '../../services/server/serverApi';
+} from '../../../../services/server/serverApi';
 import SessionItem from './components/SessionItem';
 import React from 'react';
-import {SessionRequest} from '../../services/server/types';
-import {Session, SessionType, User} from '../../types';
-import {useAppDispatch, useAppSelector} from '../../store/hooks';
-import {selectUser} from '../user/userSlice';
-import {setSessionId} from '../session/store/sessionSlice';
-import {isUser} from '../../utils/util';
+import {SessionRequest} from '../../../../services/server/types';
+import {Session, SessionType, User} from '../../../../types';
+import {useAppDispatch, useAppSelector} from '../../../../store/hooks';
+import {selectUser} from '../../../user/userSlice';
+import {setSessionId} from '../../store/sessionSlice';
+import {isUser} from '../../../../utils/util';
 
 const SessionsSection = () => {
     const dispatch = useAppDispatch();
