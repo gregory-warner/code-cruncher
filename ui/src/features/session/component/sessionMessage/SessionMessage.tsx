@@ -8,6 +8,10 @@ import style from "../../style";
 
 const SessionMessage = ({ message, messenger }: { message: Message, messenger: Messenger }) => {
 
+    if (!messenger) {
+        return <></>;
+    }
+
     return(
         <Card
             key={`key-message-card-${message.messengerId}`}

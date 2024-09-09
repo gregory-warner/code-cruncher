@@ -1,6 +1,11 @@
 import React from 'react';
 import {useAppDispatch, useAppSelector} from '../../../../../store/hooks';
-import {selectParticipants, selectSelectedParticipant, setSelectedParticipant} from '../../../store/sessionSlice';
+import {
+    selectCurrentSpeaker,
+    selectParticipants,
+    selectSelectedParticipant,
+    setSelectedParticipant
+} from '../../../store/sessionSlice';
 import {Avatar, Box, Grid, Typography, useTheme} from '@mui/material';
 import {chatServerUrl} from '../../../../../../config';
 import {Add} from '@mui/icons-material';
@@ -10,6 +15,7 @@ const ParticipantsSection = () => {
     const dispatch = useAppDispatch();
     const participants = useAppSelector(selectParticipants);
     const selectedParticipant = useAppSelector(selectSelectedParticipant);
+    const currentSpeaker = useAppSelector(selectCurrentSpeaker);
 
     if (participants.length === 0) {
         return <Box></Box>
@@ -24,6 +30,12 @@ const ParticipantsSection = () => {
             border: `2px solid ${theme.palette.primary.main}`,
             borderRadius: 1
         },
+        currentAvatar: {
+            width: '40px',
+            height: '40px',
+            border: `2px solid ${theme.palette.secondary.main}`,
+            borderRadius: 1
+        },
         avatar: {
             width: '40px',
             height: '40px',
@@ -36,6 +48,25 @@ const ParticipantsSection = () => {
             border: `2px dashed ${theme.palette.grey[500]}`,
             borderRadius: 1
         }
+    };
+
+    const getAvatarStyle = (participant: SessionParticipantType|null) => {
+        if (!participant) {
+            if (!selectedParticipant) {
+                return style.selectedAvatar;
+            }
+            return style.newAvatar;
+        }
+
+        if (participant === selectedParticipant) {
+            return style.selectedAvatar;
+        }
+
+        if (participant === currentSpeaker) {
+            return style.currentAvatar;
+        }
+
+        return style.avatar;
     };
 
     const onAvatarClick = (participant: SessionParticipantType) => {
@@ -58,16 +89,17 @@ const ParticipantsSection = () => {
                 }}
             >
                 {participants.map((participant, index) => (
-                    <Grid item xs={3} key={`session-details-participant-${index}`} onClick={() => onAvatarClick(participant)}>
+                    <Grid item xs={3} key={`session-details-participant-${index}`} >
                         <Avatar
+                            onClick={() => onAvatarClick(participant)}
                             alt={`${participant.name}'s avatar`}
                             src={`${chatServerUrl}/images/${participant.avatar}`}
-                            sx={(participant === selectedParticipant ? style.selectedAvatar : style.avatar)}
+                            sx={getAvatarStyle(participant)}
                         />
                     </Grid>
                 ))}
                 <Grid item xs={3} onClick={() => onAvatarClick(null)}>
-                    <Avatar sx={(selectedParticipant === null ? style.selectedAvatar : style.newAvatar)} >
+                    <Avatar sx={getAvatarStyle(null)} >
                         <Add />
                     </Avatar>
                 </Grid>

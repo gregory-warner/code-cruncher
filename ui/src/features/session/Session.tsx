@@ -6,7 +6,7 @@ import {
     selectParticipants,
     selectSessionId,
     setCurrentSpeaker,
-    setParticipants
+    setParticipants, setSelectedParticipant
 } from "./store/sessionSlice";
 import SessionMessagesSection from "./component/sessionMessagesSection/SessionMessagesSection";
 import {useActor} from "./hooks/useActor";
@@ -30,6 +30,7 @@ const Session = () => {
             dispatch(setParticipants(sessionParticipants));
             if (sessionParticipants?.length > 0) {
                 dispatch(setCurrentSpeaker(sessionParticipants[currentSequenceId]));
+                dispatch(setSelectedParticipant(sessionParticipants[currentSequenceId]));
             }
         });
 
