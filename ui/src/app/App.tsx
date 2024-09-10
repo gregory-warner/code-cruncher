@@ -6,7 +6,8 @@ import {selectMode} from "../theme/themeSlice";
 import {ThemeProvider} from "@mui/system"
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import {CssBaseline} from "@mui/material";
-import CodeCruncherSnackbar from "./components/CodeCruncherSnackbar";
+import AppSnackbar from "./components/AppSnackbar";
+import ActorConfiguration from "../features/actorConfiguration/ActorConfiguration";
 
 function App() {
     const mode = useAppSelector(selectMode);
@@ -18,9 +19,10 @@ function App() {
             <Router>
                 <Routes>
                     <Route path='/' element={<CodeCruncherApp />} />
+                    <Route path='/configuration' element={<ActorConfiguration />} />
                 </Routes>
             </Router>
-            <CodeCruncherSnackbar />
+            <AppSnackbar />
         </ThemeProvider>
     );
 }

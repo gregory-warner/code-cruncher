@@ -10,6 +10,9 @@ import {
 } from "./store/sessionSlice";
 import SessionMessagesSection from "./component/sessionMessagesSection/SessionMessagesSection";
 import {useActor} from "./hooks/useActor";
+import {Grid} from "@mui/material";
+import style from "../codeCruncher/styles";
+import UserInputSection from "./component/userInput/UserInputSection";
 
 const Session = () => {
     const dispatch = useAppDispatch();
@@ -45,7 +48,14 @@ const Session = () => {
     }, [currentSequenceId]);
 
     return (
-        <SessionMessagesSection />
+        <>
+            <Grid item sx={style.sessionMessageContainer}>
+                <SessionMessagesSection />
+            </Grid>
+            <Grid container direction='column' item sx={style.userInputContainer}>
+                <UserInputSection />
+            </Grid>
+        </>
     );
 };
 

@@ -3,7 +3,7 @@ import {selectSnackbar, setSnackbar} from "../store/appSlice";
 import React from "react";
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
 
-const CodeCruncherSnackbar = () => {
+const AppSnackbar = () => {
     const dispatch = useAppDispatch();
     const snackbar = useAppSelector(selectSnackbar);
 
@@ -22,4 +22,4 @@ const CodeCruncherSnackbar = () => {
     );
 };
 
-export default CodeCruncherSnackbar;
+export default AppSnackbar;
