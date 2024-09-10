@@ -9,7 +9,16 @@ export const getActors = async () => {
     return await Actor.findAll({
         include: [
             { model: Prompt, required: true },
-            { model: AIModel, required: true, as: 'aiModel' },
+            {
+                model: AIModel,
+                required: true,
+                as: 'aiModel',
+                include: [
+                    { association: 'languageModel' },
+                    { association: 'imageModel' },
+                    { association: 'textModel' },
+                ],
+            },
         ],
     });
 };
