@@ -3,6 +3,12 @@ export enum MessengerTypeIds {
     actor,
 }
 
+export enum ModelType {
+    language,
+    image,
+    text,
+}
+
 export interface CruncherSnackbar {
     isOpen?: boolean;
     duration?: number;
@@ -27,6 +33,17 @@ export interface AIModel {
     isLocal: boolean;
     createdAt: string;
     updatedAt: string;
+    languageModel?: LanguageModel;
+}
+
+export interface LanguageModel {
+    languageModelId: number;
+    modelId: number;
+    maxTokens: number;
+    temperature: number;
+    frequencyPenalty: number;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface Actor {
@@ -38,7 +55,7 @@ export interface Actor {
     title: string;
     promptId: number;
     modelId: number;
-    modelTypeId: number;
+    modelTypeId: ModelType;
     createdAt: string;
     updatedAt: string;
     deletedAt: null | string;
