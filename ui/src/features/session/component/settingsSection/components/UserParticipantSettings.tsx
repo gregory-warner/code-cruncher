@@ -1,18 +1,21 @@
 import React from "react";
-import {Box, TextField, Typography} from "@mui/material";
+import {Grid, Typography} from "@mui/material";
 import {User} from "../../../../../types";
 
 const UserParticipantSettings = ({ user }: {user: User}) => {
 
-    // todo: score board
-
     return (
-        <Box sx={{ width: '100%', pt: 2 }}>
-            <Typography align='center'>{user.name}</Typography>
-            <Box sx={{ p: 1 }}>
-                <TextField label={'username'} disabled defaultValue={user.username} />
-            </Box>
-        </Box>
+        <Grid container sx={{ width: '100%', pt: 2 }}>
+            <Grid item alignContent='center' xs={12}>
+                <Typography align='center'>{user.name}</Typography>
+            </Grid>
+            <Grid item xs={3}>
+                <Typography variant='subtitle2' color='grey'>Username:</Typography>
+            </Grid>
+            <Grid item xs={9}>
+                <Typography>{user.username}</Typography>
+            </Grid>
+        </Grid>
     );
 };
 

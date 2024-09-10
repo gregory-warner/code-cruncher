@@ -2,16 +2,29 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../../../store/store';
 import {SessionParticipantType} from "../../../types";
 
+interface SessionDetail {
+    participants: SessionParticipantType[];
+    currentSpeaker: SessionParticipantType | null;
+    currentSequenceId: number;
+    selectedParticipant: SessionParticipantType | null;
+}
+
 export interface SessionState {
     sessionId: number|null;
     participants: SessionParticipantType[];
     currentSpeaker: SessionParticipantType | null;
     currentSequenceId: number;
     selectedParticipant: SessionParticipantType|null;
+    sessionDetails: {
+        [key: number]: SessionDetail;
+    };
 }
 
 const initialState: SessionState = {
     sessionId: null,
+    sessionDetails: {
+
+    },
     participants: [],
     currentSpeaker: null,
     currentSequenceId: 0,
