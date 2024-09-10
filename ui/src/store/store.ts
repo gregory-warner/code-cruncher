@@ -9,6 +9,7 @@ import {serverApi} from "../services/server/serverApi";
 import {openaiApi} from "../services/openai/openaiApi";
 import {ollamaApi} from "../services/ollama/ollamaApi";
 import {setupListeners} from "@reduxjs/toolkit/query";
+import actorConfigurationReducer from "../features/actorConfiguration/store/actorConfigurationSlice";
 
 export const store = configureStore({
   reducer: {
@@ -21,6 +22,7 @@ export const store = configureStore({
     actorCreationDrawer: actorCreationDrawerReducer,
     app: appReducer,
     user: userReducer,
+    actorConfiguration: actorConfigurationReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(serverApi.middleware, openaiApi.middleware, ollamaApi.middleware),
 });
