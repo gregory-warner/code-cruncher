@@ -1,6 +1,6 @@
 import express from 'express';
 import {Actor} from '../models/models.js';
-import {createActor, getActorByUsername, getActors, updateActorPrompt} from "../services/actorService.js";
+import {createActor, getActorByUsername, getActors} from "../services/actorService.js";
 import createUploadMiddleware from "../middlewares/uploadMiddleware.js";
 
 const router = express.Router();
@@ -23,10 +23,10 @@ router.get("/actor/:username", async (req, res, next) => {
     }
 });
 
-router.post('/create', createUploadMiddleware('avatar'), async (req, res, next) => {
+router.post("/create", createUploadMiddleware("avatar"), async (req, res, next) => {
     try {
         if (!req.file) {
-            throw new Error('Avatar file is missing');
+            throw new Error("Avatar file is missing");
         }
 
         const actor = createActor({
@@ -40,17 +40,17 @@ router.post('/create', createUploadMiddleware('avatar'), async (req, res, next) 
     }
 });
 
-router.post('/update', createUploadMiddleware('avatar'), async (req, res, next) => {
+router.post("/update", createUploadMiddleware("avatar"), async (req, res, next) => {
     try {
         const { actorId, name, username, title, colorTheme, prompt, model } = req.body;
 
         if (!name || !username || !title || !prompt || !colorTheme || !model) {
-            throw new Error('Missing required parameters');
+            throw new Error("Missing required parameters");
         }
 
         const avatar = req.file?.filename;
 
-        await updateActorPrompt(actorId, JSON.parse(prompt));
+        await updatePrompt(actorId, JSON.parse(prompt));
         // todo: model update is either search for existing details and set to that or create new, probably not delete previous
 
         const [rowsUpdated] = await Actor.update({
@@ -66,23 +66,13 @@ router.post('/update', createUploadMiddleware('avatar'), async (req, res, next) 
         })
 
         if (rowsUpdated === 0) {
-            return res.status(404).json({ msg: 'The actor was not found' });
+            return res.status(404).json({ msg: "The actor was not found" });
         }
 
 
-        res.json({ msg: 'The actor was successfully updated' });
+        res.json({ msg: "The actor was successfully updated" });
     } catch (error) {
         next(error);
-    }
-});
-
-router.patch('/update-prompt', async (req, res, next) => {
-    try {
-        const { actorId, prompt } = req.body;
-        const actor = await updateActorPrompt(actorId, prompt);
-        return res.json({actor});
-    } catch (err) {
-        next(err);
     }
 });
 

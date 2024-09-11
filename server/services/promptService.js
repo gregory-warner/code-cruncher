@@ -1,28 +1,15 @@
-import {Prompt} from '../models/models.js';
+import {Actor, Prompt} from '../models/models.js';
 import validator from 'validator';
 
-export const validatePromptParameters = (data) => {
+export const validatePromptParameters = (data, requiredFields = ['promptName', 'prompt', 'postfix']) => {
     if (!data || typeof data !== 'object') {
         throw new Error('Invalid prompt data: ' + JSON.stringify(data));
     }
 
-    const requiredFields = ['promptName', 'prompt', 'postfix'];
     for (let field of requiredFields) {
         if (!(field in data)) {
             throw new Error(`Missing required field: ${field}`);
         }
-    }
-
-    if (typeof data.promptName !== 'string' || !validator.isLength(data.promptName, { min: 1 })) {
-        throw new Error('Invalid prompt name: ' + validator.escape(data.promptName+''));
-    }
-
-    if (typeof data.prompt !== 'string' || !validator.isLength(data.prompt, { min: 1 })) {
-        throw new Error('Invalid prompt text: ' + validator.escape(data.prompt+''));
-    }
-
-    if (typeof data.postfix !== 'string' || !validator.isLength(data.postfix, { min: 1 })) {
-        throw new Error('Invalid postfix text: ' + validator.escape(data.postfix+''));
     }
 };
 
@@ -44,4 +31,29 @@ export const deletePrompt = async (id) => {
 
     await prompt.destroy();
     return prompt;
+};
+
+export const updatePrompt = async (actorId, data) => {
+    if (!Number.isInteger(actorId)) {
+        throw new Error('Invalid actor ID: ' + validator.escape(actorId.toString()));
+    }
+
+    validatePromptParameters(data, ['prompt']);
+
+    const actor = await Actor.findByPk(actorId);
+    if (!actor instanceof Actor) {
+        throw new Error(`Actor with id ${actorId} not found`);
+    }
+
+    const newPrompt = await Prompt.create(data);
+
+    if (actor.promptId > 0) {
+        await Prompt.destroy({ where: { promptId: actor.promptId } });
+    }
+
+    actor.promptId = newPrompt.promptId;
+
+    await actor.save();
+
+    return actor;
 };
