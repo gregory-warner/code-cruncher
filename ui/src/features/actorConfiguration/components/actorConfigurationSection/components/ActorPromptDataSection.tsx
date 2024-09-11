@@ -1,35 +1,30 @@
 import {ActorDisplayItem} from '../../../types';
 import ActorDataSection from './ActorDataSection';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Actor, Prompt} from '../../../../../types';
 import {TextField} from "@mui/material";
-import {useAppSelector} from "../../../../../store/hooks";
-import {selectSelectedActor} from "../../../store/actorConfigurationSlice";
 import {useUpdatePromptMutation} from "../../../../../services/server/serverApi";
 
-const ActorPromptDataSection = () => {
-    const actor: Actor|null = useAppSelector(selectSelectedActor)
-
-    const prompt = actor.prompt;
-
+const ActorPromptDataSection = ({ actor }: {actor: Actor}) => {
     const [updatePrompt] = useUpdatePromptMutation();
 
-    const [actorPrompt, setActorPrompt] = useState<string>(prompt.prompt);
+    const [prompt, setPrompt] = useState<Prompt>(actor.prompt);
+
+    useEffect(() => {
+        setPrompt(actor.prompt);
+    }, [actor]);
 
     const onSave = async () => {
-        setActorPrompt(actorPrompt);
-        const response = await updatePrompt({
+        updatePrompt({
             actorId: parseInt(actor.actorId),
-            prompt: {
-                prompt: actorPrompt,
-            },
+            prompt,
         });
-    }
+    };
 
     const items: ActorDisplayItem[] = [
         {
             label: 'Prompt',
-            value: actorPrompt || 'none',
+            value: prompt.prompt || 'none',
             width: 12,
             editComponent: (
                 <TextField
@@ -37,8 +32,8 @@ const ActorPromptDataSection = () => {
                     multiline
                     maxRows={7}
                     minRows={3}
-                    defaultValue={actorPrompt}
-                    onChange={(event) => setActorPrompt(event.target.value)}
+                    defaultValue={prompt.prompt}
+                    onChange={(event) => setPrompt({...prompt, prompt: event.target.value})}
                 />
             )
         },
