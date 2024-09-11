@@ -40,3 +40,8 @@ export interface AddMessageRequest {
     messengerTypeId: number;
     content: string;
 }
+
+export interface UpdatePromptRequest {
+    actorId: number;
+    prompt: PromptRequest;
+}
