@@ -3,7 +3,6 @@ import Prompt from '../models/prompt.js';
 import {addModel, getModelDetails} from './aiModelService.js';
 import inputValidator from '../utils/validator.js';
 import validator from 'validator';
-import {validatePromptParameters} from "./promptService.js";
 
 export const getActors = async () => {
     return await Actor.findAll({
