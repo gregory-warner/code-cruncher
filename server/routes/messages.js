@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 import {createMessage, deleteMessage, getMessages, updateMessage} from '../services/messagesService.js';
 
-router.get('/:sessionId', async (req, res, next) => {
+router.get("/:sessionId", async (req, res, next) => {
     try {
         const messages = await getMessages(req.params.sessionId);
         return res.json(messages);
@@ -11,7 +11,7 @@ router.get('/:sessionId', async (req, res, next) => {
     }
 });
 
-router.post('/create', async (req, res, next) => {
+router.post("/create", async (req, res, next) => {
     try {
         const message = await createMessage(req.body.message);
         return res.json(message.get({plain: true}));
@@ -20,7 +20,7 @@ router.post('/create', async (req, res, next) => {
     }
 });
 
-router.delete('/:id', async (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
     try {
         const message = await deleteMessage(req.params.id);
         return res.json(message.get({plain: true}));
@@ -29,7 +29,7 @@ router.delete('/:id', async (req, res, next) => {
     }
 });
 
-router.patch('/:id', async (req, res, next) => {
+router.patch("/:id", async (req, res, next) => {
     try {
         const message = await updateMessage(req.body);
         return res.json(message);

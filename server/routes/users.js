@@ -12,7 +12,7 @@ router.get("/user/:username", async (req, res, next) => {
     }
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
     try {
         const user = await getUserById(req.params.id);
         return res.json(user);
