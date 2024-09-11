@@ -9,6 +9,10 @@ const ActorGeneralDataSection = ({ actor }: {actor: Actor}) => {
     const [name, setName] = useState<string>(actor.name);
     const [title, setTitle] = useState<string>(actor.title);
 
+    const onSave = () => {
+
+    };
+
     const items: ActorDisplayItem[] = [
         {
             label: 'Name',
@@ -23,7 +27,7 @@ const ActorGeneralDataSection = ({ actor }: {actor: Actor}) => {
     ];
 
     return (
-        <ActorDataSection items={items} title='General' />
+        <ActorDataSection items={items} title='General' onSave={onSave} />
     );
 };
 

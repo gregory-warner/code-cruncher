@@ -1,17 +1,22 @@
 import {ActorDisplayItem} from '../../../types';
 import ActorDataSection from './ActorDataSection';
 import React from 'react';
-import {AIModel, ModelType} from '../../../../../types';
+import {Actor, AIModel, ModelType} from '../../../../../types';
 import {TextField, Typography} from "@mui/material";
 import ModelSelect from "../../ModelSelect";
 
-const ActorModelDataSection = ({ model }: {model: AIModel}) => {
+const ActorModelDataSection = ({ actor }: {actor: Actor}) => {
+
+    const model: AIModel = actor.aiModel;
 
     const [name, setName] = React.useState<string>(model.modelName);
     const [maxTokens, setMaxTokens] = React.useState<string>(model.languageModel?.maxTokens);
     const [temperature, setTemperature] = React.useState<string>(model.languageModel?.temperature);
     const [freqPenalty, setFreqPenalty] = React.useState<string>(model.languageModel?.frequencyPenalty);
 
+    const onSave = () => {
+
+    };
 
     const items: ActorDisplayItem[] = [
         {
@@ -47,7 +52,7 @@ const ActorModelDataSection = ({ model }: {model: AIModel}) => {
     ];
 
     return (
-        <ActorDataSection items={items} title='AI Model' />
+        <ActorDataSection items={items} title='AI Model' onSave={onSave} />
     );
 };
 

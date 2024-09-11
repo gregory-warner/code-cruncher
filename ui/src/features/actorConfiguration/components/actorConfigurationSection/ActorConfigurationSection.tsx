@@ -29,10 +29,10 @@ const ActorConfigurationSection = () => {
 
     return (
         <Box display='flex' flexDirection='column' alignItems='center'>
-            <ActorAvatarDataSection actor={actor} />
-            <ActorGeneralDataSection actor={actor} />
-            {actor?.aiModel && <ActorModelDataSection model={actor.aiModel} />}
-            {actor.prompt && <ActorPromptDataSection prompt={actor.prompt} />}
+            <ActorAvatarDataSection actor={{...actor}} />
+            <ActorGeneralDataSection actor={{...actor}} />
+            {actor?.aiModel && <ActorModelDataSection actor={{...actor}} />}
+            {actor.prompt && <ActorPromptDataSection actor={{...actor}} />}
         </Box>
     );
 };
