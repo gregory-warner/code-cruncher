@@ -2,14 +2,15 @@ import React, {useState} from "react";
 import {Box, Divider, Grid, IconButton, Typography} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import {ActorDisplayItem} from "../../../types";
+import SaveIcon from "@mui/icons-material/Save";
 
 interface ActorDataDisplayProps {
     items: ActorDisplayItem[];
     title: string;
-    // onSave: () => void;
+    onSave: () => void;
 }
 
-const ActorDataSection = ({items, title}: ActorDataDisplayProps) => {
+const ActorDataSection = ({items, title, onSave}: ActorDataDisplayProps) => {
     const [isEdit, setIsEdit] = useState(false);
 
     return (
@@ -31,9 +32,18 @@ const ActorDataSection = ({items, title}: ActorDataDisplayProps) => {
                         )
                     )}
                 </Grid>
-                <IconButton onClick={() => setIsEdit(!isEdit)}>
-                    <EditIcon />
-                </IconButton>
+                { isEdit ? (
+                    <IconButton onClick={() => {
+                        setIsEdit(!isEdit);
+                        onSave();
+                    }}>
+                        <SaveIcon />
+                    </IconButton>
+                ) : (
+                    <IconButton onClick={() => setIsEdit(!isEdit)}>
+                        <EditIcon />
+                    </IconButton>
+                )}
             </Grid>
         </Box>
     );
