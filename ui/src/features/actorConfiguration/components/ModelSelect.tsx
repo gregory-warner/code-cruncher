@@ -14,6 +14,7 @@ const ModelSelect = ({ selectedModel, handleModelChange }) => {
             fullWidth
             label="Chat Model"
             value={selectedModel}
+            defaultValue={selectedModel}
             onChange={handleModelChange}
             margin="normal"
         >
