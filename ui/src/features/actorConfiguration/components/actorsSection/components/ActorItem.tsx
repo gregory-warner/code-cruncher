@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Grid, ListItem, TextField, Typography, useTheme} from "@mui/material";
-import {useAppDispatch} from "../../../../store/hooks";
-import {setSelectedActor} from "../../store/actorConfigurationSlice";
+import {useAppDispatch} from "../../../../../store/hooks";
+import {setSelectedActor} from "../../../store/actorConfigurationSlice";
 
 interface ActorItemParams {
     actor: Actor;

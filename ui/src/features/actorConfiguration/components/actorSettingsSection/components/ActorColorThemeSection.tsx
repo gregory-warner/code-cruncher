@@ -1,6 +1,6 @@
 import {Box, Collapse, Divider, Grid, IconButton, Typography} from "@mui/material";
 import {SketchPicker} from "react-color";
-import {MessageCard} from "../../../../types";
+import {MessageCard} from "../../../../../types";
 import React, {useState} from "react";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";

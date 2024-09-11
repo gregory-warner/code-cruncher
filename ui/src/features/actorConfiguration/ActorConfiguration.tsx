@@ -1,14 +1,14 @@
 import AppLayout from "../../app/components/layout/AppLayout";
-import ActorsSection from "./actorsSection/ActorsSection";
-import ActorSettingsSection from "./actorSettingsSection/ActorSettingsSection";
-import ActorDataDisplay from "./actorDataDisplay/ActorDataDisplay";
+import ActorsSection from "./components/actorsSection/ActorsSection";
+import ActorSettingsSection from "./components/actorSettingsSection/ActorSettingsSection";
+import ActorConfigurationSection from "./components/actorConfigurationSection/ActorConfigurationSection";
 
 const ActorConfiguration = () => {
 
     return (
         <AppLayout
             leftPanel={<ActorsSection />}
-            center={<ActorDataDisplay />}
+            center={<ActorConfigurationSection />}
             rightPanel={<ActorSettingsSection />}
         />
     );

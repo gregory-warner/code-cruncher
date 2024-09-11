@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Button, Grid, List, Stack, Typography} from '@mui/material';
 import ActorItem from "./components/ActorItem";
-import {useGetActorsQuery} from "../../../services/server/serverApi";
+import {useGetActorsQuery} from "../../../../services/server/serverApi";
 
 const ActorsSection = () => {
 

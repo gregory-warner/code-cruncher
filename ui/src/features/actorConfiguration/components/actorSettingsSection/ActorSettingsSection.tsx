@@ -1,8 +1,8 @@
 import {Button, Grid, Typography} from "@mui/material";
 import React from "react";
-import {Actor} from "../../../types";
-import {useAppSelector} from "../../../store/hooks";
-import {selectSelectedActor} from "../store/actorConfigurationSlice";
+import {Actor} from "../../../../types";
+import {useAppSelector} from "../../../../store/hooks";
+import {selectSelectedActor} from "../../store/actorConfigurationSlice";
 import ActorColorThemeSection from "./components/ActorColorThemeSection";
 
 const ActorSettingsSection = () => {
