@@ -1,5 +1,5 @@
 import {ActorDisplayItem} from '../../../types';
-import ActorDataDisplaySection from './ActorDataDisplaySection';
+import ActorDataSection from './ActorDataSection';
 import React, {useState} from 'react';
 import {Prompt} from '../../../../../types';
 import {TextField} from "@mui/material";
@@ -12,12 +12,22 @@ const ActorPromptDataSection = ({ prompt }: {prompt: Prompt}) => {
         {
             label: 'Prompt',
             value: actorPrompt || 'none',
-            editComponent: <TextField defaultValue={actorPrompt} onChange={(event) => setActorPrompt(event.target.value)} />
+            width: 12,
+            editComponent: (
+                <TextField
+                    fullWidth
+                    multiline
+                    maxRows={7}
+                    minRows={3}
+                    defaultValue={actorPrompt}
+                    onChange={(event) => setActorPrompt(event.target.value)}
+                />
+            )
         },
     ];
 
     return (
-        <ActorDataDisplaySection items={items} title='Prompt' />
+        <ActorDataSection items={items} title='Prompt' />
     );
 };
 

@@ -1,5 +1,5 @@
 import {ActorDisplayItem} from '../../../types';
-import ActorDataDisplaySection from './ActorDataDisplaySection';
+import ActorDataSection from './ActorDataSection';
 import React, {useState} from 'react';
 import {Actor} from '../../../../../types';
 import {TextField} from "@mui/material";
@@ -23,7 +23,7 @@ const ActorGeneralDataSection = ({ actor }: {actor: Actor}) => {
     ];
 
     return (
-        <ActorDataDisplaySection items={items} title='General' />
+        <ActorDataSection items={items} title='General' />
     );
 };
 

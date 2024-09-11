@@ -9,7 +9,7 @@ interface ActorDataDisplayProps {
     // onSave: () => void;
 }
 
-const ActorDataDisplaySection = ({items, title}: ActorDataDisplayProps) => {
+const ActorDataSection = ({items, title}: ActorDataDisplayProps) => {
     const [isEdit, setIsEdit] = useState(false);
 
     return (
@@ -19,12 +19,12 @@ const ActorDataDisplaySection = ({items, title}: ActorDataDisplayProps) => {
                 <Grid item xs={11} container spacing={2}>
                     {items.map((item, index) =>
                         isEdit && item.editComponent ? (
-                            <Grid item xs={4} display='flex' alignItems='center' key={`${item.label}-${index}`}>
+                            <Grid item xs={item.width ?? 4} display='flex' alignItems='center' key={`${item.label}-${index}`}>
                                 <Typography variant='body2' mr={1}>{`${item.label}:`}</Typography>
                                 {item.editComponent}
                             </Grid>
                         ) : (
-                            <Grid item xs={4} display='flex' alignItems='center' key={`${item.label}-${index}`}>
+                            <Grid item xs={item.width ?? 4} display='flex' alignItems='center' key={`${item.label}-${index}`}>
                                 <Typography variant='body2' mr={1}>{`${item.label}:`}</Typography>
                                 <Typography variant='body1'>{item.value}</Typography>
                             </Grid>
@@ -39,4 +39,4 @@ const ActorDataDisplaySection = ({items, title}: ActorDataDisplayProps) => {
     );
 };
 
-export default ActorDataDisplaySection;
+export default ActorDataSection;

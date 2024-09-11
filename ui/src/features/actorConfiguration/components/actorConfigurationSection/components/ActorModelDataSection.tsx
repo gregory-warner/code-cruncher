@@ -1,5 +1,5 @@
 import {ActorDisplayItem} from '../../../types';
-import ActorDataDisplaySection from './ActorDataDisplaySection';
+import ActorDataSection from './ActorDataSection';
 import React from 'react';
 import {AIModel, ModelType} from '../../../../../types';
 import {TextField, Typography} from "@mui/material";
@@ -47,7 +47,7 @@ const ActorModelDataSection = ({ model }: {model: AIModel}) => {
     ];
 
     return (
-        <ActorDataDisplaySection items={items} title='AI Model' />
+        <ActorDataSection items={items} title='AI Model' />
     );
 };
 
