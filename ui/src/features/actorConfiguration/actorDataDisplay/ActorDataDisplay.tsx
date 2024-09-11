@@ -14,7 +14,10 @@ import {selectSelectedActor} from '../store/actorConfigurationSlice';
 import EditIcon from '@mui/icons-material/Edit';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import {chatServerUrl} from '../../../../config';
-import {ModelType} from "../../../types";
+import {Actor, ModelType} from "../../../types";
+import ActorModelDataSection from "./components/ActorModelDataSection";
+import ActorGeneralDataSection from "./components/ActorGeneralDataSection";
+import ActorColorThemeSection from "../actorSettingsSection/components/ActorColorThemeSection";
 
 const ActorDataDisplay = () => {
     const actor: Actor|null = useAppSelector(selectSelectedActor)
@@ -25,6 +28,7 @@ const ActorDataDisplay = () => {
     const [editingModel, setEditingModel] = useState(false);
     const [model, setModel] = useState(actor?.aiModel?.modelName ?? '');
 
+    const colorTheme = actor?.colorTheme?.messageCard ?? {};
 
     const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(event.target.value);
@@ -55,63 +59,8 @@ const ActorDataDisplay = () => {
                     {actor.name}
                 </Typography>
             </Box>
-            <Divider sx={{ width: '100%' }} orientation='horizontal' textAlign='left'>General</Divider>
-            <Box display='flex' alignItems='center' mb={2}>
-                <IconButton onClick={() => setEditingTitle(!editingTitle)}>
-                    <EditIcon />
-                </IconButton>
-                <Typography variant='subtitle1'>Title:</Typography>
-                {editingTitle ? (
-                    <TextField size='small' value={title} onChange={handleTitleChange} />
-                ) : (
-                    <Typography variant='body1' sx={{ ml: 2 }}>
-                        {actor.title}
-                    </Typography>
-                )}
-            </Box>
-            <Box sx={{ width: '100%' }}>
-                <Divider textAlign='left'>AI Model</Divider>
-                <Grid container>
-                    <Grid container spacing={2}>
-                        <Grid item xs={4} display='flex' alignItems='center'>
-                            <Typography variant='body2' mr={1}>Name:</Typography>
-                            <Typography variant='body1'>{actor.aiModel.modelName}</Typography>
-                            {actor.aiModel.isLocal ? (
-                                <Tooltip title='This model is offline'>
-                                    <FiberManualRecordIcon sx={{ color: 'green', ml: 1 }} />
-                                </Tooltip>
-                            ) : (
-                                <Tooltip title='This model is online'>
-                                    <FiberManualRecordIcon sx={{ color: 'yellow', ml: 1 }} />
-                                </Tooltip>
-                            )}
-                        </Grid>
-                        <Grid item xs={4} display='flex' alignItems='center'>
-                            <Typography variant='body2' mr={1}>Type:</Typography>
-                            <Typography variant='body1'>{ModelType[actor.aiModel.modelTypeId]}</Typography>
-                        </Grid>
-                        <Grid item xs={4} display='flex' justifyContent='flex-end'>
-                            <IconButton>
-                                <EditIcon />
-                            </IconButton>
-                        </Grid>
-                    </Grid>
-                    <Grid container spacing={2}>
-                        <Grid item xs={4} display='flex' alignItems='center'>
-                            <Typography variant='body2' mr={1}>Max Tokens:</Typography>
-                            <Typography variant='body1'>{actor.aiModel.languageModel?.maxTokens}</Typography>
-                        </Grid>
-                        <Grid item xs={4} display='flex' alignItems='center'>
-                            <Typography variant='body2' mr={1}>Temperature:</Typography>
-                            <Typography variant='body1'>{actor.aiModel.languageModel?.temperature}</Typography>
-                        </Grid>
-                        <Grid item xs={4} display='flex' alignItems='center'>
-                            <Typography variant='body2' mr={1}>Frequency Penalty:</Typography>
-                            <Typography variant='body1'>{actor.aiModel.languageModel?.frequencyPenalty}</Typography>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </Box>
+            <ActorGeneralDataSection actor={actor} />
+            {actor?.aiModel && <ActorModelDataSection model={actor.aiModel} />}
         </Box>
     );
 
