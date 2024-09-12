@@ -10,12 +10,14 @@ const useModels = () => {
     const ollamaModels = ollama.models.map(model => ({
         ...model,
         isLocal: true,
+        modelIdentifier: 'ollama',
     }));
 
     const openAiModels = models.data.map(model => ({
         ...model,
         name: model.id,
         isLocal: false,
+        modelIdentifier: 'openai',
     }));
 
     return [

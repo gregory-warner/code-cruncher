@@ -1,4 +1,4 @@
-import {Prompt, Session} from "../../types";
+import {AIModel, Prompt, Session} from "../../types";
 
 export interface ActorPrompt {
     actorId: number;
@@ -44,4 +44,9 @@ export interface AddMessageRequest {
 export interface UpdatePromptRequest {
     actorId: number;
     prompt: PromptRequest;
+}
+
+export interface UpdateAIModelRequest {
+    actorId: number;
+    aiModel: AIModel;
 }

@@ -53,7 +53,7 @@ const useLanguageModelType = (type: LanguageModel): ModelDataType => {
             ...model,
             languageModel: {
                 ...type ?? {},
-                modelType
+                ...modelType
             },
         };
     }
