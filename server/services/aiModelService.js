@@ -1,5 +1,6 @@
-import {AIModel, ImageModel, LanguageModel, TextModel} from "../models/models.js";
+import {Actor, AIModel, ImageModel, LanguageModel, TextModel} from "../models/models.js";
 import {removeProperty} from "../utils/utils.js";
+import validator from "validator";
 
 const modelType = {
     language: 0,
@@ -46,7 +47,7 @@ export const addModel = async (model) => {
         typeId: modelProviderDetails.modelTypeId,
     };
 
-    const typeModel = await createTypeModel(typeDetails);
+    const typeModel = await createTypeModel(modelProviderDetails.modelTypeId, typeDetails);
 
     return {
         ...aiModel.toJSON(),
@@ -112,4 +113,69 @@ export const getModelType = (model) => {
     }
 
     return 'language';
-}
+};
+
+export const getValidatedModel = (model, requiredFields = ['modelName']) => {
+    if (!model || typeof model !== 'object') {
+        throw new Error('Invalid model data: ' + JSON.stringify(model));
+    }
+
+    const validatedPrompt = {};
+
+    for (let field of requiredFields) {
+        if (!(field in model)) {
+            throw new Error(`Missing required field: ${field}`);
+        }
+
+        validatedPrompt[field] = model[field];
+    }
+
+    return validatedPrompt;
+};
+
+
+export const createModelType = async (modelId, model) => {
+    if (model.languageModel) {
+        const languageModel = getValidatedModel(model.languageModel, ['maxTokens', 'temperature', 'frequencyPenalty']);
+        return await LanguageModel.create({
+            modelId,
+            ...languageModel,
+        });
+    }
+
+    throw new Error(`Unable to create model type with model id ${modelId}`);
+};
+
+export const updateActorModel = async (actorId, model) => {
+    if (!Number.isInteger(actorId)) {
+        throw new Error('Invalid actor ID: ' + validator.escape(actorId.toString()));
+    }
+
+    const requiredParameters = ['modelName', 'isLocal', 'modelTypeId', 'modelIdentifier'];
+    const validatedModel = getValidatedModel(model, requiredParameters);
+
+    const actor = await Actor.findByPk(actorId);
+    if (!actor instanceof Actor) {
+        throw new Error(`Actor with id ${actorId} not found`);
+    }
+
+    const newModel = await AIModel.create(validatedModel);
+    if (!newModel instanceof AIModel) {
+        throw new Error(`Unable to create model with name ${model.modelName}`);
+    }
+
+    const modelType = await createModelType(newModel.modelId, model);
+    if (!modelType) {
+        throw new Error(`Unable to create model type with model id ${model.modelId}`);
+    }
+
+    if (actor.modelId > 0) {
+        await AIModel.destroy({ where: { modelId: actor.modelId } });
+    }
+
+    actor.modelId = newModel.modelId;
+
+    await actor.save();
+
+    return actor;
+};
