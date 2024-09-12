@@ -8,13 +8,14 @@ type ModelItem = ChatApiModel & Model;
 const ModelSelect = ({ selectedModel, handleModelChange }) => {
     const models = useModels();
 
+    const model = models.find(m => m.name === selectedModel);
+
     return (
         <TextField
             select
             fullWidth
             label="Chat Model"
-            value={selectedModel}
-            defaultValue={selectedModel}
+            value={model?.name ?? ''}
             onChange={handleModelChange}
             margin="normal"
         >
