@@ -7,6 +7,7 @@ import messagesRouter from './routes/messages.js';
 import userRouter from './routes/users.js';
 import sessionRouter from './routes/sessions.js';
 import prompts from "./routes/prompts.js"
+import modelRouter from "./routes/models.js";
 import fs from 'fs';
 import path from 'path';
 
@@ -18,6 +19,15 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+app.use('/images', express.static(path.join(__dirname, 'uploads/img')));
+
+app.use("/actors", actorsRouter);
+app.use("/users", userRouter);
+app.use("/messages", messagesRouter);
+app.use("/prompts", prompts);
+app.use("/sessions", sessionRouter);
+app.use("/models", modelRouter);
+
 const errorHandler = (err, req, res, next) => {
     console.error(err.stack ?? "Server Error");
     logger.error(err.stack);
@@ -28,14 +38,6 @@ const errorHandler = (err, req, res, next) => {
 if (!fs.existsSync('uploads')) {
     fs.mkdirSync('uploads');
 }
-
-app.use('/images', express.static(path.join(__dirname, 'uploads/img')));
-
-app.use("/actors", actorsRouter);
-app.use("/users", userRouter);
-app.use("/messages", messagesRouter);
-app.use("/prompts", prompts);
-app.use("/sessions", sessionRouter);
 
 app.use(errorHandler);
 
