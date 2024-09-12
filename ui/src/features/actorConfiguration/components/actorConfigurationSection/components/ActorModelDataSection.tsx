@@ -6,6 +6,7 @@ import {Typography} from "@mui/material";
 import ModelSelect from "../../ModelSelect";
 import useModelType from "../../../hooks/modelTypes/useModelType";
 import useModels from "../../../hooks/useModels";
+import {useUpdateAIModelMutation} from "../../../../../services/server/serverApi";
 
 const ActorModelDataSection = ({ actor }: {actor: Actor}) => {
 
@@ -17,13 +18,18 @@ const ActorModelDataSection = ({ actor }: {actor: Actor}) => {
 
     const modelMode = model.isLocal ? 'offline' : 'online';
 
+    const [updateModel] = useUpdateAIModelMutation();
+
     useEffect(() => {
         setModel(actor.aiModel);
     }, [actor]);
 
     const onSave = () => {
-        const aiModel = modelType.appendModelType(aiModel);
-
+        const aiModel = modelType.appendModelType(model);
+        updateModel({
+            actorId: actor.actorId,
+            aiModel,
+        });
     };
 
     const items: ActorDisplayItem[] = [
@@ -38,7 +44,8 @@ const ActorModelDataSection = ({ actor }: {actor: Actor}) => {
                         setModel(
                             {...model,
                                 modelName: selectedModel.name,
-                                isLocal: selectedModel.isLocal
+                                isLocal: selectedModel.isLocal,
+                                modelIdentifier: selectedModel.modelIdentifier,
                             }
                         );
                     }}
