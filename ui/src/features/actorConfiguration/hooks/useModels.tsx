@@ -7,9 +7,20 @@ const useModels = () => {
 
     if (!models || !ollama) return [];
 
+    const ollamaModels = ollama.models.map(model => ({
+        ...model,
+        isLocal: true,
+    }));
+
+    const openAiModels = models.data.map(model => ({
+        ...model,
+        name: model.id,
+        isLocal: false,
+    }));
+
     return [
-        ...ollama.models,
-        ...models.data,
+        ...ollamaModels,
+        ...openAiModels,
     ];
 };
 
