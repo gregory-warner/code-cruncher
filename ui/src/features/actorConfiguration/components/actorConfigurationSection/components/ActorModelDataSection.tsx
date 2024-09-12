@@ -1,54 +1,61 @@
-import {ActorDisplayItem} from '../../../types';
+import {ActorDisplayItem, ModelDataType} from '../../../types';
 import ActorDataSection from './ActorDataSection';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Actor, AIModel, ModelType} from '../../../../../types';
-import {TextField, Typography} from "@mui/material";
+import {Typography} from "@mui/material";
 import ModelSelect from "../../ModelSelect";
+import useModelType from "../../../hooks/modelTypes/useModelType";
+import useModels from "../../../hooks/useModels";
 
 const ActorModelDataSection = ({ actor }: {actor: Actor}) => {
 
-    const model: AIModel = actor.aiModel;
+    const [model, setModel] = useState<AIModel>(actor.aiModel);
 
-    const [name, setName] = React.useState<string>(model.modelName);
-    const [maxTokens, setMaxTokens] = React.useState<string>(model.languageModel?.maxTokens);
-    const [temperature, setTemperature] = React.useState<string>(model.languageModel?.temperature);
-    const [freqPenalty, setFreqPenalty] = React.useState<string>(model.languageModel?.frequencyPenalty);
+    const modelType: ModelDataType = useModelType(actor.aiModel);
+
+    const models = useModels();
+
+    const modelMode = model.isLocal ? 'offline' : 'online';
+
+    useEffect(() => {
+        setModel(actor.aiModel);
+    }, [actor]);
 
     const onSave = () => {
+        const aiModel = modelType.appendModelType(aiModel);
 
     };
 
     const items: ActorDisplayItem[] = [
         {
             label: 'Name',
-            value: name,
-            editComponent: <ModelSelect selectedModel={name} handleModelChange={(event) => setName(event.target.value)} />
+            value: model.modelName,
+            editComponent: (
+                <ModelSelect
+                    selectedModel={model.modelName}
+                    handleModelChange={(event) => {
+                        const selectedModel = models.find(model => model.name === event.target.value) ?? {};
+                        setModel(
+                            {...model,
+                                modelName: selectedModel.name,
+                                isLocal: selectedModel.isLocal
+                            }
+                        );
+                    }}
+                />
+            )
         },
         {
             label: 'Mode',
-            value: model.isLocal ? 'offline' : 'online',
-            editComponent: <Typography>--</Typography>
+            value: modelMode,
+            editComponent: <Typography>{modelMode}</Typography>
         },
         {
             label: 'Type',
             value: ModelType[model.modelTypeId],
-            editComponent: <Typography>--</Typography>
+            editComponent: <Typography>{ModelType[model.modelTypeId]}</Typography>
         },
-        {
-            label: 'Max Tokens',
-            value: maxTokens,
-            editComponent: <TextField defaultValue={maxTokens} onChange={(event) => setMaxTokens(event.target.value)} />
-        },
-        {
-            label: 'Temperature',
-            value: temperature,
-            editComponent: <TextField defaultValue={temperature} onChange={(event) => setTemperature(event.target.value)} />
-        },
-        {
-            label: 'Frequency Penalty',
-            value: freqPenalty,
-            editComponent: <TextField defaultValue={freqPenalty} onChange={(event) => setFreqPenalty(event.target.value)} />
-        },
+        ...modelType.items
     ];
 
     return (
