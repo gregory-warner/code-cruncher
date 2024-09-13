@@ -1,8 +1,9 @@
 import React, {useState} from "react";
-import {Box, Divider, Grid, IconButton, Typography} from "@mui/material";
+import {Box, Divider, Grid, IconButton, Tooltip, Typography} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import {ActorDisplayItem} from "../../../types";
 import SaveIcon from "@mui/icons-material/Save";
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 interface ActorDataDisplayProps {
     items: ActorDisplayItem[];
@@ -26,7 +27,13 @@ const ActorDataSection = ({items, title, onSave}: ActorDataDisplayProps) => {
                             </Grid>
                         ) : (
                             <Grid item xs={item.width ?? 4} display='flex' alignItems='center' key={`${item.label}-${index}`}>
-                                <Typography variant='body2' mr={1}>{`${item.label}:`}</Typography>
+                                {item.helpText ? (
+                                    <Tooltip title={<span style={{ fontSize: "12px" }}>{item.helpText}</span>}>
+                                        <Typography variant='body2' mr={1}>{`${item.label}:`}</Typography>
+                                    </Tooltip>
+                                ) : (
+                                    <Typography variant='body2' mr={1}>{`${item.label}:`}</Typography>
+                                )}
                                 <Typography variant='body1'>{item.value}</Typography>
                             </Grid>
                         )
