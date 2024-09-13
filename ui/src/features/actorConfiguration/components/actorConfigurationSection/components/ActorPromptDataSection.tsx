@@ -35,6 +35,7 @@ const ActorPromptDataSection = ({ actor }: {actor: Actor}) => {
         },
         {
             label: 'Postfix',
+            helpText: 'This optional text will be applied at the end of every sent request.',
             value: prompt.postfix,
             width: 4,
             editComponent: (
