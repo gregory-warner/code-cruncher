@@ -1,7 +1,8 @@
 import express from 'express';
 import {Actor} from '../models/models.js';
-import {createActor, getActorByUsername, getActors} from "../services/actorService.js";
+import {createActor, getActorByUsername, getActors, update} from "../services/actorService.js";
 import createUploadMiddleware from "../middlewares/uploadMiddleware.js";
+import {updatePrompt} from "../services/promptService.js";
 
 const router = express.Router();
 
@@ -40,7 +41,17 @@ router.post("/create", createUploadMiddleware("avatar"), async (req, res, next) 
     }
 });
 
-router.post("/update", createUploadMiddleware("avatar"), async (req, res, next) => {
+router.patch("/update/:actorId", async (req, res, next) => {
+    try {
+        const actor = update(parseInt(req.params.actorId), req.body);
+        return res.json(actor);
+    } catch (err) {
+        next(err);
+    }
+});
+
+// legacy service to update entire actor
+router.post("/update-actor", createUploadMiddleware("avatar"), async (req, res, next) => {
     try {
         const { actorId, name, username, title, colorTheme, prompt, model } = req.body;
 

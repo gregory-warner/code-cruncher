@@ -85,3 +85,42 @@ export const createActor = async (actorData) => {
         modelId: actorModel.modelId,
     });
 };
+
+export const getValidatedActorData = (data, requiredFields = ['name', 'title']) => {
+    if (!data || typeof data !== 'object') {
+        throw new Error('Invalid actor data: ' + JSON.stringify(data));
+    }
+
+    const validatedActorData = {};
+    // todo: add type validation
+
+    for (let field of requiredFields) {
+        if (!(field in data)) {
+            throw new Error(`Missing required field: ${field}`);
+        }
+
+        validatedActorData[field] = data[field];
+    }
+
+    return validatedActorData;
+};
+
+export const update = async (actorId, actorData) => {
+    if (!Number.isInteger(actorId)) {
+        throw new Error('Invalid actor ID: ' + validator.escape(actorId.toString()));
+    }
+
+    const validatedActorData = getValidatedActorData(actorData, ['name', 'title']);
+
+    const actor = await Actor.findByPk(actorId);
+    if (!actor instanceof Actor) {
+        throw new Error(`Actor with id ${actorId} not found`);
+    }
+
+    actor.name = validatedActorData.name;
+    actor.title = validatedActorData.title;
+
+    await actor.save();
+
+    return actor;
+};

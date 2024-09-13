@@ -8,8 +8,6 @@ export interface ActorDisplayItem {
     width?: number;
 }
 
-type AiModelType = LanguageModel;
-
 export interface ModelDataType {
     items: ActorDisplayItem[];
     appendModelType: (model: AIModel) => AIModel;

@@ -4,7 +4,7 @@ import {
     AddMessageRequest,
     SessionNameRequest,
     SessionParticipantRequest,
-    SessionRequest,
+    SessionRequest, UpdateActorRequest,
     UpdateAIModelRequest,
     UpdatePromptRequest,
 } from "./types";
@@ -82,12 +82,12 @@ export const serverApi  = createApi({
             }),
             invalidatesTags: [{ type: 'Actors' }],
         }),
-        updateActor: build.mutation<{actor: Actor}, FormData>({
-            query: (formData: FormData) => {
+        updateActor: build.mutation<Actor, UpdateActorRequest>({
+            query: (updateRequest: UpdateActorRequest) => {
                 return ({
-                    url: `actors/update`,
-                    method: 'POST',
-                    body: formData,
+                    url: `actors/update/${updateRequest.actorId}`,
+                    method: 'PATCH',
+                    body: updateRequest,
                 });
             },
             invalidatesTags: [{ type: 'Actors' }],
@@ -167,7 +167,6 @@ export const serverApi  = createApi({
 });
 
 export const {
-    useUpdateActorMutation,
     useLazyGetMessagesQuery,
     useUpdateMessageMutation,
     useCreateActorMutation,
@@ -185,4 +184,5 @@ export const {
     useGetSessionQuery,
     useUpdatePromptMutation,
     useUpdateAIModelMutation,
+    useUpdateActorMutation,
 } = serverApi;

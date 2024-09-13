@@ -50,3 +50,9 @@ export interface UpdateAIModelRequest {
     actorId: number;
     aiModel: AIModel;
 }
+
+export interface UpdateActorRequest {
+    actorId: number;
+    name: string;
+    title: string;
+}
