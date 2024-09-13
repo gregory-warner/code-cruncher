@@ -23,6 +23,28 @@ const ActorPromptDataSection = ({ actor }: {actor: Actor}) => {
 
     const items: ActorDisplayItem[] = [
         {
+            label: 'Name',
+            value: prompt.promptName,
+            width: 4,
+            editComponent: (
+                <TextField
+                    defaultValue={prompt.promptName}
+                    onChange={(event) => setPrompt({...prompt, promptName: event.target.value})}
+                />
+            )
+        },
+        {
+            label: 'Postfix',
+            value: prompt.postfix,
+            width: 4,
+            editComponent: (
+                <TextField
+                    defaultValue={prompt.postfix}
+                    onChange={(event) => setPrompt({...prompt, postfix: event.target.value})}
+                />
+            )
+        },
+        {
             label: 'Prompt',
             value: prompt.prompt || 'none',
             width: 12,

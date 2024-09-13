@@ -45,7 +45,7 @@ export const updatePrompt = async (actorId, data) => {
         throw new Error('Invalid actor ID: ' + validator.escape(actorId.toString()));
     }
 
-    const requiredParameters = ['prompt'];
+    const requiredParameters = ['prompt', 'promptName', 'postfix'];
     const validatedPrompt = getValidatedPrompt(data, requiredParameters);
 
     const actor = await Actor.findByPk(actorId);
