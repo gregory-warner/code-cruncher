@@ -152,3 +152,11 @@ export interface ParsedMessage {
     type: MessageContentTypes;
     content: string;
 }
+
+export enum SessionType {
+    General = 0,
+    TypeScript = 1,
+    Python = 2,
+    Rust = 3,
+    MySQL = 4
+}
