@@ -2,7 +2,7 @@ import {useState} from "react";
 import {AddMessageRequest} from "../../../../../services/server/types";
 import {MessageTypeIds, MessengerTypeIds} from "../../../../../types";
 import {setSnackbar} from "../../../../../app/store/appSlice";
-import {incrementCurrentSequenceId, selectCurrentSpeaker, selectSessionId} from "../../../store/sessionSlice";
+import {incrementCurrentSequenceId, selectCurrentSpeaker, selectSessionId} from "../../../sessionSlice";
 import {useAppDispatch, useAppSelector} from "../../../../../store/hooks";
 import {selectUser} from "../../../../user/userSlice";
 import {useAddMessageMutation} from "../../../../../services/server/serverApi";

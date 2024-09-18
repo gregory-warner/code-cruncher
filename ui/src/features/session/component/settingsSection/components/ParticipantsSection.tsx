@@ -5,7 +5,7 @@ import {
     selectParticipants,
     selectSelectedParticipant,
     setSelectedParticipant
-} from '../../../store/sessionSlice';
+} from '../../../sessionSlice';
 import {Avatar, Box, Grid, Typography, useTheme} from '@mui/material';
 import {chatServerUrl} from '../../../../../../config';
 import {Add} from '@mui/icons-material';

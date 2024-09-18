@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Grid, Typography, useTheme} from '@mui/material';
 import AppMenu from "../appMenu/AppMenu";
-import {selectCurrentSpeaker} from "../../../../features/session/store/sessionSlice";
+import {selectCurrentSpeaker} from "../../../../features/session/sessionSlice";
 import {useAppSelector} from "../../../../store/hooks";
 
 const AppHeader: React.FC = () => {

@@ -1,5 +1,5 @@
 import {useAppSelector} from "../../../../../store/hooks";
-import {selectSelectedParticipant} from "../../../store/sessionSlice";
+import {selectSelectedParticipant} from "../../../sessionSlice";
 import {Box} from "@mui/material";
 import React from "react";
 import UserParticipantSettings from "./UserParticipantSettings";

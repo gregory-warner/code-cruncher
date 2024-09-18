@@ -10,7 +10,7 @@ import {SessionRequest} from '../../../../services/server/types';
 import {Session, SessionType, User} from '../../../../types';
 import {useAppDispatch, useAppSelector} from '../../../../store/hooks';
 import {selectUser} from '../../../user/userSlice';
-import {setSessionId} from '../../store/sessionSlice';
+import {setSessionId} from '../../sessionSlice';
 import {isUser} from '../../../../utils/util';
 
 const SessionsSection = () => {

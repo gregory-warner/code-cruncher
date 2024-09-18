@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
-import {incrementCurrentSequenceId, selectCurrentSpeaker, selectSessionId} from "../store/sessionSlice";
+import {incrementCurrentSequenceId, selectCurrentSpeaker, selectSessionId} from "../sessionSlice";
 import {useAddMessageMutation, useGetMessagesQuery, useLazyGetMessagesQuery} from "../../../services/server/serverApi";
 import {ServiceFactory} from "../services/serviceFactory";
 import {ChatService} from "../types";

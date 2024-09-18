@@ -1,7 +1,7 @@
 import {CircularProgress, List, ListItem} from "@mui/material";
 import {useLazyGetMessagesQuery} from "../../../../services/server/serverApi";
 import React, {useEffect} from "react";
-import {selectParticipants, selectSessionId} from "../../store/sessionSlice";
+import {selectParticipants, selectSessionId} from "../../sessionSlice";
 import {useAppSelector} from "../../../../store/hooks";
 import SessionMessage from "../sessionMessage/SessionMessage";
 import SessionMessageScrollFocus from "./SessionMessageScrollFocus";

@@ -4,7 +4,7 @@
   "version": "1.7.0",
   "type": "module",
   "scripts": {
-    "server": "nodemon -L --inspect=0.0.0.0 server.js"
+    "server": "node init-db.js && nodemon -L --inspect=0.0.0.0:9229 server.js"
   },
   "dependencies": {
     "axios": "^1.4.0",

@@ -7,7 +7,7 @@ import {
     selectSessionId,
     setCurrentSpeaker,
     setParticipants, setSelectedParticipant
-} from "./store/sessionSlice";
+} from "./sessionSlice";
 import SessionMessagesSection from "./component/sessionMessagesSection/SessionMessagesSection";
 import {useActor} from "./hooks/useActor";
 import {Grid} from "@mui/material";

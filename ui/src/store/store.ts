@@ -1,5 +1,5 @@
 import {configureStore, ThunkAction, Action} from '@reduxjs/toolkit';
-import sessionReducer from '../features/session/store/sessionSlice';
+import sessionReducer from '../features/session/sessionSlice';
 import appReducer from '../app/store/appSlice';
 import userReducer from '../features/user/userSlice';
 import themeReducer from '../theme/themeSlice';
