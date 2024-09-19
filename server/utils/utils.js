@@ -21,3 +21,12 @@ export const messengerTypes = Object.entries(messengerTypeIds).reduce((acc, [key
     acc[value] = key;
     return acc;
 }, {});
+
+export const pickProperties = (object, properties) => {
+    return properties.reduce((acc, property) => {
+        if (property in object) {
+            acc[property] = object[property];
+        }
+        return acc;
+    }, {});
+};

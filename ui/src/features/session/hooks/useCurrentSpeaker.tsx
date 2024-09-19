@@ -7,6 +7,11 @@ const useCurrentSpeaker = () => {
 
     const getLastParticipantIndex = async (sessionId: number, participants: SessionParticipantType[]): Promise<number> => {
         const messages = await getMessages(sessionId).unwrap();
+
+        if (messages.length === 0) {
+            return -1;
+        }
+
         const lastMessage = messages[messages.length - 1];
 
         switch (lastMessage.messengerTypeId) {
@@ -36,6 +41,7 @@ const useCurrentSpeaker = () => {
     };
 
     return {
+        getLastParticipantIndex,
         getCurrentSpeaker,
     };
 };

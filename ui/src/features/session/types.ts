@@ -3,7 +3,7 @@ import {AnyAction, ThunkAction} from "@reduxjs/toolkit";
 
 export interface ChatService {
     chat(messages: Message[]): ThunkAction<any, any, any, AnyAction>;
-    getMessageResponse: any;
+    getResponseContent: any;
 }
 
 export type Messenger = User | Actor;
@@ -12,9 +12,10 @@ export interface SessionStatus {
     isLoading: boolean;
     currentSequenceId: number;
     participants: SessionParticipantType[];
+    isUserRequestingResponse: boolean;
 }
 
-type PartialSessionStatus = Partial<SessionStatus>;
+export type PartialSessionStatus = Partial<SessionStatus>;
 
 export interface UpdateSessionStatus {
     sessionId: number;

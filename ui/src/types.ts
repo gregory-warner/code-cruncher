@@ -1,4 +1,4 @@
-export enum MessengerTypeIds {
+export enum MessengerTypeId {
     user,
     actor,
 }
@@ -136,20 +136,20 @@ export interface SessionParticipant {
     deletedAt?: Date | null;
 }
 
-export enum MessageTypeIds {
+export enum MessageTypeId {
     general = 0,
     question = 1,
     answer = 2,
 }
 
-export enum MessageContentTypes {
+export enum MessageContentType {
     general,
     code,
 }
 
 export interface ParsedMessage {
     lang?: string;
-    type: MessageContentTypes;
+    type: MessageContentType;
     content: string;
 }
 

@@ -185,4 +185,5 @@ export const {
     useUpdatePromptMutation,
     useUpdateAIModelMutation,
     useUpdateActorMutation,
+    useGetSessionParticipantsQuery,
 } = serverApi;

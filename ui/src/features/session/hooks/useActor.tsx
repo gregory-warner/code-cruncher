@@ -6,12 +6,14 @@ import {ServiceFactory} from "../services/serviceFactory";
 import {ChatService} from "../types";
 import {skipToken} from "@reduxjs/toolkit/query";
 import {AddMessageRequest} from "../../../services/server/types";
-import {Actor, MessengerTypeIds} from "../../../types";
+import {Actor, Message, MessageTypeId, MessengerTypeId} from "../../../types";
 
 export const useActor = () => {
     const dispatch = useAppDispatch();
     const currentSpeaker = useAppSelector(selectCurrentSpeaker);
     const sessionId = useAppSelector(selectSessionId);
+
+    const [getMessages] = useLazyGetMessagesQuery();
 
     const [aiService, setAiService] = useState<ChatService>(null);
 
@@ -39,9 +41,9 @@ export const useActor = () => {
             const message: AddMessageRequest = {
                 sessionId,
                 messageTypeId: 0,
-                messengerTypeId: MessengerTypeIds.actor,
+                messengerTypeId: MessengerTypeId.actor,
                 messengerId: actor.actorId,
-                content: aiService.getMessageResponse(response),
+                content: aiService.getResponseContent(response),
             };
 
             addMessage(message).then((messageResponse) => {
@@ -52,4 +54,29 @@ export const useActor = () => {
 
     }, [aiService]);
 
+    const getService = (actor: Actor): ChatService => {
+        return ServiceFactory.create(actor);
+    }
+
+    const chat = async (sessionId: number, actor: Actor): Promise<Message|null> => {
+        const service = getService(actor);
+        const messages = await getMessages(sessionId).unwrap();
+
+        const { data: response } = await dispatch(service.chat(messages));
+
+        const message: AddMessageRequest = {
+            sessionId,
+            messageTypeId: MessageTypeId.general,
+            messengerTypeId: MessengerTypeId.actor,
+            messengerId: actor.actorId,
+            content: service.getResponseContent(response),
+        };
+
+        return await addMessage(message).unwrap();
+    };
+
+    return {
+        getService,
+        chat,
+    };
 };

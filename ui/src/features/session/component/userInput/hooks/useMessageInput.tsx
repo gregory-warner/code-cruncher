@@ -1,11 +1,18 @@
 import {useState} from "react";
 import {AddMessageRequest} from "../../../../../services/server/types";
-import {MessageTypeIds, MessengerTypeIds} from "../../../../../types";
+import {MessageTypeId, MessengerTypeId} from "../../../../../types";
 import {setSnackbar} from "../../../../../app/store/appSlice";
-import {incrementCurrentSequenceId, selectCurrentSpeaker, selectSessionId} from "../../../sessionSlice";
+import {
+    incrementCurrentSequenceId,
+    selectCurrentSpeaker,
+    selectSessionId,
+    updateSessionStatus
+} from "../../../sessionSlice";
 import {useAppDispatch, useAppSelector} from "../../../../../store/hooks";
 import {selectUser} from "../../../../user/userSlice";
 import {useAddMessageMutation} from "../../../../../services/server/serverApi";
+import useCurrentSpeaker from "../../../hooks/useCurrentSpeaker";
+import {PartialSessionStatus} from "../../../types";
 
 const useMessageInput = () => {
     const dispatch = useAppDispatch();
@@ -14,6 +21,8 @@ const useMessageInput = () => {
     const user = useAppSelector(selectUser);
 
     const [addMessage] = useAddMessageMutation();
+
+    const { getCurrentSpeaker, getLastParticipantIndex } = useCurrentSpeaker();
 
     const [input, setInput] = useState('');
 
@@ -32,16 +41,16 @@ const useMessageInput = () => {
             return;
         }
 
-        if (!isUserCurrentSpeaker) {
-            dispatch(setSnackbar({message: 'Please wait for the response.'}))
-            return;
-        }
+        // if (!isUserCurrentSpeaker) {
+        //     dispatch(setSnackbar({message: 'Please wait for the response.'}))
+        //     return;
+        // }
 
         const message: AddMessageRequest = {
             sessionId,
             messengerId: user.userId,
-            messageTypeId: MessageTypeIds.general,
-            messengerTypeId: MessengerTypeIds.user,
+            messageTypeId: MessageTypeId.general,
+            messengerTypeId: MessengerTypeId.user,
             content,
         };
 
@@ -52,7 +61,12 @@ const useMessageInput = () => {
             return;
         }
 
-        dispatch(incrementCurrentSequenceId());
+        // dispatch(incrementCurrentSequenceId());
+
+        const sessionStatus: PartialSessionStatus = {
+            isUserRequestingResponse: true,
+        }
+        dispatch(updateSessionStatus({ sessionId, sessionStatus }));
 
         setInput("");
     };

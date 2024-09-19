@@ -54,7 +54,12 @@ class OllamaService implements ChatService {
         return this.api.endpoints.chat.initiate(request);
     }
 
-    public getMessageResponse(response: OllamaResponse): string {
+    /**
+     * Used to get the specific formatted message response
+     *
+     * @param response
+     */
+    public getResponseContent(response: OllamaResponse): string {
         return response.message.content;
     }
 }

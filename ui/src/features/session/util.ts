@@ -1,4 +1,4 @@
-import {MessageContentTypes, ParsedMessage} from "../../types";
+import {MessageContentType, ParsedMessage} from "../../types";
 
 /**
  * Parses a Message to an array of parsed messages based on content type using ``` triple backticks as code blocks
@@ -19,16 +19,16 @@ export const getParsedMessageSections = (contents: string): ParsedMessage[] => {
         const [fullMatch, lang, message] = match;
 
         if (match.index > currentIndex) {
-            result.push({ type: MessageContentTypes.general, content: contents.slice(currentIndex, match.index).trim() });
+            result.push({ type: MessageContentType.general, content: contents.slice(currentIndex, match.index).trim() });
         }
 
-        result.push({ lang, type: MessageContentTypes.code, content: message.trim() });
+        result.push({ lang, type: MessageContentType.code, content: message.trim() });
 
         currentIndex = match.index + fullMatch.length;
     }
 
     if (currentIndex < contents.length) {
-        result.push({ type: MessageContentTypes.general, content: contents.slice(currentIndex).trim() });
+        result.push({ type: MessageContentType.general, content: contents.slice(currentIndex).trim() });
     }
 
     return result;

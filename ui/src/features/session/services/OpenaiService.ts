@@ -42,7 +42,7 @@ class OpenAIService implements ChatService {
         return this.api.endpoints.chat.initiate(request);
     }
 
-    public getMessageResponse(response: OpenAiResponse, choiceIndex: number = 0): string {
+    public getResponseContent(response: OpenAiResponse, choiceIndex: number = 0): string {
         if (Array.isArray(response.choices) && response.choices.length === 0) {
             return 'Unable to get response';
         }

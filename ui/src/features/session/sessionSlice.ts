@@ -55,6 +55,7 @@ export const sessionSlice = createSlice({
             state.selectedParticipant = action.payload;
         },
         updateSessionStatus: (state, action: PayloadAction<UpdateSessionStatus>) => {
+            debugger;
             state.sessionStatuses = {
                 ...state.sessionStatuses,
                 [action.payload.sessionId]: {
@@ -63,6 +64,9 @@ export const sessionSlice = createSlice({
                 },
             }
         },
+        setSessionStatusSequenceId: (state, action: PayloadAction<UpdateSessionStatus>) => {
+
+        }
     },
 });
 
@@ -81,6 +85,6 @@ export const selectParticipants = (state: RootState): SessionParticipantType[] =
 export const selectCurrentSpeaker = (state: RootState): SessionParticipantType | null => state.session.currentSpeaker;
 export const selectCurrentSequenceId = (state: RootState): number => state.session.currentSequenceId;
 export const selectSelectedParticipant = (state: RootState): SessionParticipantType => state.session.selectedParticipant;
-export const selectSessionStatus = (state: RootState, sessionId: number) => state.session.sessionStatuses[sessionId] ?? {};
+export const selectSessionStatus = (state: RootState, sessionId: number): SessionStatus|null => state.session.sessionStatuses[sessionId] ?? null;
 
 export default sessionSlice.reducer;

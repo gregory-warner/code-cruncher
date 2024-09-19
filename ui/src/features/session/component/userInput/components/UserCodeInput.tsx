@@ -20,7 +20,7 @@ const UserCodeInput = () => {
     return (
         <Box >
             <Editor
-                height="40vh"
+                height="39vh"
                 theme={themeMode === 'dark' ? 'vs-dark' : themeMode}
                 defaultLanguage="javascript"
                 defaultValue="// Enter your answer below:"

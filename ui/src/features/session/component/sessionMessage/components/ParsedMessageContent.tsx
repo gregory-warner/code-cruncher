@@ -1,4 +1,4 @@
-import {Message, MessageCard, MessageContentTypes} from "../../../../../types";
+import {Message, MessageCard, MessageContentType} from "../../../../../types";
 import {Messenger} from "../../../types";
 import {getParsedMessageSections} from "../../../util";
 import he from 'he';
@@ -16,7 +16,7 @@ const ParsedMessageContent = ({ message, messenger }: { message: Message, messen
     return (
         <Grid item padding={1}>
             {parsedMessageSections.map((section, index) => {
-                if (section.type === MessageContentTypes.general) {
+                if (section.type === MessageContentType.general) {
                     return <Typography
                         key={`session-message-${message.messageId}-${index}`}
                         sx={style.sessionMessage.content.general}

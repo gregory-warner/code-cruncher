@@ -37,7 +37,7 @@ const UserChatInput = () => {
                 rows={10}
                 onChange={(event) => onInputChange(event.target.value)}
                 onKeyUp={handleKeyUp}
-                sx={{ flexGrow: 1, height: '40vh' }}
+                sx={{ flexGrow: 1, height: '39vh' }}
             />
             <UserInputFooter onSend={onSend} />
         </Box>
