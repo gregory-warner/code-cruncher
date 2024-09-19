@@ -1,28 +1,38 @@
 import {useLazyGetMessagesQuery, useLazyGetSessionParticipantsQuery} from "../../../services/server/serverApi";
-import {useEffect} from "react";
+import {MessengerTypeId, SessionParticipantType} from "../../../types";
 
-const useCurrentSpeaker = ({ sessionId }: { sessionId: number }) => {
+const useCurrentSpeaker = () => {
     const [getMessages] = useLazyGetMessagesQuery();
     const [getSessionParticipants] = useLazyGetSessionParticipantsQuery();
 
-    useEffect(() => {
-        if (!sessionId) {
-            return;
+    const getLastParticipantIndex = async (sessionId: number, participants: SessionParticipantType[]): Promise<number> => {
+        const messages = await getMessages(sessionId).unwrap();
+        const lastMessage = messages[messages.length - 1];
+
+        switch (lastMessage.messengerTypeId) {
+            case MessengerTypeId.user:
+                return participants.findIndex(participant => 'userId' in participant && participant.userId === lastMessage.messengerId);
+            case MessengerTypeId.actor:
+                return participants.findIndex(participant => 'actorId' in participant && participant.actorId === lastMessage.messengerId);
+            default:
+                return -1;
         }
+    }
 
-        getMessages(sessionId);
-    }, [sessionId]);
-
-    const getCurrentSpeaker = async (sessionId: number|null) => {
+    const getCurrentSpeaker= async (sessionId: number|null): Promise<SessionParticipantType>  => {
         if (!sessionId) {
             return null;
         }
 
-        const messages = await getMessages(sessionId).unwrap();
-        const last = messages[messages.length - 1];
-
         const participants = await getSessionParticipants(sessionId).unwrap();
 
+        const lastIndex = await getLastParticipantIndex(sessionId, participants);
+        if (lastIndex < 0) {
+            return null;
+        }
+
+        const next = (lastIndex + 1) % participants.length;
+        return participants[next];
     };
 
     return {
