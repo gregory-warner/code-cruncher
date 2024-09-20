@@ -44,7 +44,6 @@ export const addModel = async (model) => {
     const typeDetails = {
         ...model.typeDetails,
         modelId: aiModel.modelId,
-        typeId: modelProviderDetails.modelTypeId,
     };
 
     const typeModel = await createTypeModel(modelProviderDetails.modelTypeId, typeDetails);
@@ -57,9 +56,7 @@ export const addModel = async (model) => {
     };
 };
 
-const createTypeModel = async (typeDetails) => {
-    const typeId = removeProperty(typeDetails, 'typeId');
-
+const createTypeModel = async (typeId, typeDetails) => {
     switch (typeId) {
         case modelType.language:
             return await LanguageModel.create({
@@ -112,7 +109,11 @@ export const getModelType = (model) => {
         return 'image';
     }
 
-    return 'language';
+    if ('maxTokens' in typeDetails && 'temperature' in typeDetails) {
+        return 'language';
+    }
+
+    throw new Error('Missing required fields for type details');
 };
 
 export const getValidatedModel = (model, requiredFields = ['modelName']) => {
