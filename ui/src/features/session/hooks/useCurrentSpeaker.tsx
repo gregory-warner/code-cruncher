@@ -1,7 +1,11 @@
 import {useLazyGetMessagesQuery, useLazyGetSessionParticipantsQuery} from "../../../services/server/serverApi";
 import {MessengerTypeId, SessionParticipantType} from "../../../types";
+import {useAppDispatch} from "../../../store/hooks";
+import {updateSessionStatusCurrentSpeaker} from "../sessionSlice";
 
 const useCurrentSpeaker = () => {
+    const dispatch = useAppDispatch();
+
     const [getMessages] = useLazyGetMessagesQuery();
     const [getSessionParticipants] = useLazyGetSessionParticipantsQuery();
 
@@ -37,6 +41,10 @@ const useCurrentSpeaker = () => {
         }
 
         const next = (lastIndex + 1) % participants.length;
+
+        const currentSpeaker = participants[next];
+        dispatch(updateSessionStatusCurrentSpeaker({ sessionId, currentSpeaker }));
+
         return participants[next];
     };
 

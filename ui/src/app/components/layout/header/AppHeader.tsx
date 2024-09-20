@@ -1,11 +1,16 @@
 import React from 'react';
 import {Box, Grid, Typography, useTheme} from '@mui/material';
 import AppMenu from "../appMenu/AppMenu";
-import {selectCurrentSpeaker} from "../../../../features/session/sessionSlice";
+import {selectCurrentSpeaker, selectSessionId} from "../../../../features/session/sessionSlice";
 import {useAppSelector} from "../../../../store/hooks";
 
 const AppHeader: React.FC = () => {
-    const currentSpeaker = useAppSelector(selectCurrentSpeaker);
+    const sessionId = useAppSelector(selectSessionId);
+
+    const currentSpeaker = useAppSelector(state => (
+        sessionId ? selectCurrentSpeaker(state, sessionId) : null)
+    );
+
     const theme = useTheme();
 
     const speakerName = currentSpeaker?.name ?? '';

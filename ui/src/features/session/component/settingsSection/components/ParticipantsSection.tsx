@@ -2,22 +2,28 @@ import React from 'react';
 import {useAppDispatch, useAppSelector} from '../../../../../store/hooks';
 import {
     selectCurrentSpeaker,
-    selectParticipants,
-    selectSelectedParticipant,
+    selectSelectedParticipant, selectSessionId,
     setSelectedParticipant
 } from '../../../sessionSlice';
 import {Avatar, Box, Grid, Typography, useTheme} from '@mui/material';
 import {chatServerUrl} from '../../../../../../config';
 import {Add} from '@mui/icons-material';
 import {SessionParticipantType} from "../../../../../types";
+import {useGetSessionParticipantsQuery} from "../../../../../services/server/serverApi";
+import {skipToken} from "@reduxjs/toolkit/query";
 
 const ParticipantsSection = () => {
     const dispatch = useAppDispatch();
-    const participants = useAppSelector(selectParticipants);
-    const selectedParticipant = useAppSelector(selectSelectedParticipant);
-    const currentSpeaker = useAppSelector(selectCurrentSpeaker);
 
-    if (participants.length === 0) {
+    const sessionId = useAppSelector(selectSessionId);
+    const selectedParticipant = useAppSelector(selectSelectedParticipant);
+    const currentSpeaker = useAppSelector(state => (
+        sessionId ? selectCurrentSpeaker(state, sessionId) : null)
+    );
+
+    const { data: participants, isLoading } = useGetSessionParticipantsQuery(sessionId || skipToken);
+
+    if (isLoading || !participants || participants.length === 0) {
         return <Box></Box>
     }
 

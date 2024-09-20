@@ -3,36 +3,25 @@ import {AddMessageRequest} from "../../../../../services/server/types";
 import {MessageTypeId, MessengerTypeId} from "../../../../../types";
 import {setSnackbar} from "../../../../../app/store/appSlice";
 import {
-    incrementCurrentSequenceId,
-    selectCurrentSpeaker,
     selectSessionId,
-    updateSessionStatus
+    selectSessionStatus,
 } from "../../../sessionSlice";
 import {useAppDispatch, useAppSelector} from "../../../../../store/hooks";
 import {selectUser} from "../../../../user/userSlice";
 import {useAddMessageMutation} from "../../../../../services/server/serverApi";
-import useCurrentSpeaker from "../../../hooks/useCurrentSpeaker";
-import {PartialSessionStatus} from "../../../types";
 
 const useMessageInput = () => {
     const dispatch = useAppDispatch();
+
     const sessionId = useAppSelector(selectSessionId);
-    const currentSpeaker = useAppSelector(selectCurrentSpeaker);
     const user = useAppSelector(selectUser);
+    const sessionStatus = useAppSelector(state => (
+        sessionId ? selectSessionStatus(state, sessionId) : null
+    ));
 
     const [addMessage] = useAddMessageMutation();
 
-    const { getCurrentSpeaker, getLastParticipantIndex } = useCurrentSpeaker();
-
     const [input, setInput] = useState('');
-
-    const isUserCurrentSpeaker = (
-        user &&
-        currentSpeaker &&
-        'userId' in currentSpeaker &&
-        'userId' in user &&
-        user.userId === currentSpeaker.userId
-    );
 
     const onInputChange = (content: string) => setInput(content);
 
@@ -41,10 +30,10 @@ const useMessageInput = () => {
             return;
         }
 
-        // if (!isUserCurrentSpeaker) {
-        //     dispatch(setSnackbar({message: 'Please wait for the response.'}))
-        //     return;
-        // }
+        if (sessionStatus?.isLoading) {
+            dispatch(setSnackbar({message: 'Please wait for the response.'}))
+            return;
+        }
 
         const message: AddMessageRequest = {
             sessionId,
@@ -60,13 +49,6 @@ const useMessageInput = () => {
             dispatch(setSnackbar({message: `Unable to send message`}));
             return;
         }
-
-        // dispatch(incrementCurrentSequenceId());
-
-        const sessionStatus: PartialSessionStatus = {
-            isUserRequestingResponse: true,
-        }
-        dispatch(updateSessionStatus({ sessionId, sessionStatus }));
 
         setInput("");
     };
