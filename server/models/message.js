@@ -1,6 +1,11 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db.js';
 
+const messengerTypeId = {
+    user: 0,
+    actor: 1,
+};
+
 const Message = sequelize.define('message', {
     messageId: {
         type: DataTypes.INTEGER,
@@ -59,6 +64,9 @@ const Message = sequelize.define('message', {
         field: 'is_locked',
         comment: 'used to prohibit the message from being deleted',
     },
+    messenger: {
+        type: DataTypes.VIRTUAL,
+    }
 },{
     paranoid: true,
     timestamps: true,
@@ -71,7 +79,24 @@ const Message = sequelize.define('message', {
             fields: ['messenger_id', 'messenger_type_id'],
             name: 'idx_active_messenger_messages'
         }
-    ]
+    ],
+    hooks: {
+        afterFind: findResult => {
+            if (!Array.isArray(findResult)) findResult = [findResult];
+            for (const instance of findResult) {
+                if (instance.messengerTypeId === messengerTypeId.user && instance.user !== undefined) {
+                    instance.messenger = instance.user;
+                } else if (instance.messengerTypeId === messengerTypeId.actor && instance.actor !== undefined) {
+                    instance.messenger = instance.actor;
+                }
+                // // To prevent mistakes:
+                delete instance.user;
+                delete instance.dataValues.user;
+                delete instance.actor;
+                delete instance.dataValues.actor;
+            }
+        }
+    },
 });
 
 export default Message;

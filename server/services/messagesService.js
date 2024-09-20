@@ -1,10 +1,21 @@
-import {Message} from '../models/models.js';
+import {Actor, AIModel, Message, Prompt, User} from '../models/models.js';
 import {removeProperty} from "../utils/utils.js";
 import validator from "validator";
 
 export const getMessages = async (sessionId) => {
     return await Message.findAll({
         where: { sessionId },
+        include: [
+            {
+                model: Actor,
+                as: 'actor',
+                include: [
+                    { model: Prompt, as: 'prompt', required: true },
+                    { model: AIModel, as: 'aiModel', required: true },
+                ]
+            },
+            { model: User, as: 'user' }
+        ],
         order: [['messageId', 'ASC']],
     });
 };
