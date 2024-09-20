@@ -11,9 +11,9 @@ export const isOllamaModel = (model: Model|ChatApiModel) => 'digest' in model;
 export const isUser = (user: User | Actor | null): user is User => !!user && 'userId' in user;
 
 export const messengerTypeIds = {
-    system: 0,
-    user: 1,
-    assistant: 2,
+    system: -1,
+    user: 0,
+    assistant: 1,
 };
 
 export const messengerTypes = Object.entries(messengerTypeIds).reduce((acc, [key, value]) => {
