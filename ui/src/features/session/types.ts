@@ -22,3 +22,7 @@ export interface UpdateSessionStatus {
     sessionStatus: PartialSessionStatus;
 }
 
+export interface UpdateSessionIsLoading {
+    sessionId: number;
+    isLoading: boolean;
+}

@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../../store/store';
 import {SessionParticipantType} from "../../types";
-import {SessionStatus, UpdateSessionStatus} from "./types";
+import {SessionStatus, UpdateSessionIsLoading, UpdateSessionStatus} from "./types";
 
 export interface SessionState {
     sessionId: number|null;
@@ -55,12 +55,20 @@ export const sessionSlice = createSlice({
             state.selectedParticipant = action.payload;
         },
         updateSessionStatus: (state, action: PayloadAction<UpdateSessionStatus>) => {
-            debugger;
             state.sessionStatuses = {
                 ...state.sessionStatuses,
                 [action.payload.sessionId]: {
                     ...state.sessionStatuses[action.payload.sessionId],
                     ...action.payload.sessionStatus,
+                },
+            }
+        },
+        updateSessionStatusIsLoading: (state, action: PayloadAction<UpdateSessionIsLoading>) => {
+            state.sessionStatuses = {
+                ...state.sessionStatuses,
+                [action.payload.sessionId]: {
+                    ...state.sessionStatuses[action.payload.sessionId],
+                    isLoading: action.payload.isLoading,
                 },
             }
         },
@@ -78,6 +86,7 @@ export const {
     setCurrentSpeaker,
     setSelectedParticipant,
     updateSessionStatus,
+    updateSessionStatusIsLoading,
 } = sessionSlice.actions;
 
 export const selectSessionId = (state: RootState): number => state.session.sessionId;

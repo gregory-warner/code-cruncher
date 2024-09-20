@@ -5,8 +5,8 @@ import {
     selectCurrentSequenceId,
     selectParticipants,
     selectSessionId, selectSessionStatus,
-    setCurrentSpeaker,
-    setParticipants, setSelectedParticipant, updateSessionStatus
+    updateSessionStatus,
+    updateSessionStatusIsLoading
 } from "./sessionSlice";
 import SessionMessagesSection from "./component/sessionMessagesSection/SessionMessagesSection";
 import {useActor} from "./hooks/useActor";
@@ -18,12 +18,11 @@ import {isActor} from "../../utils/util";
 import {Actor} from "../../types";
 import {PartialSessionStatus, SessionStatus} from "./types";
 import {skipToken} from "@reduxjs/toolkit/query";
+import {setSnackbar} from "../../app/store/appSlice";
 
 const Session = () => {
     const dispatch = useAppDispatch();
-    const participants = useAppSelector(selectParticipants);
     const sessionId = useAppSelector(selectSessionId);
-    const currentSequenceId = useAppSelector(selectCurrentSequenceId);
 
     const sessionStatus: SessionStatus = useAppSelector(state =>
         sessionId ? selectSessionStatus(state, sessionId) : null
@@ -38,18 +37,18 @@ const Session = () => {
     const { getCurrentSpeaker, getLastParticipantIndex } = useCurrentSpeaker();
 
     const runSession = async (sessionId: number) => {
-        const sessionStatus: PartialSessionStatus = {
-            isLoading: true,
-        }
-        dispatch(updateSessionStatus({ sessionId, sessionStatus }));
-
         const currentSpeaker = await getCurrentSpeaker(sessionId);
 
         if (isActor(currentSpeaker)) {
+            dispatch(updateSessionStatusIsLoading({ sessionId, isLoading: true }));
+
             const response = await chat(sessionId, currentSpeaker as Actor);
-            // if (response?.messageId) {
-            //     await runSession(sessionId);
-            // }
+            if (!response.messageId) {
+                dispatch(setSnackbar({ message: 'Unable to send message' }));
+                return;
+            }
+
+            dispatch(updateSessionStatusIsLoading({ sessionId, isLoading: false }));
         }
     };
 
@@ -70,17 +69,6 @@ const Session = () => {
         }
 
         setSessionStatus(sessionId);
-
-        // runSession(sessionId);
-
-        // getSessionParticipants(sessionId).then(({ data: sessionParticipants }) => {
-        //     dispatch(setParticipants(sessionParticipants));
-        //     if (sessionParticipants?.length > 0) {
-        //         dispatch(setCurrentSpeaker(sessionParticipants[currentSequenceId]));
-        //         dispatch(setSelectedParticipant(sessionParticipants[currentSequenceId]));
-        //     }
-        // });
-
     }, [sessionId]);
 
     useEffect(() => {
@@ -90,14 +78,6 @@ const Session = () => {
 
         runSession(sessionId);
     }, [messages]);
-
-    // useEffect(() => {
-    //     if (!Array.isArray(participants)) {
-    //         return;
-    //     }
-    //
-    //     dispatch(setCurrentSpeaker(participants[currentSequenceId]));
-    // }, [currentSequenceId]);
 
     if (!messages) {
         return <></>;

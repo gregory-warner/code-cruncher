@@ -3,6 +3,8 @@ export enum MessengerTypeId {
     actor,
 }
 
+export type MessengerType = Actor | User | null;
+
 export enum ModelType {
     language,
     image,
@@ -96,6 +98,7 @@ export interface Message {
     content: string;
     data?: any;
     isLocked: boolean;
+    messenger: MessengerType;
 }
 
 export interface Session {
