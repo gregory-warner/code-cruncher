@@ -4,18 +4,20 @@ import LockIcon from "@mui/icons-material/Lock";
 import {LockOpen} from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
-import {Message, MessageCard} from "../../../../../types";
+import {Message, MessageCard, MessengerType} from "../../../../../types";
 import {Messenger} from "../../../types";
 import {useAppDispatch} from "../../../../../store/hooks";
 import {useDeleteMessageMutation, useUpdateMessageMutation} from "../../../../../services/server/serverApi";
 import {setSnackbar} from "../../../../../app/store/appSlice";
 import style from "../../../style";
 
-const SessionMessageHeader = ({ message, messenger }: { message: Message, messenger: Messenger }) => {
+const SessionMessageHeader = ({ message }: { message: Message }) => {
     const dispatch = useAppDispatch();
 
     const [deleteMessage] = useDeleteMessageMutation();
     const [updateMessage] = useUpdateMessageMutation();
+
+    const messenger: MessengerType = message.messenger;
 
     const cardStyle: MessageCard = messenger.colorTheme.messageCard;
 

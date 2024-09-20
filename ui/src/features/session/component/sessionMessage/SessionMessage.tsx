@@ -1,16 +1,11 @@
 import {Message} from '../../../../types';
 import React from 'react';
 import {Card, Grid} from '@mui/material';
-import {Messenger} from '../../types';
 import SessionMessageHeader from "./components/SessionMessageHeader";
 import ParsedMessageContent from "./components/ParsedMessageContent";
 import style from "../../style";
 
-const SessionMessage = ({ message, messenger }: { message: Message, messenger: Messenger }) => {
-
-    if (!messenger) {
-        return <></>;
-    }
+const SessionMessage = ({ message }: { message: Message }) => {
 
     return(
         <Card
@@ -19,8 +14,8 @@ const SessionMessage = ({ message, messenger }: { message: Message, messenger: M
             onClick={()=>{}}
         >
             <Grid container direction='column'>
-                <SessionMessageHeader message={message} messenger={messenger} />
-                <ParsedMessageContent message={message} messenger={messenger} />
+                <SessionMessageHeader message={message} />
+                <ParsedMessageContent message={message} />
             </Grid>
         </Card>
     );
