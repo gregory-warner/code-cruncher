@@ -52,32 +52,13 @@ const Session = () => {
         }
     };
 
-    const setSessionStatus = async (sessionId: number) => {
-        const participants = await getSessionParticipants(sessionId).unwrap();
-        const lastIndex = await getLastParticipantIndex(sessionId, participants);
-        const nextIndex = (lastIndex + 1) % participants.length;
-        const sessionStatus: PartialSessionStatus = {
-            currentSequenceId: nextIndex,
-            participants,
-        }
-        dispatch(updateSessionStatus({ sessionId, sessionStatus }));
-    };
-
     useEffect(() => {
-        if (sessionId <= 0) {
-            return;
-        }
-
-        setSessionStatus(sessionId);
-    }, [sessionId]);
-
-    useEffect(() => {
-        if (!messages || messages.length === 0) {
+        if (sessionId <= 0 || !messages || messages.length === 0) {
             return;
         }
 
         runSession(sessionId);
-    }, [messages]);
+    }, [sessionId, messages]);
 
     if (!messages) {
         return <></>;
