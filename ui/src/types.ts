@@ -111,11 +111,6 @@ export interface Session {
     updatedAt?: Date | null;
 }
 
-export enum SessionType {
-    code = 0,
-    chat = 1,
-}
-
 export interface User {
     userId: number;
     name: string;
@@ -123,7 +118,6 @@ export interface User {
     avatar: string;
     colorTheme?: ColorTheme;
 }
-
 
 export type SessionParticipantType = Actor | User;
 

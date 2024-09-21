@@ -6,7 +6,7 @@ import {
     Speaker,
     UpdateSessionCurrentSpeaker,
     UpdateSessionIsLoading,
-    UpdateSessionStatus
+    UpdateSessionStatus, UpdateSessionTypeId
 } from "./types";
 
 export interface SessionState {
@@ -87,19 +87,25 @@ export const sessionSlice = createSlice({
                 },
             }
         },
-        setSessionStatusSequenceId: (state, action: PayloadAction<UpdateSessionStatus>) => {
-
-        }
+        updateSessionStatusTypeId: (state, action: PayloadAction<UpdateSessionTypeId>) => {
+            state.sessionStatuses = {
+                ...state.sessionStatuses,
+                [action.payload.sessionId]: {
+                    ...state.sessionStatuses[action.payload.sessionId],
+                    sessionTypeId: action.payload.sessionTypeId,
+                },
+            }
+        },
     },
 });
 
 export const {
     setSessionId,
-    incrementCurrentSequenceId,
     setSelectedParticipant,
     updateSessionStatus,
     updateSessionStatusIsLoading,
     updateSessionStatusCurrentSpeaker,
+    updateSessionStatusTypeId,
 } = sessionSlice.actions;
 
 export const selectSessionId = (state: RootState): number => state.session.sessionId;
@@ -108,6 +114,6 @@ export const selectCurrentSequenceId = (state: RootState): number => state.sessi
 export const selectSelectedParticipant = (state: RootState): SessionParticipantType => state.session.selectedParticipant;
 export const selectSessionStatus = (state: RootState, sessionId: number): SessionStatus|null => state.session.sessionStatuses[sessionId] ?? null;
 export const selectCurrentSpeaker = (state: RootState, sessionId: number): Speaker|null => state.session.sessionStatuses[sessionId]?.currentSpeaker ?? null;
-
+export const selectSessionTypeId = (state: RootState, sessionId: number): number|null => state.session.sessionStatuses[sessionId]?.sessionTypeId ?? null;
 
 export default sessionSlice.reducer;

@@ -13,6 +13,7 @@ export interface SessionStatus {
     isLoading: boolean;
     currentSequenceId: number;
     currentSpeaker: Speaker;
+    sessionTypeId: number;
 }
 
 export type PartialSessionStatus = Partial<SessionStatus>;
@@ -30,4 +31,9 @@ export interface UpdateSessionIsLoading {
 export interface UpdateSessionCurrentSpeaker {
     sessionId: number;
     currentSpeaker: Speaker;
+}
+
+export interface UpdateSessionTypeId {
+    sessionId: number;
+    sessionTypeId: number;
 }

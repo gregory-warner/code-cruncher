@@ -11,6 +11,8 @@ import UserChatInput from "./components/UserChatInput";
 const UserInputSection = () => {
     const sessionId = useAppSelector(selectSessionId);
 
+
+
     const { data: session, isLoading: isSessionLoading } = useGetSessionQuery(sessionId ?? skipToken);
 
     return(
