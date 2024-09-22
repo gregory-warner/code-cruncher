@@ -1,30 +1,28 @@
-import {MenuItem, Select, SelectChangeEvent} from '@mui/material';
+import {Box, MenuItem, Select} from '@mui/material';
 import React from 'react';
 import useSessionTypes from "../hooks/useSessionTypes";
-import {useAppDispatch, useAppSelector} from "../../../../../store/hooks";
-import {selectSessionId, selectSessionTypeId, updateSessionStatusTypeId} from "../../../sessionSlice";
-import {SessionType} from "../../../../../types";
+import {useAppSelector} from "../../../../../store/hooks";
+import {selectSessionId} from "../../../sessionSlice";
+import {useGetSessionQuery} from "../../../../../services/server/serverApi";
+import {skipToken} from "@reduxjs/toolkit/query";
 
 const SessionTypeSelect = () => {
-    const dispatch = useAppDispatch();
-
     const sessionId = useAppSelector(selectSessionId);
-    const sessionTypeId = useAppSelector(state => (
-        sessionId ? selectSessionTypeId(state, sessionId) : null
-    ));
 
-    const { sessionTypes } = useSessionTypes();
+    const { data: session, isLoading: isSessionLoading } = useGetSessionQuery(sessionId ?? skipToken);
 
-    const onSessionTypeChange = (event: SelectChangeEvent<any>) => {
-        dispatch(updateSessionStatusTypeId({ sessionId, sessionTypeId: event.target.value }));
-    };
+    const { sessionTypes, onSessionTypeChange } = useSessionTypes();
+
+    if (!session || isSessionLoading) {
+        return <Box />;
+    }
 
     return (
             <Select
                 labelId='message-type-label'
                 id='message-type'
                 placeholder='Session Type'
-                value={sessionTypeId}
+                value={session.sessionTypeId}
                 onChange={onSessionTypeChange}
                 sx={{ height: '2em', p: 0, minWidth: 120 }}
             >

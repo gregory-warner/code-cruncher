@@ -56,3 +56,8 @@ export interface UpdateActorRequest {
     name: string;
     title: string;
 }
+
+export interface UpdateSessionTypeIdRequest {
+    sessionId: number;
+    sessionTypeId: number;
+}
