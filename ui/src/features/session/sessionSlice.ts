@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../../store/store';
-import {SessionParticipantType} from "../../types";
+import {Session, SessionParticipantType} from "../../types";
 import {
     SessionStatus,
     Speaker,
@@ -96,6 +96,17 @@ export const sessionSlice = createSlice({
                 },
             }
         },
+        updateSessionStatusesTypeIds: (state, action: PayloadAction<Session[]>) => {
+            let statuses = {...state.sessionStatuses};
+            action.payload.forEach(session => {
+                statuses[session.sessionId] = {
+                    ...statuses[session.sessionId],
+                    sessionTypeId: session.sessionTypeId,
+                }
+            });
+
+            state.sessionStatuses = statuses;
+        },
     },
 });
 
@@ -106,6 +117,7 @@ export const {
     updateSessionStatusIsLoading,
     updateSessionStatusCurrentSpeaker,
     updateSessionStatusTypeId,
+    updateSessionStatusesTypeIds
 } = sessionSlice.actions;
 
 export const selectSessionId = (state: RootState): number => state.session.sessionId;

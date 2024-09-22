@@ -24,7 +24,7 @@ const SessionTypeSelect = () => {
                 labelId='message-type-label'
                 id='message-type'
                 placeholder='Session Type'
-                value={SessionType[sessionTypeId]}
+                value={sessionTypeId}
                 onChange={onSessionTypeChange}
                 sx={{ height: '2em', p: 0, minWidth: 120 }}
             >

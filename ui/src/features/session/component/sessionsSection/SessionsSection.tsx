@@ -5,12 +5,12 @@ import {
     useGetSessionsQuery
 } from '../../../../services/server/serverApi';
 import SessionItem from './components/SessionItem';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SessionRequest} from '../../../../services/server/types';
 import {Session, SessionType, User} from '../../../../types';
 import {useAppDispatch, useAppSelector} from '../../../../store/hooks';
 import {selectUser} from '../../../user/userSlice';
-import {setSessionId} from '../../sessionSlice';
+import {setSessionId, updateSessionStatusesTypeIds} from '../../sessionSlice';
 import {isUser} from '../../../../utils/util';
 
 const SessionsSection = () => {
@@ -19,6 +19,12 @@ const SessionsSection = () => {
 
     const [createSession] = useCreateSessionMutation();
     const {data, isLoading} = useGetSessionsQuery();
+
+    useEffect(() => {
+        if (data && !isLoading) {
+            dispatch(updateSessionStatusesTypeIds(data));
+        }
+    }, [data, isLoading]);
 
     if (isLoading || !isUser(user)) {
         return (
@@ -31,7 +37,7 @@ const SessionsSection = () => {
     const createNewSession = async () => {
         const request: SessionRequest = {
             sessionName: 'Untitled',
-            sessionTypeId: SessionType.code,
+            sessionTypeId: SessionType.General,
             createdBy: user.userId,
         }
         const session: Session = await createSession(request).unwrap();
