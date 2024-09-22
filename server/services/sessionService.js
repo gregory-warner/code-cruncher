@@ -65,7 +65,7 @@ export const deleteSession = async (sessionId) => {
     await session.destroy();
     await deleteSessionParticipants(sessionId);
     return session;
-}
+};
 
 export const getSessions = async () => {
     return await Session.findAll();

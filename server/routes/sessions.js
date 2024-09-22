@@ -63,7 +63,7 @@ router.patch("/:id/name", async (req, res, next) => {
     }
 });
 
-router.patch("/:id/typeId", async (req, res, next) => {
+router.patch("/:id/type-id", async (req, res, next) => {
     try {
         const session = await updateSessionTypeId({ sessionId: req.params.id, sessionTypeId: req.body.sessionTypeId });
         return res.json(session);
