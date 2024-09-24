@@ -6,7 +6,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import {useAppDispatch} from "../../../../../store/hooks";
 import {Session} from "../../../../../types";
 import {useDeleteSessionMutation, useUpdateSessionNameMutation} from "../../../../../services/server/serverApi";
-import {setSelectedParticipant, setSessionId} from "../../../sessionSlice";
+import {setSessionId} from "../../../sessionSlice";
 
 interface SessionItemParams {
     sessionId: number;

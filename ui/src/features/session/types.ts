@@ -1,4 +1,4 @@
-import {Actor, Message, User} from "../../types";
+import {Actor, Message, SessionParticipantType, User} from "../../types";
 import {AnyAction, ThunkAction} from "@reduxjs/toolkit";
 
 export interface ChatService {
@@ -13,6 +13,7 @@ export interface SessionStatus {
     isLoading: boolean;
     currentSequenceId: number;
     currentSpeaker: Speaker;
+    selectedParticipant: SessionParticipantType;
 }
 
 export type PartialSessionStatus = Partial<SessionStatus>;
@@ -35,4 +36,9 @@ export interface UpdateSessionCurrentSpeaker {
 export interface UpdateSessionTypeId {
     sessionId: number;
     sessionTypeId: number;
+}
+
+export interface UpdateSelectedParticipant {
+    sessionId: number;
+    participant: SessionParticipantType;
 }

@@ -1,20 +1,16 @@
-import {useAppSelector} from "../../../../../store/hooks";
-import {selectSelectedParticipant} from "../../../sessionSlice";
 import {Box} from "@mui/material";
 import React from "react";
 import UserParticipantSettings from "./UserParticipantSettings";
 import { Actor, User } from "../../../../../types";
 import ActorParticipantSettings from "./ActorParticipantSettings";
+import {useParticipant} from "../../../hooks/useParticipant";
 
 const ParticipantSettingsSection = () => {
-    const selectedParticipant = useAppSelector(selectSelectedParticipant);
+    const { selectedParticipant, isActor } = useParticipant();
 
     if (!selectedParticipant) {
         return <Box></Box>;
     }
-
-    const isActor = selectedParticipant && 'actorId' in selectedParticipant;
-    const isUser = selectedParticipant && 'userId' in selectedParticipant;
 
     return (
         <Box sx={{ width: '100%', pl: 1 }}>

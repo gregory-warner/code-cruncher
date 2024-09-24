@@ -1,15 +1,23 @@
 import React, {useState} from "react";
 import {Box, Button, Grid, MenuItem, Select, Typography, useTheme} from "@mui/material";
 import {useGetActorsQuery} from "../../../../../services/server/serverApi";
+import {useAppSelector} from "../../../../../store/hooks";
+import {selectCurrentSpeaker, selectSessionId, selectSessionStatus} from "../../../sessionSlice";
 
 const AddParticipantSection = () => {
     const theme = useTheme();
 
+    const sessionId = useAppSelector(selectSessionId);
+
     const { data: actors } = useGetActorsQuery();
+
+    const sessionStatus = useAppSelector(state => (
+        sessionId ? selectSessionStatus(state, sessionId) : null)
+    );
 
     const [selectedActorId, setSelectedActorId] = useState(0);
 
-    if (!actors) {
+    if (!actors || !sessionId || sessionStatus?.selectedParticipant) {
         return <Box />;
     }
 

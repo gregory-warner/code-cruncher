@@ -1,16 +1,15 @@
 import {Button, CircularProgress, Grid, List, Stack, Typography} from '@mui/material';
 import {
-    useAddParticipantMutation,
     useCreateSessionMutation,
     useGetSessionsQuery
 } from '../../../../services/server/serverApi';
 import SessionItem from './components/SessionItem';
-import React, {useEffect} from 'react';
+import React from 'react';
 import {SessionRequest} from '../../../../services/server/types';
 import {Session, SessionType, User} from '../../../../types';
 import {useAppDispatch, useAppSelector} from '../../../../store/hooks';
 import {selectUser} from '../../../user/userSlice';
-import {setSessionId, updateSessionStatusesTypeIds} from '../../sessionSlice';
+import {setSessionId} from '../../sessionSlice';
 import {isUser} from '../../../../utils/util';
 
 const SessionsSection = () => {
@@ -20,11 +19,6 @@ const SessionsSection = () => {
     const [createSession] = useCreateSessionMutation();
     const {data, isLoading} = useGetSessionsQuery();
 
-    useEffect(() => {
-        if (data && !isLoading) {
-            dispatch(updateSessionStatusesTypeIds(data));
-        }
-    }, [data, isLoading]);
 
     if (isLoading || !isUser(user)) {
         return (
