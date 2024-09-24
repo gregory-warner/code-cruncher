@@ -4,7 +4,7 @@ import {useAddMessageMutation, useLazyGetMessagesQuery} from "../../../services/
 import {ServiceFactory} from "../services/serviceFactory";
 import {ChatService} from "../types";
 import {AddMessageRequest} from "../../../services/server/types";
-import {Actor, Message, MessageTypeId, MessengerTypeId} from "../../../types";
+import {Actor, Message, MessageTypeId, ParticipantTypeId} from "../../../types";
 
 export const useActor = () => {
     const dispatch = useAppDispatch();
@@ -25,7 +25,7 @@ export const useActor = () => {
         const message: AddMessageRequest = {
             sessionId,
             messageTypeId: MessageTypeId.general,
-            messengerTypeId: MessengerTypeId.actor,
+            messengerTypeId: ParticipantTypeId.actor,
             messengerId: actor.actorId,
             content: service.getResponseContent(response),
         };

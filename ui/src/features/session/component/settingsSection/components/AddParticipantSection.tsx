@@ -1,21 +1,42 @@
 import React, {useState} from "react";
 import {Box, Button, Grid, MenuItem, Select, Typography, useTheme} from "@mui/material";
-import {useGetActorsQuery} from "../../../../../services/server/serverApi";
-import {useAppSelector} from "../../../../../store/hooks";
-import {selectCurrentSpeaker, selectSessionId, selectSessionStatus} from "../../../sessionSlice";
+import {useAddParticipantMutation, useGetActorsQuery} from "../../../../../services/server/serverApi";
+import {useAppDispatch, useAppSelector} from "../../../../../store/hooks";
+import {selectSessionId, selectSessionStatus} from "../../../sessionSlice";
+import {ParticipantTypeId} from "../../../../../types";
+import {setSnackbar} from "../../../../../app/store/appSlice";
 
 const AddParticipantSection = () => {
     const theme = useTheme();
+    const dispatch = useAppDispatch();
 
     const sessionId = useAppSelector(selectSessionId);
 
     const { data: actors } = useGetActorsQuery();
+
+    const [addParticipant] = useAddParticipantMutation();
 
     const sessionStatus = useAppSelector(state => (
         sessionId ? selectSessionStatus(state, sessionId) : null)
     );
 
     const [selectedActorId, setSelectedActorId] = useState(0);
+
+    const onAddParticipant = async () => {
+        if (!selectedActorId) {
+            return;
+        }
+
+        const newParticipant = await addParticipant({
+            sessionId,
+            participantId: selectedActorId,
+            participantTypeId: ParticipantTypeId.actor,
+        }).unwrap();
+
+        if (!newParticipant.participantId) {
+            dispatch(setSnackbar({ message: `Unable to add new participant` }));
+        }
+    };
 
     if (!actors || !sessionId || sessionStatus?.selectedParticipant) {
         return <Box />;
@@ -50,7 +71,7 @@ const AddParticipantSection = () => {
                     </Select>
                 </Grid>
                 <Grid item xs={3} padding={0}>
-                    <Button sx={{ p: 0 }}>
+                    <Button sx={{ p: 0 }} onClick={onAddParticipant}>
                         Add
                     </Button>
                 </Grid>

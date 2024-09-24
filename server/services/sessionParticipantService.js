@@ -60,8 +60,6 @@ export const addSessionParticipant = async (sessionParticipant) => {
             { model: participantType.model, as: participantType.alias },
         ]
     });
-
-    // return newSessionParticipant[sessionParticipantType[newSessionParticipant.participantTypeId]];
 };
 
 const getSessionParticipantTypeModel = (participantTypeId) => {

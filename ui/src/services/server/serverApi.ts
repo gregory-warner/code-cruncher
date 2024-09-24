@@ -137,6 +137,7 @@ export const serverApi  = createApi({
             }),
             invalidatesTags: () => [
                 { type: 'Sessions' },
+                { type: 'SessionParticipants' },
             ],
         }),
         getSessionParticipants: build.query<SessionParticipantType[], number>({

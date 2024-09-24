@@ -1,4 +1,4 @@
-export enum MessengerTypeId {
+export enum ParticipantTypeId {
     user,
     actor,
 }

@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {AddMessageRequest} from "../../../../../../../services/server/types";
-import {MessageTypeId, MessengerTypeId} from "../../../../../../../types";
+import {MessageTypeId, ParticipantTypeId} from "../../../../../../../types";
 import {setSnackbar} from "../../../../../../../app/store/appSlice";
 import {
     selectSessionId,
@@ -39,7 +39,7 @@ const useMessageInput = () => {
             sessionId,
             messengerId: user.userId,
             messageTypeId: MessageTypeId.general,
-            messengerTypeId: MessengerTypeId.user,
+            messengerTypeId: ParticipantTypeId.user,
             content,
         };
 

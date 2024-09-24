@@ -1,5 +1,5 @@
 import {useLazyGetMessagesQuery, useLazyGetSessionParticipantsQuery} from "../../../services/server/serverApi";
-import {MessengerTypeId, SessionParticipantType} from "../../../types";
+import {ParticipantTypeId, SessionParticipantType} from "../../../types";
 import {useAppDispatch} from "../../../store/hooks";
 import {updateSessionStatusCurrentSpeaker} from "../sessionSlice";
 
@@ -19,9 +19,9 @@ const useCurrentSpeaker = () => {
         const lastMessage = messages[messages.length - 1];
 
         switch (lastMessage.messengerTypeId) {
-            case MessengerTypeId.user:
+            case ParticipantTypeId.user:
                 return participants.findIndex(participant => 'userId' in participant && participant.userId === lastMessage.messengerId);
-            case MessengerTypeId.actor:
+            case ParticipantTypeId.actor:
                 return participants.findIndex(participant => 'actorId' in participant && participant.actorId === lastMessage.messengerId);
             default:
                 return -1;
