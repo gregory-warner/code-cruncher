@@ -1,16 +1,17 @@
 import {Editor} from "@monaco-editor/react";
-import {useAppSelector} from "../../../../../store/hooks";
-import {selectMode} from "../../../../../theme/themeSlice";
+import {useAppSelector} from "../../../../../../../store/hooks";
+import {selectMode} from "../../../../../../../theme/themeSlice";
 import React from "react";
 import {Box} from "@mui/material";
 import useMessageInput from "../hooks/useMessageInput";
 import UserInputFooter from "./UserInputFooter";
 
-const UserCodeInput = () => {
+const UserCodeInput = ({ language } : { language: string }) => {
 
     const themeMode = useAppSelector(selectMode);
 
     const { input, onInputChange, addMessageToSession } = useMessageInput();
+
 
     const onSend = async () => {
         const content = `\`\`\`\n${input}\n\`\`\``;
@@ -22,7 +23,7 @@ const UserCodeInput = () => {
             <Editor
                 height="39vh"
                 theme={themeMode === 'dark' ? 'vs-dark' : themeMode}
-                defaultLanguage="javascript"
+                language={language}
                 defaultValue="// Enter your answer below:"
                 value={input}
                 onChange={onInputChange}

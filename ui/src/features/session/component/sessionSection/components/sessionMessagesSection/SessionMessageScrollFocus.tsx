@@ -1,4 +1,4 @@
-import {Message} from "../../../../types";
+import {Message} from "../../../../../../types";
 import React, {useEffect, useRef} from "react";
 
 const SessionMessageScrollFocus = ({ messages }: { messages: Message[] }) => {

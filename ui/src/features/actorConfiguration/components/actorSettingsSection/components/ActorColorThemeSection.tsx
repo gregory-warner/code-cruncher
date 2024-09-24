@@ -1,6 +1,6 @@
 import {Box, Collapse, Divider, Grid, IconButton, Typography} from "@mui/material";
 import {SketchPicker} from "react-color";
-import {MessageCard} from "../../../../../types";
+import {ColorTheme, MessageCard} from "../../../../../types";
 import React, {useState} from "react";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -8,7 +8,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 const ActorColorThemeSection = ({colorTheme}: {colorTheme: ColorTheme}) => {
 
     const [isOpen, setIsOpen] = useState(false);
-    const messageCard: MessageCard = colorTheme?.messageCard ?? {};
+    const messageCard: MessageCard = colorTheme?.messageCard;
 
     const messageCardTheme = [
         { label: 'Name', value: messageCard.nameColor },

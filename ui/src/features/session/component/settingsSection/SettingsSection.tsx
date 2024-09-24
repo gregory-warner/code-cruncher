@@ -2,6 +2,7 @@ import {Button, Grid, Typography} from "@mui/material";
 import React from "react";
 import ParticipantsSection from "./components/ParticipantsSection";
 import ParticipantSettingsSection from "./components/ParticipantSettingsSection";
+import AddParticipantSection from "./components/AddParticipantSection";
 
 const SettingsSection = () => {
     return (
@@ -25,6 +26,9 @@ const SettingsSection = () => {
             </Grid>
             <Grid container item xs={12}>
                 <ParticipantSettingsSection />
+            </Grid>
+            <Grid container item xs={12}>
+                <AddParticipantSection />
             </Grid>
         </Grid>
     );

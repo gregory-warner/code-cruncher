@@ -155,5 +155,7 @@ export enum SessionType {
     TypeScript = 1,
     Python = 2,
     Rust = 3,
-    MySQL = 4
+    MySQL = 4,
+    PHP = 5,
+    JavaScript
 }

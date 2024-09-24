@@ -1,12 +1,12 @@
-import {Message, MessageCard, MessageContentType, MessengerType} from "../../../../../types";
-import {Messenger} from "../../../types";
-import {getParsedMessageSections} from "../../../util";
+import {Message, MessageCard, MessageContentType, MessengerType} from "../../../../../../../types";
+import {Messenger} from "../../../../../types";
+import {getParsedMessageSections} from "../../../../../util";
 import he from 'he';
 import {Grid, Typography} from "@mui/material";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import {a11yDark} from "react-syntax-highlighter/dist/esm/styles/hljs";
 import React from "react";
-import style from "../../../style";
+import style from "../../../../../style";
 
 const ParsedMessageContent = ({ message }: { message: Message }) => {
     const messenger: MessengerType = message.messenger;

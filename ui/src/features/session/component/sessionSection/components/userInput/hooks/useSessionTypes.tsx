@@ -1,9 +1,9 @@
-import {SessionType} from "../../../../../types";
+import {SessionType} from "../../../../../../../types";
 import {SelectChangeEvent} from "@mui/material";
-import {selectSessionId} from "../../../sessionSlice";
-import {useAppDispatch, useAppSelector} from "../../../../../store/hooks";
-import {useUpdateSessionTypeIdMutation} from "../../../../../services/server/serverApi";
-import {setSnackbar} from "../../../../../app/store/appSlice";
+import {selectSessionId} from "../../../../../sessionSlice";
+import {useAppDispatch, useAppSelector} from "../../../../../../../store/hooks";
+import {useUpdateSessionTypeIdMutation} from "../../../../../../../services/server/serverApi";
+import {setSnackbar} from "../../../../../../../app/store/appSlice";
 
 const useSessionTypes = () => {
     const dispatch = useAppDispatch();
@@ -14,6 +14,8 @@ const useSessionTypes = () => {
     const sessionTypes = Object
         .keys(SessionType)
         .filter((key) => isNaN(Number(key)))
+
+    const sessionTypeLabels = sessionTypes
         .map(key => (
             { value: SessionType[key], label: key }
         ));
@@ -26,7 +28,7 @@ const useSessionTypes = () => {
     };
 
     return {
-        sessionTypes,
+        sessionTypeLabels,
         onSessionTypeChange,
     };
 }

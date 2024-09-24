@@ -1,5 +1,4 @@
 import React from 'react';
-import CodeCruncherApp from '../features/codeCruncher/CodeCruncherApp';
 import {darkTheme, lightTheme} from "../theme/theme";
 import {useAppSelector} from "../store/hooks";
 import {selectMode} from "../theme/themeSlice";
@@ -8,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import {CssBaseline} from "@mui/material";
 import AppSnackbar from "./components/AppSnackbar";
 import ActorConfiguration from "../features/actorConfiguration/ActorConfiguration";
+import Session from "../features/session/Session";
 
 function App() {
     const mode = useAppSelector(selectMode);
@@ -18,7 +18,7 @@ function App() {
             <CssBaseline />
             <Router>
                 <Routes>
-                    <Route path='/' element={<CodeCruncherApp />} />
+                    <Route path='/' element={<Session />} />
                     <Route path='/configuration' element={<ActorConfiguration />} />
                 </Routes>
             </Router>

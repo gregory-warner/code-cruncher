@@ -1,9 +1,9 @@
 import {Box, MenuItem, Select} from '@mui/material';
 import React from 'react';
 import useSessionTypes from "../hooks/useSessionTypes";
-import {useAppSelector} from "../../../../../store/hooks";
-import {selectSessionId} from "../../../sessionSlice";
-import {useGetSessionQuery} from "../../../../../services/server/serverApi";
+import {useAppSelector} from "../../../../../../../store/hooks";
+import {selectSessionId} from "../../../../../sessionSlice";
+import {useGetSessionQuery} from "../../../../../../../services/server/serverApi";
 import {skipToken} from "@reduxjs/toolkit/query";
 
 const SessionTypeSelect = () => {
@@ -11,7 +11,7 @@ const SessionTypeSelect = () => {
 
     const { data: session, isLoading: isSessionLoading } = useGetSessionQuery(sessionId ?? skipToken);
 
-    const { sessionTypes, onSessionTypeChange } = useSessionTypes();
+    const { sessionTypeLabels, onSessionTypeChange } = useSessionTypes();
 
     if (!session || isSessionLoading) {
         return <Box />;
@@ -21,13 +21,13 @@ const SessionTypeSelect = () => {
             <Select
                 labelId='message-type-label'
                 id='message-type'
-                placeholder='Session Type'
+                placeholder='SessionSection Type'
                 value={session.sessionTypeId}
                 onChange={onSessionTypeChange}
                 sx={{ height: '2em', p: 0, minWidth: 120 }}
             >
                 {
-                    sessionTypes.map(item => (
+                    sessionTypeLabels.map(item => (
                         <MenuItem key={`session-type-item-${item.value}`} value={item.value}>{item.label}</MenuItem>
                     ))
                 }

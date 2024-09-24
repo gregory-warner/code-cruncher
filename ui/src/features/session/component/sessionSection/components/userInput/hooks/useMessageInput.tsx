@@ -1,14 +1,14 @@
 import {useState} from "react";
-import {AddMessageRequest} from "../../../../../services/server/types";
-import {MessageTypeId, MessengerTypeId} from "../../../../../types";
-import {setSnackbar} from "../../../../../app/store/appSlice";
+import {AddMessageRequest} from "../../../../../../../services/server/types";
+import {MessageTypeId, MessengerTypeId} from "../../../../../../../types";
+import {setSnackbar} from "../../../../../../../app/store/appSlice";
 import {
     selectSessionId,
     selectSessionStatus,
-} from "../../../sessionSlice";
-import {useAppDispatch, useAppSelector} from "../../../../../store/hooks";
-import {selectUser} from "../../../../user/userSlice";
-import {useAddMessageMutation} from "../../../../../services/server/serverApi";
+} from "../../../../../sessionSlice";
+import {useAppDispatch, useAppSelector} from "../../../../../../../store/hooks";
+import {selectUser} from "../../../../../../user/userSlice";
+import {useAddMessageMutation} from "../../../../../../../services/server/serverApi";
 
 const useMessageInput = () => {
     const dispatch = useAppDispatch();

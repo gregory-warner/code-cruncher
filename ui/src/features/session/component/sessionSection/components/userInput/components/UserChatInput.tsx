@@ -1,8 +1,8 @@
 import React from 'react';
 import {Box, TextField} from '@mui/material';
 import useMessageInput from "../hooks/useMessageInput";
-import {setSnackbar} from "../../../../../app/store/appSlice";
-import {useAppDispatch} from "../../../../../store/hooks";
+import {setSnackbar} from "../../../../../../../app/store/appSlice";
+import {useAppDispatch} from "../../../../../../../store/hooks";
 import UserInputFooter from "./UserInputFooter";
 
 const UserChatInput = () => {
