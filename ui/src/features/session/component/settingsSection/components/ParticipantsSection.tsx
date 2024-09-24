@@ -15,19 +15,19 @@ import {skipToken} from "@reduxjs/toolkit/query";
 const ParticipantsSection = () => {
     const dispatch = useAppDispatch();
 
+    const theme = useTheme();
+
     const sessionId = useAppSelector(selectSessionId);
+    const { data: participants, isLoading } = useGetSessionParticipantsQuery(sessionId || skipToken);
+
     const selectedParticipant = useAppSelector(selectSelectedParticipant);
     const currentSpeaker = useAppSelector(state => (
         sessionId ? selectCurrentSpeaker(state, sessionId) : null)
     );
 
-    const { data: participants, isLoading } = useGetSessionParticipantsQuery(sessionId || skipToken);
-
     if (isLoading || !participants || participants.length === 0) {
         return <Box></Box>
     }
-
-    const theme = useTheme();
 
     const style = {
         selectedAvatar: {
