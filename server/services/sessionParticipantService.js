@@ -46,7 +46,7 @@ export const addSessionParticipant = async (sessionParticipant) => {
             sessionId: sessionParticipant.sessionId,
         }
     });
-    sessionParticipant.participantSequence = count + 1;
+    sessionParticipant.participantSequenceId = count + 1;
 
     const participant = await SessionParticipant.create(sessionParticipant);
 
@@ -94,10 +94,10 @@ export const addDefaultParticipants = async (sessionId) => {
         participantId: user.userId,
         participantTypeId: sessionParticipant.user,
     })
-    const actor = await getFirstActor();
-    const actorParticipant = await addSessionParticipant({
-        sessionId,
-        participantId: actor.actorId,
-        participantTypeId: sessionParticipant.actor,
-    })
+    // const actor = await getFirstActor();
+    // const actorParticipant = await addSessionParticipant({
+    //     sessionId,
+    //     participantId: actor.actorId,
+    //     participantTypeId: sessionParticipant.actor,
+    // })
 };
