@@ -36,9 +36,6 @@ const useCurrentSpeaker = () => {
         const participants = await getSessionParticipants(sessionId).unwrap();
 
         const lastIndex = await getLastParticipantIndex(sessionId, participants);
-        if (lastIndex < 0) {
-            return null;
-        }
 
         const next = (lastIndex + 1) % participants.length;
 

@@ -42,7 +42,7 @@ const SessionSection = () => {
     };
 
     useEffect(() => {
-        if (sessionId <= 0 || !messages || messages.length === 0) {
+        if (sessionId <= 0 || !messages) {
             return;
         }
 
