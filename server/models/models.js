@@ -38,6 +38,13 @@ Actor.hasMany(Message, { foreignKey: 'messenger_id', constraints: false, scope: 
 Message.belongsTo(User, { foreignKey: 'messenger_id', constraints: false,  as: 'user' });
 Message.belongsTo(Actor, { foreignKey: 'messenger_id', constraints: false, as: 'actor' });
 
+Message.belongsTo(SessionParticipant, { foreignKey: 'session_participant_id', as: 'messageParticipant' });
+SessionParticipant.hasMany(Message, { foreignKey: 'session_participant_id' });
+SessionParticipant.belongsTo(User, { foreignKey: 'participant_id', constraints: false,  as: 'userParticipant' });
+SessionParticipant.belongsTo(Actor, { foreignKey: 'participant_id', constraints: false, as: 'actorParticipant' });
+User.hasMany(SessionParticipant, { foreignKey: 'participant_id', constraints: false, scope: { participantTypeId: 0 } });
+Actor.hasMany(SessionParticipant, { foreignKey: 'participant_id', constraints: false, scope: { participantTypeId: 1 } });
+
 Message.belongsTo(Message, { foreignKey: 'message_link_id', constraints: false  });
 Message.hasMany(Message, { foreignKey: 'message_link_id', constraints: false  });
 

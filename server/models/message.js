@@ -64,6 +64,11 @@ const Message = sequelize.define('message', {
         field: 'is_locked',
         comment: 'used to prohibit the message from being deleted',
     },
+    sessionParticipantId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: 'session_participant_id',
+    },
     messenger: {
         type: DataTypes.VIRTUAL,
     }
@@ -89,7 +94,7 @@ const Message = sequelize.define('message', {
                 } else if (instance.messengerTypeId === messengerTypeId.actor && instance.actor !== undefined) {
                     instance.messenger = instance.actor;
                 }
-                // // To prevent mistakes:
+                // To prevent mistakes:
                 delete instance.user;
                 delete instance.dataValues.user;
                 delete instance.actor;

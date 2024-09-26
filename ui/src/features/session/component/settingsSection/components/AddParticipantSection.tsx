@@ -63,8 +63,8 @@ const AddParticipantSection = () => {
                         displayEmpty
                         sx={{ height: theme.spacing(3) }}
                     >
-                        {actors.map(actor => (
-                            <MenuItem value={actor.actorId}>
+                        {actors.map((actor, index) => (
+                            <MenuItem value={actor.actorId} key={`id-add-participant-dropdown-item-${index}`}>
                                 {actor.name}
                             </MenuItem>
                         ))}

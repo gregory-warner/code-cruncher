@@ -1,6 +1,11 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db.js';
 
+const participantTypeId = {
+    user: 0,
+    actor: 1,
+};
+
 const SessionParticipant = sequelize.define('session_participant', {
     sessionParticipantId: {
         type: DataTypes.INTEGER,
@@ -37,6 +42,9 @@ const SessionParticipant = sequelize.define('session_participant', {
         allowNull: true,
         field: 'created_by',
     },
+    participant: {
+        type: DataTypes.VIRTUAL,
+    }
 }, {
     paranoid: true,
     timestamps: true,
@@ -44,7 +52,24 @@ const SessionParticipant = sequelize.define('session_participant', {
         {
             fields: ['session_id']
         }
-    ]
+    ],
+    hooks: {
+        afterFind: findResult => {
+            if (!Array.isArray(findResult)) findResult = [findResult];
+            for (const instance of findResult) {
+                if (instance.participantTypeId === participantTypeId.user && instance.userParticipant !== undefined) {
+                    instance.participant = instance.userParticipant;
+                } else if (instance.participantTypeId === participantTypeId.actor && instance.actorParticipant !== undefined) {
+                    instance.participant = instance.actorParticipant;
+                }
+                // To prevent mistakes
+                delete instance.userParticipant;
+                delete instance.dataValues.userParticipant;
+                delete instance.actorParticipant;
+                delete instance.dataValues.actorParticipant;
+            }
+        }
+    },
 });
 
 export default SessionParticipant;
