@@ -1,4 +1,4 @@
-import {Actor, AIModel, Message, Prompt, User} from '../models/models.js';
+import {Actor, AIModel, Message, Prompt, SessionParticipant, User} from '../models/models.js';
 import {removeProperty} from "../utils/utils.js";
 import validator from "validator";
 
@@ -7,21 +7,27 @@ export const getMessages = async (sessionId) => {
         where: { sessionId },
         include: [
             {
-                model: Actor,
-                as: 'actor',
+                model: SessionParticipant,
+                as: 'participant',
                 include: [
-                    { model: Prompt, as: 'prompt', required: true },
-                    { model: AIModel, as: 'aiModel', required: true },
-                ]
-            },
-            { model: User, as: 'user' }
+                    {
+                        model: Actor,
+                        as: 'actor',
+                        include: [
+                            { model: Prompt, as: 'prompt', required: true },
+                            { model: AIModel, as: 'aiModel', required: true },
+                        ]
+                    },
+                    { model: User, as: 'user' }
+                ],
+            }
         ],
         order: [['messageId', 'ASC']],
     });
 };
 
 export const validateMessage = (message) => {
-    const requiredFields = ['sessionId', 'messengerId', 'messengerTypeId', 'content'];
+    const requiredFields = ['sessionId', 'sessionParticipantId', 'content'];
 
     for (const field of requiredFields) {
         if (!field in message) {
@@ -35,8 +41,7 @@ export const createMessage = async (message) => {
 
     const newMessage = await Message.create({
         sessionId: message.sessionId,
-        messengerId: message.messengerId,
-        messengerTypeId: message.messengerTypeId,
+        sessionParticipantId: message.sessionParticipantId,
         content: validator.escape(message.content),
         messageTypeId: message.messageTypeId,
         data: message.data ?? {},

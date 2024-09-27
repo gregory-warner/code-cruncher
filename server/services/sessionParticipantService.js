@@ -1,6 +1,5 @@
 import {Actor, AIModel, Prompt, SessionParticipant, User} from "../models/models.js";
 import {getFirstUser} from "./userService.js";
-import {getFirstActor} from "./actorService.js";
 
 const sessionParticipantType = {
     0: 'user',
@@ -13,7 +12,7 @@ const sessionParticipant = Object.entries(sessionParticipantType).reduce((acc, [
 }, {});
 
 export const getSessionParticipants = async (sessionId) => {
-    const participants = await SessionParticipant.findAll({
+    return await SessionParticipant.findAll({
         where: { session_id: sessionId },
         include: [
             {
@@ -28,8 +27,6 @@ export const getSessionParticipants = async (sessionId) => {
         ],
         order: [['participantSequenceId', 'ASC']],
     });
-
-    return participants.map(participant => participant[sessionParticipantType[participant.participantTypeId]]);
 };
 
 export const addSessionParticipant = async (sessionParticipant) => {

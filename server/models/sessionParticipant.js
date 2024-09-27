@@ -37,11 +37,6 @@ const SessionParticipant = sequelize.define('session_participant', {
         field: 'participant_sequence_id',
         comment: 'used to determine the expected speaker sequence in the session'
     },
-    createdBy: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        field: 'created_by',
-    },
     participant: {
         type: DataTypes.VIRTUAL,
     }
@@ -57,16 +52,16 @@ const SessionParticipant = sequelize.define('session_participant', {
         afterFind: findResult => {
             if (!Array.isArray(findResult)) findResult = [findResult];
             for (const instance of findResult) {
-                if (instance.participantTypeId === participantTypeId.user && instance.userParticipant !== undefined) {
-                    instance.participant = instance.userParticipant;
-                } else if (instance.participantTypeId === participantTypeId.actor && instance.actorParticipant !== undefined) {
-                    instance.participant = instance.actorParticipant;
+                if (instance.participantTypeId === participantTypeId.user && instance.user !== undefined) {
+                    instance.participant = instance.user;
+                } else if (instance.participantTypeId === participantTypeId.actor && instance.actor !== undefined) {
+                    instance.participant = instance.actor;
                 }
                 // To prevent mistakes
-                delete instance.userParticipant;
-                delete instance.dataValues.userParticipant;
-                delete instance.actorParticipant;
-                delete instance.dataValues.actorParticipant;
+                delete instance.user;
+                delete instance.dataValues.user;
+                delete instance.actor;
+                delete instance.dataValues.actor;
             }
         }
     },

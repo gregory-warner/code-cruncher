@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {AddMessageRequest} from "../../../../../../../services/server/types";
-import {MessageTypeId, ParticipantTypeId} from "../../../../../../../types";
+import {MessageTypeId} from "../../../../../../../types";
 import {setSnackbar} from "../../../../../../../app/store/appSlice";
 import {
     selectSessionId,
@@ -8,7 +8,10 @@ import {
 } from "../../../../../sessionSlice";
 import {useAppDispatch, useAppSelector} from "../../../../../../../store/hooks";
 import {selectUser} from "../../../../../../user/userSlice";
-import {useAddMessageMutation} from "../../../../../../../services/server/serverApi";
+import {
+    useAddMessageMutation,
+} from "../../../../../../../services/server/serverApi";
+import {useSessionParticipant} from "../../../../../hooks/useSessionParticipant";
 
 const useMessageInput = () => {
     const dispatch = useAppDispatch();
@@ -18,6 +21,8 @@ const useMessageInput = () => {
     const sessionStatus = useAppSelector(state => (
         sessionId ? selectSessionStatus(state, sessionId) : null
     ));
+
+    const { getSessionParticipant } = useSessionParticipant();
 
     const [addMessage] = useAddMessageMutation();
 
@@ -35,11 +40,12 @@ const useMessageInput = () => {
             return;
         }
 
+        const sessionParticipant = await getSessionParticipant(user);
+
         const message: AddMessageRequest = {
             sessionId,
-            messengerId: user.userId,
             messageTypeId: MessageTypeId.general,
-            messengerTypeId: ParticipantTypeId.user,
+            sessionParticipantId: sessionParticipant.sessionParticipantId,
             content,
         };
 

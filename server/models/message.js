@@ -32,20 +32,6 @@ const Message = sequelize.define('message', {
         field: 'message_link_id',
         comment: 'used to link one message to another e.g. question to answers'
     },
-    messengerId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0,
-        field: 'messenger_id',
-        comment: 'used as the primary key of the messenger e.g. actorId, userId'
-    },
-    messengerTypeId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0,
-        field: 'messenger_type_id',
-        comment: 'used to distinguish the messenger type e.g. system, user, actor'
-    },
     content: {
         type: DataTypes.TEXT,
         allowNull: false,
@@ -71,7 +57,7 @@ const Message = sequelize.define('message', {
     },
     messenger: {
         type: DataTypes.VIRTUAL,
-    }
+    },
 },{
     paranoid: true,
     timestamps: true,
@@ -81,24 +67,23 @@ const Message = sequelize.define('message', {
             name: 'idx_active_session_messages',
         },
         {
-            fields: ['messenger_id', 'messenger_type_id'],
-            name: 'idx_active_messenger_messages'
+            fields: ['session_participant_id'],
+            name: 'idx_session_participant_messages'
         }
     ],
     hooks: {
         afterFind: findResult => {
             if (!Array.isArray(findResult)) findResult = [findResult];
             for (const instance of findResult) {
-                if (instance.messengerTypeId === messengerTypeId.user && instance.user !== undefined) {
-                    instance.messenger = instance.user;
-                } else if (instance.messengerTypeId === messengerTypeId.actor && instance.actor !== undefined) {
-                    instance.messenger = instance.actor;
+                if (instance.participant?.participantTypeId === messengerTypeId.user && instance.participant.user !== undefined) {
+                    instance.messenger = instance.participant.user
+                } else if (instance.participant?.participantTypeId === messengerTypeId.actor && instance.participant.actor !== undefined) {
+                    instance.messenger = instance.participant.actor
                 }
-                // To prevent mistakes:
-                delete instance.user;
-                delete instance.dataValues.user;
-                delete instance.actor;
-                delete instance.dataValues.actor;
+
+                // To prevent mistakes
+                delete instance.participant;
+                delete instance.dataValues.participant;
             }
         }
     },

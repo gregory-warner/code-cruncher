@@ -22,9 +22,6 @@ AIModel.hasOne(TextModel, { foreignKey: 'model_id', constraints: false, as: 'tex
 AIModel.hasMany(Actor, { foreignKey: 'model_id', constraints: false });
 
 SessionParticipant.belongsTo(Session, { foreignKey: 'session_id' });
-SessionParticipant.belongsTo(User, { foreignKey: 'participant_id', constraints: false,  as: 'user' });
-SessionParticipant.belongsTo(Actor, { foreignKey: 'participant_id', constraints: false, as: 'actor' });
-
 Session.hasMany(SessionParticipant, { foreignKey: 'session_id', as: 'sessionParticipant' });
 SessionParticipant.belongsTo(Session, { foreignKey: 'session_id' });
 Session.hasMany(Message, { foreignKey: 'session_id' });
@@ -33,15 +30,10 @@ Message.belongsTo(Session, { foreignKey: 'session_id' });
 Prompt.hasOne(Actor, { foreignKey: 'prompt_id' });
 Actor.belongsTo(Prompt, { foreignKey: 'prompt_id', constraints: false });
 
-User.hasMany(Message, { foreignKey: 'messenger_id', constraints: false, scope: { messengerTypeId: 0 } });
-Actor.hasMany(Message, { foreignKey: 'messenger_id', constraints: false, scope: { messengerTypeId: 1 } });
-Message.belongsTo(User, { foreignKey: 'messenger_id', constraints: false,  as: 'user' });
-Message.belongsTo(Actor, { foreignKey: 'messenger_id', constraints: false, as: 'actor' });
-
-Message.belongsTo(SessionParticipant, { foreignKey: 'session_participant_id', as: 'messageParticipant' });
+Message.belongsTo(SessionParticipant, { foreignKey: 'session_participant_id', as: 'participant' });
 SessionParticipant.hasMany(Message, { foreignKey: 'session_participant_id' });
-SessionParticipant.belongsTo(User, { foreignKey: 'participant_id', constraints: false,  as: 'userParticipant' });
-SessionParticipant.belongsTo(Actor, { foreignKey: 'participant_id', constraints: false, as: 'actorParticipant' });
+SessionParticipant.belongsTo(User, { foreignKey: 'participant_id', constraints: false,  as: 'user' });
+SessionParticipant.belongsTo(Actor, { foreignKey: 'participant_id', constraints: false, as: 'actor' });
 User.hasMany(SessionParticipant, { foreignKey: 'participant_id', constraints: false, scope: { participantTypeId: 0 } });
 Actor.hasMany(SessionParticipant, { foreignKey: 'participant_id', constraints: false, scope: { participantTypeId: 1 } });
 

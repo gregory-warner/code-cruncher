@@ -2,8 +2,8 @@ import React from 'react';
 import {useAppDispatch, useAppSelector} from '../../../../../store/hooks';
 import {
     selectCurrentSpeaker,
-    selectSelectedParticipant, selectSessionId,
-    setSelectedParticipant, updateSessionSelectedParticipant
+    selectSessionId,
+    updateSessionSelectedParticipant
 } from '../../../sessionSlice';
 import {Avatar, Box, Grid, Typography, useTheme} from '@mui/material';
 import {chatServerUrl} from '../../../../../../config';
@@ -19,7 +19,7 @@ const ParticipantsSection = () => {
     const theme = useTheme();
 
     const sessionId = useAppSelector(selectSessionId);
-    const { data: participants, isLoading } = useGetSessionParticipantsQuery(sessionId || skipToken);
+    const { data: sessionParticipants, isLoading } = useGetSessionParticipantsQuery(sessionId || skipToken);
 
     const { selectedParticipant } = useParticipant();
 
@@ -27,7 +27,7 @@ const ParticipantsSection = () => {
         sessionId ? selectCurrentSpeaker(state, sessionId) : null)
     );
 
-    if (isLoading || !participants || participants.length === 0) {
+    if (isLoading || !sessionParticipants || sessionParticipants.length === 0) {
         return <Box></Box>
     }
 
@@ -96,16 +96,19 @@ const ParticipantsSection = () => {
                     p: 1,
                 }}
             >
-                {participants.map((participant, index) => (
-                    <Grid item xs={3} key={`session-details-participant-${index}`} >
-                        <Avatar
-                            onClick={() => onAvatarClick(participant)}
-                            alt={`${participant.name}'s avatar`}
-                            src={`${chatServerUrl}/images/${participant.avatar}`}
-                            sx={getAvatarStyle(participant)}
-                        />
-                    </Grid>
-                ))}
+                {sessionParticipants.map((sessionParticipant, index) => {
+                    const participant = sessionParticipant.participant;
+                    return (
+                        <Grid item xs={3} key={`session-details-participant-${index}`} >
+                            <Avatar
+                                onClick={() => onAvatarClick(participant)}
+                                alt={`${participant.name}'s avatar`}
+                                src={`${chatServerUrl}/images/${participant.avatar}`}
+                                sx={getAvatarStyle(participant)}
+                            />
+                        </Grid>
+                    );
+                })}
                 <Grid item xs={3} onClick={() => onAvatarClick(null)}>
                     <Avatar sx={getAvatarStyle(null)} >
                         <Add />

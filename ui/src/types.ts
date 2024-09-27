@@ -131,6 +131,7 @@ export interface SessionParticipant {
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date | null;
+    participant: SessionParticipantType;
 }
 
 export enum MessageTypeId {

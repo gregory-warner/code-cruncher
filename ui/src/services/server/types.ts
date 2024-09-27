@@ -36,8 +36,7 @@ export interface SessionNameRequest {
 export interface AddMessageRequest {
     sessionId: number;
     messageTypeId: number;
-    messengerId: number;
-    messengerTypeId: number;
+    sessionParticipantId: number;
     content: string;
 }
 
