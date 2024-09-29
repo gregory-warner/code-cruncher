@@ -1,10 +1,10 @@
 import React from "react";
-import {AIModel, LanguageModel} from "../../types";
+import {AIModel} from "../../types";
 
 export interface ActorDisplayItem {
     label: string;
     value: string;
-    editComponent: React.ElementType;
+    editComponent: React.ElementType<any, any>;
     width?: number;
 }
 

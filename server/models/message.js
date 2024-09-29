@@ -58,6 +58,9 @@ const Message = sequelize.define('message', {
     messenger: {
         type: DataTypes.VIRTUAL,
     },
+    messengerTypeId: {
+        type: DataTypes.VIRTUAL,
+    }
 },{
     paranoid: true,
     timestamps: true,
@@ -80,6 +83,8 @@ const Message = sequelize.define('message', {
                 } else if (instance.participant?.participantTypeId === messengerTypeId.actor && instance.participant.actor !== undefined) {
                     instance.messenger = instance.participant.actor
                 }
+
+                instance.messengerTypeId = instance.participant?.participantTypeId ?? -1;
 
                 // To prevent mistakes
                 delete instance.participant;

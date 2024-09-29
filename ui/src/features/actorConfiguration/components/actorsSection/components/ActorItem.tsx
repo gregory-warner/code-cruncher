@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Grid, ListItem, TextField, Typography, useTheme} from "@mui/material";
 import {useAppDispatch} from "../../../../../store/hooks";
 import {setSelectedActor} from "../../../store/actorConfigurationSlice";
+import {Actor} from "../../../../../types";
 
 interface ActorItemParams {
     actor: Actor;
@@ -13,7 +14,7 @@ const ActorItem = ({ actor, itemId }: ActorItemParams) => {
 
     const dispatch = useAppDispatch();
 
-    const [editMode, setEditMode] = useState(false);
+    const [editMode] = useState(false);
     const [editedSessionName, setEditedSessionName] = useState<string>(actor.name);
 
     const updateSelectedActor = () => {

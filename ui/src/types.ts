@@ -93,12 +93,12 @@ export interface Message {
     sessionId: number;
     messageTypeId: number;
     messageLinkId: number;
-    messengerId: number;
-    messengerTypeId: number;
+    sessionParticipantId: number;
     content: string;
     data?: any;
     isLocked: boolean;
     messenger: MessengerType;
+    messengerTypeId: number;
 }
 
 export interface Session {
