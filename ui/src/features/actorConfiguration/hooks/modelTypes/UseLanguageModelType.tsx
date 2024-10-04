@@ -9,39 +9,39 @@ const useLanguageModelType = (type: LanguageModel): ModelDataType => {
     const items: ActorDisplayItem[] = [
         {
             label: 'Max Tokens',
-            value: type?.maxTokens,
+            value: type?.maxTokens.toString(),
             editComponent: (
                 <TextField
                     defaultValue={type?.maxTokens}
                     onChange={(event) => setModelType({
                         ...modelType,
-                        maxTokens: event.target.value
+                        maxTokens: parseInt(event.target.value)
                     })}
                 />
             )
         },
         {
             label: 'Temperature',
-            value: type?.temperature,
+            value: type?.temperature.toString(),
             editComponent: (
                 <TextField
                     defaultValue={type?.temperature}
                     onChange={(event) => setModelType({
                         ...modelType,
-                        temperature: event.target.value
+                        temperature: parseInt(event.target.value)
                     })}
                 />
             )
         },
         {
             label: 'Frequency Penalty',
-            value: type?.frequencyPenalty,
+            value: type?.frequencyPenalty.toString(),
             editComponent: (
                 <TextField
                     defaultValue={type?.frequencyPenalty}
                     onChange={(event) => setModelType({
                         ...modelType,
-                        frequencyPenalty: event.target.value
+                        frequencyPenalty: parseInt(event.target.value)
                     })}
                 />
             )
