@@ -5,7 +5,7 @@ import {
     SessionNameRequest,
     SessionParticipantRequest,
     SessionRequest, UpdateActorRequest,
-    UpdateAIModelRequest,
+    UpdateAIModelRequest, UpdateAvatarRequest,
     UpdatePromptRequest, UpdateSessionTypeIdRequest,
 } from "./types";
 import {Actor, Message, Session, SessionParticipant, SessionParticipantType, User} from "../../types";
@@ -88,6 +88,16 @@ export const serverApi  = createApi({
                     url: `actors/update/${updateRequest.actorId}`,
                     method: 'PATCH',
                     body: updateRequest,
+                });
+            },
+            invalidatesTags: [{ type: 'Actors' }],
+        }),
+        updateAvatar: build.mutation<Actor, UpdateAvatarRequest>({
+            query: (request: UpdateAvatarRequest) => {
+                return ({
+                    url: `actors/avatar/${request.actorId}`,
+                    method: 'PATCH',
+                    body: request.formData,
                 });
             },
             invalidatesTags: [{ type: 'Actors' }],
@@ -199,4 +209,5 @@ export const {
     useUpdateActorMutation,
     useGetSessionParticipantsQuery,
     useUpdateSessionTypeIdMutation,
+    useUpdateAvatarMutation,
 } = serverApi;

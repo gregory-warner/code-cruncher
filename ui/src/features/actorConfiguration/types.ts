@@ -6,6 +6,7 @@ export interface ActorDisplayItem {
     value: string;
     editComponent: React.ElementType<any, any>;
     width?: number;
+    helpText?: string;
 }
 
 export interface ModelDataType {

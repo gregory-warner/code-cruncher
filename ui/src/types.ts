@@ -52,7 +52,7 @@ export interface Actor {
     actorId: number;
     name: string;
     username: string;
-    avatar: string;
+    avatar: string|File;
     colorTheme: ColorTheme;
     title: string;
     promptId: number;

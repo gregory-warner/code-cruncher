@@ -1,4 +1,4 @@
-import {AIModel, Prompt, Session} from "../../types";
+import {Actor, AIModel, ColorTheme, Prompt, Session} from "../../types";
 
 export interface ActorPrompt {
     actorId: number;
@@ -50,10 +50,11 @@ export interface UpdateAIModelRequest {
     aiModel: AIModel;
 }
 
-export interface UpdateActorRequest {
+export interface UpdateActorRequest extends Partial<Actor> {}
+
+export interface UpdateAvatarRequest {
     actorId: number;
-    name: string;
-    title: string;
+    formData: FormData;
 }
 
 export interface UpdateSessionTypeIdRequest {
