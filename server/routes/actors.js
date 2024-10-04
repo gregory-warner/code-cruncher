@@ -1,6 +1,6 @@
 import express from 'express';
 import {Actor} from '../models/models.js';
-import {createActor, getActorByUsername, getActors, update} from "../services/actorService.js";
+import {createActor, getActorByUsername, getActors, update, updateAvatar} from "../services/actorService.js";
 import createUploadMiddleware from "../middlewares/uploadMiddleware.js";
 import {updatePrompt} from "../services/promptService.js";
 
@@ -41,49 +41,31 @@ router.post("/create", createUploadMiddleware("avatar"), async (req, res, next) 
     }
 });
 
-router.patch("/update/:actorId", async (req, res, next) => {
+router.patch("/update/:actorId", createUploadMiddleware("avatar"), async (req, res, next) => {
     try {
-        const actor = update(parseInt(req.params.actorId), req.body);
+        const actorData = {
+            ...req.body,
+            avatar: req.file.filename,
+        };
+
+        const actor = update(parseInt(req.params.actorId), actorData);
         return res.json(actor);
     } catch (err) {
         next(err);
     }
 });
 
-// legacy service to update entire actor
-router.post("/update-actor", createUploadMiddleware("avatar"), async (req, res, next) => {
+router.patch("/avatar/:actorId", createUploadMiddleware("avatar"), async (req, res, next) => {
     try {
-        const { actorId, name, username, title, colorTheme, prompt, model } = req.body;
+        const actorData = {
+            ...req.body,
+            avatar: req.file.filename,
+        };
 
-        if (!name || !username || !title || !prompt || !colorTheme || !model) {
-            throw new Error("Missing required parameters");
-        }
-
-        const avatar = req.file?.filename;
-
-        await updatePrompt(actorId, JSON.parse(prompt));
-        // todo: model update is either search for existing details and set to that or create new, probably not delete previous
-
-        const [rowsUpdated] = await Actor.update({
-            name,
-            username,
-            avatar,
-            colorTheme,
-            title
-        }, {
-            where: {
-                actor_id: actorId,
-            },
-        })
-
-        if (rowsUpdated === 0) {
-            return res.status(404).json({ msg: "The actor was not found" });
-        }
-
-
-        res.json({ msg: "The actor was successfully updated" });
-    } catch (error) {
-        next(error);
+        const actor = updateAvatar(parseInt(req.params.actorId), actorData);
+        return res.json(actor);
+    } catch (err) {
+        next(err);
     }
 });
 

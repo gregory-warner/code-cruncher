@@ -110,7 +110,11 @@ export const update = async (actorId, actorData) => {
         throw new Error('Invalid actor ID: ' + validator.escape(actorId.toString()));
     }
 
-    const validatedActorData = getValidatedActorData(actorData, ['name', 'title']);
+    const validatedActorData = getValidatedActorData(actorData, [
+        'name',
+        'title',
+        'colorTheme',
+    ]);
 
     const actor = await Actor.findByPk(actorId);
     if (!actor instanceof Actor) {
@@ -119,6 +123,28 @@ export const update = async (actorId, actorData) => {
 
     actor.name = validatedActorData.name;
     actor.title = validatedActorData.title;
+    actor.colorTheme = validatedActorData.colorTheme;
+
+    await actor.save();
+
+    return actor;
+};
+
+export const updateAvatar = async (actorId, actorData) => {
+    if (!Number.isInteger(actorId)) {
+        throw new Error('Invalid actor ID: ' + validator.escape(actorId.toString()));
+    }
+
+    const validatedActorData = getValidatedActorData(actorData, [
+        'avatar',
+    ]);
+
+    const actor = await Actor.findByPk(actorId);
+    if (!actor instanceof Actor) {
+        throw new Error(`Actor with id ${actorId} not found`);
+    }
+
+    actor.avatar = validatedActorData.avatar;
 
     await actor.save();
 
