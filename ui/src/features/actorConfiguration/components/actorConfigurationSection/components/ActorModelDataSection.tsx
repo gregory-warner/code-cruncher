@@ -40,7 +40,7 @@ const ActorModelDataSection = ({ actor }: {actor: Actor}) => {
                 <ModelSelect
                     selectedModel={model.modelName}
                     handleModelChange={(event) => {
-                        const selectedModel = models.find(model => model.name === event.target.value) ?? {};
+                        const selectedModel = models.find(model => model.name === event.target.value);
                         setModel(
                             {...model,
                                 modelName: selectedModel.name,

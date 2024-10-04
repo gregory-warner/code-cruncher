@@ -1,6 +1,6 @@
 import {ActorDisplayItem} from '../../../types';
 import ActorDataSection from './ActorDataSection';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Actor} from '../../../../../types';
 import {TextField} from "@mui/material";
 import {useUpdateActorMutation} from "../../../../../services/server/serverApi";
@@ -8,6 +8,10 @@ import {useUpdateActorMutation} from "../../../../../services/server/serverApi";
 const ActorGeneralDataSection = ({ actor }: {actor: Actor}) => {
 
     const [updatedActor, setUpdatedActor] = useState<Actor>(actor);
+
+    useEffect(() => {
+        setUpdatedActor(actor);
+    }, [actor]);
 
     const [updateActor] = useUpdateActorMutation();
 

@@ -16,7 +16,7 @@ const ActorPromptDataSection = ({ actor }: {actor: Actor}) => {
 
     const onSave = async () => {
         updatePrompt({
-            actorId: parseInt(actor.actorId),
+            actorId: actor.actorId,
             prompt,
         });
     };
