@@ -7,21 +7,10 @@ import ActorModelDataSection from "./components/ActorModelDataSection";
 import ActorGeneralDataSection from "./components/ActorGeneralDataSection";
 import ActorAvatarDataSection from "./components/ActorAvatarDataSection";
 import ActorPromptDataSection from "./components/ActorPromptDataSection";
+import ActorColorThemeDataSection from "./components/ActorColorThemeDataSection";
 
 const ActorConfigurationSection = () => {
     const actor: Actor|null = useAppSelector(selectSelectedActor)
-
-    const [editingTitle, setEditingTitle] = useState(false);
-    const [title, setTitle] = useState(actor?.title ?? '');
-
-    const [editingModel, setEditingModel] = useState(false);
-    const [model, setModel] = useState(actor?.aiModel?.modelName ?? '');
-
-    const colorTheme = actor?.colorTheme?.messageCard ?? {};
-
-    const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTitle(event.target.value);
-    };
 
     if (!actor) {
         return <Box></Box>;
@@ -32,6 +21,7 @@ const ActorConfigurationSection = () => {
             <ActorAvatarDataSection actor={{...actor}} />
             <ActorGeneralDataSection actor={{...actor}} />
             {actor?.aiModel && <ActorModelDataSection actor={{...actor}} />}
+            <ActorColorThemeDataSection actor={{...actor}} />
             {actor.prompt && <ActorPromptDataSection actor={{...actor}} />}
         </Box>
     );
