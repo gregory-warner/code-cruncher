@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Box, Button, Grid, MenuItem, Select, Typography, useTheme} from "@mui/material";
 import {useAddParticipantMutation, useGetActorsQuery} from "../../../../../services/server/serverApi";
 import {useAppDispatch, useAppSelector} from "../../../../../store/hooks";
@@ -10,7 +10,13 @@ const AddParticipantSection = () => {
     const theme = useTheme();
     const dispatch = useAppDispatch();
 
+    const [selectedActorId, setSelectedActorId] = useState(0);
+
     const sessionId = useAppSelector(selectSessionId);
+
+    useEffect(() => {
+        setSelectedActorId(0);
+    }, [sessionId]);
 
     const { data: actors } = useGetActorsQuery();
 
@@ -19,8 +25,6 @@ const AddParticipantSection = () => {
     const sessionStatus = useAppSelector(state => (
         sessionId ? selectSessionStatus(state, sessionId) : null)
     );
-
-    const [selectedActorId, setSelectedActorId] = useState(0);
 
     const onAddParticipant = async () => {
         if (!selectedActorId) {
