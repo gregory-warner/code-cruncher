@@ -1,6 +1,7 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Grid, IconButton, ListItem, TextField, Typography, useTheme} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 import {useAppDispatch} from "../../../../../store/hooks";
@@ -21,6 +22,10 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
     const [editMode, setEditMode] = useState(false);
     const [editedSessionName, setEditedSessionName] = useState<string>(session.sessionName);
 
+    useEffect(() => {
+        setEditedSessionName(session.sessionName);
+    }, [editMode]);
+
     const [deleteSession] = useDeleteSessionMutation();
     const [updateSessionName] = useUpdateSessionNameMutation();
 
@@ -33,6 +38,18 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
 
     const updateCurrentSession = (session: Session) => {
         dispatch(setSessionId(session.sessionId));
+    };
+
+    const onEdit = (e) => {
+        setEditedSessionName(e.target.value);
+    };
+
+    const onClear = () => {
+        if (editMode) {
+            setEditMode(false);
+            return;
+        }
+        deleteSession(session.sessionId);
     };
 
     return (
@@ -65,7 +82,7 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
                             <TextField
                                 onClick={() => updateCurrentSession(session)}
                                 value={editedSessionName}
-                                onChange={(e) => setEditedSessionName(e.target.value)}
+                                onChange={onEdit}
                                 size="small"
                             />
                         ) : (
@@ -88,8 +105,8 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
                     </IconButton>
                 </Grid>
                 <Grid item xs={2}>
-                    <IconButton aria-label="delete" onClick={() => deleteSession(session.sessionId)}>
-                        <DeleteIcon />
+                    <IconButton aria-label="delete" onClick={onClear}>
+                        {editMode ? <CloseIcon /> : <DeleteIcon />}
                     </IconButton>
                 </Grid>
             </Grid>
