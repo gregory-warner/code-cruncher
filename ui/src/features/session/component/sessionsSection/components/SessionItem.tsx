@@ -37,7 +37,6 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
 
     return (
         <ListItem
-            onClick={() => updateCurrentSession(session)}
             sx={{
                 width: '95%',
                 textTransform: 'none',
@@ -64,6 +63,7 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
                     {
                         editMode ? (
                             <TextField
+                                onClick={() => updateCurrentSession(session)}
                                 value={editedSessionName}
                                 onChange={(e) => setEditedSessionName(e.target.value)}
                                 size="small"

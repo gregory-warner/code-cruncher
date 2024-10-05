@@ -5,7 +5,6 @@ import {LockOpen} from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
 import {Message, MessageCard, MessengerType} from "../../../../../../../types";
-import {Messenger} from "../../../../../types";
 import {useAppDispatch} from "../../../../../../../store/hooks";
 import {useDeleteMessageMutation, useUpdateMessageMutation} from "../../../../../../../services/server/serverApi";
 import {setSnackbar} from "../../../../../../../app/store/appSlice";

@@ -1,5 +1,4 @@
 import {Message, MessageCard, MessageContentType, MessengerType} from "../../../../../../../types";
-import {Messenger} from "../../../../../types";
 import {getParsedMessageSections} from "../../../../../util";
 import he from 'he';
 import {Grid, Typography} from "@mui/material";
