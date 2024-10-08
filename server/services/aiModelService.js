@@ -138,6 +138,7 @@ export const getValidatedModel = (model, requiredFields = ['modelName']) => {
 export const createModelType = async (modelId, model) => {
     if (model.languageModel) {
         const languageModel = getValidatedModel(model.languageModel, ['maxTokens', 'temperature', 'frequencyPenalty']);
+        console.log('lang mod ', languageModel);
         return await LanguageModel.create({
             modelId,
             ...languageModel,
@@ -145,6 +146,21 @@ export const createModelType = async (modelId, model) => {
     }
 
     throw new Error(`Unable to create model type with model id ${modelId}`);
+};
+
+const updateLanguageModel = async (model) => {
+    const languageModel = await LanguageModel.findOne({ where: { modelId: model.modelId } });
+    const lang = model.languageModel;
+    languageModel.maxTokens = lang.maxTokens;
+    languageModel.temperature = lang.temperature;
+    languageModel.frequencyPenalty = lang.frequencyPenalty;
+    await languageModel.save();
+};
+
+const updateModelType = async (model) => {
+    if (model.languageModel) {
+        await updateLanguageModel(model);
+    }
 };
 
 export const updateActorModel = async (actorId, model) => {
@@ -160,23 +176,19 @@ export const updateActorModel = async (actorId, model) => {
         throw new Error(`Actor with id ${actorId} not found`);
     }
 
-    const newModel = await AIModel.create(validatedModel);
-    if (!newModel instanceof AIModel) {
+    const aiModel = await AIModel.findByPk(model.modelId);
+    if (!aiModel instanceof AIModel) {
         throw new Error(`Unable to create model with name ${model.modelName}`);
     }
 
-    const modelType = await createModelType(newModel.modelId, model);
-    if (!modelType) {
-        throw new Error(`Unable to create model type with model id ${model.modelId}`);
-    }
+    aiModel.modelName = model.modelName;
+    aiModel.isLocal = model.isLocal;
+    aiModel.modelIdentifier = model.modelIdentifier;
+    aiModel.modelTypeId = model.modelTypeId;
 
-    if (actor.modelId > 0) {
-        await AIModel.destroy({ where: { modelId: actor.modelId } });
-    }
+    await aiModel.save();
 
-    actor.modelId = newModel.modelId;
-
-    await actor.save();
+    updateModelType(model);
 
     return actor;
 };
