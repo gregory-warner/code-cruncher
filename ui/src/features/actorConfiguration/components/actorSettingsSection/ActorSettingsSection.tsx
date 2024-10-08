@@ -1,12 +1,7 @@
 import {Grid, Typography} from "@mui/material";
 import React from "react";
-import {Actor} from "../../../../types";
-import {useAppSelector} from "../../../../store/hooks";
-import {selectSelectedActor} from "../../store/actorConfigurationSlice";
 
 const ActorSettingsSection = () => {
-    const actor: Actor|null = useAppSelector(selectSelectedActor)
-
     return (
         <Grid >
             <Grid container direction='row' alignItems='center'>
