@@ -1,47 +1,51 @@
 import {AIModel, LanguageModel} from "../../../../types";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {TextField} from "@mui/material";
 import {ActorDisplayItem, ModelDataType} from "../../types";
 
 const useLanguageModelType = (type: LanguageModel): ModelDataType => {
     const [modelType, setModelType] = useState<LanguageModel>(type);
 
+    useEffect(() => {
+        setModelType(type);
+    }, [type]);
+
     const items: ActorDisplayItem[] = [
         {
             label: 'Max Tokens',
-            value: type?.maxTokens.toString(),
+            value: modelType?.maxTokens.toString(),
             editComponent: (
                 <TextField
-                    defaultValue={type?.maxTokens}
+                    defaultValue={modelType?.maxTokens}
                     onChange={(event) => setModelType({
                         ...modelType,
-                        maxTokens: parseInt(event.target.value)
+                        maxTokens: parseFloat(event.target.value)
                     })}
                 />
             )
         },
         {
             label: 'Temperature',
-            value: type?.temperature.toString(),
+            value: modelType?.temperature.toString(),
             editComponent: (
                 <TextField
-                    defaultValue={type?.temperature}
+                    defaultValue={modelType?.temperature}
                     onChange={(event) => setModelType({
                         ...modelType,
-                        temperature: parseInt(event.target.value)
+                        temperature: parseFloat(event.target.value)
                     })}
                 />
             )
         },
         {
             label: 'Frequency Penalty',
-            value: type?.frequencyPenalty.toString(),
+            value: modelType?.frequencyPenalty.toString(),
             editComponent: (
                 <TextField
-                    defaultValue={type?.frequencyPenalty}
+                    defaultValue={modelType?.frequencyPenalty}
                     onChange={(event) => setModelType({
                         ...modelType,
-                        frequencyPenalty: parseInt(event.target.value)
+                        frequencyPenalty: parseFloat(event.target.value)
                     })}
                 />
             )
