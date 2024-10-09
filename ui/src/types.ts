@@ -48,6 +48,12 @@ export interface LanguageModel {
     updatedAt: string;
 }
 
+export interface EditableActor extends Partial<Actor> {
+    prompt?: null | Prompt;
+    aiModel?: null | AIModel;
+    colorTheme?: null | ColorTheme;
+}
+
 export interface Actor {
     actorId: number;
     name: string;
@@ -58,11 +64,9 @@ export interface Actor {
     promptId: number;
     modelId: number;
     modelTypeId: ModelType;
-    createdAt: string;
-    updatedAt: string;
+    createdAt?: string;
+    updatedAt?: string;
     deletedAt: null | string;
-    prompt_id: number;
-    model_id: number;
     prompt: Prompt;
     aiModel: AIModel;
 }
@@ -77,7 +81,7 @@ export interface MessageCard {
     transition: string;
     boxShadow: string;
     width: string;
-    "&:hover": {
+    "&:hover"?: {
         boxShadow: string;
         transform: string;
     };
