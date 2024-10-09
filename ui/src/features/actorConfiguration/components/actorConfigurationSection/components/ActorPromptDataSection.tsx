@@ -1,69 +1,87 @@
 import {ActorDisplayItem} from '../../../types';
-import ActorDataSection from './ActorDataSection';
-import React, {useEffect, useState} from 'react';
-import {Actor, Prompt} from '../../../../../types';
-import {TextField} from "@mui/material";
-import {useUpdatePromptMutation} from "../../../../../services/server/serverApi";
+import React from 'react';
+import {EditableActor, Prompt} from '../../../../../types';
+import {Box, Divider, Grid, TextField, Typography} from "@mui/material";
+import {useAppDispatch, useAppSelector} from "../../../../../store/hooks";
+import {selectIsEditing, selectSelectedActor, setSelectedActor} from "../../../store/actorConfigurationSlice";
 
-const ActorPromptDataSection = ({ actor }: {actor: Actor}) => {
-    const [updatePrompt] = useUpdatePromptMutation();
+const ActorPromptDataSection = () => {
+    const dispatch = useAppDispatch();
+    const actor: EditableActor = useAppSelector(selectSelectedActor);
+    const isEditing = useAppSelector(selectIsEditing);
 
-    const [prompt, setPrompt] = useState<Prompt>(actor.prompt);
-
-    useEffect(() => {
-        setPrompt(actor.prompt);
-    }, [actor]);
-
-    const onSave = async () => {
-        updatePrompt({
-            actorId: actor.actorId,
-            prompt,
-        });
-    };
-
-    const items: ActorDisplayItem[] = [
-        {
-            label: 'Name',
-            value: prompt.promptName,
-            width: 4,
-            editComponent: (
-                <TextField
-                    defaultValue={prompt.promptName}
-                    onChange={(event) => setPrompt({...prompt, promptName: event.target.value})}
-                />
-            )
-        },
-        {
-            label: 'Postfix',
-            helpText: 'This optional text will be applied at the end of every sent request.',
-            value: prompt.postfix,
-            width: 4,
-            editComponent: (
-                <TextField
-                    defaultValue={prompt.postfix}
-                    onChange={(event) => setPrompt({...prompt, postfix: event.target.value})}
-                />
-            )
-        },
-        {
-            label: 'Prompt',
-            value: prompt.prompt || 'none',
-            width: 12,
-            editComponent: (
-                <TextField
-                    fullWidth
-                    multiline
-                    maxRows={7}
-                    minRows={3}
-                    defaultValue={prompt.prompt}
-                    onChange={(event) => setPrompt({...prompt, prompt: event.target.value})}
-                />
-            )
-        },
-    ];
+    const prompt: Prompt|null = actor.prompt ?? null;
 
     return (
-        <ActorDataSection items={items} title='Prompt' onSave={onSave} />
+        <Box sx={{ width: '100%', pb: 2 }}>
+            <Divider textAlign='left'>Prompt</Divider>
+            <Grid pt={1} container spacing={2} justifyContent='space-between' alignItems='flex-start'>
+                {
+                    isEditing ? (
+                        <Grid item xs={11} container spacing={2}>
+                            <Grid item xs={4} display='flex' alignItems='center'>
+                                <Typography variant='body2' mr={1}>Name:</Typography>
+                                <TextField
+                                    value={prompt.promptName}
+                                    onChange={(event) => dispatch(setSelectedActor({
+                                        ...actor,
+                                        prompt: {
+                                            ...prompt,
+                                            promptName: event.target.value,
+                                        }
+                                    }))}
+                                />
+                            </Grid>
+                            <Grid item xs={8} display='flex' alignItems='center'>
+                                <Typography variant='body2' mr={1}>Postfix:</Typography>
+                                <TextField
+                                    value={prompt.postfix}
+                                    onChange={(event) => dispatch(setSelectedActor({
+                                        ...actor,
+                                        prompt: {
+                                            ...prompt,
+                                            postfix: event.target.value,
+                                        }
+                                    }))}
+                                />
+                            </Grid>
+                            <Grid item xs={12} display='flex' alignItems='center'>
+                                <Typography variant='body2' mr={1}>Prompt:</Typography>
+                                <TextField
+                                    fullWidth
+                                    multiline
+                                    maxRows={7}
+                                    minRows={3}
+                                    value={prompt.prompt}
+                                    onChange={(event) => dispatch(setSelectedActor({
+                                        ...actor,
+                                        prompt: {
+                                            ...prompt,
+                                            prompt: event.target.value,
+                                        }
+                                    }))}
+                                />
+                            </Grid>
+                        </Grid>
+                    ) : (
+                        <Grid item xs={11} container spacing={2}>
+                            <Grid item xs={4} display='flex' alignItems='center'>
+                                <Typography variant='body2' mr={1}>Name:</Typography>
+                                <Typography variant='body1'>{prompt.promptName}</Typography>
+                            </Grid>
+                            <Grid item xs={8} display='flex' alignItems='center'>
+                                <Typography variant='body2' mr={1}>Postfix:</Typography>
+                                <Typography variant='body1'>{prompt.postfix}</Typography>
+                            </Grid>
+                            <Grid item xs={12} display='flex' alignItems='center'>
+                                <Typography variant='body2' mr={1}>Prompt:</Typography>
+                                <Typography variant='body1'>{prompt.prompt}</Typography>
+                            </Grid>
+                        </Grid>
+                    )
+                }
+            </Grid>
+        </Box>
     );
 };
 
