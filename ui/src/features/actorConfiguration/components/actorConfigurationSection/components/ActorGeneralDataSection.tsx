@@ -18,6 +18,7 @@ const ActorGeneralDataSection = () => {
                     {
                         isEditing ? (
                             <Grid item xs={4} display='flex' alignItems='center'>
+                                <Typography variant='body2' mr={1}>{`Name:`}</Typography>
                                 <TextField
                                     value={actor.name}
                                     onChange={(event) => dispatch(setSelectedActor({
@@ -36,7 +37,7 @@ const ActorGeneralDataSection = () => {
                     {
                         isEditing ? (
                             <Grid item xs={4} display='flex' alignItems='center'>
-                                <Typography variant='body2' mr={1}>{`Name:`}</Typography>
+                                <Typography variant='body2' mr={1}>{`Title:`}</Typography>
                                 <TextField
                                     value={actor.title}
                                     onChange={(event) => dispatch(setSelectedActor({
