@@ -16,7 +16,7 @@ const AppHeader: React.FC = () => {
     const speakerName = currentSpeaker?.name ?? '';
 
     return (
-        <Box sx={{maxHeight: '6vh'}} display={"flex"} justifyContent={"center"}>
+        <Box sx={{maxHeight: '10%'}} display={"flex"} justifyContent={"center"}>
             <Grid container justifyContent={"space-between"} alignItems={"center"} bgcolor="rgba(34, 34, 34, 0.9)">
                 <Grid item xs={2} sx={{flexGrow: 1}}></Grid>
                 <Grid item xs={8}>
