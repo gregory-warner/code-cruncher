@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Grid, IconButton, ListItem, TextField, Typography, useTheme} from "@mui/material";
+import {Box, Grid, IconButton, ListItem, TextField, Typography, useTheme} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -71,6 +71,7 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
                     boxShadow: `0 0 10px ${theme.palette.primary.main}`,
                 },
             }}
+            onClick={() => updateCurrentSession(session)}
         >
             <Grid container alignItems='center' sx={{ flexGrow: 1}}>
                 <Grid item xs={1}>
@@ -80,7 +81,6 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
                     {
                         editMode ? (
                             <TextField
-                                onClick={() => updateCurrentSession(session)}
                                 value={editedSessionName}
                                 onChange={onEdit}
                                 size="small"

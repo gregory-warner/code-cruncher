@@ -23,7 +23,7 @@ const SessionSection = () => {
     const { data: messages } = useGetMessagesQuery(sessionId || skipToken);
 
     const { chat } = useActor();
-    const { getCurrentSpeaker, getLastParticipantIndex } = useCurrentSpeaker();
+    const { getCurrentSpeaker } = useCurrentSpeaker();
 
     const runSession = async (sessionId: number) => {
         const currentSpeaker = await getCurrentSpeaker(sessionId);
