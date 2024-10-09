@@ -36,9 +36,8 @@ const ActorAvatarDataSection = ({ actor }: { actor: Actor }) => {
     return (
         <Box display='flex' alignItems='center'>
             <Tooltip title="Change your avatar" placement="bottom">
-                <IconButton>
+                <IconButton onClick={onAvatarClick}>
                     <Avatar
-                        onClick={onAvatarClick}
                         alt={`${actor.name}'s avatar`}
                         src={`${chatServerUrl}/images/${actor.avatar}`}
                         sx={{ width: '100px', height: '100px' }}
