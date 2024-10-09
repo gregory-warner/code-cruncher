@@ -8,11 +8,10 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 interface ActorDataDisplayProps {
     items: ActorDisplayItem[];
     title: string;
-    onSave: () => void;
 }
 
-const ActorDataSection = ({items, title, onSave}: ActorDataDisplayProps) => {
-    const [isEdit, setIsEdit] = useState(false);
+const ActorDataSection = ({items, title}: ActorDataDisplayProps) => {
+    const [isEdit, setIsEdit] = useState(true);
 
     return (
         <Box sx={{ width: '100%', pb: 2 }}>
@@ -39,18 +38,6 @@ const ActorDataSection = ({items, title, onSave}: ActorDataDisplayProps) => {
                         )
                     )}
                 </Grid>
-                { isEdit ? (
-                    <IconButton onClick={() => {
-                        setIsEdit(!isEdit);
-                        onSave();
-                    }}>
-                        <SaveIcon />
-                    </IconButton>
-                ) : (
-                    <IconButton onClick={() => setIsEdit(!isEdit)}>
-                        <EditIcon />
-                    </IconButton>
-                )}
             </Grid>
         </Box>
     );

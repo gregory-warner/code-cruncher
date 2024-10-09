@@ -31,7 +31,7 @@ export interface ActorConfigurationState {
 
 const initialState: ActorConfigurationState = {
     selectedActor: null,
-    isEditing: true,
+    isEditing: false,
 };
 
 export const actorConfigurationSlice = createSlice({
