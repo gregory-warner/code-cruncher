@@ -49,7 +49,7 @@ const SessionSection = () => {
         runSession(sessionId);
     }, [sessionId, messages]);
 
-    if (!messages) {
+    if (!messages || !sessionId) {
         return <></>;
     }
 
