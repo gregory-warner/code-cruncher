@@ -3,7 +3,8 @@ import useModels from '../hooks/useModels';
 import {ChatApiModel} from "../../../services/openai/types";
 import {Model} from "../../../services/ollama/types";
 
-type ModelItem = ChatApiModel & Model;
+
+type ModelItem = Partial<ChatApiModel> & Partial<Model>;
 
 const ModelSelect = ({ selectedModel, handleModelChange }) => {
     const models = useModels();
