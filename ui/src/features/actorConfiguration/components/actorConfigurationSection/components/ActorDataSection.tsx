@@ -1,25 +1,24 @@
-import React, {useState} from "react";
-import {Box, Divider, Grid, IconButton, Tooltip, Typography} from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
+import React from "react";
+import {Box, Divider, Grid, Tooltip, Typography} from "@mui/material";
 import {ActorDisplayItem} from "../../../types";
-import SaveIcon from "@mui/icons-material/Save";
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import {useAppSelector} from "../../../../../store/hooks";
+import {selectIsEditing} from "../../../store/actorConfigurationSlice";
 
 interface ActorDataDisplayProps {
     items: ActorDisplayItem[];
     title: string;
 }
 
-const ActorDataSection = ({items, title}: ActorDataDisplayProps) => {
-    const [isEdit, setIsEdit] = useState(true);
+const ActorDataSection = ({items, title = ''}: ActorDataDisplayProps) => {
+    const isEditing = useAppSelector(selectIsEditing);
 
     return (
-        <Box sx={{ width: '100%', pb: 2 }}>
-            <Divider textAlign='left'>{title}</Divider>
-            <Grid pt={1} container spacing={2} justifyContent='space-between' alignItems='flex-start'>
+        <Box sx={{ width: '100%' }}>
+            { title && <Divider textAlign='left'>{title}</Divider> }
+            <Grid pt={1} pl={2} container spacing={2} justifyContent='space-between' alignItems='flex-start'>
                 <Grid item xs={11} container spacing={2}>
                     {items.map((item, index) =>
-                        isEdit && item.editComponent ? (
+                        isEditing && item.editComponent ? (
                             <Grid item xs={item.width ?? 4} display='flex' alignItems='center' key={`${item.label}-${index}`}>
                                 <Typography variant='body2' mr={1}>{`${item.label}:`}</Typography>
                                 {item.editComponent}
