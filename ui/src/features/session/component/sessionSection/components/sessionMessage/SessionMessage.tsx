@@ -9,7 +9,7 @@ const SessionMessage = ({ message }: { message: Message }) => {
 
     return(
         <Card
-            key={`key-message-card-${message.messengerId}`}
+            key={`key-message-card-${message.messageId}`}
             sx={style.sessionMessage.container}
             onClick={()=>{}}
         >
