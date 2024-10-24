@@ -2,8 +2,12 @@ import {AIModel, LanguageModel} from "../../../../types";
 import React, {useEffect, useState} from "react";
 import {TextField} from "@mui/material";
 import {ActorDisplayItem, ModelDataType} from "../../types";
+import {selectSelectedActor, setSelectedActor} from "../../store/actorConfigurationSlice";
+import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
 
 const useLanguageModelType = (type: LanguageModel): ModelDataType => {
+    const dispatch = useAppDispatch();
+    const actor = useAppSelector(selectSelectedActor);
     const [modelType, setModelType] = useState<LanguageModel>(type);
 
     useEffect(() => {
@@ -17,10 +21,18 @@ const useLanguageModelType = (type: LanguageModel): ModelDataType => {
             editComponent: (
                 <TextField
                     defaultValue={modelType?.maxTokens}
-                    onChange={(event) => setModelType({
-                        ...modelType,
-                        maxTokens: parseFloat(event.target.value)
-                    })}
+                    onChange={(event) => {
+                        dispatch(setSelectedActor({
+                            ...actor,
+                            aiModel: {
+                                ...actor.aiModel,
+                                languageModel: {
+                                    ...actor.aiModel.languageModel,
+                                    maxTokens: parseInt(event.target.value),
+                                }
+                            }
+                        }))
+                    }}
                 />
             )
         },
@@ -30,10 +42,18 @@ const useLanguageModelType = (type: LanguageModel): ModelDataType => {
             editComponent: (
                 <TextField
                     defaultValue={modelType?.temperature}
-                    onChange={(event) => setModelType({
-                        ...modelType,
-                        temperature: parseFloat(event.target.value)
-                    })}
+                    onChange={(event) => {
+                        dispatch(setSelectedActor({
+                            ...actor,
+                            aiModel: {
+                                ...actor.aiModel,
+                                languageModel: {
+                                    ...actor.aiModel.languageModel,
+                                    temperature: parseFloat(event.target.value),
+                                }
+                            }
+                        }))
+                    }}
                 />
             )
         },
@@ -43,10 +63,18 @@ const useLanguageModelType = (type: LanguageModel): ModelDataType => {
             editComponent: (
                 <TextField
                     defaultValue={modelType?.frequencyPenalty}
-                    onChange={(event) => setModelType({
-                        ...modelType,
-                        frequencyPenalty: parseFloat(event.target.value)
-                    })}
+                    onChange={(event) => {
+                        dispatch(setSelectedActor({
+                            ...actor,
+                            aiModel: {
+                                ...actor.aiModel,
+                                languageModel: {
+                                    ...actor.aiModel.languageModel,
+                                    frequencyPenalty: parseFloat(event.target.value),
+                                }
+                            }
+                        }))
+                    }}
                 />
             )
         },
