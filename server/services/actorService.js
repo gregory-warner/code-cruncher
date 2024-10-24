@@ -1,6 +1,6 @@
 import {Actor, AIModel} from '../models/models.js';
 import Prompt from '../models/prompt.js';
-import {addModel, getModelDetails} from './aiModelService.js';
+import {addModel, getModelDetails, updateActorModel} from './aiModelService.js';
 import inputValidator from '../utils/validator.js';
 import validator from 'validator';
 
@@ -126,6 +126,10 @@ export const update = async (actorId, actorData) => {
     actor.colorTheme = validatedActorData.colorTheme;
 
     await actor.save();
+
+    if (actorData.aiModel) {
+        await updateActorModel(actorId, actorData.aiModel);
+    }
 
     return actor;
 };
