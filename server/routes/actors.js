@@ -45,7 +45,7 @@ router.patch("/update/:actorId", createUploadMiddleware("avatar"), async (req, r
     try {
         const actorData = {
             ...req.body,
-            avatar: req.file.filename,
+            ...(req.file?.filename ? {avatar: req.file.filename} :{}),
         };
 
         const actor = update(parseInt(req.params.actorId), actorData);
