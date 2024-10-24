@@ -19,17 +19,18 @@ const ActorSettingsSection = () => {
 
     const onSave = () => {
         updateActor(actor);
+        dispatch(setIsEditing(false));
     };
 
     const onEdit = () => {
-        dispatch(setIsEditing(true));
+        dispatch(setIsEditing(!isEditing));
     };
 
     return (
         <Grid container>
             <Grid container direction='row' alignItems='center'>
-                <Grid item xs={5} textAlign='center'>
-                    <Typography variant='h6' sx={{paddingLeft: '5px', paddingRight: '5px'}}>
+                <Grid item xs={5} textAlign='left'>
+                    <Typography variant='h6' sx={{paddingLeft: '10px', paddingRight: '5px'}}>
                         Actions
                     </Typography>
                 </Grid>
@@ -66,7 +67,7 @@ const ActorSettingsSection = () => {
                 }
             </Grid>
             <Grid container item xs={12} justifyContent="center" p={1} sx={{ color: theme.palette.secondary.main }}>
-                <Button fullWidth variant="outlined" color="secondary" onClick={onSave} startIcon={<SaveIcon />}>Save</Button>
+                <Button disabled={!isEditing} fullWidth variant="outlined" color="secondary" onClick={onSave} startIcon={<SaveIcon />}>Save</Button>
             </Grid>
             <Grid container item xs={12} justifyContent="center" p={1} >
                 <Button fullWidth variant="outlined" color="error" startIcon={<DeleteIcon />}>Delete</Button>
