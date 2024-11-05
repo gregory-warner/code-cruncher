@@ -2,7 +2,7 @@ import {Actor, AIModel, ImageModel, LanguageModel, TextModel} from "../models/mo
 import {removeProperty} from "../utils/utils.js";
 import validator from "validator";
 
-const modelType = {
+export const modelType = {
     language: 0,
     image: 1,
     text: 2,

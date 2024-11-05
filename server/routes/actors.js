@@ -8,6 +8,7 @@ import {
 } from "../services/actorService.js";
 import createUploadMiddleware from "../middlewares/uploadMiddleware.js";
 import {cloneActor} from "../services/cloneService.js";
+import sequelize from "../db.js";
 
 const router = express.Router();
 
@@ -76,10 +77,15 @@ router.patch("/avatar/:actorId", createUploadMiddleware("avatar"), async (req, r
 
 router.post("/clone", async (req, res, next) => {
     try {
-        const actor = cloneActor(req.body);
+        const transaction = await sequelize.transaction();
+
+        const actor = cloneActor(req.body, transaction);
+
+        await transaction.commit();
 
         return res.json(actor);
     } catch (error) {
+        await transaction.rollback();
         next(error);
     }
 });
