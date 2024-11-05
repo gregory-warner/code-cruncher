@@ -1,8 +1,13 @@
 import express from 'express';
-import {Actor} from '../models/models.js';
-import {createActor, getActorByUsername, getActors, update, updateAvatar} from "../services/actorService.js";
+import {
+    createActor,
+    getActorByUsername,
+    getActors,
+    update,
+    updateAvatar
+} from "../services/actorService.js";
 import createUploadMiddleware from "../middlewares/uploadMiddleware.js";
-import {updatePrompt} from "../services/promptService.js";
+import {cloneActor} from "../services/cloneService.js";
 
 const router = express.Router();
 
@@ -66,6 +71,16 @@ router.patch("/avatar/:actorId", createUploadMiddleware("avatar"), async (req, r
         return res.json(actor);
     } catch (err) {
         next(err);
+    }
+});
+
+router.post("/clone", async (req, res, next) => {
+    try {
+        const actor = cloneActor(req.body);
+
+        return res.json(actor);
+    } catch (error) {
+        next(error);
     }
 });
 
