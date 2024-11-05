@@ -28,14 +28,14 @@ export const getModelDetails = async (aiModel) => {
  * @param model
  * @returns {Promise<{success: boolean, model: any}>}
  */
-export const addModel = async (model) => {
+export const addModel = async (model, transaction) => {
     if (!'typeDetails' in model) {
         throw new Error(`missing typeDetails for model with name ${model.name}`);
     }
 
     const modelProviderDetails = getModelProviderDetails(model);
 
-    const aiModel = await AIModel.create(modelProviderDetails);
+    const aiModel = await AIModel.create(modelProviderDetails, { transaction });
 
     if (!aiModel instanceof AIModel) {
         throw new Error(`unable to create AI Model with type ${modelProviderDetails.modelTypeId} and name ${model.name}`);
@@ -46,7 +46,7 @@ export const addModel = async (model) => {
         modelId: aiModel.modelId,
     };
 
-    const typeModel = await createTypeModel(modelProviderDetails.modelTypeId, typeDetails);
+    const typeModel = await createTypeModel(modelProviderDetails.modelTypeId, typeDetails, transaction);
 
     return {
         ...aiModel.toJSON(),
@@ -56,12 +56,12 @@ export const addModel = async (model) => {
     };
 };
 
-const createTypeModel = async (typeId, typeDetails) => {
+const createTypeModel = async (typeId, typeDetails, transaction) => {
     switch (typeId) {
         case modelType.language:
             return await LanguageModel.create({
                 ...typeDetails,
-            });
+            }, { transaction });
         case modelType.image:
             return await ImageModel.create({
                 ...typeDetails,
@@ -138,7 +138,6 @@ export const getValidatedModel = (model, requiredFields = ['modelName']) => {
 export const createModelType = async (modelId, model) => {
     if (model.languageModel) {
         const languageModel = getValidatedModel(model.languageModel, ['maxTokens', 'temperature', 'frequencyPenalty']);
-        console.log('lang mod ', languageModel);
         return await LanguageModel.create({
             modelId,
             ...languageModel,
