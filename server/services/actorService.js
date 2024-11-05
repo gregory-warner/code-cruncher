@@ -97,25 +97,36 @@ export const getValidatedActorData = (actorData, requiredParams = []) => {
 };
 
 export const createActor = async (actorData) => {
-    const { name, username, title, colorTheme, prompt, model, avatar } = actorData;
+    const actor = getValidatedActorData(actorData);
 
-    if (!name || !username || !title || !prompt || !colorTheme || !model) {
-        throw new Error('Missing required parameters');
+    const transaction = await sequelize.transaction();
+
+    console.log(actor);
+    const actorPrompt = await createPrompt(actor.prompt, transaction);
+
+    const actorModel = await addModel(actor.aiModel, transaction);
+
+    if (!actorPrompt instanceof Prompt || actorPrompt.promptId === 0) {
+        throw new Error('Unable to create actor prompt');
     }
 
-    const actorPrompt = await Prompt.create({ ...JSON.parse(prompt) });
+    if (!actorModel instanceof AIModel || actorModel.modelId === 0) {
+        throw new Error('Unable to create actor model');
+    }
 
-    const actorModel = await addModel(JSON.parse(model));
-
-    return await Actor.create({
-        name,
-        username,
-        avatar,
-        colorTheme: JSON.parse(colorTheme),
-        title,
+    const newActor = await Actor.create({
+        name: actor.name,
+        username: actor.username,
+        avatar: actor.avatar,
+        colorTheme: actor.colorTheme,
+        title: actor.title,
         promptId: actorPrompt.promptId,
         modelId: actorModel.modelId,
-    });
+    }, { transaction });
+
+    await transaction.commit();
+
+    return newActor;
 };
 
 export const update = async (actorId, actorData) => {
