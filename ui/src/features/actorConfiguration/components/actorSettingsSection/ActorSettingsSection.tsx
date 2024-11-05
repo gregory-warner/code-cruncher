@@ -4,9 +4,10 @@ import AddIcon from '@mui/icons-material/Add';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {useUpdateActorMutation} from "../../../../services/server/serverApi";
+import {useCloneActorMutation, useUpdateActorMutation} from "../../../../services/server/serverApi";
 import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
 import {selectIsEditing, selectSelectedActor, setIsEditing} from "../../store/actorConfigurationSlice";
+import {Actor} from "../../../../types";
 
 const ActorSettingsSection = () => {
     const theme = useTheme();
@@ -14,6 +15,8 @@ const ActorSettingsSection = () => {
 
     const isEditing = useAppSelector(selectIsEditing);
     const actor = useAppSelector(selectSelectedActor);
+
+    const [clone] = useCloneActorMutation();
 
     const [updateActor] = useUpdateActorMutation();
 
@@ -25,6 +28,10 @@ const ActorSettingsSection = () => {
     const onEdit = () => {
         dispatch(setIsEditing(!isEditing));
     };
+
+    const onClone = () => {
+        clone(actor as Actor);
+    }
 
     return (
         <Grid container>
@@ -39,7 +46,16 @@ const ActorSettingsSection = () => {
                 <Button fullWidth variant="outlined" color="secondary" startIcon={<AddIcon />}>New</Button>
             </Grid>
             <Grid container item xs={12} justifyContent="center" p={1} sx={{ color: theme.palette.secondary.main }}>
-                <Button fullWidth variant="outlined" color='inherit' startIcon={<ContentCopyIcon />}>Clone</Button>
+                <Button
+                    fullWidth
+                    variant="outlined"
+                    color='inherit'
+                    startIcon={<ContentCopyIcon />}
+                    disabled={!actor || isEditing}
+                    onClick={onClone}
+                >
+                    Clone
+                </Button>
             </Grid>
             <Grid container item xs={12} justifyContent="center" p={1} sx={{ color: theme.palette.secondary.main }}>
                 {
