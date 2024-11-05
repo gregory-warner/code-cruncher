@@ -1,8 +1,10 @@
 import {Actor, AIModel} from '../models/models.js';
 import Prompt from '../models/prompt.js';
-import {addModel, getModelDetails, updateActorModel} from './aiModelService.js';
+import {addModel, updateActorModel} from './aiModelService.js';
 import inputValidator from '../utils/validator.js';
 import validator from 'validator';
+import {createPrompt} from "./promptService.js";
+import sequelize from "../db.js";
 
 export const getActors = async () => {
     return await Actor.findAll({
@@ -22,29 +24,6 @@ export const getActors = async () => {
     });
 };
 
-export const getActorById = async (actorId) => {
-    const actor = await Actor.findByPk(actorId, {
-        include: [
-            { model: Prompt, required: true },
-            { model: AIModel, required: true, as: 'aiModel' },
-        ],
-    });
-
-    if (!actor instanceof Actor) {
-        throw new Error(`Actor with id ${actorId} not found`);
-    }
-
-    const modelDetails = await getModelDetails(actor.aiModel);
-
-    let result = actor.toJSON();
-    result.model = {
-        ...actor.aiModel.toJSON(),
-        ...(modelDetails?.toJSON() || {})
-    };
-
-    return result;
-};
-
 export const getActorByUsername = async (username) => {
     if (!inputValidator.isUsername(username)) {
         throw new Error('Invalid username: ' + validator.escape(username+''));
@@ -58,10 +37,63 @@ export const getActorByUsername = async (username) => {
     });
 };
 
-export const getFirstActor = async () => {
-    return await Actor.findOne({
-        order: [['actorId', 'ASC']]
-    });
+export const getValidatedActorData = (actorData, requiredParams = []) => {
+    const actor = {};
+
+    const properties = ['name', 'username', 'title', 'colorTheme', 'prompt', 'aiModel', 'avatar'];
+    requiredParams = requiredParams.length === 0 ? properties : requiredParams;
+    console.log(requiredParams);
+    const validString = /^[a-zA-Z0-9_.\-\s]+$/;
+
+    if (requiredParams.includes('name') && (!actorData.name || !validString.test(actorData.name))) {
+        throw new Error(`Invalid name: ${validator.escape(actorData.name)}`);
+    }
+    actor.name = actorData.name;
+
+    if (requiredParams.includes('username') && (!actorData.username || !validString.test(actorData.username))) {
+        throw new Error(`Invalid username: ${validator.escape(actorData.username)}`);
+    }
+    actor.username = actorData.username;
+
+    if (requiredParams.includes('title') && (!actorData.title || !validString.test(actorData.title))) {
+        throw new Error(`Invalid title: ${validator.escape(actorData.title)}`);
+    }
+    actor.title = actorData.title;
+
+    // TODO: refine
+    if (requiredParams.includes('colorTheme') && !actorData.colorTheme) {
+        throw new Error(`Invalid color theme`);
+    }
+    const colorRegex = /^[{}a-zA-Z0-9#]+$/;
+    const colorTheme = typeof actorData.colorTheme === 'object'
+        ? actorData.colorTheme
+        : JSON.parse(actorData.colorTheme);
+    actor.colorTheme = colorTheme;
+
+    // TODO: refine
+    if (requiredParams.includes('prompt') && !actorData.prompt) {
+        throw new Error(`prompt is required`);
+    }
+    const prompt = typeof actorData.prompt === 'object'
+        ? actorData.prompt
+        : JSON.parse(actorData.prompt);
+    actor.prompt = prompt;
+
+    // TODO: refine
+    if (requiredParams.includes('aiModel') && !actorData.aiModel) {
+        throw new Error(`AI model is required`);
+    }
+    const aiModel = typeof actorData.aiModel === 'object'
+        ? actorData.aiModel
+        : JSON.parse(actorData.aiModel);
+    actor.aiModel = aiModel;
+
+    if (requiredParams.includes('avatar') && (!actorData.avatar || !validString.test(actorData.avatar))) {
+        throw new Error(`Invalid avatar name: ${validator.escape(actorData.avatar)}`);
+    }
+    actor.avatar = actorData.avatar;
+
+    return actor;
 };
 
 export const createActor = async (actorData) => {
@@ -84,25 +116,6 @@ export const createActor = async (actorData) => {
         promptId: actorPrompt.promptId,
         modelId: actorModel.modelId,
     });
-};
-
-export const getValidatedActorData = (data, requiredFields = ['name', 'title']) => {
-    if (!data || typeof data !== 'object') {
-        throw new Error('Invalid actor data: ' + JSON.stringify(data));
-    }
-
-    const validatedActorData = {};
-    // todo: add type validation
-
-    for (let field of requiredFields) {
-        if (!(field in data)) {
-            throw new Error(`Missing required field: ${field}`);
-        }
-
-        validatedActorData[field] = data[field];
-    }
-
-    return validatedActorData;
 };
 
 export const update = async (actorId, actorData) => {
