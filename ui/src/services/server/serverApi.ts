@@ -185,6 +185,14 @@ export const serverApi  = createApi({
                 { type: 'Session' }
             ],
         }),
+        cloneActor: build.mutation<{actor: Actor}, Actor>({
+            query: (actor: Actor) => ({
+                url: `actors/clone`,
+                method: 'POST',
+                body: actor,
+            }),
+            invalidatesTags: [{ type: 'Actors' }],
+        }),
     }),
 });
 
@@ -206,6 +214,7 @@ export const {
     useGetSessionQuery,
     useUpdatePromptMutation,
     useUpdateAIModelMutation,
+    useCloneActorMutation,
     useUpdateActorMutation,
     useGetSessionParticipantsQuery,
     useUpdateSessionTypeIdMutation,
