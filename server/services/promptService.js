@@ -20,10 +20,9 @@ export const getValidatedPrompt = (data, requiredFields = ['promptName', 'prompt
     return validatedPrompt;
 };
 
-export const createPrompt = async (data) => {
-    getValidatedPrompt(data);
-
-    return await Prompt.create(data);
+export const createPrompt = async (data, transaction) => {
+    const promptData = getValidatedPrompt(data);
+    return await Prompt.create(promptData, { transaction });
 };
 
 export const deletePrompt = async (id) => {
