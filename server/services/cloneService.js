@@ -2,24 +2,35 @@ import {Actor, AIModel, LanguageModel, Prompt} from "../models/models.js";
 import {getValidatedPrompt} from "./promptService.js";
 import {getValidatedActorData} from "./actorService.js";
 import {modelType} from "./aiModelService.js";
+import sequelize from "../db.js";
 
-export const cloneActor = async (actorData, transaction) => {
+export const cloneActor = async (actorData) => {
     const actor = getValidatedActorData(actorData);
+    const transaction = await sequelize.transaction();
 
-    const actorPrompt = await clonePrompt(actor.prompt, transaction);
+    try {
+        const actorPrompt = await clonePrompt(actor.prompt, transaction);
 
-    const actorModel = await cloneModel(actor.aiModel, transaction);
+        const actorModel = await cloneModel(actor.aiModel, transaction);
 
-    return await Actor.create({
-        name: actor.name,
-        username: actor.username,
-        avatar: actor.avatar,
-        colorTheme: actor.colorTheme,
-        title: actor.title,
-        promptId: actorPrompt.promptId,
-        modelId: actorModel.modelId,
-    }, { transaction });
-};
+        const newActor = await Actor.create({
+            name: actor.name,
+            username: actor.username,
+            avatar: actor.avatar,
+            colorTheme: actor.colorTheme,
+            title: actor.title,
+            promptId: actorPrompt.promptId,
+            modelId: actorModel.modelId,
+        }, {transaction});
+
+        await transaction.commit();
+
+        return newActor;
+    } catch (error) {
+        await transaction.rollback();
+        throw error;
+    }
+}
 
 export const clonePrompt = async (data, transaction) => {
     const promptData = getValidatedPrompt(data);
@@ -49,10 +60,8 @@ export const cloneModel = async (model, transaction) => {
 };
 
 export const cloneModelType = async (model, transaction) => {
-    console.log(model.modelTypeId );
-    console.log('languageModel' in model);
     if (model.modelTypeId === modelType.language && 'languageModel' in model) {
-        return await cloneLanguageModel(model.languageModel, transaction);
+        return await cloneLanguageModel({ modelId: model.modelId, ...model.languageModel }, transaction);
     }
 };
 

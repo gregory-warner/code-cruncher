@@ -77,15 +77,10 @@ router.patch("/avatar/:actorId", createUploadMiddleware("avatar"), async (req, r
 
 router.post("/clone", async (req, res, next) => {
     try {
-        const transaction = await sequelize.transaction();
-
-        const actor = cloneActor(req.body, transaction);
-
-        await transaction.commit();
+        const actor = cloneActor(req.body);
 
         return res.json(actor);
     } catch (error) {
-        await transaction.rollback();
         next(error);
     }
 });
