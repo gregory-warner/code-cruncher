@@ -4,9 +4,18 @@ import AddIcon from '@mui/icons-material/Add';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {useCloneActorMutation, useUpdateActorMutation} from "../../../../services/server/serverApi";
+import {
+    useCloneActorMutation,
+    useDeleteActorMutation,
+    useUpdateActorMutation
+} from "../../../../services/server/serverApi";
 import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
-import {selectIsEditing, selectSelectedActor, setIsEditing} from "../../store/actorConfigurationSlice";
+import {
+    selectIsEditing,
+    selectSelectedActor,
+    setIsEditing,
+    setSelectedActor
+} from "../../store/actorConfigurationSlice";
 import {Actor} from "../../../../types";
 
 const ActorSettingsSection = () => {
@@ -17,6 +26,8 @@ const ActorSettingsSection = () => {
     const actor = useAppSelector(selectSelectedActor);
 
     const [clone] = useCloneActorMutation();
+
+    const [deleteActor] = useDeleteActorMutation();
 
     const [updateActor] = useUpdateActorMutation();
 
@@ -29,9 +40,18 @@ const ActorSettingsSection = () => {
         dispatch(setIsEditing(!isEditing));
     };
 
-    const onClone = () => {
-        clone(actor as Actor);
+    const onClone = async () => {
+        const response = await clone(actor as Actor).unwrap();
+        if (response.actor) {
+            dispatch(setSelectedActor(response.actor));
+            dispatch(setIsEditing(true));
+        }
     }
+
+    const onDelete = async () => {
+        await deleteActor(actor.actorId);
+        dispatch(setSelectedActor(null));
+    };
 
     return (
         <Grid container>
@@ -83,10 +103,27 @@ const ActorSettingsSection = () => {
                 }
             </Grid>
             <Grid container item xs={12} justifyContent="center" p={1} sx={{ color: theme.palette.secondary.main }}>
-                <Button disabled={!isEditing} fullWidth variant="outlined" color="secondary" onClick={onSave} startIcon={<SaveIcon />}>Save</Button>
+                <Button
+                    disabled={!isEditing}
+                    fullWidth
+                    variant="outlined"
+                    color="secondary"
+                    onClick={onSave}
+                    startIcon={<SaveIcon />}
+                >
+                    Save
+                </Button>
             </Grid>
-            <Grid container item xs={12} justifyContent="center" p={1} >
-                <Button fullWidth variant="outlined" color="error" startIcon={<DeleteIcon />}>Delete</Button>
+            <Grid container item xs={12} justifyContent="center" p={1}>
+                <Button
+                    fullWidth
+                    variant="outlined"
+                    color="error"
+                    startIcon={<DeleteIcon />}
+                    onClick={onDelete}
+                >
+                    Delete
+                </Button>
             </Grid>
             <Grid container item xs={12}>
             </Grid>
