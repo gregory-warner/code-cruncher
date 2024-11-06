@@ -193,6 +193,13 @@ export const serverApi  = createApi({
             }),
             invalidatesTags: [{ type: 'Actors' }],
         }),
+        deleteActor: build.mutation<{actor: Actor}, number>({
+            query: (actorId) => ({
+                url: `actors/delete/${actorId}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: [{ type: 'Actors' }],
+        })
     }),
 });
 
@@ -219,4 +226,5 @@ export const {
     useGetSessionParticipantsQuery,
     useUpdateSessionTypeIdMutation,
     useUpdateAvatarMutation,
+    useDeleteActorMutation,
 } = serverApi;
