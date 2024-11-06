@@ -1,6 +1,6 @@
 import express from 'express';
 import {
-    createActor,
+    createActor, deleteActor,
     getActorByUsername,
     getActors,
     update,
@@ -80,6 +80,17 @@ router.post("/clone", async (req, res, next) => {
         const actor = cloneActor(req.body);
 
         return res.json(actor);
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.delete("/delete/:actorId", async (req, res, next) => {
+    try {
+        console.log(req.params.actorId);
+        const deletedActor = deleteActor(parseInt(req.params.actorId));
+
+        return res.json(deletedActor);
     } catch (error) {
         next(error);
     }

@@ -178,3 +178,15 @@ export const updateAvatar = async (actorId, actorData) => {
 
     return actor;
 };
+
+export const deleteActor = async (actorId) => {
+    if (!Number.isInteger(actorId) || actorId === 0) {
+        throw new Error('ID must be greater than 0');
+    }
+
+    const actor = await Actor.findByPk(actorId);
+
+    await actor.destroy();
+
+    return actor;
+};
