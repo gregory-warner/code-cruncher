@@ -41,9 +41,9 @@ const ActorSettingsSection = () => {
     };
 
     const onClone = async () => {
-        const response = await clone(actor as Actor).unwrap();
-        if (response.actor) {
-            dispatch(setSelectedActor(response.actor));
+        const clonedActor = await clone(actor as Actor).unwrap();
+        if (clonedActor) {
+            dispatch(setSelectedActor(clonedActor));
             dispatch(setIsEditing(true));
         }
     }
