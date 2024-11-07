@@ -24,6 +24,25 @@ export const getActors = async () => {
     });
 };
 
+export const getActor = async (actorId) => {
+    return await Actor.findOne({
+        where: { actorId: actorId },
+        include: [
+            { model: Prompt, required: true },
+            {
+                model: AIModel,
+                required: true,
+                as: 'aiModel',
+                include: [
+                    { association: 'languageModel' },
+                    { association: 'imageModel' },
+                    { association: 'textModel' },
+                ],
+            },
+        ],
+    })
+}
+
 export const getActorByUsername = async (username) => {
     if (!inputValidator.isUsername(username)) {
         throw new Error('Invalid username: ' + validator.escape(username+''));
