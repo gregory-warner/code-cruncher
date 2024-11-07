@@ -77,7 +77,7 @@ router.patch("/avatar/:actorId", createUploadMiddleware("avatar"), async (req, r
 
 router.post("/clone", async (req, res, next) => {
     try {
-        const actor = cloneActor(req.body);
+        const actor = await cloneActor(req.body);
 
         return res.json(actor);
     } catch (error) {
