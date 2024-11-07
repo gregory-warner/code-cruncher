@@ -1,6 +1,6 @@
 import {Actor, AIModel, LanguageModel, Prompt} from "../models/models.js";
 import {getValidatedPrompt} from "./promptService.js";
-import {getValidatedActorData} from "./actorService.js";
+import {getActor, getValidatedActorData} from "./actorService.js";
 import {modelType} from "./aiModelService.js";
 import sequelize from "../db.js";
 
@@ -25,7 +25,7 @@ export const cloneActor = async (actorData) => {
 
         await transaction.commit();
 
-        return newActor;
+        return getActor(newActor.actorId);
     } catch (error) {
         await transaction.rollback();
         throw error;
@@ -61,7 +61,7 @@ export const cloneModel = async (model, transaction) => {
 
 export const cloneModelType = async (model, transaction) => {
     if (model.modelTypeId === modelType.language && 'languageModel' in model) {
-        return await cloneLanguageModel({ modelId: model.modelId, ...model.languageModel }, transaction);
+        return await cloneLanguageModel({ ...model.languageModel, modelId: model.modelId }, transaction);
     }
 };
 
