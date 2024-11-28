@@ -11,6 +11,7 @@ import {
 } from "../../../../services/server/serverApi";
 import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
 import {
+    defaultActor,
     selectIsEditing,
     selectSelectedActor,
     setIsEditing,
@@ -30,8 +31,14 @@ const ActorSettingsSection = () => {
     const [clone] = useCloneActorMutation();
 
     const [deleteActor] = useDeleteActorMutation();
-
     const [updateActor] = useUpdateActorMutation();
+    const [updateAvatar] = useUpdateAvatarMutation();
+
+
+    const onNew = () => {
+        dispatch(setSelectedActor(defaultActor));
+        dispatch(setIsEditing(true));
+    };
 
     const onSave = () => {
         updateActor(actor);
@@ -65,7 +72,16 @@ const ActorSettingsSection = () => {
                 </Grid>
             </Grid>
             <Grid container item xs={12} justifyContent="center" p={1} sx={{ color: theme.palette.secondary.main }}>
-                <Button fullWidth variant="outlined" color="secondary" startIcon={<AddIcon />}>New</Button>
+                <Button
+                    fullWidth
+                    variant="outlined"
+                    color="secondary"
+                    startIcon={<AddIcon />}
+                    disabled={isEditing}
+                    onClick={onNew}
+                >
+                    New
+                </Button>
             </Grid>
             <Grid container item xs={12} justifyContent="center" p={1} sx={{ color: theme.palette.secondary.main }}>
                 <Button
