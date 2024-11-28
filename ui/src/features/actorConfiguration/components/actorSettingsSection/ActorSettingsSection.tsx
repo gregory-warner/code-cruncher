@@ -17,6 +17,8 @@ import {
     setSelectedActor
 } from "../../store/actorConfigurationSlice";
 import {Actor} from "../../../../types";
+import EditIcon from "@mui/icons-material/Edit";
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const ActorSettingsSection = () => {
     const theme = useTheme();
@@ -85,17 +87,18 @@ const ActorSettingsSection = () => {
                             variant="outlined"
                             color="secondary"
                             onClick={onEdit}
-                            startIcon={<ContentCopyIcon />}
+                            startIcon={<CancelIcon />}
                         >
                             Cancel
                         </Button>
                     ) : (
                         <Button
+                            disabled={!actor}
                             fullWidth
                             variant="outlined"
                             color="secondary"
                             onClick={onEdit}
-                            startIcon={<ContentCopyIcon />}
+                            startIcon={<EditIcon />}
                         >
                             Edit
                         </Button>
@@ -116,6 +119,7 @@ const ActorSettingsSection = () => {
             </Grid>
             <Grid container item xs={12} justifyContent="center" p={1}>
                 <Button
+                    disabled={!actor || isEditing}
                     fullWidth
                     variant="outlined"
                     color="error"
