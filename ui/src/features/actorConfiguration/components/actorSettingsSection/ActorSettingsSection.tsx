@@ -7,7 +7,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {
     useCloneActorMutation,
     useDeleteActorMutation,
-    useUpdateActorMutation
+    useUpdateActorMutation,
+    useUpdateAvatarMutation
 } from "../../../../services/server/serverApi";
 import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
 import {
@@ -42,6 +43,13 @@ const ActorSettingsSection = () => {
 
     const onSave = () => {
         updateActor(actor);
+        if (actor.avatar instanceof File) {
+            const formData: FormData = new FormData();
+            formData.append('actorId', actor.actorId.toString());
+            formData.append('avatar', actor.avatar);
+            updateAvatar({ actorId: actor.actorId, formData });
+        }
+
         dispatch(setIsEditing(false));
     };
 

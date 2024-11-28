@@ -1,9 +1,9 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useState} from "react";
 import {Avatar, Box, IconButton, Tooltip, Typography} from "@mui/material";
 import {chatServerUrl} from "../../../../../../config";
 import {EditableActor} from "../../../../../types";
 import {useAppDispatch, useAppSelector} from "../../../../../store/hooks";
-import {selectIsEditing, selectSelectedActor} from "../../../store/actorConfigurationSlice";
+import {selectIsEditing, selectSelectedActor, setSelectedActor} from "../../../store/actorConfigurationSlice";
 
 const ActorAvatarDataSection = () => {
     const dispatch = useAppDispatch();
@@ -20,13 +20,10 @@ const ActorAvatarDataSection = () => {
 
     const onFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
-            const formData: FormData = new FormData();
-            formData.append('actorId', actor.actorId.toString());
-            formData.append('avatar', event.target.files[0]);
-            // updateAvatar({
-            //     actorId: actor.actorId,
-            //     formData,
-            // });
+            dispatch(setSelectedActor({
+                ...actor,
+                avatar: event.target.files[0],
+            }));
         }
     };
 
