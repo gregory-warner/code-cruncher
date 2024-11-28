@@ -10,6 +10,20 @@ export const isOpenAiModel = (model: Model|ChatApiModel) => 'object' in model;
 export const isOllamaModel = (model: Model|ChatApiModel) => 'digest' in model;
 export const isUser = (user: User | Actor | null): user is User => !!user && 'userId' in user;
 
+export const isValidUrl = (url: string) => {
+    try {
+        new URL(url);
+        return true;
+    } catch (err) {
+        return false;
+    }
+}
+
+export const fetchFileData = async (url: string) => {
+    const response = await fetch(url);
+    return response.blob();
+};
+
 export const messengerTypeIds = {
     system: -1,
     user: 0,

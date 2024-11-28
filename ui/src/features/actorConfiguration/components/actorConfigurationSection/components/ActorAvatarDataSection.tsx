@@ -4,6 +4,7 @@ import {chatServerUrl} from "../../../../../../config";
 import {EditableActor} from "../../../../../types";
 import {useAppDispatch, useAppSelector} from "../../../../../store/hooks";
 import {selectIsEditing, selectSelectedActor, setSelectedActor} from "../../../store/actorConfigurationSlice";
+import {isValidUrl} from "../../../../../utils/util";
 
 const ActorAvatarDataSection = () => {
     const dispatch = useAppDispatch();
@@ -11,15 +12,6 @@ const ActorAvatarDataSection = () => {
     const isEditing = useAppSelector(selectIsEditing);
 
     const fileInput = React.useRef<HTMLInputElement>();
-
-    const isValidUrl = (url) => {
-        try {
-            new URL(url);
-            return true;
-        } catch (err) {
-            return false;
-        }
-    }
 
     useEffect(() => {
         return () => {
