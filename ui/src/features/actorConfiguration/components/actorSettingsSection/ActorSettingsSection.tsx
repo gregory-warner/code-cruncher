@@ -21,6 +21,7 @@ import {
 import {Actor} from "../../../../types";
 import EditIcon from "@mui/icons-material/Edit";
 import CancelIcon from '@mui/icons-material/Cancel';
+import {fetchFileData, isValidUrl} from "../../../../utils/util";
 
 const ActorSettingsSection = () => {
     const theme = useTheme();
@@ -41,13 +42,19 @@ const ActorSettingsSection = () => {
         dispatch(setIsEditing(true));
     };
 
+    const onSaveAvatar = async () => {
+        const fileData = await fetchFileData(actor.avatar);
+        const file = new File([fileData], 'selected-avatar.png');
+        const formData: FormData = new FormData();
+        formData.append('actorId', actor.actorId.toString());
+        formData.append('avatar', file);
+        updateAvatar({ actorId: actor.actorId, formData });
+    };
+
     const onSave = () => {
         updateActor(actor);
-        if (actor.avatar instanceof File) {
-            const formData: FormData = new FormData();
-            formData.append('actorId', actor.actorId.toString());
-            formData.append('avatar', actor.avatar);
-            updateAvatar({ actorId: actor.actorId, formData });
+        if (isValidUrl(actor.avatar)) {
+            onSaveAvatar();
         }
 
         dispatch(setIsEditing(false));
