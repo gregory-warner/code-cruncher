@@ -22,8 +22,8 @@ export interface Prompt {
     promptName: string;
     prompt: string;
     postfix: string;
-    createdAt: string;
-    updatedAt: string;
+    createdAt?: string;
+    updatedAt?: string;
     deletedAt?: null | string;
 }
 
@@ -33,8 +33,8 @@ export interface AIModel {
     modelName: string;
     modelIdentifier: string;
     isLocal: boolean;
-    createdAt: string;
-    updatedAt: string;
+    createdAt?: string;
+    updatedAt?: string;
     languageModel?: LanguageModel;
 }
 
