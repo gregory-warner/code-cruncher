@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import {Avatar, Box, IconButton, Tooltip, Typography} from "@mui/material";
 import {chatServerUrl} from "../../../../../../config";
 import {EditableActor} from "../../../../../types";
@@ -12,6 +12,23 @@ const ActorAvatarDataSection = () => {
 
     const fileInput = React.useRef<HTMLInputElement>();
 
+    const isValidUrl = (url) => {
+        try {
+            new URL(url);
+            return true;
+        } catch (err) {
+            return false;
+        }
+    }
+
+    useEffect(() => {
+        return () => {
+            if (isValidUrl(actor.avatar)) {
+                URL.revokeObjectURL(actor.avatar);
+            }
+        };
+    }, []);
+
     const onAvatarClick = () => {
         if (fileInput?.current) {
             fileInput.current.click();
@@ -20,12 +37,15 @@ const ActorAvatarDataSection = () => {
 
     const onFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
+            const updatedAvatar = URL.createObjectURL(event.target.files[0]);
             dispatch(setSelectedActor({
                 ...actor,
-                avatar: event.target.files[0],
+                avatar: updatedAvatar,
             }));
         }
     };
+
+    const avatar = isValidUrl(actor.avatar) ? actor.avatar : `${chatServerUrl}/images/${actor.avatar}`;
 
     if (isEditing) {
         return (
@@ -34,7 +54,7 @@ const ActorAvatarDataSection = () => {
                     <IconButton onClick={onAvatarClick}>
                         <Avatar
                             alt={`${actor.name}'s avatar`}
-                            src={`${chatServerUrl}/images/${actor.avatar}`}
+                            src={avatar}
                             sx={{ width: '100px', height: '100px' }}
                         />
                     </IconButton>
@@ -56,7 +76,7 @@ const ActorAvatarDataSection = () => {
         <Box display='flex' alignItems='center'>
                 <Avatar
                     alt={`${actor.name}'s avatar`}
-                    src={`${chatServerUrl}/images/${actor.avatar}`}
+                    src={avatar}
                     sx={{ width: '100px', height: '100px' }}
                 />
             <Typography variant='h5' component='div'>
