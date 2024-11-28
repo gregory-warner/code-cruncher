@@ -1,9 +1,9 @@
-import {Actor, AIModel} from '../models/models.js';
+import {Actor, AIModel, LanguageModel} from '../models/models.js';
 import Prompt from '../models/prompt.js';
 import {addModel, updateActorModel} from './aiModelService.js';
 import inputValidator from '../utils/validator.js';
 import validator from 'validator';
-import {createPrompt} from "./promptService.js";
+import {createPrompt, updatePrompt} from "./promptService.js";
 import sequelize from "../db.js";
 
 export const getActors = async () => {
@@ -174,24 +174,31 @@ export const update = async (actorId, actorData) => {
         await updateActorModel(actorId, actorData.aiModel);
     }
 
+    if (actorData.prompt) {
+        await updatePrompt(actorId, actorData.prompt);
+    }
+
     return actor;
 };
 
 export const updateAvatar = async (actorId, actorData) => {
+
+
     if (!Number.isInteger(actorId)) {
         throw new Error('Invalid actor ID: ' + validator.escape(actorId.toString()));
     }
 
-    const validatedActorData = getValidatedActorData(actorData, [
-        'avatar',
-    ]);
+    const validString = /^[a-zA-Z0-9_.\-\s]+$/;
+    if (!validString.test(actorData.avatar)) {
+        throw new Error(`Invalid avatar name: ${validator.escape(actorData.avatar)}`);
+    }
 
     const actor = await Actor.findByPk(actorId);
     if (!actor instanceof Actor) {
         throw new Error(`Actor with id ${actorId} not found`);
     }
 
-    actor.avatar = validatedActorData.avatar;
+    actor.avatar = actorData.avatar;
 
     await actor.save();
 
@@ -203,9 +210,25 @@ export const deleteActor = async (actorId) => {
         throw new Error('ID must be greater than 0');
     }
 
-    const actor = await Actor.findByPk(actorId);
+    const transaction = await sequelize.transaction();
 
-    await actor.destroy();
+    const actor = await getActor(actorId);
+
+    if (!actor instanceof Actor) {
+        throw new Error(`Actor with id ${actorId} not found`);
+    }
+
+    const prompt = await Prompt.findByPk(actor.promptId);
+    const modelType = 'languageModel' in actor.aiModel ? await LanguageModel.findOne({ where: {modelId: actor.modelId }}) : null;
+    if (modelType) {
+        await modelType.destroy({transaction});
+    }
+
+    await actor.destroy({transaction});
+    await prompt.destroy({transaction});
+    await AIModel.destroy({ where: { modelId: actor.modelId }, transaction });
+
+    await transaction.commit();
 
     return actor;
 };
