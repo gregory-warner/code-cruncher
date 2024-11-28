@@ -47,14 +47,9 @@ router.post("/create", createUploadMiddleware("avatar"), async (req, res, next) 
     }
 });
 
-router.patch("/update/:actorId", createUploadMiddleware("avatar"), async (req, res, next) => {
+router.patch("/update/:actorId", async (req, res, next) => {
     try {
-        const actorData = {
-            ...req.body,
-            ...(req.file?.filename ? {avatar: req.file.filename} :{}),
-        };
-
-        const actor = update(parseInt(req.params.actorId), actorData);
+        const actor = update(parseInt(req.params.actorId), req.body);
         return res.json(actor);
     } catch (err) {
         next(err);
