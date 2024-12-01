@@ -9,6 +9,7 @@ import {useAppDispatch} from "../../../../../../../store/hooks";
 import {useDeleteMessageMutation, useUpdateMessageMutation} from "../../../../../../../services/server/serverApi";
 import {setSnackbar} from "../../../../../../../app/store/appSlice";
 import style from "../../../../../style";
+import useMessageCardStyle from "../../../../../hooks/useMessageCardStyle";
 
 const SessionMessageHeader = ({ message }: { message: Message }) => {
     const dispatch = useAppDispatch();
@@ -18,7 +19,7 @@ const SessionMessageHeader = ({ message }: { message: Message }) => {
 
     const messenger: MessengerType = message.messenger;
 
-    const cardStyle: MessageCard = messenger.colorTheme.messageCard;
+    const { cardStyle } = useMessageCardStyle({message});
 
     const deleteMessageHandler = async () => {
         await deleteMessage(message.messageId).unwrap();
