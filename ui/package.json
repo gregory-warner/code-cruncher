@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "server": "node src/server/init-db.js && nodemon src/server/server.js",
+    "server": "node src/server/init-db.js && nodemon --inspect=0.0.0.0:9229 src/server/server.js",
     "dev": "vite",
     "start": "vite",
     "build": "tsc && vite build",
