@@ -33,6 +33,7 @@ services:
       - ./server/uploads/img:/app/server/uploads/img
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
+      - "9229:9229"
     env_file:
       - .env
     depends_on:

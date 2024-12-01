@@ -11,6 +11,6 @@ RUN npm install  && npm cache clean --force
 
 RUN npm install -g nodemon
 
-EXPOSE 5001 5433
+EXPOSE 5001 5433 9229
 
 CMD ["npm", "run", "server"]
