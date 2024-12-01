@@ -58,7 +58,7 @@ export interface Actor {
     actorId: number;
     name: string;
     username: string;
-    avatar: string|File;
+    avatar: string;
     colorTheme: ColorTheme;
     title: string;
     promptId: number;
@@ -121,6 +121,7 @@ export interface User {
     username: string;
     avatar: string;
     colorTheme?: ColorTheme;
+    deletedAt?: string;
 }
 
 export type SessionParticipantType = Actor | User;
