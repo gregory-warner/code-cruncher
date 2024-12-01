@@ -5,8 +5,12 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {Link} from "react-router-dom";
+import {useAppDispatch} from "../../../../store/hooks";
+import {setSessionId} from "../../../../features/session/sessionSlice";
 
 const AppMenu = () => {
+
+    const dispatch = useAppDispatch();
 
     return (
         <Grid container spacing={2}>
@@ -19,7 +23,7 @@ const AppMenu = () => {
             </Grid>
             <Grid item xs={3}>
                 <Link to={'/configuration'}>
-                    <IconButton onClick={()=>{}}>
+                    <IconButton onClick={() => dispatch(setSessionId(0))}>
                         <PersonAddAlt1Icon />
                     </IconButton>
                 </Link>
