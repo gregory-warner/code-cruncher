@@ -82,7 +82,6 @@ router.post("/clone", async (req, res, next) => {
 
 router.delete("/delete/:actorId", async (req, res, next) => {
     try {
-        console.log(req.params.actorId);
         const deletedActor = deleteActor(parseInt(req.params.actorId));
 
         return res.json(deletedActor);

@@ -13,9 +13,10 @@ export const getMessages = async (sessionId) => {
                     {
                         model: Actor,
                         as: 'actor',
+                        paranoid: false,
                         include: [
-                            { model: Prompt, as: 'prompt', required: true },
-                            { model: AIModel, as: 'aiModel', required: true },
+                            { model: Prompt, as: 'prompt', required: true, paranoid: false },
+                            { model: AIModel, as: 'aiModel', required: false },
                         ]
                     },
                     { model: User, as: 'user' }

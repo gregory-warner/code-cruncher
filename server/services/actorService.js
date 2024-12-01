@@ -61,7 +61,6 @@ export const getValidatedActorData = (actorData, requiredParams = []) => {
 
     const properties = ['name', 'username', 'title', 'colorTheme', 'prompt', 'aiModel', 'avatar'];
     requiredParams = requiredParams.length === 0 ? properties : requiredParams;
-    console.log(requiredParams);
     const validString = /^[a-zA-Z0-9_.\-\s]+$/;
 
     if (requiredParams.includes('name') && (!actorData.name || !validString.test(actorData.name))) {
@@ -120,7 +119,6 @@ export const createActor = async (actorData) => {
 
     const transaction = await sequelize.transaction();
 
-    console.log(actor);
     const actorPrompt = await createPrompt(actor.prompt, transaction);
 
     const actorModel = await addModel(actor.aiModel, transaction);
