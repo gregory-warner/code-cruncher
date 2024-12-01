@@ -27,6 +27,10 @@ const ParticipantsSection = () => {
     }
 
     const onAvatarClick = (participant: SessionParticipantType) => {
+        if (participant.deletedAt) {
+            return;
+        }
+
         dispatch(updateSessionSelectedParticipant({ sessionId, participant }));
     };
 
