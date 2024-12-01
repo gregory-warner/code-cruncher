@@ -1,7 +1,6 @@
 import React from 'react';
 import {useAppDispatch, useAppSelector} from '../../../../../store/hooks';
 import {
-    selectCurrentSpeaker,
     selectSessionId,
     updateSessionSelectedParticipant
 } from '../../../sessionSlice';
@@ -11,7 +10,7 @@ import {Add} from '@mui/icons-material';
 import {SessionParticipantType} from "../../../../../types";
 import {useGetSessionParticipantsQuery} from "../../../../../services/server/serverApi";
 import {skipToken} from "@reduxjs/toolkit/query";
-import {useParticipant} from "../../../hooks/useParticipant";
+import useAvatarStyle from "../../../hooks/useAvatarStyle";
 
 const ParticipantsSection = () => {
     const dispatch = useAppDispatch();
@@ -21,61 +20,11 @@ const ParticipantsSection = () => {
     const sessionId = useAppSelector(selectSessionId);
     const { data: sessionParticipants, isLoading } = useGetSessionParticipantsQuery(sessionId || skipToken);
 
-    const { selectedParticipant } = useParticipant();
-
-    const currentSpeaker = useAppSelector(state => (
-        sessionId ? selectCurrentSpeaker(state, sessionId) : null)
-    );
+    const { getAvatarStyle } = useAvatarStyle(theme);
 
     if (isLoading || !sessionParticipants || sessionParticipants.length === 0) {
         return <Box></Box>
     }
-
-    const style = {
-        selectedAvatar: {
-            width: '40px',
-            height: '40px',
-            border: `2px solid ${theme.palette.primary.main}`,
-            borderRadius: 1
-        },
-        currentAvatar: {
-            width: '40px',
-            height: '40px',
-            border: `2px solid ${theme.palette.secondary.main}`,
-            borderRadius: 1
-        },
-        avatar: {
-            width: '40px',
-            height: '40px',
-            border: `2px solid ${theme.palette.grey[300]}`,
-            borderRadius: 1
-        },
-        newAvatar: {
-            width: '40px',
-            height: '40px',
-            border: `2px dashed ${theme.palette.grey[500]}`,
-            borderRadius: 1
-        }
-    };
-
-    const getAvatarStyle = (participant: SessionParticipantType|null) => {
-        if (!participant) {
-            if (!selectedParticipant) {
-                return style.selectedAvatar;
-            }
-            return style.newAvatar;
-        }
-
-        if (participant === selectedParticipant) {
-            return style.selectedAvatar;
-        }
-
-        if (participant === currentSpeaker) {
-            return style.currentAvatar;
-        }
-
-        return style.avatar;
-    };
 
     const onAvatarClick = (participant: SessionParticipantType) => {
         dispatch(updateSessionSelectedParticipant({ sessionId, participant }));

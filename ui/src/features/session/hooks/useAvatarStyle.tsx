@@ -1,0 +1,67 @@
+import {SessionParticipantType} from "../../../types";
+import {useParticipant} from "./useParticipant";
+import {useAppSelector} from "../../../store/hooks";
+import {selectCurrentSpeaker, selectSessionId} from "../sessionSlice";
+
+const useAvatarStyle = (theme) => {
+
+    const sessionId = useAppSelector(selectSessionId);
+
+    const { selectedParticipant } = useParticipant();
+
+    const currentSpeaker = useAppSelector(state => (
+        sessionId ? selectCurrentSpeaker(state, sessionId) : null)
+    );
+
+    const style = {
+        selectedAvatar: {
+            width: '40px',
+            height: '40px',
+            border: `2px solid ${theme.palette.primary.main}`,
+            borderRadius: 1
+        },
+        currentAvatar: {
+            width: '40px',
+            height: '40px',
+            border: `2px solid ${theme.palette.secondary.main}`,
+            borderRadius: 1
+        },
+        avatar: {
+            width: '40px',
+            height: '40px',
+            border: `2px solid ${theme.palette.grey[300]}`,
+            borderRadius: 1
+        },
+        newAvatar: {
+            width: '40px',
+            height: '40px',
+            border: `2px dashed ${theme.palette.grey[500]}`,
+            borderRadius: 1
+        }
+    };
+
+    const getAvatarStyle = (participant: SessionParticipantType|null) => {
+        if (!participant) {
+            if (!selectedParticipant) {
+                return style.selectedAvatar;
+            }
+            return style.newAvatar;
+        }
+
+        if (participant === selectedParticipant) {
+            return style.selectedAvatar;
+        }
+
+        if (participant === currentSpeaker) {
+            return style.currentAvatar;
+        }
+
+        return style.avatar;
+    };
+
+    return {
+        getAvatarStyle,
+    }
+};
+
+export default useAvatarStyle;
