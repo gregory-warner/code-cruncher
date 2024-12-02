@@ -22,6 +22,26 @@ export const defaultActor: EditableActor = {
             textColor: '',
         }
     },
+    prompt: {
+        promptId: 0,
+        promptName: '',
+        postfix: '',
+        prompt: '',
+    },
+    aiModel: {
+        modelId: -1,
+        modelName: '',
+        modelTypeId: -1,
+        modelIdentifier: '',
+        isLocal: false,
+        languageModel: {
+            languageModelId: -1,
+            modelId: -1,
+            maxTokens: 0,
+            temperature: 0,
+            frequencyPenalty: 0,
+        },
+    }
 }
 
 export interface ActorConfigurationState {
