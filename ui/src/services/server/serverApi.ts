@@ -1,7 +1,7 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {chatServerUrl} from "../../../config";
 import {
-    AddMessageRequest,
+    AddMessageRequest, CreateActorRequest,
     SessionNameRequest,
     SessionParticipantRequest,
     SessionRequest, UpdateActorRequest,
@@ -74,11 +74,11 @@ export const serverApi  = createApi({
                 { type: 'Actors' }
             ]
         }),
-        createActor: build.mutation<{actor: Actor}, FormData>({
-            query: (formData: FormData) => ({
+        createActor: build.mutation<Actor, CreateActorRequest>({
+            query: (request: CreateActorRequest) => ({
                 url: `actors/create`,
                 method: 'POST',
-                body: formData,
+                body: request,
             }),
             invalidatesTags: [{ type: 'Actors' }],
         }),

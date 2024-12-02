@@ -51,6 +51,8 @@ export interface UpdateAIModelRequest {
 }
 
 export interface UpdateActorRequest extends Partial<Actor> {}
+export interface CreateActorRequest extends Partial<Actor> {}
+
 
 export interface UpdateAvatarRequest {
     actorId: number;
