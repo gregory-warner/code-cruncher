@@ -46,7 +46,7 @@ const ActorLanguageModelSection = () => {
                                                 ...actor.aiModel,
                                                 languageModel: {
                                                     ...actor.aiModel.languageModel,
-                                                    temperature: parseInt(event.target.value),
+                                                    temperature: parseFloat(event.target.value),
                                                 }
                                             }
                                         }))
@@ -64,7 +64,7 @@ const ActorLanguageModelSection = () => {
                                                 ...actor.aiModel,
                                                 languageModel: {
                                                     ...actor.aiModel.languageModel,
-                                                    frequencyPenalty: parseInt(event.target.value),
+                                                    frequencyPenalty: parseFloat(event.target.value),
                                                 }
                                             }
                                         }))
