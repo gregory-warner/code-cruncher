@@ -1,6 +1,6 @@
 import {Actor, AIModel, LanguageModel, SessionParticipant} from '../models/models.js';
 import Prompt from '../models/prompt.js';
-import {addModel, updateActorModel} from './aiModelService.js';
+import {createAiModel, updateActorModel} from './aiModelService.js';
 import inputValidator from '../utils/validator.js';
 import validator from 'validator';
 import {createPrompt, updatePrompt} from "./promptService.js";
@@ -106,11 +106,6 @@ export const getValidatedActorData = (actorData, requiredParams = []) => {
         : JSON.parse(actorData.aiModel);
     actor.aiModel = aiModel;
 
-    if (requiredParams.includes('avatar') && (!actorData.avatar || !validString.test(actorData.avatar))) {
-        throw new Error(`Invalid avatar name: ${validator.escape(actorData.avatar)}`);
-    }
-    actor.avatar = actorData.avatar;
-
     return actor;
 };
 
@@ -120,13 +115,11 @@ export const createActor = async (actorData) => {
     const transaction = await sequelize.transaction();
 
     const actorPrompt = await createPrompt(actor.prompt, transaction);
-
-    const actorModel = await addModel(actor.aiModel, transaction);
-
     if (!actorPrompt instanceof Prompt || actorPrompt.promptId === 0) {
         throw new Error('Unable to create actor prompt');
     }
 
+    const actorModel = await createAiModel(actor.aiModel, transaction);
     if (!actorModel instanceof AIModel || actorModel.modelId === 0) {
         throw new Error('Unable to create actor model');
     }
@@ -134,7 +127,6 @@ export const createActor = async (actorData) => {
     const newActor = await Actor.create({
         name: actor.name,
         username: actor.username,
-        avatar: actor.avatar,
         colorTheme: actor.colorTheme,
         title: actor.title,
         promptId: actorPrompt.promptId,
@@ -182,7 +174,7 @@ export const update = async (actorId, actorData) => {
 export const updateAvatar = async (actorId, actorData) => {
 
 
-    if (!Number.isInteger(actorId)) {
+    if (parseInt(actorId) <= 0) {
         throw new Error('Invalid actor ID: ' + validator.escape(actorId.toString()));
     }
 

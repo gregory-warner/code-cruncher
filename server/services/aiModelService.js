@@ -1,7 +1,7 @@
 import {Actor, AIModel, ImageModel, LanguageModel, TextModel} from "../models/models.js";
 import validator from "validator";
 
-export const modelType = {
+export const modelTypes = {
     language: 0,
     image: 1,
     text: 2,
@@ -9,11 +9,11 @@ export const modelType = {
 
 export const getModelDetails = async (aiModel) => {
     switch (aiModel.modelTypeId) {
-        case modelType.language:
+        case modelTypes.language:
             return await LanguageModel.findOne({ modelId: aiModel.modelId});
-        case modelType.image:
+        case modelTypes.image:
             return await ImageModel.findOne({ modelId: aiModel.modelId});
-        case modelType.text:
+        case modelTypes.text:
             return await TextModel.findOne({ modelId: aiModel.modelId});
         default:
             throw new Error(`Model with type id ${aiModel.modelTypeId} not found`);
@@ -57,15 +57,15 @@ export const addModel = async (model, transaction) => {
 
 const createTypeModel = async (typeId, typeDetails, transaction) => {
     switch (typeId) {
-        case modelType.language:
+        case modelTypes.language:
             return await LanguageModel.create({
                 ...typeDetails,
             }, { transaction });
-        case modelType.image:
+        case modelTypes.image:
             return await ImageModel.create({
                 ...typeDetails,
             });
-        case modelType.text:
+        case modelTypes.text:
             return await TextModel.create({
                 ...typeDetails,
             });
@@ -75,7 +75,7 @@ const createTypeModel = async (typeId, typeDetails, transaction) => {
 };
 
 const getModelProviderDetails = (model) => {
-    const typeId = modelType[getModelType(model)];
+    const typeId = modelTypes[getModelType(model)];
 
     const ollamaModel = 'details' in model;
     const openaiModel = 'object' in model && 'owned_by' in model;
@@ -189,4 +189,36 @@ export const updateActorModel = async (actorId, model) => {
     updateModelType(model);
 
     return actor;
+};
+
+export const getValidatedAiModelData = (aiModel) => {
+    const model = {};
+
+    if (!['ollama', 'openai'].includes(aiModel.modelIdentifier)) {
+        throw new Error(`Invalid model identifier: ${aiModel.modelIdentifier}`);
+    }
+    model.modelIdentifier = aiModel.modelIdentifier;
+
+    const validModelName = /^[a-zA-Z0-9:_.\-\s]+$/;
+    if (!validModelName.test(aiModel.modelName)) {
+        throw new Error(`Invalid model name: ${aiModel.modelName}`);
+    }
+    model.modelName = aiModel.modelName;
+
+    if (!Object.values(modelTypes).includes(aiModel.modelTypeId)) {
+        throw new Error(`Invalid model type: ${aiModel.modelTypeId}`);
+    }
+    model.modelTypeId = aiModel.modelTypeId;
+
+    if (typeof aiModel.isLocal !== 'boolean') {
+        throw new Error(`model locality must be boolean: ${aiModel.isLocal}`);
+    }
+    model.isLocal = aiModel.isLocal;
+
+    return model;
+}
+
+export const createAiModel = async (aiModel, transaction) => {
+    const validatedModel = getValidatedAiModelData(aiModel);
+    return await AIModel.create(validatedModel, transaction);
 };

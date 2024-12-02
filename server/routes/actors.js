@@ -30,16 +30,9 @@ router.get("/actor/:username", async (req, res, next) => {
     }
 });
 
-router.post("/create", createUploadMiddleware("avatar"), async (req, res, next) => {
+router.post("/create", async (req, res, next) => {
     try {
-        if (!req.file) {
-            throw new Error("Avatar file is missing");
-        }
-
-        const actor = createActor({
-            ...req.body,
-            avatar: req.file.filename,
-        });
+        const actor = await createActor(req.body);
 
         return res.json(actor);
     } catch (error) {

@@ -1,7 +1,7 @@
 import {Actor, AIModel, LanguageModel, Prompt} from "../models/models.js";
 import {getValidatedPrompt} from "./promptService.js";
 import {getActor, getValidatedActorData} from "./actorService.js";
-import {modelType} from "./aiModelService.js";
+import {modelTypes} from "./aiModelService.js";
 import sequelize from "../db.js";
 
 export const cloneActor = async (actorData) => {
@@ -60,7 +60,7 @@ export const cloneModel = async (model, transaction) => {
 };
 
 export const cloneModelType = async (model, transaction) => {
-    if (model.modelTypeId === modelType.language && 'languageModel' in model) {
+    if (model.modelTypeId === modelTypes.language && 'languageModel' in model) {
         return await cloneLanguageModel({ ...model.languageModel, modelId: model.modelId }, transaction);
     }
 };
