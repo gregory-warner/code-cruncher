@@ -5,7 +5,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
-    useCloneActorMutation,
+    useCloneActorMutation, useCreateActorMutation,
     useDeleteActorMutation,
     useUpdateActorMutation,
     useUpdateAvatarMutation
@@ -28,13 +28,14 @@ const ActorSettingsSection = () => {
     const dispatch = useAppDispatch();
 
     const isEditing = useAppSelector(selectIsEditing);
-    const actor = useAppSelector(selectSelectedActor);
+    const selectedActor = useAppSelector(selectSelectedActor);
 
     const [clone] = useCloneActorMutation();
 
     const [deleteActor] = useDeleteActorMutation();
     const [updateActor] = useUpdateActorMutation();
     const [updateAvatar] = useUpdateAvatarMutation();
+    const [createActor] = useCreateActorMutation();
 
 
     const onNew = () => {
@@ -42,19 +43,22 @@ const ActorSettingsSection = () => {
         dispatch(setIsEditing(true));
     };
 
-    const onSaveAvatar = async () => {
-        const fileData = await fetchFileData(actor.avatar);
+    const onSaveAvatar = async (actorId, avatar) => {
+        const fileData = await fetchFileData(avatar);
         const file = new File([fileData], 'selected-avatar.png');
         const formData: FormData = new FormData();
-        formData.append('actorId', actor.actorId.toString());
+        formData.append('actorId', actorId.toString());
         formData.append('avatar', file);
-        updateAvatar({ actorId: actor.actorId, formData });
+        updateAvatar({ actorId: selectedActor.actorId, formData });
     };
 
-    const onSave = () => {
-        updateActor(actor);
-        if (isValidUrl(actor.avatar)) {
-            onSaveAvatar();
+    const onSave = async () => {
+        const actor = await (selectedActor.actorId > 0
+            ? updateActor(selectedActor).unwrap()
+            : createActor(selectedActor).unwrap());
+
+        if (isValidUrl(selectedActor.avatar) && actor.actorId > 0) {
+            onSaveAvatar(actor.actorId, selectedActor.avatar);
         }
 
         dispatch(setIsEditing(false));
@@ -65,7 +69,7 @@ const ActorSettingsSection = () => {
     };
 
     const onClone = async () => {
-        const clonedActor = await clone(actor as Actor).unwrap();
+        const clonedActor = await clone(selectedActor as Actor).unwrap();
         if (clonedActor) {
             dispatch(setSelectedActor(clonedActor));
             dispatch(setIsEditing(true));
@@ -73,7 +77,7 @@ const ActorSettingsSection = () => {
     }
 
     const onDelete = async () => {
-        await deleteActor(actor.actorId);
+        await deleteActor(selectedActor.actorId);
         dispatch(setSelectedActor(null));
     };
 
@@ -104,7 +108,7 @@ const ActorSettingsSection = () => {
                     variant="outlined"
                     color='inherit'
                     startIcon={<ContentCopyIcon />}
-                    disabled={!actor || isEditing}
+                    disabled={!selectedActor || isEditing}
                     onClick={onClone}
                 >
                     Clone
@@ -124,7 +128,7 @@ const ActorSettingsSection = () => {
                         </Button>
                     ) : (
                         <Button
-                            disabled={!actor}
+                            disabled={!selectedActor}
                             fullWidth
                             variant="outlined"
                             color="secondary"
@@ -150,7 +154,7 @@ const ActorSettingsSection = () => {
             </Grid>
             <Grid container item xs={12} justifyContent="center" p={1}>
                 <Button
-                    disabled={!actor || isEditing}
+                    disabled={!selectedActor || isEditing}
                     fullWidth
                     variant="outlined"
                     color="error"
