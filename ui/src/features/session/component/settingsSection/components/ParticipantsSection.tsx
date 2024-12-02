@@ -8,7 +8,9 @@ import {Avatar, Box, Grid, Typography, useTheme} from '@mui/material';
 import {chatServerUrl} from '../../../../../../config';
 import {Add} from '@mui/icons-material';
 import {SessionParticipantType} from "../../../../../types";
-import {useGetSessionParticipantsQuery} from "../../../../../services/server/serverApi";
+import {
+    useGetActiveSessionParticipantsQuery,
+} from "../../../../../services/server/serverApi";
 import {skipToken} from "@reduxjs/toolkit/query";
 import useAvatarStyle from "../../../hooks/useAvatarStyle";
 
@@ -18,7 +20,7 @@ const ParticipantsSection = () => {
     const theme = useTheme();
 
     const sessionId = useAppSelector(selectSessionId);
-    const { data: sessionParticipants, isLoading } = useGetSessionParticipantsQuery(sessionId || skipToken);
+    const { data: sessionParticipants, isLoading } = useGetActiveSessionParticipantsQuery(sessionId || skipToken);
 
     const { getAvatarStyle } = useAvatarStyle(theme);
 

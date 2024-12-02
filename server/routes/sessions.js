@@ -7,7 +7,11 @@ import {
     updateSessionName,
     updateSessionTypeId
 } from '../services/sessionService.js';
-import {addSessionParticipant, getSessionParticipants} from "../services/sessionParticipantService.js";
+import {
+    addSessionParticipant,
+    getActiveSessionParticipants,
+    getSessionParticipants
+} from "../services/sessionParticipantService.js";
 
 router.get("/", async (req, res, next) => {
     try {
@@ -39,6 +43,15 @@ router.get("/:id", async (req, res, next) => {
 router.get("/:id/participants", async (req, res, next) => {
     try {
         const participants = await getSessionParticipants(req.params.id);
+        return res.json(participants);
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.get("/:id/active-participants", async (req, res, next) => {
+    try {
+        const participants = await getActiveSessionParticipants(req.params.id);
         return res.json(participants);
     } catch (err) {
         next(err);

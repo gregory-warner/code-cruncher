@@ -8,6 +8,7 @@ export const getMessages = async (sessionId) => {
         include: [
             {
                 model: SessionParticipant,
+                paranoid: false,
                 as: 'participant',
                 include: [
                     {

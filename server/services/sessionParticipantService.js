@@ -14,6 +14,7 @@ const sessionParticipant = Object.entries(sessionParticipantType).reduce((acc, [
 export const getSessionParticipants = async (sessionId) => {
     return await SessionParticipant.findAll({
         where: { session_id: sessionId },
+        paranoid: false,
         include: [
             {
                 model: Actor,
@@ -22,6 +23,24 @@ export const getSessionParticipants = async (sessionId) => {
                 include: [
                     { model: Prompt, as: 'prompt', required: true, paranoid: false },
                     { model: AIModel, as: 'aiModel', required: false },
+                ]
+            },
+            { model: User, as: 'user' }
+        ],
+        order: [['participantSequenceId', 'ASC']],
+    });
+};
+
+export const getActiveSessionParticipants = async (sessionId) => {
+    return await SessionParticipant.findAll({
+        where: { session_id: sessionId },
+        include: [
+            {
+                model: Actor,
+                as: 'actor',
+                include: [
+                    { model: Prompt, as: 'prompt', required: true },
+                    { model: AIModel, as: 'aiModel', required: true },
                 ]
             },
             { model: User, as: 'user' }

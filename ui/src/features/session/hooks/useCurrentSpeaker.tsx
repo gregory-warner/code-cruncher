@@ -1,4 +1,7 @@
-import {useLazyGetMessagesQuery, useLazyGetSessionParticipantsQuery} from "../../../services/server/serverApi";
+import {
+    useLazyGetActiveSessionParticipantsQuery,
+    useLazyGetMessagesQuery,
+} from "../../../services/server/serverApi";
 import {SessionParticipant, SessionParticipantType} from "../../../types";
 import {useAppDispatch} from "../../../store/hooks";
 import {updateSessionStatusCurrentSpeaker} from "../sessionSlice";
@@ -7,7 +10,7 @@ const useCurrentSpeaker = () => {
     const dispatch = useAppDispatch();
 
     const [getMessages] = useLazyGetMessagesQuery();
-    const [getSessionParticipants] = useLazyGetSessionParticipantsQuery();
+    const [getSessionParticipants] = useLazyGetActiveSessionParticipantsQuery();
 
     const getLastParticipantIndex = async (sessionId: number, participants: SessionParticipant[]): Promise<number> => {
         const messages = await getMessages(sessionId).unwrap();

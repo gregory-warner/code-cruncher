@@ -157,6 +157,13 @@ export const serverApi  = createApi({
             }),
             providesTags: ['SessionParticipants'],
         }),
+        getActiveSessionParticipants: build.query<SessionParticipant[], number>({
+            query: (sessionId: number) => ({
+                url: `sessions/${sessionId}/active-participants`,
+                method: 'GET',
+            }),
+            providesTags: ['SessionParticipants'],
+        }),
         getSession: build.query<Session, number>({
             query: (sessionId: number) => ({
                 url: `sessions/${sessionId}`,
@@ -227,4 +234,6 @@ export const {
     useUpdateSessionTypeIdMutation,
     useUpdateAvatarMutation,
     useDeleteActorMutation,
+    useLazyGetActiveSessionParticipantsQuery,
+    useGetActiveSessionParticipantsQuery,
 } = serverApi;
