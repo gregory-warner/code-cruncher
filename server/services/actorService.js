@@ -1,4 +1,4 @@
-import {Actor, AIModel, LanguageModel} from '../models/models.js';
+import {Actor, AIModel, LanguageModel, SessionParticipant} from '../models/models.js';
 import Prompt from '../models/prompt.js';
 import {addModel, updateActorModel} from './aiModelService.js';
 import inputValidator from '../utils/validator.js';
@@ -225,6 +225,8 @@ export const deleteActor = async (actorId) => {
     await actor.destroy({transaction});
     await prompt.destroy({transaction});
     await AIModel.destroy({ where: { modelId: actor.modelId }, transaction });
+
+    await SessionParticipant.destroy({ where: { participantTypeId: 1, participantId: actorId }, transaction })
 
     await transaction.commit();
 
