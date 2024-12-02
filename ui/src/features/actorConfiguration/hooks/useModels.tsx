@@ -1,5 +1,17 @@
 import {useModelsQuery} from "../../../services/ollama/ollamaApi";
 import {useOpenaiModelsQuery} from "../../../services/openai/openaiApi";
+import {ModelType} from "../../../types";
+
+const getModelTypeId = (modelName: string) => {
+    if (modelName.includes('dall-e')) {
+        return ModelType.image;
+    }
+    if (['tts', 'whisper'].some(name => modelName.includes(name))) {
+        return ModelType.text;
+    }
+
+    return ModelType.language;
+};
 
 const useModels = () => {
     const { data: ollama } = useModelsQuery();
@@ -11,6 +23,7 @@ const useModels = () => {
         ...model,
         isLocal: true,
         modelIdentifier: 'ollama',
+        modelTypeId: getModelTypeId(model.name),
     }));
 
     const openAiModels = models.data.map(model => ({
@@ -18,6 +31,7 @@ const useModels = () => {
         name: model.id,
         isLocal: false,
         modelIdentifier: 'openai',
+        modelTypeId: getModelTypeId(model.id),
     }));
 
     return [
