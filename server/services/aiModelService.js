@@ -1,5 +1,4 @@
 import {Actor, AIModel, ImageModel, LanguageModel, TextModel} from "../models/models.js";
-import {removeProperty} from "../utils/utils.js";
 import validator from "validator";
 
 export const modelType = {

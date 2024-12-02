@@ -44,8 +44,8 @@ export interface LanguageModel {
     maxTokens: number;
     temperature: number;
     frequencyPenalty: number;
-    createdAt: string;
-    updatedAt: string;
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 export interface EditableActor extends Partial<Actor> {
