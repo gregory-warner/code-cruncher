@@ -1,5 +1,6 @@
 import {Actor, AIModel, ImageModel, LanguageModel, TextModel} from "../models/models.js";
 import validator from "validator";
+import {createLanguageModel} from "./languageModelService.js";
 
 export const modelTypes = {
     language: 0,
@@ -220,5 +221,11 @@ export const getValidatedAiModelData = (aiModel) => {
 
 export const createAiModel = async (aiModel, transaction) => {
     const validatedModel = getValidatedAiModelData(aiModel);
-    return await AIModel.create(validatedModel, transaction);
+    const model = await AIModel.create(validatedModel, transaction);
+
+    if (aiModel.languageModel) {
+        await createLanguageModel(model.modelId, aiModel.languageModel, transaction);
+    }
+
+    return model;
 };
