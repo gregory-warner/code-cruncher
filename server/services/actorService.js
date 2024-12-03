@@ -172,8 +172,6 @@ export const update = async (actorId, actorData) => {
 };
 
 export const updateAvatar = async (actorId, actorData) => {
-
-
     if (parseInt(actorId) <= 0) {
         throw new Error('Invalid actor ID: ' + validator.escape(actorId.toString()));
     }

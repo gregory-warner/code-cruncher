@@ -202,7 +202,7 @@ export const serverApi  = createApi({
         }),
         deleteActor: build.mutation<{actor: Actor}, number>({
             query: (actorId) => ({
-                url: `actors/delete/${actorId}`,
+                url: `actors/${actorId}`,
                 method: 'DELETE',
             }),
             invalidatesTags: [{ type: 'Actors' }],
