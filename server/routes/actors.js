@@ -42,7 +42,7 @@ router.post("/create", async (req, res, next) => {
 
 router.patch("/update/:actorId", async (req, res, next) => {
     try {
-        const actor = update(parseInt(req.params.actorId), req.body);
+        const actor = await update(parseInt(req.params.actorId), req.body);
         return res.json(actor);
     } catch (err) {
         next(err);
