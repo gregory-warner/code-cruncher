@@ -53,9 +53,9 @@ const ActorSettingsSection = () => {
     };
 
     const onSave = async () => {
-        const actor = await (selectedActor.actorId > 0
-            ? updateActor(selectedActor).unwrap()
-            : createActor(selectedActor).unwrap());
+        const actor = selectedActor.actorId > 0
+            ? await updateActor(selectedActor).unwrap()
+            : await createActor(selectedActor).unwrap();
 
         if (isValidUrl(selectedActor.avatar) && actor.actorId > 0) {
             onSaveAvatar(actor.actorId, selectedActor.avatar);
