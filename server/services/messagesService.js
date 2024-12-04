@@ -38,16 +38,32 @@ export const validateMessage = (message) => {
     }
 }
 
-export const createMessage = async (message) => {
-    validateMessage(message)
+export const getValidatedMessage = (message) => {
+    let validatedMessage = {
+        content: message.content,
+        data: message.data,
+    };
 
-    const newMessage = await Message.create({
-        sessionId: message.sessionId,
-        sessionParticipantId: message.sessionParticipantId,
-        content: validator.escape(message.content),
-        messageTypeId: message.messageTypeId,
-        data: message.data ?? {},
-    });
+    if (!Number.isInteger(message.sessionId) || message.sessionId <= 0) {
+        throw new Error('Unable to add message: invalid session ID');
+    }
+    validatedMessage.sessionId = message.sessionId;
+
+    if (!Number.isInteger(message.sessionParticipantId) || message.sessionParticipantId <= 0) {
+        throw new Error('Unable to add message: invalid session participant ID');
+    }
+    validatedMessage.sessionParticipantId = message.sessionParticipantId;
+
+    if (!Number.isInteger(message.messageTypeId) || message.messageTypeId < 0) {
+        throw new Error('Unable to add message: invalid session participant ID');
+    }
+    validatedMessage.sessionParticipantId = message.sessionParticipantId;
+
+    return validatedMessage;
+};
+
+export const createMessage = async (message) => {
+    const newMessage = await Message.create(getValidatedMessage(message));
 
     if (!newMessage instanceof Message) {
         throw new Error('Error creating message');
