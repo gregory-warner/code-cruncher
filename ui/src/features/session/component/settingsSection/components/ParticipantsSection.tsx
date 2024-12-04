@@ -29,7 +29,7 @@ const ParticipantsSection = () => {
     }
 
     const onAvatarClick = (participant: SessionParticipantType) => {
-        if (participant.deletedAt) {
+        if (!participant || participant.deletedAt) {
             return;
         }
 

@@ -28,10 +28,10 @@ const SessionSection = () => {
     const runSession = async (sessionId: number) => {
         const currentSpeaker = await getCurrentSpeaker(sessionId);
 
-        if (isActor(currentSpeaker)) {
+        if (isActor(currentSpeaker.participant)) {
             dispatch(updateSessionStatusIsLoading({ sessionId, isLoading: true }));
 
-            const response = await chat(sessionId, currentSpeaker as Actor);
+            const response = await chat(sessionId, currentSpeaker);
             if (!response.messageId) {
                 dispatch(setSnackbar({ message: 'Unable to send message' }));
                 return;

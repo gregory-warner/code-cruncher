@@ -2,7 +2,7 @@ import {
     useLazyGetActiveSessionParticipantsQuery,
     useLazyGetMessagesQuery,
 } from "../../../services/server/serverApi";
-import {SessionParticipant, SessionParticipantType} from "../../../types";
+import {SessionParticipant} from "../../../types";
 import {useAppDispatch} from "../../../store/hooks";
 import {updateSessionStatusCurrentSpeaker} from "../sessionSlice";
 
@@ -24,7 +24,7 @@ const useCurrentSpeaker = () => {
         return participants.findIndex(p => p.sessionParticipantId === lastMessage.sessionParticipantId);
     }
 
-    const getCurrentSpeaker= async (sessionId: number|null): Promise<SessionParticipantType>  => {
+    const getCurrentSpeaker= async (sessionId: number|null): Promise<SessionParticipant>  => {
         if (!sessionId) {
             return null;
         }
@@ -35,7 +35,7 @@ const useCurrentSpeaker = () => {
 
         const next = (lastIndex + 1) % participants.length;
 
-        const currentSpeaker = participants[next].participant;
+        const currentSpeaker = participants[next];
         dispatch(updateSessionStatusCurrentSpeaker({ sessionId, currentSpeaker }));
 
         return currentSpeaker;

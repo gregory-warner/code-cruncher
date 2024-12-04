@@ -1,4 +1,4 @@
-import {Actor, Message, SessionParticipantType, User} from "../../types";
+import {Actor, Message, SessionParticipant, SessionParticipantType, User} from "../../types";
 import {AnyAction, ThunkAction} from "@reduxjs/toolkit";
 
 export interface ChatService {
@@ -7,7 +7,7 @@ export interface ChatService {
 }
 
 export type Messenger = User | Actor;
-export type Speaker = Messenger | null;
+export type Speaker = SessionParticipant;
 
 export interface SessionStatus {
     isLoading: boolean;

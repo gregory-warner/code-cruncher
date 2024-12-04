@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../../store/store';
-import {SessionParticipantType} from "../../types";
+import {SessionParticipant, SessionParticipantType} from "../../types";
 import {
     SessionStatus,
     Speaker, UpdateSelectedParticipant,
@@ -11,10 +11,10 @@ import {
 
 export interface SessionState {
     sessionId: number|null;
-    participants: SessionParticipantType[];
-    currentSpeaker: SessionParticipantType | null;
+    participants: SessionParticipant[];
+    currentSpeaker: SessionParticipant | null;
     currentSequenceId: number;
-    selectedParticipant: SessionParticipantType|null;
+    selectedParticipant: SessionParticipant|null;
     sessionStatuses: {
         [key: number]: SessionStatus;
     }
@@ -36,10 +36,10 @@ export const sessionSlice = createSlice({
         setSessionId: (state, action: PayloadAction<number>) => {
             state.sessionId = action.payload;
         },
-        setParticipants: (state, action: PayloadAction<SessionParticipantType[]>) => {
+        setParticipants: (state, action: PayloadAction<SessionParticipant[]>) => {
             state.participants = action.payload;
         },
-        addSessionParticipant: (state, action: PayloadAction<SessionParticipantType>) => {
+        addSessionParticipant: (state, action: PayloadAction<SessionParticipant>) => {
             state.participants = [
                 ...state.participants,
                 action.payload,
@@ -54,10 +54,10 @@ export const sessionSlice = createSlice({
 
             state.currentSequenceId = (state.currentSequenceId + 1) % participantLength;
         },
-        setCurrentSpeaker: (state, action: PayloadAction<SessionParticipantType>) => {
+        setCurrentSpeaker: (state, action: PayloadAction<SessionParticipant>) => {
             state.currentSpeaker = action.payload;
         },
-        setSelectedParticipant: (state, action: PayloadAction<SessionParticipantType>) => {
+        setSelectedParticipant: (state, action: PayloadAction<SessionParticipant>) => {
             state.selectedParticipant = action.payload;
         },
         updateSessionStatus: (state, action: PayloadAction<UpdateSessionStatus>) => {
@@ -109,7 +109,7 @@ export const {
 } = sessionSlice.actions;
 
 export const selectSessionId = (state: RootState): number => state.session.sessionId;
-export const selectParticipants = (state: RootState): SessionParticipantType[] => state.session.participants;
+export const selectParticipants = (state: RootState): SessionParticipant[] => state.session.participants;
 export const selectSessionStatus = (state: RootState, sessionId: number): SessionStatus|null => state.session.sessionStatuses[sessionId] ?? null;
 export const selectCurrentSpeaker = (state: RootState, sessionId: number): Speaker|null => state.session.sessionStatuses[sessionId]?.currentSpeaker ?? null;
 export const selectSelectedParticipant = (state: RootState, sessionId: number): SessionParticipantType|null => state.session.sessionStatuses[sessionId]?.selectedParticipant ?? null;

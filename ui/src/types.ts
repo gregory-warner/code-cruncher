@@ -124,7 +124,7 @@ export interface User {
     deletedAt?: string;
 }
 
-export type SessionParticipantType = Actor | User;
+export type SessionParticipantType = Actor | User | null;
 
 export interface SessionParticipant {
     sessionParticipantId?: number;
