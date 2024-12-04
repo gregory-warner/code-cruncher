@@ -5,13 +5,14 @@ import {Grid, Typography} from "@mui/material";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import {a11yDark} from "react-syntax-highlighter/dist/esm/styles/hljs";
 import React from "react";
+import Markdown from 'marked-react';
 import style from "../../../../../style";
 
 const ParsedMessageContent = ({ message }: { message: Message }) => {
     const messenger: MessengerType = message.messenger;
     const cardStyle: MessageCard = messenger.colorTheme.messageCard;
 
-    const parsedMessageSections = getParsedMessageSections(he.decode(message.content));
+    const parsedMessageSections = getParsedMessageSections(message.content);
 
     return (
         <Grid item padding={1}>
@@ -22,10 +23,10 @@ const ParsedMessageContent = ({ message }: { message: Message }) => {
                         sx={style.sessionMessage.content.general}
                         align={'left'}
                         variant='subtitle1'
-                        color={cardStyle.textColor}
+                        color={cardStyle.contentsColor}
                         fontFamily={style.sessionMessage.font}
                     >
-                        { he.decode(section.content) }
+                        <Markdown>{he.decode(section.content)}</Markdown>
                     </Typography>;
                 }
                 return <SyntaxHighlighter
@@ -36,7 +37,7 @@ const ParsedMessageContent = ({ message }: { message: Message }) => {
                     wrapLines
                     lineProps={{ style: { wordBreak: 'break-all', whiteSpace: 'pre-wrap' } }}
                 >
-                    {section.content}
+                    { he.decode(section.content) }
                 </SyntaxHighlighter>;
             })}
         </Grid>
