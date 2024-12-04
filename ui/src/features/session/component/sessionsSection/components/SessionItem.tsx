@@ -44,6 +44,16 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
         setEditedSessionName(e.target.value);
     };
 
+    const onKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter") {
+            if (event.shiftKey) {
+                event.preventDefault();
+                return;
+            }
+            editSessionName();
+        }
+    }
+
     const onClear = () => {
         if (editMode) {
             setEditMode(false);
@@ -83,6 +93,7 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
                             <TextField
                                 value={editedSessionName}
                                 onChange={onEdit}
+                                onKeyUp={onKeyUp}
                                 size="small"
                             />
                         ) : (
