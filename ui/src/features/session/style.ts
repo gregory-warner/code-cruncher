@@ -62,6 +62,7 @@ const style = {
         flexGrow: 1,
         maxHeight: '48vh',
         overflowY: 'auto',
+        width: '100%',
     },
     userInputContainer: {
         flexGrow: 1,
