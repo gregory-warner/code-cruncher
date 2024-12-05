@@ -2,8 +2,12 @@ import {Message} from '../../../../../../types';
 import React from 'react';
 import {Card, Grid} from '@mui/material';
 import SessionMessageHeader from "./components/SessionMessageHeader";
-import ParsedMessageContent from "./components/ParsedMessageContent";
 import style from "../../../../style";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import styles from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 const SessionMessage = ({ message }: { message: Message }) => {
 
@@ -15,7 +19,27 @@ const SessionMessage = ({ message }: { message: Message }) => {
         >
             <Grid container direction='column'>
                 <SessionMessageHeader message={message} />
-                <ParsedMessageContent message={message} />
+                <Markdown
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeRaw]}
+                    components={{
+                        code({ node, inline, className, children, ...props }: any) {
+                            const match = /language-(\w+)/.exec(className || '');
+
+                            return !inline && match ? (
+                                <SyntaxHighlighter style={styles.gruvboxDark} PreTag="div" language={match[1]} {...props}>
+                                    {String(children).replace(/\n$/, '')}
+                                </SyntaxHighlighter>
+                            ) : (
+                                <code className={className} {...props}>
+                                    {children}
+                                </code>
+                            );
+                        },
+                    }}
+                >
+                    {message.content}
+                </Markdown>;
             </Grid>
         </Card>
     );
