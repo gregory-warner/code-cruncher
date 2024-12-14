@@ -14,7 +14,7 @@ const UserInputSection = () => {
     const { data: session, isLoading: isSessionLoading } = useGetSessionQuery(sessionId ?? skipToken);
 
     return(
-        <Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
             {
                 isSessionLoading || session?.sessionTypeId === SessionType.General ? (
                     <UserChatInput  />

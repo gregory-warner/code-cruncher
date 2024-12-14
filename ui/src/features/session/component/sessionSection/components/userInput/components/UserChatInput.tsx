@@ -4,6 +4,8 @@ import useMessageInput from "../hooks/useMessageInput";
 import {setSnackbar} from "../../../../../../../app/store/appSlice";
 import {useAppDispatch} from "../../../../../../../store/hooks";
 import UserInputFooter from "./UserInputFooter";
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css';
 
 const UserChatInput = () => {
     const dispatch = useAppDispatch();
@@ -25,19 +27,13 @@ const UserChatInput = () => {
     }
 
     return(
-        <Box>
-            <TextField
-                id="id-user-input"
-                label="Message"
-                variant="filled"
-                color="primary"
-                multiline
-                fullWidth
+        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+            <ReactQuill
+                theme="snow"
                 value={input}
-                rows={10}
-                onChange={(event) => onInputChange(event.target.value)}
                 onKeyUp={handleKeyUp}
-                sx={{ flexGrow: 1, height: '39vh' }}
+                onChange={onInputChange}
+                style={{ flexGrow: 1, height: '100%' }} // Ensure it takes full height
             />
             <UserInputFooter onSend={onSend} />
         </Box>
