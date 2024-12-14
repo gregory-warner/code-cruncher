@@ -14,7 +14,7 @@ const appStyle = {
     leftPanel: {
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '93vh',
+        maxHeight: '93vh',
         width: '20%',
         flexGrow: 0,
         flexShrink: 0,
@@ -24,7 +24,7 @@ const appStyle = {
         width: '60%',
     },
     rightPanel:{
-        minHeight :'93vh',
+        maxHeight :'93vh',
         flexGrow :1,
         flexShrink :0,
     },

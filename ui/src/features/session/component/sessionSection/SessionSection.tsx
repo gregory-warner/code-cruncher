@@ -12,7 +12,6 @@ import style from "../../style";
 import UserInputSection from "./components/userInput/UserInputSection";
 import useCurrentSpeaker from "../../hooks/useCurrentSpeaker";
 import {isActor} from "../../../../utils/util";
-import {Actor} from "../../../../types";
 import {skipToken} from "@reduxjs/toolkit/query";
 import {setSnackbar} from "../../../../app/store/appSlice";
 
