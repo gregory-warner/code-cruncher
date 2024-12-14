@@ -41,7 +41,7 @@ const useAvatarStyle = (theme) => {
     };
 
     const getAvatarStyle = (participant: SessionParticipantType|null) => {
-        if (!participant) {
+        if (!participant || !currentSpeaker) {
             if (!selectedParticipant) {
                 return style.selectedAvatar;
             }
@@ -52,7 +52,7 @@ const useAvatarStyle = (theme) => {
             return style.selectedAvatar;
         }
 
-        if (participant === currentSpeaker) {
+        if (participant === currentSpeaker.participant) {
             return style.currentAvatar;
         }
 
