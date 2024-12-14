@@ -163,5 +163,6 @@ export enum SessionType {
     Rust = 3,
     MySQL = 4,
     PHP = 5,
-    JavaScript
+    JavaScript = 6,
+    Kotlin = 7,
 }
