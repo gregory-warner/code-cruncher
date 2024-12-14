@@ -56,7 +56,7 @@ router.patch("/avatar/:actorId", createUploadMiddleware("avatar"), async (req, r
             avatar: req.file.filename,
         };
 
-        const actor = updateAvatar(parseInt(req.params.actorId), actorData);
+        const actor = updateAvatar(parseInt(actorData.actorId), actorData);
         return res.json(actor);
     } catch (err) {
         next(err);
