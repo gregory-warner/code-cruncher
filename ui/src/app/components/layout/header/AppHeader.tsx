@@ -13,7 +13,7 @@ const AppHeader: React.FC = () => {
 
     const theme = useTheme();
 
-    const speakerName = currentSpeaker?.name ?? '';
+    const speakerName = currentSpeaker?.participant.name ?? '';
 
     return (
         <Box sx={{maxHeight: '10%'}} display={"flex"} justifyContent={"center"}>
