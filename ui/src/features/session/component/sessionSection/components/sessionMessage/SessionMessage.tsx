@@ -7,7 +7,7 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import styles from "react-syntax-highlighter/dist/esm/styles/hljs";
+import {gruvboxDark} from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 const SessionMessage = ({ message }: { message: Message }) => {
 
@@ -27,7 +27,7 @@ const SessionMessage = ({ message }: { message: Message }) => {
                             const match = /language-(\w+)/.exec(className || '');
 
                             return !inline && match ? (
-                                <SyntaxHighlighter style={styles.gruvboxDark} PreTag="div" language={match[1]} {...props}>
+                                <SyntaxHighlighter style={gruvboxDark} PreTag="div" language={match[1]} {...props}>
                                     {String(children).replace(/\n$/, '')}
                                 </SyntaxHighlighter>
                             ) : (
@@ -39,7 +39,7 @@ const SessionMessage = ({ message }: { message: Message }) => {
                     }}
                 >
                     {message.content}
-                </Markdown>;
+                </Markdown>
             </Grid>
         </Card>
     );
