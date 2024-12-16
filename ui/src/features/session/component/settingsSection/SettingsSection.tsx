@@ -5,20 +5,15 @@ import ParticipantSettingsSection from "./components/ParticipantSettingsSection"
 import AddParticipantSection from "./components/AddParticipantSection";
 
 const SettingsSection = () => {
+    const session = useAppSelector(selectSession);
+
     return (
         <Grid >
             <Grid container direction='row' alignItems='center'>
-                <Grid item xs={5} textAlign='center'>
-                    <Typography variant='h6' sx={{paddingLeft: '5px', paddingRight: '5px'}}>
-                        Actions
+                <Grid item xs={12} textAlign='center'>
+                    <Typography variant='h4'>
+                        {session?.sessionName ?? ''}
                     </Typography>
-                </Grid>
-                <Grid item xs={7} textAlign='center'>
-                    <Button
-                        sx={{ width: '100%', textTransform: 'none', height: '100%' }}
-                        onClick={() => {}}>
-                        <Typography variant='body2'>Blank</Typography>
-                    </Button>
                 </Grid>
             </Grid>
             <Grid container item xs={12}>
