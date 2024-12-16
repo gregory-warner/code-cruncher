@@ -9,7 +9,7 @@ import {SessionRequest} from '../../../../services/server/types';
 import {Session, SessionType, User} from '../../../../types';
 import {useAppDispatch, useAppSelector} from '../../../../store/hooks';
 import {selectUser} from '../../../user/userSlice';
-import {setSessionId} from '../../sessionSlice';
+import {setSession, setSessionId} from '../../sessionSlice';
 import {isUser} from '../../../../utils/util';
 
 const SessionsSection = () => {
@@ -36,6 +36,7 @@ const SessionsSection = () => {
         }
         const session: Session = await createSession(request).unwrap();
         dispatch(setSessionId(session.sessionId));
+        dispatch(setSession(session));
     };
 
     return (
