@@ -1,18 +1,20 @@
 import React from "react";
-import {Box, Grid, Typography} from "@mui/material";
+import {Box, Grid, Paper, Typography} from "@mui/material";
 import SessionScore from "./SessionScore";
 
 const SessionScoreBoard = () => {
 
     return (
-        <Grid container direction='row' alignItems='center' alignContent='center' sx={{border: '1px solid red'}}>
-            <Grid item xs={5}>
-                <SessionScore title={'test'} score={1} />
+        <Paper elevation={3} sx={{ border: '5px solid black', p: 2, width: '100%' }}>
+            <Grid container direction='row' justifyContent='space-around'>
+                <Grid item xs={5}>
+                    <SessionScore title={'test'} score={1} />
+                </Grid>
+                <Grid item xs={5}>
+                    <SessionScore title={'pass'} score={23} />
+                </Grid>
             </Grid>
-            <Grid item xs={5}>
-                <SessionScore title={'pass'} score={23} />
-            </Grid>
-        </Grid>
+        </Paper>
     );
 };
 
