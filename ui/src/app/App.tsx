@@ -8,6 +8,7 @@ import {CssBaseline} from "@mui/material";
 import AppSnackbar from "./components/AppSnackbar";
 import ActorConfiguration from "../features/actorConfiguration/ActorConfiguration";
 import Session from "../features/session/Session";
+import "./app.css";
 
 function App() {
     const mode = useAppSelector(selectMode);
