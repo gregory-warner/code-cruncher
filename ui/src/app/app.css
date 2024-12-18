@@ -4,3 +4,17 @@
     font-weight: normal;
     font-style: normal;
 }
+
+@keyframes rainbowText {
+    0% { color: red; }
+    16.67% { color: orange; }
+    33.33% { color: yellow; }
+    50% { color: green; }
+    66.67% { color: blue; }
+    83.33% { color: indigo; }
+    100% { color: violet; }
+}
+
+.rainbow-text {
+    animation: rainbowText 5s infinite;
+}
