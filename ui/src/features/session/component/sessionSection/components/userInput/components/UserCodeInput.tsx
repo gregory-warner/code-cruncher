@@ -4,7 +4,7 @@ import {selectMode} from "../../../../../../../theme/themeSlice";
 import React from "react";
 import {Box} from "@mui/material";
 import useMessageInput from "../hooks/useMessageInput";
-import UserInputFooter from "./UserInputFooter";
+import UserInputFooter from "./UserInputFooter/UserInputFooter";
 
 const UserCodeInput = ({ language } : { language: string }) => {
 

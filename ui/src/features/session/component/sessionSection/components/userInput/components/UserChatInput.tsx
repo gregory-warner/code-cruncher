@@ -3,7 +3,7 @@ import {Box, TextField} from '@mui/material';
 import useMessageInput from "../hooks/useMessageInput";
 import {setSnackbar} from "../../../../../../../app/store/appSlice";
 import {useAppDispatch} from "../../../../../../../store/hooks";
-import UserInputFooter from "./UserInputFooter";
+import UserInputFooter from "./UserInputFooter/UserInputFooter";
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 
