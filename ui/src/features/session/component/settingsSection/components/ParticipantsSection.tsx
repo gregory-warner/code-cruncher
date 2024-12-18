@@ -4,7 +4,7 @@ import {
     selectSessionId,
     updateSessionSelectedParticipant
 } from '../../../sessionSlice';
-import {Avatar, Box, Grid, Typography, useTheme} from '@mui/material';
+import {Avatar, Box, Grid, Typography, useTheme} from "@mui/material";
 import {chatServerUrl} from '../../../../../../config';
 import {Add} from '@mui/icons-material';
 import {SessionParticipantType} from "../../../../../types";
@@ -22,7 +22,7 @@ const ParticipantsSection = () => {
     const sessionId = useAppSelector(selectSessionId);
     const { data: sessionParticipants, isLoading } = useGetActiveSessionParticipantsQuery(sessionId || skipToken);
 
-    const { getAvatarStyle } = useAvatarStyle(theme);
+    const { getAvatarStyle } = useAvatarStyle();
 
     if (isLoading || !sessionParticipants || sessionParticipants.length === 0) {
         return <Box></Box>
