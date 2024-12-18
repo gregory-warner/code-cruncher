@@ -2,8 +2,24 @@ import {SessionParticipantType} from "../../../types";
 import {useParticipant} from "./useParticipant";
 import {useAppSelector} from "../../../store/hooks";
 import {selectCurrentSpeaker, selectSessionId} from "../sessionSlice";
+import {useTheme} from "@mui/material";
 
-const useAvatarStyle = (theme) => {
+interface AvatarStyle {
+    width: string;
+    height: string;
+    border: string;
+    borderRadius: number;
+}
+
+enum AvatarStyleTypes {
+    selectedAvatar = 'selectedAvatar',
+    currentAvatar = 'currentAvatar',
+    avatar = 'avatar',
+    newAvatar = 'newAvatar'
+}
+
+const useAvatarStyle = () => {
+    const theme = useTheme();
 
     const sessionId = useAppSelector(selectSessionId);
 
@@ -13,7 +29,7 @@ const useAvatarStyle = (theme) => {
         sessionId ? selectCurrentSpeaker(state, sessionId) : null)
     );
 
-    const style = {
+    const style: Record<AvatarStyleTypes, AvatarStyle> = {
         selectedAvatar: {
             width: '40px',
             height: '40px',
@@ -40,7 +56,7 @@ const useAvatarStyle = (theme) => {
         }
     };
 
-    const getAvatarStyle = (participant: SessionParticipantType|null) => {
+    const getAvatarStyle = (participant: SessionParticipantType|null): AvatarStyle => {
         if (!participant || !currentSpeaker) {
             if (!selectedParticipant) {
                 return style.selectedAvatar;
