@@ -28,14 +28,18 @@ const UserChatInput = () => {
 
     return(
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-            <ReactQuill
-                theme="snow"
-                value={input}
-                onKeyUp={handleKeyUp}
-                onChange={onInputChange}
-                style={{ flexGrow: 1, height: '100%' }} // Ensure it takes full height
-            />
-            <UserInputFooter onSend={onSend} />
+            <Box sx={{ flexGrow: 9, flexShrink: 0, flexBasis: '90%', overflowY: 'auto' }}>
+                <ReactQuill
+                    theme="snow"
+                    value={input}
+                    onKeyUp={handleKeyUp}
+                    onChange={onInputChange}
+                    style={{ height: '88%' }}
+                />
+            </Box>
+            <Box sx={{ flexGrow: 1, flexShrink: 0, flexBasis: '10%' }}>
+                <UserInputFooter onSend={onSend} />
+            </Box>
         </Box>
     );
 };
