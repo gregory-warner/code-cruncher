@@ -168,11 +168,19 @@ export enum SessionType {
 }
 
 export interface MessageEventDetails {
-    message_event_details_id?: number | null;
-    message_id: number;
-    question_id: number;
-    result_id?: number | null;
+    messageEventDetailsId: number;
+    messageId: number;
+    questionId: number;
+    resultId?: number | null;
     duration?: number | null;
+    createdAt?: Date | null;
+    updatedAt?: Date | null;
+    deletedAt?: Date | null;
+}
+
+export interface MessageQuestionType {
+    messageEventId: number;
+    questionType: string;
     createdAt?: Date | null;
     updatedAt?: Date | null;
     deletedAt?: Date | null;

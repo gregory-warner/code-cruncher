@@ -1,4 +1,4 @@
-import {Actor, AIModel, ColorTheme, Prompt, Session} from "../../types";
+import {Actor, AIModel, ColorTheme, MessageEventDetails, MessageQuestionType, Prompt, Session} from "../../types";
 
 export interface ActorPrompt {
     actorId: number;
@@ -62,4 +62,14 @@ export interface UpdateAvatarRequest {
 export interface UpdateSessionTypeIdRequest {
     sessionId: number;
     sessionTypeId: number;
+}
+
+export interface MessageEventDetailsRequest extends Partial<MessageEventDetails> {
+    questionId: number;
+    messageId: number;
+}
+
+export interface MessageQuestionTypeRequest {
+    messageEventId: number;
+    questionTypes: string[];
 }
