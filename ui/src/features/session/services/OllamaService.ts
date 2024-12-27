@@ -1,15 +1,18 @@
-import {Actor, Message} from "../../../types";
+import {Actor, Message, MessageEventDetails} from "../../../types";
 import {OllamaKeepAlive, OllamaMessage, OllamaRequest, OllamaResponse} from "../../../services/ollama/types";
 import {messengerTypes} from "../../../utils/util";
 import {ollamaApi} from "../../../services/ollama/ollamaApi";
 import {ChatService} from "../types";
 import {AnyAction, ThunkAction} from "@reduxjs/toolkit";
+import {MessageEventDetailsRequest} from "../../../services/server/types";
 
 class OllamaService implements ChatService {
     private actor: Actor;
     private stream: boolean;
     private keepAlive?: 0|1|-1;
     private api = ollamaApi;
+
+    private questionMessage: 'CODE CRUNCHER - QUESTION';
 
     constructor(actor: Actor) {
         this.actor = actor;
@@ -52,6 +55,27 @@ class OllamaService implements ChatService {
         };
 
         return this.api.endpoints.chat.initiate(request);
+    }
+
+    public isQuestion = (response: OllamaResponse): boolean => {
+        return response.message.content.includes(this.questionMessage);
+    }
+
+    public handleMessageEventDetails = async (response: OllamaResponse): Promise<void> => {
+        const content = response.message.content;
+        const questionNumber = /QUESTION (\d+)/.exec(content)?.[1] ?? '0';
+        const dataTypes = /Data Type\(s\): ([\w,\s]+)/.exec(content)?.[1] ?? '';
+
+    }
+
+    public getEventDetails = (messageId: number, response: OllamaResponse): MessageEventDetailsRequest => {
+        const content = response.message.content;
+        const questionId = parseInt(/QUESTION (\d+)/.exec(content)?.[1] ?? '0');
+
+        return {
+            messageId,
+            questionId,
+        }
     }
 
     /**
