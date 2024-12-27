@@ -8,7 +8,14 @@ import {
     UpdateAIModelRequest, UpdateAvatarRequest,
     UpdatePromptRequest, UpdateSessionTypeIdRequest,
 } from "./types";
-import {Actor, Message, Session, SessionParticipant, SessionParticipantType, User} from "../../types";
+import {
+    Actor,
+    Message,
+    MessageEventDetails,
+    Session,
+    SessionParticipant,
+    User
+} from "../../types";
 
 export const serverApi  = createApi({
     reducerPath: 'serverApi',
@@ -206,7 +213,14 @@ export const serverApi  = createApi({
                 method: 'DELETE',
             }),
             invalidatesTags: [{ type: 'Actors' }],
-        })
+        }),
+        addMessageEventDetails: build.mutation<MessageEventDetails, MessageEventDetails>({
+            query: (details) => ({
+                url: `message-event-details/add`,
+                method: 'POST',
+                body: details,
+            }),
+        }),
     }),
 });
 
