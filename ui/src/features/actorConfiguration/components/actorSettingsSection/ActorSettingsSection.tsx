@@ -58,7 +58,7 @@ const ActorSettingsSection = () => {
             : await createActor(selectedActor).unwrap();
 
         if (isValidUrl(selectedActor.avatar) && actor.actorId > 0) {
-            onSaveAvatar(actor.actorId, selectedActor.avatar);
+            await onSaveAvatar(actor.actorId, selectedActor.avatar);
         }
 
         dispatch(setIsEditing(false));

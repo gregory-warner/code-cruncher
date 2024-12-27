@@ -78,33 +78,29 @@ export const getValidatedActorData = (actorData, requiredParams = []) => {
     }
     actor.title = actorData.title;
 
-    // TODO: refine
     if (requiredParams.includes('colorTheme') && !actorData.colorTheme) {
         throw new Error(`Invalid color theme`);
     }
     const colorRegex = /^[{}a-zA-Z0-9#]+$/;
-    const colorTheme = typeof actorData.colorTheme === 'object'
+    actor.colorTheme = typeof actorData.colorTheme === 'object'
         ? actorData.colorTheme
         : JSON.parse(actorData.colorTheme);
-    actor.colorTheme = colorTheme;
 
     // TODO: refine
     if (requiredParams.includes('prompt') && !actorData.prompt) {
         throw new Error(`prompt is required`);
     }
-    const prompt = typeof actorData.prompt === 'object'
+    actor.prompt = typeof actorData.prompt === 'object'
         ? actorData.prompt
         : JSON.parse(actorData.prompt);
-    actor.prompt = prompt;
 
     // TODO: refine
     if (requiredParams.includes('aiModel') && !actorData.aiModel) {
         throw new Error(`AI model is required`);
     }
-    const aiModel = typeof actorData.aiModel === 'object'
+    actor.aiModel = typeof actorData.aiModel === 'object'
         ? actorData.aiModel
         : JSON.parse(actorData.aiModel);
-    actor.aiModel = aiModel;
 
     return actor;
 };

@@ -187,7 +187,7 @@ export const updateActorModel = async (actorId, model) => {
 
     await aiModel.save();
 
-    updateModelType(model);
+    await updateModelType(model);
 
     return actor;
 };
