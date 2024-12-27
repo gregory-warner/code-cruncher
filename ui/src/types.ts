@@ -166,3 +166,16 @@ export enum SessionType {
     JavaScript = 6,
     Kotlin = 7,
 }
+
+export interface MessageEventDetails {
+    message_event_details_id?: number | null;
+    message_id: number;
+    question_id: number;
+    result_id?: number | null;
+    duration?: number | null;
+    createdAt?: Date | null;
+    updatedAt?: Date | null;
+    deletedAt?: Date | null;
+}
+
+export interface ChatResponse {}
