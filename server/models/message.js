@@ -18,37 +18,18 @@ const Message = sequelize.define('message', {
         allowNull: false,
         field: 'session_id',
     },
-    messageTypeId: {
+    messageEventId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,
-        field: 'message_type_id',
-        commend: 'used to determine if the message type e.g. question, answer, general'
-    },
-    messageLinkId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0,
-        field: 'message_link_id',
-        comment: 'used to link one message to another e.g. question to answers'
+        field: 'message_event_id',
+        commend: 'associated with the message event details'
     },
     content: {
         type: DataTypes.TEXT,
         allowNull: false,
         defaultValue: '',
         field: 'content',
-    },
-    data: {
-        type: DataTypes.JSON,
-        allowNull: true,
-        field: 'data',
-    },
-    isLocked: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-        field: 'is_locked',
-        comment: 'used to prohibit the message from being deleted',
     },
     sessionParticipantId: {
         type: DataTypes.INTEGER,
