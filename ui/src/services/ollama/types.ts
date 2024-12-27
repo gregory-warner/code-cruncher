@@ -1,3 +1,5 @@
+import {ChatResponse} from "../../types";
+
 export interface ModelResponse {
     model: string;
     created_at: string;
@@ -121,7 +123,7 @@ interface Runner {
     num_thread?: number;
 }
 
-export interface OllamaResponse {
+export interface OllamaResponse extends ChatResponse {
     model: string;
     created_at: Date;
     message: OllamaMessage;

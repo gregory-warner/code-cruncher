@@ -1,9 +1,11 @@
-import {Actor, Message, SessionParticipant, SessionParticipantType, User} from "../../types";
+import {Actor, ChatResponse, Message, SessionParticipant, SessionParticipantType, User} from "../../types";
 import {AnyAction, ThunkAction} from "@reduxjs/toolkit";
+import {OllamaResponse} from "../../services/ollama/types";
 
 export interface ChatService {
     chat(messages: Message[]): ThunkAction<any, any, any, AnyAction>;
-    getResponseContent: any;
+    getResponseContent: (response :ChatResponse) => string;
+    isQuestion: (response: OllamaResponse) => boolean;
 }
 
 export type Messenger = User | Actor;

@@ -1,3 +1,5 @@
+import {ChatResponse} from "../../types";
+
 export interface ChatApiModel {
     created: number,
     id: string,
@@ -47,7 +49,7 @@ export interface ResponseChoice {
     index: number,
 }
 
-export interface OpenAiResponse {
+export interface OpenAiResponse extends ChatResponse {
     status: number,
     choices: ResponseChoice[],
 }
