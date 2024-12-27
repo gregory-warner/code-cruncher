@@ -8,6 +8,8 @@ import ImageModel from "./imageModel.js";
 import TextModel from "./textModel.js";
 import LanguageModel from "./languageModel.js";
 import AIModel from "./aimodel.js";
+import MessageEventDetails from "./messageEventDetails.js";
+import MessageQuestionType from "./messageQuestionType.js";
 
 Actor.belongsTo(Prompt, { foreignKey: 'prompt_id' });
 Actor.belongsTo(AIModel, { foreignKey: 'model_id', as: 'aiModel' });
@@ -37,8 +39,8 @@ SessionParticipant.belongsTo(Actor, { foreignKey: 'participant_id', constraints:
 User.hasMany(SessionParticipant, { foreignKey: 'participant_id', constraints: false, scope: { participantTypeId: 0 } });
 Actor.hasMany(SessionParticipant, { foreignKey: 'participant_id', constraints: false, scope: { participantTypeId: 1 } });
 
-Message.belongsTo(Message, { foreignKey: 'message_link_id', constraints: false  });
-Message.hasMany(Message, { foreignKey: 'message_link_id', constraints: false  });
+Message.hasOne(MessageEventDetails, { foreignKey: 'message_id', allowNull: true });
+MessageEventDetails.belongsTo(Message, { foreignKey: 'message_id' });
 
 export {
     Actor,
@@ -51,4 +53,6 @@ export {
     TextModel,
     LanguageModel,
     AIModel,
+    MessageEventDetails,
+    MessageQuestionType
 };
