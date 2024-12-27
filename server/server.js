@@ -8,6 +8,7 @@ import userRouter from './routes/users.js';
 import sessionRouter from './routes/sessions.js';
 import prompts from "./routes/prompts.js"
 import modelRouter from "./routes/models.js";
+import messageEventDetailsRouter from './routes/messageEventDetails.js';
 import fs from 'fs';
 import path from 'path';
 
@@ -27,6 +28,7 @@ app.use("/messages", messagesRouter);
 app.use("/prompts", prompts);
 app.use("/sessions", sessionRouter);
 app.use("/models", modelRouter);
+app.use("/message-event-details", messageEventDetailsRouter);
 
 const errorHandler = (err, req, res, next) => {
     console.error(err.stack ?? "Server Error");
