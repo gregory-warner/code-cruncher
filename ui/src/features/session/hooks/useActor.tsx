@@ -1,5 +1,9 @@
 import {useAppDispatch} from "../../../store/hooks";
-import {useAddMessageMutation, useLazyGetMessagesQuery} from "../../../services/server/serverApi";
+import {
+    useAddMessageEventDetailsMutation,
+    useAddMessageMutation,
+    useLazyGetMessagesQuery
+} from "../../../services/server/serverApi";
 import {ServiceFactory} from "../services/serviceFactory";
 import {ChatService} from "../types";
 import {AddMessageRequest} from "../../../services/server/types";
@@ -10,6 +14,7 @@ export const useActor = () => {
 
     const [getMessages] = useLazyGetMessagesQuery();
     const [addMessage] = useAddMessageMutation();
+    const [addEvent] = useAddMessageEventDetailsMutation();
 
     const getService = (actor: Actor): ChatService => {
         return ServiceFactory.create(actor);
@@ -28,7 +33,18 @@ export const useActor = () => {
             content: service.getResponseContent(response),
         };
 
-        return await addMessage(message).unwrap();
+        const chatResponse = await addMessage(message).unwrap();
+
+        if (service.isQuestion(response)) {
+            const eventDetails = await addEvent(service.getEventDetails(
+                chatResponse.messageId,
+                response
+            )).unwrap();
+
+
+        }
+
+        return chatResponse;
     };
 
     return {
