@@ -221,7 +221,7 @@ export const serverApi  = createApi({
                 body: details,
             }),
         }),
-        addMessageQuestionType: build.mutation<void, MessageQuestionTypeRequest>({
+        addMessageQuestionTypes: build.mutation<void, MessageQuestionTypeRequest>({
             query: (request) => ({
                 url: `message-event-details/add-types`,
                 method: 'POST',
@@ -257,5 +257,6 @@ export const {
     useDeleteActorMutation,
     useLazyGetActiveSessionParticipantsQuery,
     useGetActiveSessionParticipantsQuery,
-    useAddMessageEventDetailsMutation
+    useAddMessageEventDetailsMutation,
+    useAddMessageQuestionTypesMutation,
 } = serverApi;
