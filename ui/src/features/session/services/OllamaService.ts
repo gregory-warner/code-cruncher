@@ -1,4 +1,4 @@
-import {Actor, Message, MessageEventDetails} from "../../../types";
+import {Actor, Message} from "../../../types";
 import {OllamaKeepAlive, OllamaMessage, OllamaRequest, OllamaResponse} from "../../../services/ollama/types";
 import {messengerTypes} from "../../../utils/util";
 import {ollamaApi} from "../../../services/ollama/ollamaApi";
@@ -12,7 +12,7 @@ class OllamaService implements ChatService {
     private keepAlive?: 0|1|-1;
     private api = ollamaApi;
 
-    private questionMessage: 'CODE CRUNCHER - QUESTION';
+    private questionMessage = 'CODE CRUNCHER - QUESTION';
 
     constructor(actor: Actor) {
         this.actor = actor;
@@ -61,11 +61,9 @@ class OllamaService implements ChatService {
         return response.message.content.includes(this.questionMessage);
     }
 
-    public handleMessageEventDetails = async (response: OllamaResponse): Promise<void> => {
+    public getQuestionTypes = (response: OllamaResponse): string[] => {
         const content = response.message.content;
-        const questionNumber = /QUESTION (\d+)/.exec(content)?.[1] ?? '0';
-        const dataTypes = /Data Type\(s\): ([\w,\s]+)/.exec(content)?.[1] ?? '';
-
+        return (/Data Type\(s\): ([\w,\s]+)/.exec(content)?.[1] ?? '').split(', ');
     }
 
     public getEventDetails = (messageId: number, response: OllamaResponse): MessageEventDetailsRequest => {

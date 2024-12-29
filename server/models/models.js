@@ -39,9 +39,6 @@ SessionParticipant.belongsTo(Actor, { foreignKey: 'participant_id', constraints:
 User.hasMany(SessionParticipant, { foreignKey: 'participant_id', constraints: false, scope: { participantTypeId: 0 } });
 Actor.hasMany(SessionParticipant, { foreignKey: 'participant_id', constraints: false, scope: { participantTypeId: 1 } });
 
-Message.hasOne(MessageEventDetails, { foreignKey: 'message_id', allowNull: true });
-MessageEventDetails.belongsTo(Message, { foreignKey: 'message_id' });
-
 export {
     Actor,
     User,

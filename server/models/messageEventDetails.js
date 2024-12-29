@@ -27,8 +27,6 @@ const MessageEventDetails = sequelize.define('message_event_details', {
         comment: 'time taken, in seconds, to submit the answer'
     },
 },{
-    paranoid: true,
-    timestamps: true,
     indexes: [
         {
             fields: ['question_id', 'result_id'],
