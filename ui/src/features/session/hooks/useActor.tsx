@@ -44,7 +44,7 @@ export const useActor = () => {
 
             const questionTypes = service.getQuestionTypes(response);
 
-            await addQuestionTypes({messageEventId: eventDetails.messageEventDetailsId, questionTypes});
+            await addQuestionTypes({messageEventId: eventDetails.messageEventId, questionTypes});
         }
 
         return chatResponse;

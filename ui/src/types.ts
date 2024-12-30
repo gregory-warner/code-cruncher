@@ -168,7 +168,7 @@ export enum SessionType {
 }
 
 export interface MessageEventDetails {
-    messageEventDetailsId: number;
+    messageEventId: number;
     messageId: number;
     questionId: number;
     resultId?: number | null;

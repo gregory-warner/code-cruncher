@@ -63,7 +63,7 @@ class OllamaService implements ChatService {
 
     public getQuestionTypes = (response: OllamaResponse): string[] => {
         const content = response.message.content;
-        return (/Data Type\(s\): ([\w,\s]+)/.exec(content)?.[1] ?? '').split(', ');
+        return (/Data Types: ([\w,\s]+)(\n){2}/.exec(content)?.[1] ?? '').split(', ');
     }
 
     public getEventDetails = (messageId: number, response: OllamaResponse): MessageEventDetailsRequest => {

@@ -21,14 +21,14 @@ export const addDetails = async (details) => {
     return eventDetails;
 };
 
-export const addQuestionTypes = async (messageId, questionTypes) => {
-    if (messageId <= 0 || questionTypes.length === 0) {
+export const addQuestionTypes = async (messageEventId, questionTypes) => {
+    if (messageEventId <= 0 || questionTypes.length === 0) {
         throw new Error('Missing required parameters');
     }
 
     questionTypes.forEach(async (questionType) => {
         await MessageQuestionType.create({
-            messageId,
+            messageEventId,
             questionType,
         });
     });
