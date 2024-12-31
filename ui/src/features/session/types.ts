@@ -7,14 +7,10 @@ import {
     User
 } from "../../types";
 import {AnyAction, ThunkAction} from "@reduxjs/toolkit";
-import {MessageEventDetailsRequest} from "../../services/server/types";
 
 export interface ChatService {
     chat(messages: Message[]): ThunkAction<any, any, any, AnyAction>;
     getResponseContent: (response: ChatResponse) => string;
-    isQuestion: (response: ChatResponse) => boolean;
-    getEventDetails: (messageId: number, response: ChatResponse) => MessageEventDetailsRequest;
-    getQuestionTypes: (response: ChatResponse) => string[];
 }
 
 export type Messenger = User | Actor;

@@ -4,15 +4,12 @@ import {messengerTypes} from "../../../utils/util";
 import {ollamaApi} from "../../../services/ollama/ollamaApi";
 import {ChatService} from "../types";
 import {AnyAction, ThunkAction} from "@reduxjs/toolkit";
-import {MessageEventDetailsRequest} from "../../../services/server/types";
 
 class OllamaService implements ChatService {
     private actor: Actor;
     private stream: boolean;
     private keepAlive?: 0|1|-1;
     private api = ollamaApi;
-
-    private questionMessage = 'CODE CRUNCHER - QUESTION';
 
     constructor(actor: Actor) {
         this.actor = actor;
@@ -55,25 +52,6 @@ class OllamaService implements ChatService {
         };
 
         return this.api.endpoints.chat.initiate(request);
-    }
-
-    public isQuestion = (response: OllamaResponse): boolean => {
-        return response.message.content.includes(this.questionMessage);
-    }
-
-    public getQuestionTypes = (response: OllamaResponse): string[] => {
-        const content = response.message.content;
-        return (/Data Types: ([\w,\s]+)(\n){2}/.exec(content)?.[1] ?? '').split(', ');
-    }
-
-    public getEventDetails = (messageId: number, response: OllamaResponse): MessageEventDetailsRequest => {
-        const content = response.message.content;
-        const questionId = parseInt(/QUESTION (\d+)/.exec(content)?.[1] ?? '0');
-
-        return {
-            messageId,
-            questionId,
-        }
     }
 
     /**
