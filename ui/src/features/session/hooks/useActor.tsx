@@ -1,7 +1,6 @@
 import {useAppDispatch} from "../../../store/hooks";
 import {
-    useAddMessageEventDetailsMutation,
-    useAddMessageMutation, useAddMessageQuestionTypesMutation,
+    useAddMessageMutation,
     useLazyGetMessagesQuery
 } from "../../../services/server/serverApi";
 import {ServiceFactory} from "../services/serviceFactory";
@@ -15,14 +14,12 @@ export const useActor = () => {
 
     const [getMessages] = useLazyGetMessagesQuery();
     const [addMessage] = useAddMessageMutation();
-    const [addEvent] = useAddMessageEventDetailsMutation();
-    const [addQuestionTypes] = useAddMessageQuestionTypesMutation();
 
-    const { isQuestion, getEventDetails, getQuestionTypes } = useQuizzer();
+    const { isQuizQuestion, handleQuizQuestion } = useQuizzer();
 
     const getService = (actor: Actor): ChatService => {
         return ServiceFactory.create(actor);
-    }
+    };
 
     const chat = async (sessionId: number, sessionParticipant: SessionParticipant): Promise<Message|null> => {
         const service = getService(sessionParticipant.participant as Actor);
@@ -39,12 +36,8 @@ export const useActor = () => {
 
         const chatResponse = await addMessage(message).unwrap();
 
-        if (isQuestion(chatResponse)) {
-            const eventDetails = await addEvent(getEventDetails(chatResponse)).unwrap();
-
-            const questionTypes = getQuestionTypes(chatResponse);
-
-            await addQuestionTypes({messageEventId: eventDetails.messageEventId, questionTypes});
+        if (isQuizQuestion(chatResponse)) {
+            return await handleQuizQuestion(chatResponse);
         }
 
         return chatResponse;
