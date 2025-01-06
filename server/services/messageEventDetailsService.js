@@ -1,18 +1,30 @@
 import {Message, MessageEventDetails, MessageQuestionType} from "../models/models.js";
 
-export const addDetails = async (details) => {
-    const questionId = parseInt(details.questionId ?? '');
-    const messageId = parseInt(details.messageId ?? '');
+const getValidatedDetails = (details) => {
+    const validatedDetails = {};
 
-    if (!questionId || !messageId) {
-        throw new Error('Missing required parameters');
+    if (!Number.isInteger(details.questionId)) {
+        throw new Error("Missing required parameter 'questionId'");
+    }
+    validatedDetails.questionId = details.questionId;
+
+    if (Number.isInteger(details.resultId)) {
+        validatedDetails.resultId = details.resultId;
     }
 
-    const eventDetails = await MessageEventDetails.create({
-        questionId,
-    });
+    return validatedDetails;
+};
 
-    const message = await Message.findByPk(messageId);
+export const addDetails = async (details) => {
+    const validatedDetails = getValidatedDetails(details);
+
+    if (!Number.isInteger(details.messageId)) {
+        throw new Error("Missing required parameter 'messageId'");
+    }
+
+    const eventDetails = await MessageEventDetails.create(validatedDetails);
+
+    const message = await Message.findByPk(details.messageId);
 
     message.messageEventId = eventDetails.toJSON().messageEventId;
 
