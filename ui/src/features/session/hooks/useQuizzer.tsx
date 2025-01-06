@@ -5,14 +5,23 @@ import {
     useAddMessageQuestionTypesMutation
 } from "../../../services/server/serverApi";
 
+
 export const useQuizzer = () => {
     const questionMessage = 'CODE CRUNCHER - QUESTION';
+    const quizzerResponses = ['INCORRECT!', 'PARTIALLY CORRECT!', 'CORRECT!'];
 
     const [addEvent] = useAddMessageEventDetailsMutation();
     const [addQuestionTypes] = useAddMessageQuestionTypesMutation();
 
     const isQuizQuestion = (message: Message): boolean => {
-        return message.content.includes(questionMessage);
+        const regexQuestion = new RegExp(`^${questionMessage} \d+`);
+        return /^CODE CRUNCHER - QUESTION \d+/.test(message.content);
+        // return message.content.includes(questionMessage);
+    };
+
+    const isQuizzerResponse = (message: Message): boolean => {
+        const regexResponse = new RegExp(`^QUESTION (\\d+):\\s(${quizzerResponses.join('|')})\\b`);
+        return regexResponse.test(message.content);
     };
 
     const handleQuizQuestion = async (message: Message): Promise<Message> => {
@@ -41,5 +50,6 @@ export const useQuizzer = () => {
     return {
         isQuizQuestion,
         handleQuizQuestion,
+        isQuizzerResponse,
     };
 };
