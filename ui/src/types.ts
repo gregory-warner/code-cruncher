@@ -95,14 +95,11 @@ export interface ColorTheme {
 export interface Message {
     messageId: number;
     sessionId: number;
-    messageTypeId: number;
-    messageLinkId: number;
     sessionParticipantId: number;
     content: string;
-    data?: any;
-    isLocked: boolean;
     messenger: MessengerType;
     messengerTypeId: number;
+    messageEventId: number;
 }
 
 export interface Session {
