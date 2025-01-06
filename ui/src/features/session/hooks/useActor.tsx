@@ -15,7 +15,7 @@ export const useActor = () => {
     const [getMessages] = useLazyGetMessagesQuery();
     const [addMessage] = useAddMessageMutation();
 
-    const { isQuizQuestion, handleQuizQuestion } = useQuizzer();
+    const { isQuizQuestion, handleQuizQuestion, isQuizzerResponse, handleQuizzerResponse } = useQuizzer();
 
     const getService = (actor: Actor): ChatService => {
         return ServiceFactory.create(actor);
@@ -34,7 +34,11 @@ export const useActor = () => {
             content: service.getResponseContent(response),
         };
 
-        const chatResponse = await addMessage(message).unwrap();
+        let chatResponse = await addMessage(message).unwrap();
+
+        if (isQuizzerResponse(chatResponse)) {
+            chatResponse = await handleQuizzerResponse(chatResponse);
+        }
 
         if (isQuizQuestion(chatResponse)) {
             return await handleQuizQuestion(chatResponse);
