@@ -3,6 +3,7 @@ import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
 import {useGetMessagesQuery} from "../../../../services/server/serverApi";
 import {
     selectSessionId,
+    selectSessionStatus,
     updateSessionStatusIsLoading
 } from "../../sessionSlice";
 import SessionMessagesSection from "./components/sessionMessagesSection/SessionMessagesSection";
@@ -24,10 +25,12 @@ const SessionSection = () => {
     const { chat } = useActor();
     const { getCurrentSpeaker } = useCurrentSpeaker();
 
+    const sessionStatus = useAppSelector(state => (sessionId ? selectSessionStatus(state, sessionId) : null));
+
     const runSession = async (sessionId: number) => {
         const currentSpeaker = await getCurrentSpeaker(sessionId);
 
-        if (isActor(currentSpeaker.participant)) {
+        if (isActor(currentSpeaker.participant) && !sessionStatus.isLoading) {
             dispatch(updateSessionStatusIsLoading({ sessionId, isLoading: true }));
 
             const response = await chat(sessionId, currentSpeaker);

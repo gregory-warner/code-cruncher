@@ -17,7 +17,7 @@ const SessionMessage = ({ message }: { message: Message }) => {
             sx={style.sessionMessage.container}
             onClick={()=>{}}
         >
-            <Grid container direction='column'>
+            <Grid container direction='column' >
                 <SessionMessageHeader message={message} />
                 <Markdown
                     remarkPlugins={[remarkGfm]}
@@ -27,7 +27,7 @@ const SessionMessage = ({ message }: { message: Message }) => {
                             const match = /language-(\w+)/.exec(className || '');
 
                             return !inline && match ? (
-                                <SyntaxHighlighter style={gruvboxDark} PreTag="div" language={match[1]} {...props}>
+                                <SyntaxHighlighter wrapLongLines wrapLines style={gruvboxDark} PreTag="div" language={match[1]} {...props}>
                                     {String(children).replace(/\n$/, '')}
                                 </SyntaxHighlighter>
                             ) : (
