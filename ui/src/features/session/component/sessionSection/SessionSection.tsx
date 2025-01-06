@@ -32,14 +32,14 @@ const SessionSection = () => {
 
         if (isActor(currentSpeaker.participant) && !sessionStatus.isLoading) {
             dispatch(updateSessionStatusIsLoading({ sessionId, isLoading: true }));
-
             const response = await chat(sessionId, currentSpeaker);
+            dispatch(updateSessionStatusIsLoading({ sessionId, isLoading: false }));
+
             if (!response.messageId) {
                 dispatch(setSnackbar({ message: 'Unable to send message' }));
                 return;
             }
 
-            dispatch(updateSessionStatusIsLoading({ sessionId, isLoading: false }));
         }
     };
 
