@@ -1,5 +1,5 @@
 import express from 'express';
-import {addDetails, addQuestionTypes} from "../services/messageEventDetailsService.js";
+import {addDetails, addQuestionTypes, getSessionMessageEventDetails} from "../services/messageEventDetailsService.js";
 const router = express.Router();
 
 router.post("/add", async (req, res, next) => {
@@ -20,5 +20,14 @@ router.post("/add-types", async (req, res, next) => {
         next(`Unable to add message: ${error}`);
     }
 }); //types
+
+router.get("/session/:sessionId", async (req, res, next) => {
+    try {
+        const eventDetails = await getSessionMessageEventDetails(req.params.sessionId);
+        return res.json(eventDetails);
+    } catch (error) {
+        next(`Unable to get message event details with session id ${req.params.sessionId}`);
+    }
+});
 
 export default router;

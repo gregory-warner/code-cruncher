@@ -1,4 +1,4 @@
-import {Message, MessageEventDetails, MessageQuestionType} from "../models/models.js";
+import {Message, MessageEventDetails, MessageQuestionType, Session} from "../models/models.js";
 
 const getValidatedDetails = (details) => {
     const validatedDetails = {};
@@ -44,4 +44,29 @@ export const addQuestionTypes = async (messageEventId, questionTypes) => {
             questionType,
         });
     });
+};
+
+export const getSessionMessageEventDetails = async (id) => {
+    const sessionId = parseInt(id);
+    if (!sessionId) {
+        throw new Error("Unable to get session id");
+    }
+
+    const sessionDetails = await Session.findOne({
+        where: { sessionId },
+        include: [
+            { 
+                model: Message,
+                as: 'messages',
+                include: [
+                    {
+                        model: MessageEventDetails,
+                        as: 'eventDetails',
+                    }
+                ]
+            }
+        ]
+    });
+
+    return sessionDetails;
 }

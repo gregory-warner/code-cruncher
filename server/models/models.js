@@ -26,7 +26,7 @@ AIModel.hasMany(Actor, { foreignKey: 'model_id', constraints: false });
 SessionParticipant.belongsTo(Session, { foreignKey: 'session_id' });
 Session.hasMany(SessionParticipant, { foreignKey: 'session_id', as: 'sessionParticipant' });
 SessionParticipant.belongsTo(Session, { foreignKey: 'session_id' });
-Session.hasMany(Message, { foreignKey: 'session_id' });
+Session.hasMany(Message, { foreignKey: 'session_id', as: 'messages' });
 Message.belongsTo(Session, { foreignKey: 'session_id' });
 
 Prompt.hasOne(Actor, { foreignKey: 'prompt_id' });
@@ -38,6 +38,8 @@ SessionParticipant.belongsTo(User, { foreignKey: 'participant_id', constraints: 
 SessionParticipant.belongsTo(Actor, { foreignKey: 'participant_id', constraints: false, as: 'actor' });
 User.hasMany(SessionParticipant, { foreignKey: 'participant_id', constraints: false, scope: { participantTypeId: 0 } });
 Actor.hasMany(SessionParticipant, { foreignKey: 'participant_id', constraints: false, scope: { participantTypeId: 1 } });
+
+Message.hasOne(MessageEventDetails, { foreignKey: 'message_event_id', as: 'eventDetails' });
 
 export {
     Actor,
