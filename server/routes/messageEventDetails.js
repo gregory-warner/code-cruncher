@@ -7,7 +7,7 @@ router.post("/add", async (req, res, next) => {
         const details = await addDetails(req.body);
         return res.json(details.get({plain: true}));
     } catch (error) {
-        next(`Unable to add message: ${error}`);
+        next(`Unable to add event details: ${error}`);
     }
 });
 
@@ -17,7 +17,7 @@ router.post("/add-types", async (req, res, next) => {
         await addQuestionTypes(messageEventId, questionTypes);
         return res.json({});
     } catch (error) {
-        next(`Unable to add message: ${error}`);
+        next(`Unable to add event question types: ${error}`);
     }
 }); //types
 
