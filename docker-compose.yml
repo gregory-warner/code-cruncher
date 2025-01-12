@@ -10,7 +10,7 @@ services:
     env_file:
       - .env
     networks:
-      - chat-network
+      - crunchi-network
   pgdb:
     image: postgres
     ports:
@@ -22,7 +22,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWD}
       POSTGRES_DB: ${POSTGRES_DATABASE}
     networks:
-      - chat-network
+      - crunchi-network
   server:
     build:
       context: .
@@ -38,9 +38,10 @@ services:
     depends_on:
       - pgdb
     networks:
-      - chat-network
+      - crunchi-network
+    # command: yarn nodemon -L --inspect=0.0.0.0:9229 --signal SIGINT --nolazy server.js
 networks:
-  chat-network:
+  crunchi-network:
     external: true
 
   
