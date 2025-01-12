@@ -228,6 +228,12 @@ export const serverApi  = createApi({
                 body: request,
             }),
         }),
+        getSessionMessageEventDetails: build.query<MessageEventDetails[][], number>({
+            query: (sessionId: number) => ({
+                url: `message-event-details/session/${sessionId}`,
+                method: 'GET',
+            }),
+        }),
     }),
 });
 
@@ -259,4 +265,5 @@ export const {
     useGetActiveSessionParticipantsQuery,
     useAddMessageEventDetailsMutation,
     useAddMessageQuestionTypesMutation,
+    useLazyGetSessionMessageEventDetailsQuery,
 } = serverApi;
