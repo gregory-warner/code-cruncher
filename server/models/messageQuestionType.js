@@ -7,6 +7,7 @@ const MessageQuestionType = sequelize.define('message_question_type', {
         primaryKey: true,
         allowNull: false,
         field: 'message_event_id',
+        comment: 'references message_event_details.message_event_id'
     },
     questionType: {
         type: DataTypes.TEXT,
