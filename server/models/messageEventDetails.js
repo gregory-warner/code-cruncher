@@ -8,6 +8,12 @@ const MessageEventDetails = sequelize.define('message_event_details', {
         primaryKey: true,
         field: 'message_event_id',
     },
+    messageId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: 'message_id',
+        comment: 'references messages.message_id'
+    },
     questionId: {
         type: DataTypes.INTEGER,
         allowNull: false,

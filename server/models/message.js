@@ -18,13 +18,6 @@ const Message = sequelize.define('message', {
         allowNull: false,
         field: 'session_id',
     },
-    messageEventId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0,
-        field: 'message_event_id',
-        commend: 'associated with the message event details'
-    },
     content: {
         type: DataTypes.TEXT,
         allowNull: false,
@@ -57,6 +50,9 @@ const Message = sequelize.define('message', {
     ],
     hooks: {
         afterFind: findResult => {
+            if (!findResult) {
+                return;
+            }
             if (!Array.isArray(findResult)) findResult = [findResult];
             for (const instance of findResult) {
                 if (instance.participant?.participantTypeId === messengerTypeId.user && instance.participant.user !== undefined) {
