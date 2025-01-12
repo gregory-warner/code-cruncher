@@ -37,7 +37,6 @@ export const useQuizzer = () => {
         const questionTypes = getQuestionTypes(message);
 
         await addQuestionTypes({messageEventId: eventDetails.messageEventId, questionTypes});
-
         return message;
     };
 
@@ -65,8 +64,8 @@ export const useQuizzer = () => {
     };
 
     const getQuestionTypes = (message: Message): string[] => {
-        const dataTypesMatch = message.content.match(/Data Types:(.*?)(\n|$)/);
-        const dataTypes = dataTypesMatch[1].trim();
+        const dataTypesMatch = message.content.match(/Datatype:(.*?)\n/);
+        const dataTypes = dataTypesMatch?.[1].trim() ?? '';
         return dataTypes.split(', ');
     };
 
