@@ -1,21 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {Box, Grid, Paper, useTheme} from "@mui/material";
 import SessionScore from "./SessionScore";
 import useScore from "../../../../hooks/useScore";
-import { Scores } from "../../../../types";
-import { useAppSelector } from "../../../../../../store/hooks";
-import { selectSessionId } from "../../../../sessionSlice";
+import {useAppDispatch, useAppSelector} from "../../../../../../store/hooks";
+import {
+    selectSessionId,
+    selectSessionScore,
+    updateSessionStatusScore
+} from "../../../../sessionSlice";
 
 const SessionScoreBoard = () => {
     const theme = useTheme();
+    const dispatch = useAppDispatch();
+
     const sessionId = useAppSelector(selectSessionId);
+    const score = useAppSelector(state => (
+        sessionId ? selectSessionScore(state, sessionId) : null
+    ));
 
-    const [score, setScore] = useState<Scores>({ correct: 0, incorrect: 0 });
-
-    const { getScores } = useScore();
+    const { getScore } = useScore();
 
     const updateScore = async (sessionId: number): Promise<void> => {
-        setScore(await getScores(sessionId));
+        const score = await getScore(sessionId);
+        dispatch(updateSessionStatusScore({ sessionId, score }))
     };
 
     useEffect(() => {
@@ -25,6 +32,10 @@ const SessionScoreBoard = () => {
 
         updateScore(sessionId);
     }, [sessionId]);
+
+    if (!score) {
+        return <Box></Box>;
+    }
 
     return (
         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
