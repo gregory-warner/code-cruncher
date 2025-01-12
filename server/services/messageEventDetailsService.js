@@ -44,7 +44,7 @@ export const getSessionMessageEventDetails = async (id) => {
         throw new Error("Unable to get session id");
     }
 
-    const sessionDetails = await Session.findOne({
+    const session = await Session.findOne({
         where: { sessionId },
         include: [
             { 
@@ -53,12 +53,12 @@ export const getSessionMessageEventDetails = async (id) => {
                 include: [
                     {
                         model: MessageEventDetails,
-                        as: 'eventDetails',
+                        as: 'messageEventDetails',
                     }
                 ]
             }
         ]
     });
 
-    return sessionDetails;
+    return session.messages.filter(message => message.messageEventDetails).map(message => message.messageEventDetails);
 }
