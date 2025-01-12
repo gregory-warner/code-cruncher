@@ -22,20 +22,7 @@ const getValidatedDetails = (details) => {
 
 export const addDetails = async (details) => {
     const validatedDetails = getValidatedDetails(details);
-
-    if (!Number.isInteger(details.messageId)) {
-        throw new Error("Missing required parameter 'messageId'");
-    }
-
-    const eventDetails = await MessageEventDetails.create(validatedDetails);
-
-    const message = await Message.findByPk(details.messageId);
-
-    message.messageEventId = eventDetails.toJSON().messageEventId;
-
-    message.save();
-
-    return eventDetails;
+    return await MessageEventDetails.create(validatedDetails);
 };
 
 export const addQuestionTypes = async (messageEventId, questionTypes) => {
