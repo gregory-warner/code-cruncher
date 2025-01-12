@@ -8,6 +8,11 @@ const getValidatedDetails = (details) => {
     }
     validatedDetails.questionId = details.questionId;
 
+    if (!Number.isInteger(details.messageId)) {
+        throw new Error("Missing required parameter 'messageId'");
+    }
+    validatedDetails.messageId = details.messageId;
+
     if (Number.isInteger(details.resultId)) {
         validatedDetails.resultId = details.resultId;
     }
