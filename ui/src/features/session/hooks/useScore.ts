@@ -1,10 +1,10 @@
 import {useLazyGetSessionMessageEventDetailsQuery} from "../../../services/server/serverApi";
-import { Scores } from "../types";
+import { Score } from "../types";
 
 const useScore = () => {
     const [sessionDetails] = useLazyGetSessionMessageEventDetailsQuery();
 
-    const getScores = async (sessionId: number): Promise<Scores> => {
+    const getScore = async (sessionId: number): Promise<Score> => {
         if (!sessionId) {
             return { correct: 0, incorrect: 0 };
         }
@@ -31,7 +31,7 @@ const useScore = () => {
     };
 
     return {
-        getScores,
+        getScore,
     };
 
 };

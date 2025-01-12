@@ -21,6 +21,7 @@ export interface SessionStatus {
     currentSequenceId: number;
     currentSpeaker: Speaker;
     selectedParticipant: SessionParticipantType;
+    score: Score;
 }
 
 export type PartialSessionStatus = Partial<SessionStatus>;
@@ -50,7 +51,12 @@ export interface UpdateSelectedParticipant {
     participant: SessionParticipantType;
 }
 
-export interface Scores {
+export interface Score {
     correct: number;
     incorrect: number;
+}
+
+export interface UpdateSessionScore {
+    sessionId: number;
+    score: Score;
 }
