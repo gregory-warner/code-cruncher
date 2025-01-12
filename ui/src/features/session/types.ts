@@ -49,3 +49,8 @@ export interface UpdateSelectedParticipant {
     sessionId: number;
     participant: SessionParticipantType;
 }
+
+export interface Scores {
+    correct: number;
+    incorrect: number;
+}
