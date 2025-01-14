@@ -17,7 +17,7 @@ const LanguageModel = sequelize.define('language_model', {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 4096,
-        field: 'max_token',
+        field: 'max_tokens',
     },
     temperature: {
         type: DataTypes.FLOAT,
