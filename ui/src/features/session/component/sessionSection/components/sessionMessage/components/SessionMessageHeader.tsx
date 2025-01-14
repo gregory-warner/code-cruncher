@@ -1,12 +1,10 @@
 import {Avatar, Grid, IconButton, Typography} from "@mui/material";
 import {chatServerUrl} from "../../../../../../../../config";
-import LockIcon from "@mui/icons-material/Lock";
-import {LockOpen} from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
 import {Message, MessengerType} from "../../../../../../../types";
 import {useAppDispatch} from "../../../../../../../store/hooks";
-import {useDeleteMessageMutation, useUpdateMessageMutation} from "../../../../../../../services/server/serverApi";
+import {useDeleteMessageMutation} from "../../../../../../../services/server/serverApi";
 import {setSnackbar} from "../../../../../../../app/store/appSlice";
 import style from "../../../../../style";
 import useMessageCardStyle from "../../../../../hooks/useMessageCardStyle";
@@ -15,7 +13,6 @@ const SessionMessageHeader = ({ message }: { message: Message }) => {
     const dispatch = useAppDispatch();
 
     const [deleteMessage] = useDeleteMessageMutation();
-    const [updateMessage] = useUpdateMessageMutation();
 
     const messenger: MessengerType = message.messenger;
 
@@ -24,17 +21,6 @@ const SessionMessageHeader = ({ message }: { message: Message }) => {
     const deleteMessageHandler = async () => {
         await deleteMessage(message.messageId).unwrap();
         dispatch(setSnackbar({message: 'Message was successfully deleted'}));
-    };
-
-    const onMessageLock = async () => {
-        const updatedMessage = {
-            ...message,
-            isLocked: !message.isLocked,
-        }
-        const resp = await updateMessage(updatedMessage).unwrap();
-        if (resp.messageId) {
-            dispatch(setSnackbar({message: 'Message was successfully updated'}));
-        }
     };
 
     return (
@@ -58,11 +44,6 @@ const SessionMessageHeader = ({ message }: { message: Message }) => {
                 </Grid>
             </Grid>
             <Grid xs={2} item container justifyContent='flex-end'>
-                <Grid item>
-                    <IconButton onClick={onMessageLock} sx={style.sessionMessage.header.icon}>
-                        {message.isLocked ? <LockIcon /> : <LockOpen />}
-                    </IconButton>
-                </Grid>
                 <Grid item>
                     <IconButton onClick={deleteMessageHandler} sx={style.sessionMessage.header.icon}>
                         <CloseIcon />
