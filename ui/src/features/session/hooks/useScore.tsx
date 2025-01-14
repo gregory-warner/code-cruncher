@@ -1,7 +1,11 @@
 import {useLazyGetSessionMessageEventDetailsQuery} from "../../../services/server/serverApi";
 import { Score } from "../types";
+import {useAppDispatch} from "../../../store/hooks";
+import {updateSessionStatusScore} from "../sessionSlice";
 
 const useScore = () => {
+    const dispatch = useAppDispatch();
+
     const [sessionDetails] = useLazyGetSessionMessageEventDetailsQuery();
 
     const getScore = async (sessionId: number): Promise<Score> => {
@@ -24,14 +28,23 @@ const useScore = () => {
                         incorrect+=1;
                     }
                 }
-            })
+            });
         });
 
         return { correct, incorrect };
     };
 
+    const updateScore = async (sessionId: number|null): Promise<void> => {
+        if (!sessionId) {
+            return;
+        }
+
+        const score = await getScore(sessionId);
+        dispatch(updateSessionStatusScore({ sessionId, score }))
+    };
+
     return {
-        getScore,
+        updateScore,
     };
 
 };
