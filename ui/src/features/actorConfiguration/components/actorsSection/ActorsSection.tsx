@@ -16,7 +16,7 @@ const ActorsSection = () => {
             <Grid container direction='row' alignItems='center'>
                 <Grid item xs={5} textAlign='center'>
                     <Typography variant='h6' sx={{paddingLeft: '5px', paddingRight: '5px'}}>
-                        Actors
+                        Instructors
                     </Typography>
                 </Grid>
             </Grid>
