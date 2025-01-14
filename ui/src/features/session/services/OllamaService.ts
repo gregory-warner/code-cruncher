@@ -25,21 +25,29 @@ class OllamaService implements ChatService {
        this.keepAlive = keepAlive;
     }
 
-    public formatMessages(messages: Message[]): OllamaMessage[] {
+    private appendPrompt(messages: OllamaMessage[]): OllamaMessage[] {
         const promptMessage: OllamaMessage  = {
             role: 'system',
             content: this.actor.prompt.prompt,
         };
 
+        return [
+            promptMessage,
+            ...messages,
+        ];
+    }
+
+    public formatMessages(messages: Message[]): OllamaMessage[] {
         const formattedMessages: OllamaMessage[] = messages.map(message => ({
             role: messengerTypes[message.messengerTypeId],
             content: message.content,
         }));
 
-        return [
-            promptMessage,
-            ...formattedMessages,
-        ];
+        if (this.actor.prompt.prompt) {
+            return this.appendPrompt(formattedMessages);
+        }
+
+        return formattedMessages;
     }
 
     public chat = (messages: Message[]): ThunkAction<any, any, any, AnyAction> => {
