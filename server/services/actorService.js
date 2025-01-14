@@ -106,32 +106,37 @@ export const getValidatedActorData = (actorData, requiredParams = []) => {
 };
 
 export const createActor = async (actorData) => {
-    const actor = getValidatedActorData(actorData);
-
     const transaction = await sequelize.transaction();
 
-    const actorPrompt = await createPrompt(actor.prompt, transaction);
-    if (!actorPrompt instanceof Prompt || actorPrompt.promptId === 0) {
-        throw new Error('Unable to create actor prompt');
+    try {
+        const actor = getValidatedActorData(actorData);
+
+        const actorPrompt = await createPrompt(actor.prompt, transaction);
+        if (!actorPrompt instanceof Prompt || actorPrompt.promptId === 0) {
+            throw new Error('Unable to create actor prompt');
+        }
+
+        const actorModel = await createAiModel(actor.aiModel, transaction);
+        if (!actorModel instanceof AIModel || actorModel.modelId === 0) {
+            throw new Error('Unable to create actor model');
+        }
+
+        const newActor = await Actor.create({
+            name: actor.name,
+            username: actor.username,
+            colorTheme: actor.colorTheme,
+            title: actor.title,
+            promptId: actorPrompt.promptId,
+            modelId: actorModel.modelId,
+        }, { transaction });
+
+        await transaction.commit();
+
+        return newActor;
+    } catch (error) {
+        transaction.rollback();
+        return {};
     }
-
-    const actorModel = await createAiModel(actor.aiModel, transaction);
-    if (!actorModel instanceof AIModel || actorModel.modelId === 0) {
-        throw new Error('Unable to create actor model');
-    }
-
-    const newActor = await Actor.create({
-        name: actor.name,
-        username: actor.username,
-        colorTheme: actor.colorTheme,
-        title: actor.title,
-        promptId: actorPrompt.promptId,
-        modelId: actorModel.modelId,
-    }, { transaction });
-
-    await transaction.commit();
-
-    return newActor;
 };
 
 export const update = async (actorId, actorData) => {
