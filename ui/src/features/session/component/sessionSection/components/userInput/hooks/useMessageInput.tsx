@@ -1,4 +1,4 @@
-import {ChangeEvent, useState} from "react";
+import {useState} from "react";
 import {AddMessageRequest} from "../../../../../../../services/server/types";
 import {MessageTypeId} from "../../../../../../../types";
 import {setSnackbar} from "../../../../../../../app/store/appSlice";
@@ -28,7 +28,7 @@ const useMessageInput = () => {
 
     const [input, setInput] = useState('');
 
-    const onInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => setInput(event.target.value);
+    const onInputChange = (content: string) => setInput(content);
 
     const addMessageToSession = async (content: string) => {
         if (!content.trim() || sessionId <= 0 || user.userId <= 0) {
