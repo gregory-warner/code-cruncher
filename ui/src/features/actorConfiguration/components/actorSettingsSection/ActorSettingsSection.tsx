@@ -37,7 +37,6 @@ const ActorSettingsSection = () => {
     const [updateAvatar] = useUpdateAvatarMutation();
     const [createActor] = useCreateActorMutation();
 
-
     const onNew = () => {
         dispatch(setSelectedActor(defaultActor));
         dispatch(setIsEditing(true));
@@ -65,7 +64,13 @@ const ActorSettingsSection = () => {
     };
 
     const onEdit = () => {
-        dispatch(setIsEditing(!isEditing));
+        const updatedEditMode =  !isEditing;
+
+        dispatch(setIsEditing(updatedEditMode));
+
+        if (!updatedEditMode && selectedActor.actorId === defaultActor.actorId) {
+            dispatch(setSelectedActor(null));
+        }
     };
 
     const onClone = async () => {
