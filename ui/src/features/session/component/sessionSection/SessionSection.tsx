@@ -8,7 +8,7 @@ import {
 } from "../../sessionSlice";
 import SessionMessagesSection from "./components/sessionMessagesSection/SessionMessagesSection";
 import {useActor} from "../../hooks/useActor";
-import {Grid} from "@mui/material";
+import {Grid, useTheme} from "@mui/material";
 import style from "../../style";
 import UserInputSection from "./components/userInput/UserInputSection";
 import useCurrentSpeaker from "../../hooks/useCurrentSpeaker";
@@ -19,6 +19,8 @@ import {setSnackbar} from "../../../../app/store/appSlice";
 const SessionSection = () => {
     const dispatch = useAppDispatch();
     const sessionId = useAppSelector(selectSessionId);
+
+    const theme = useTheme();
 
     const { data: messages } = useGetMessagesQuery(sessionId || skipToken);
 
@@ -57,7 +59,7 @@ const SessionSection = () => {
 
     return (
         <>
-            <Grid item sx={style.sessionMessageContainer}>
+            <Grid item sx={{...style.sessionMessageContainer, border: `1px solid ${theme.palette.divider}`}}>
                 <SessionMessagesSection messages={messages}/>
             </Grid>
             <Grid container direction='column' item sx={style.userInputContainer}>
