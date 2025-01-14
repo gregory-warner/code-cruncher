@@ -4,6 +4,9 @@ import {
     useAddMessageEventDetailsMutation,
     useAddMessageQuestionTypesMutation
 } from "../../../services/server/serverApi";
+import useScore from "./useScore";
+import {useAppSelector} from "../../../store/hooks";
+import {selectSessionId} from "../sessionSlice";
 
 interface QuestionResult {
     questionId: number;
@@ -11,7 +14,7 @@ interface QuestionResult {
 }
 
 export const useQuizzer = () => {
-    const questionMessage = 'CODE CRUNCHER - QUESTION';
+    const sessionId = useAppSelector(selectSessionId);
 
     const quizzerResponseScores = {
         'INCORRECT!': -1,
@@ -21,8 +24,9 @@ export const useQuizzer = () => {
     const [addEvent] = useAddMessageEventDetailsMutation();
     const [addQuestionTypes] = useAddMessageQuestionTypesMutation();
 
+    const { updateScore } = useScore();
+
     const isQuizQuestion = (message: Message): boolean => {
-        const regexQuestion = new RegExp(`^${questionMessage} \d+`);
         return /CODE CRUNCHER - QUESTION \d+/.test(message.content);
     };
 
@@ -42,7 +46,8 @@ export const useQuizzer = () => {
 
     const handleQuizzerResponse = async (message: Message): Promise<Message> => {
         const questionResult = getQuestionResult(message);
-        const eventDetails = await addEvent({ ...questionResult, messageId: message.messageId }).unwrap();
+        await addEvent({ ...questionResult, messageId: message.messageId });
+        await updateScore(sessionId);
         return message;
     };
 
