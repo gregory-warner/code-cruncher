@@ -266,4 +266,5 @@ export const {
     useAddMessageEventDetailsMutation,
     useAddMessageQuestionTypesMutation,
     useLazyGetSessionMessageEventDetailsQuery,
+    useLazyGetSessionQuery,
 } = serverApi;
