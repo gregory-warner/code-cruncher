@@ -69,7 +69,7 @@ export const useQuizzer = () => {
     };
 
     const getQuestionTypes = (message: Message): string[] => {
-        const dataTypesMatch = message.content.match(/Datatype:(.*?)\n/);
+        const dataTypesMatch = message.content.match(/Question Type:(.*?)\n/);
         const dataTypes = dataTypesMatch?.[1].trim() ?? '';
         return dataTypes.split(', ');
     };
