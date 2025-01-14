@@ -40,7 +40,7 @@ const UserChatInput = () => {
                     }}
                     value={input}
                     onKeyUp={handleKeyUp}
-                    onChange={onInputChange}
+                    onChange={(event) => onInputChange(event.target.value)}
                 />
             </Box>
             <Box sx={{ flexGrow: 1, flexShrink: 0, flexBasis: '10%' }}>
