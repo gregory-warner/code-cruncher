@@ -1,18 +1,18 @@
 import React from 'react';
-import {Box, TextField} from '@mui/material';
+import {Box, TextareaAutosize, useTheme} from '@mui/material';
 import useMessageInput from "../hooks/useMessageInput";
 import {setSnackbar} from "../../../../../../../app/store/appSlice";
 import {useAppDispatch} from "../../../../../../../store/hooks";
 import UserInputFooter from "./UserInputFooter/UserInputFooter";
-import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 
 const UserChatInput = () => {
     const dispatch = useAppDispatch();
     const { input, onInputChange, addMessageToSession } = useMessageInput();
 
+    const theme = useTheme();
 
-    const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleKeyUp = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (event.key === "Enter") {
             if (event.shiftKey) {
                 event.preventDefault();
@@ -28,13 +28,19 @@ const UserChatInput = () => {
 
     return(
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-            <Box sx={{ flexGrow: 9, flexShrink: 0, flexBasis: '90%', overflowY: 'auto' }}>
-                <ReactQuill
-                    theme="snow"
+            <Box sx={{ flexGrow: 9, flexShrink: 0, flexBasis: '90%', border: `1px solid ${theme.palette.divider}` }}>
+                <textarea
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        overflowY: 'scroll',
+                        border: 'none',
+                        backgroundColor: `${theme.palette.background.default}`,
+                        color: `${theme.palette.text.primary}`
+                    }}
                     value={input}
                     onKeyUp={handleKeyUp}
                     onChange={onInputChange}
-                    style={{ height: '88%' }}
                 />
             </Box>
             <Box sx={{ flexGrow: 1, flexShrink: 0, flexBasis: '10%' }}>
