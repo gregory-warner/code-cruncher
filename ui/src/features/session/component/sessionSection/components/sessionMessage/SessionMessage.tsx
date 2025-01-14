@@ -1,6 +1,6 @@
 import {Message} from '../../../../../../types';
 import React from 'react';
-import {Card, Grid} from '@mui/material';
+import {Box, Card, Grid} from '@mui/material';
 import SessionMessageHeader from "./components/SessionMessageHeader";
 import style from "../../../../style";
 import Markdown from "react-markdown";
@@ -19,27 +19,29 @@ const SessionMessage = ({ message }: { message: Message }) => {
         >
             <Grid container direction='column' >
                 <SessionMessageHeader message={message} />
-                <Markdown
-                    remarkPlugins={[remarkGfm]}
-                    rehypePlugins={[rehypeRaw]}
-                    components={{
-                        code({ node, inline, className, children, ...props }: any) {
-                            const match = /language-(\w+)/.exec(className || '');
+                <Box sx={{ pl: '0.5em', pr: '0.5em', wordBreak: 'break-word' }}>
+                    <Markdown
+                        remarkPlugins={[remarkGfm]}
+                        rehypePlugins={[rehypeRaw]}
+                        components={{
+                            code({ node, inline, className, children, ...props }: any) {
+                                const match = /language-(\w+)/.exec(className || '');
 
-                            return !inline && match ? (
-                                <SyntaxHighlighter wrapLongLines wrapLines style={gruvboxDark} PreTag="div" language={match[1]} {...props}>
-                                    {String(children).replace(/\n$/, '')}
-                                </SyntaxHighlighter>
-                            ) : (
-                                <code className={className} {...props}>
-                                    {children}
-                                </code>
-                            );
-                        },
-                    }}
-                >
-                    {message.content}
-                </Markdown>
+                                return !inline && match ? (
+                                    <SyntaxHighlighter wrapLongLines wrapLines style={gruvboxDark} PreTag="div" language={match[1]} {...props}>
+                                        {String(children).replace(/\n$/, '')}
+                                    </SyntaxHighlighter>
+                                ) : (
+                                    <code className={className} {...props}>
+                                        {children}
+                                    </code>
+                                );
+                            },
+                        }}
+                    >
+                        {message.content}
+                    </Markdown>
+                </Box>
             </Grid>
         </Card>
     );
