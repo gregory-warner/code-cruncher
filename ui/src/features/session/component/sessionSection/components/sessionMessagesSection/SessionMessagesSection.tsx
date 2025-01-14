@@ -7,10 +7,10 @@ import {Message} from "../../../../../../types";
 const SessionMessagesSection = ({ messages }: { messages: Message[] }) => {
 
     return (
-        <List >
+        <List>
             {
                 messages.map((message, idx) => (
-                    <ListItem key={`session-message-${idx}`}>
+                    <ListItem key={`session-message-${idx}`} sx={{ padding: '0.25em' }}>
                         {<SessionMessage message={message} />}
                     </ListItem>
                 ))
