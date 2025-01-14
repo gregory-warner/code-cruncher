@@ -1,4 +1,3 @@
-import {ActorDisplayItem} from '../../../types';
 import React from 'react';
 import {EditableActor} from '../../../../../types';
 import {Box, Divider, Grid, TextField, Typography} from "@mui/material";
@@ -9,6 +8,8 @@ const ActorGeneralDataSection = () => {
     const dispatch = useAppDispatch();
     const actor: EditableActor = useAppSelector(selectSelectedActor);
     const isEditing = useAppSelector(selectIsEditing);
+
+    const getHyphenatedUsername = (name: String): String => name.replace(/ /g, '-').toLowerCase();
 
     return (
         <Box sx={{ width: '100%', pb: 2 }}>
@@ -24,7 +25,8 @@ const ActorGeneralDataSection = () => {
                                         value={actor.name}
                                         onChange={(event) => dispatch(setSelectedActor({
                                             ...actor,
-                                            name: event.target.value
+                                            name: event.target.value,
+                                            username: getHyphenatedUsername(event.target.value)
                                         }))}
                                     />
                                 </Grid>
