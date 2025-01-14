@@ -26,7 +26,27 @@ export const createLanguageModel = async (modelId, languageModel, transaction) =
         throw new Error(`Unable to create language model: insufficient property count.`);
     }
 
-    modelType.modelId = modelId;
+    const lang = await LanguageModel.create({ modelId });
 
-    return await LanguageModel.create(modelType, transaction);
+    lang.maxTokens = modelType.maxTokens;
+    lang.temperature = modelType.temperature;
+    lang.frequencyPenalty = modelType.frequencyPenalty;
+
+    await lang.save();
+    return  lang;
+};
+
+const updateLanguageModel = async (model) => {
+    const languageModel = await LanguageModel.findOne({ where: { modelId: model.modelId } });
+    const lang = model.languageModel;
+    languageModel.maxTokens = lang.maxTokens;
+    languageModel.temperature = lang.temperature;
+    languageModel.frequencyPenalty = lang.frequencyPenalty;
+    await languageModel.save();
+};
+
+export const updateModelType = async (model) => {
+    if (model.languageModel) {
+        await updateLanguageModel(model);
+    }
 };
