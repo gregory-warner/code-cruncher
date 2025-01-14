@@ -18,18 +18,9 @@ const SessionScoreBoard = () => {
         sessionId ? selectSessionScore(state, sessionId) : null
     ));
 
-    const { getScore } = useScore();
-
-    const updateScore = async (sessionId: number): Promise<void> => {
-        const score = await getScore(sessionId);
-        dispatch(updateSessionStatusScore({ sessionId, score }))
-    };
+    const { updateScore } = useScore();
 
     useEffect(() => {
-        if (!sessionId) {
-            return;
-        }
-
         updateScore(sessionId);
     }, [sessionId]);
 
