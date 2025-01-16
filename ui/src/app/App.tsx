@@ -6,9 +6,10 @@ import {ThemeProvider} from "@mui/system"
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import {CssBaseline} from "@mui/material";
 import AppSnackbar from "./components/AppSnackbar";
-import ActorConfiguration from "../features/configuration/ActorConfiguration";
+import AssistantConfiguration from "../features/configuration/AssistantConfiguration";
 import Session from "../features/session/Session";
 import "./app.css";
+import Prompts from "../features/prompt/Prompts";
 
 function App() {
     const mode = useAppSelector(selectMode);
@@ -20,7 +21,8 @@ function App() {
             <Router>
                 <Routes>
                     <Route path='/' element={<Session />} />
-                    <Route path='/configuration' element={<ActorConfiguration />} />
+                    <Route path='/configuration' element={<AssistantConfiguration />} />
+                    <Route path='/prompts' element={<Prompts />} />
                 </Routes>
             </Router>
             <AppSnackbar />
