@@ -1,10 +1,9 @@
 import React from 'react';
-import {Box, TextareaAutosize, useTheme} from '@mui/material';
+import {Box, useTheme} from '@mui/material';
 import useMessageInput from "../hooks/useMessageInput";
 import {setSnackbar} from "../../../../../../../app/store/appSlice";
 import {useAppDispatch} from "../../../../../../../store/hooks";
 import UserInputFooter from "./UserInputFooter/UserInputFooter";
-import 'react-quill/dist/quill.snow.css';
 
 const UserChatInput = () => {
     const dispatch = useAppDispatch();
