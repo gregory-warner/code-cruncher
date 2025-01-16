@@ -6,7 +6,7 @@ import {ThemeProvider} from "@mui/system"
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import {CssBaseline} from "@mui/material";
 import AppSnackbar from "./components/AppSnackbar";
-import ActorConfiguration from "../features/actorConfiguration/ActorConfiguration";
+import ActorConfiguration from "../features/configuration/ActorConfiguration";
 import Session from "../features/session/Session";
 import "./app.css";
 

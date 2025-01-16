@@ -6,8 +6,8 @@ import {
     SessionStatus,
     Speaker, UpdateSelectedParticipant,
     UpdateSessionCurrentSpeaker,
-    UpdateSessionIsLoading, UpdateSessionScore,
-    UpdateSessionStatus
+    UpdateSessionIsLoading,
+    UpdateSessionScore,
 } from "./types";
 
 export interface SessionState {
