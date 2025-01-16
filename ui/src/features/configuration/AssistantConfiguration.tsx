@@ -3,7 +3,7 @@ import AssistantsSection from "../assistant/component/assistantsSection/Assistan
 import AssistantSettingsSection from "./components/assistantSettingsSection/AssistantSettingsSection";
 import AssistantConfigurationSection from "./components/assistantConfigurationSection/AssistantConfigurationSection";
 
-const ActorConfiguration = () => {
+const AssistantConfiguration = () => {
 
     return (
         <AppLayout
@@ -14,4 +14,4 @@ const ActorConfiguration = () => {
     );
 };
 
-export default ActorConfiguration;
+export default AssistantConfiguration;
