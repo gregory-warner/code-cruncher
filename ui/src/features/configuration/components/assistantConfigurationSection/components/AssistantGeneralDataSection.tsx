@@ -4,7 +4,7 @@ import {Box, Divider, Grid, TextField, Typography} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../../../../../store/hooks";
 import {selectIsEditing, selectSelectedActor, setSelectedActor} from "../../../../assistant/assistantSlice";
 
-const ActorGeneralDataSection = () => {
+const AssistantGeneralDataSection = () => {
     const dispatch = useAppDispatch();
     const actor: EditableActor = useAppSelector(selectSelectedActor);
     const isEditing = useAppSelector(selectIsEditing);
@@ -74,4 +74,4 @@ const ActorGeneralDataSection = () => {
     );
 };
 
-export default ActorGeneralDataSection;
+export default AssistantGeneralDataSection;

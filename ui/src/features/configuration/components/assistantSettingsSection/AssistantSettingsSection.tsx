@@ -23,7 +23,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import CancelIcon from '@mui/icons-material/Cancel';
 import {fetchFileData, isValidUrl} from "../../../../utils/util";
 
-const ActorSettingsSection = () => {
+const AssistantSettingsSection = () => {
     const theme = useTheme();
     const dispatch = useAppDispatch();
 
@@ -175,4 +175,4 @@ const ActorSettingsSection = () => {
     );
 };
 
-export default ActorSettingsSection;
+export default AssistantSettingsSection;

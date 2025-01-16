@@ -9,7 +9,7 @@ interface ActorDataDisplayProps {
     title: string;
 }
 
-const ActorDataSection = ({items, title = ''}: ActorDataDisplayProps) => {
+const AssistantDataSection = ({items, title = ''}: ActorDataDisplayProps) => {
     const isEditing = useAppSelector(selectIsEditing);
 
     return (
@@ -42,4 +42,4 @@ const ActorDataSection = ({items, title = ''}: ActorDataDisplayProps) => {
     );
 };
 
-export default ActorDataSection;
+export default AssistantDataSection;

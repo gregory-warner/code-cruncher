@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Grid, ListItem, TextField, Typography, useTheme} from "@mui/material";
 import {useAppDispatch} from "../../../../../store/hooks";
-import {setIsEditing, setSelectedActor} from "../../../../assistant/assistantSlice";
+import {setIsEditing, setSelectedActor} from "../../../assistantSlice";
 import {Actor} from "../../../../../types";
 
 interface ActorItemParams {
@@ -9,7 +9,7 @@ interface ActorItemParams {
     itemId: number;
 }
 
-const ActorItem = ({ actor, itemId }: ActorItemParams) => {
+const AssistantItem = ({ actor, itemId }: ActorItemParams) => {
     const theme = useTheme();
 
     const dispatch = useAppDispatch();
@@ -74,4 +74,4 @@ const ActorItem = ({ actor, itemId }: ActorItemParams) => {
     );
 };
 
-export default ActorItem;
+export default AssistantItem;

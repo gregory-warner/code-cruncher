@@ -1,15 +1,15 @@
 import AppLayout from "../../app/components/layout/AppLayout";
-import ActorsSection from "./components/actorsSection/ActorsSection";
-import ActorSettingsSection from "./components/actorSettingsSection/ActorSettingsSection";
-import ActorConfigurationSection from "./components/actorConfigurationSection/ActorConfigurationSection";
+import AssistantsSection from "../assistant/component/assistantsSection/AssistantsSection";
+import AssistantSettingsSection from "./components/assistantSettingsSection/AssistantSettingsSection";
+import AssistantConfigurationSection from "./components/assistantConfigurationSection/AssistantConfigurationSection";
 
 const ActorConfiguration = () => {
 
     return (
         <AppLayout
-            leftPanel={<ActorsSection />}
-            center={<ActorConfigurationSection />}
-            rightPanel={<ActorSettingsSection />}
+            leftPanel={<AssistantsSection />}
+            center={<AssistantConfigurationSection />}
+            rightPanel={<AssistantSettingsSection />}
         />
     );
 };

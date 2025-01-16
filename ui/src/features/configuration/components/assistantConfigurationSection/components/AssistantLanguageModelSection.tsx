@@ -4,7 +4,7 @@ import {useAppDispatch, useAppSelector} from "../../../../../store/hooks";
 import {selectIsEditing, selectSelectedActor, setSelectedActor} from "../../../../assistant/assistantSlice";
 import {EditableActor} from "../../../../../types";
 
-const ActorLanguageModelSection = () => {
+const AssistantLanguageModelSection = () => {
     const dispatch = useAppDispatch();
     const actor: EditableActor = useAppSelector(selectSelectedActor);
     const isEditing = useAppSelector(selectIsEditing);
@@ -95,4 +95,4 @@ const ActorLanguageModelSection = () => {
     );
 };
 
-export default ActorLanguageModelSection;
+export default AssistantLanguageModelSection;

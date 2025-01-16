@@ -4,7 +4,7 @@ import {Box, Divider, Grid, TextField, Typography} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../../../../../store/hooks";
 import {selectIsEditing, selectSelectedActor, setSelectedActor} from "../../../../assistant/assistantSlice";
 
-const ActorColorThemeDataSection = () => {
+const AssistantColorThemeDataSection = () => {
     const dispatch = useAppDispatch();
     const actor: EditableActor = useAppSelector(selectSelectedActor);
     const isEditing = useAppSelector(selectIsEditing);
@@ -93,4 +93,4 @@ const ActorColorThemeDataSection = () => {
     );
 };
 
-export default ActorColorThemeDataSection;
+export default AssistantColorThemeDataSection;

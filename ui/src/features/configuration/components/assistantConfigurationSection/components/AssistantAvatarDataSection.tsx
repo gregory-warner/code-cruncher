@@ -6,7 +6,7 @@ import {useAppDispatch, useAppSelector} from "../../../../../store/hooks";
 import {selectIsEditing, selectSelectedActor, setSelectedActor} from "../../../../assistant/assistantSlice";
 import {isValidUrl} from "../../../../../utils/util";
 
-const ActorAvatarDataSection = () => {
+const AssistantAvatarDataSection = () => {
     const dispatch = useAppDispatch();
     const actor: EditableActor = useAppSelector(selectSelectedActor);
     const isEditing = useAppSelector(selectIsEditing);
@@ -78,4 +78,4 @@ const ActorAvatarDataSection = () => {
     );
 };
 
-export default ActorAvatarDataSection;
+export default AssistantAvatarDataSection;

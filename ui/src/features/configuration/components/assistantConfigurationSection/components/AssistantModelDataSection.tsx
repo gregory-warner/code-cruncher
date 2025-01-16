@@ -5,9 +5,9 @@ import ModelSelect from "../../ModelSelect";
 import useModels from "../../../hooks/useModels";
 import {useAppDispatch, useAppSelector} from "../../../../../store/hooks";
 import {selectIsEditing, selectSelectedActor, setSelectedActor} from "../../../../assistant/assistantSlice";
-import ActorLanguageModelSection from "./ActorLanguageModelSection";
+import AssistantLanguageModelSection from "./AssistantLanguageModelSection";
 
-const ActorModelDataSection = () => {
+const AssistantModelDataSection = () => {
     const dispatch = useAppDispatch();
     const actor: EditableActor = useAppSelector(selectSelectedActor);
     const isEditing = useAppSelector(selectIsEditing);
@@ -70,10 +70,10 @@ const ActorModelDataSection = () => {
                         </Grid>
                     )
                 }
-                { model.modelTypeId === ModelType.language && <ActorLanguageModelSection /> }
+                { model.modelTypeId === ModelType.language && <AssistantLanguageModelSection /> }
             </Grid>
         </Box>
     );
 };
 
-export default ActorModelDataSection;
+export default AssistantModelDataSection;
