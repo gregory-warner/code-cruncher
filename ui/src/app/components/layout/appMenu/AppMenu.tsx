@@ -34,9 +34,11 @@ const AppMenu = () => {
                 </Link>
             </Grid>
             <Grid item xs={3}>
-                <IconButton>
-                    <ChatBubbleIcon />
-                </IconButton>
+                <Link to={'/prompts'}>
+                    <IconButton onClick={resetSession}>
+                        <ChatBubbleIcon />
+                    </IconButton>
+                </Link>
             </Grid>
             <Grid item xs={3}>
                 <IconButton>
