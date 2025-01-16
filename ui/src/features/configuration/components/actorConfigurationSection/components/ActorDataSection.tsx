@@ -2,7 +2,7 @@ import React from "react";
 import {Box, Divider, Grid, Tooltip, Typography} from "@mui/material";
 import {ActorDisplayItem} from "../../../types";
 import {useAppSelector} from "../../../../../store/hooks";
-import {selectIsEditing} from "../../../store/actorConfigurationSlice";
+import {selectIsEditing} from "../../../../assistant/assistantSlice";
 
 interface ActorDataDisplayProps {
     items: ActorDisplayItem[];

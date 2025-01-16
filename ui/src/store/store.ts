@@ -7,7 +7,7 @@ import {serverApi} from "../services/server/serverApi";
 import {openaiApi} from "../services/openai/openaiApi";
 import {ollamaApi} from "../services/ollama/ollamaApi";
 import {setupListeners} from "@reduxjs/toolkit/query";
-import actorConfigurationReducer from "../features/configuration/store/actorConfigurationSlice";
+import actorConfigurationReducer from "../features/assistant/assistantSlice";
 
 export const store = configureStore({
   reducer: {

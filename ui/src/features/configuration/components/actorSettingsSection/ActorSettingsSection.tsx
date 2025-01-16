@@ -17,7 +17,7 @@ import {
     selectSelectedActor,
     setIsEditing,
     setSelectedActor
-} from "../../store/actorConfigurationSlice";
+} from "../../../assistant/assistantSlice";
 import {Actor} from "../../../../types";
 import EditIcon from "@mui/icons-material/Edit";
 import CancelIcon from '@mui/icons-material/Cancel';

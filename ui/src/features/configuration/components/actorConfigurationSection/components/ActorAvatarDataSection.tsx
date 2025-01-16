@@ -3,7 +3,7 @@ import {Avatar, Box, IconButton, Tooltip, Typography} from "@mui/material";
 import {chatServerUrl} from "../../../../../../config";
 import {EditableActor} from "../../../../../types";
 import {useAppDispatch, useAppSelector} from "../../../../../store/hooks";
-import {selectIsEditing, selectSelectedActor, setSelectedActor} from "../../../store/actorConfigurationSlice";
+import {selectIsEditing, selectSelectedActor, setSelectedActor} from "../../../../assistant/assistantSlice";
 import {isValidUrl} from "../../../../../utils/util";
 
 const ActorAvatarDataSection = () => {

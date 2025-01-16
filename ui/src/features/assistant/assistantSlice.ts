@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {RootState} from "../../../store/store";
-import {EditableActor} from "../../../types";
+import {RootState} from "../../store/store";
+import {EditableActor} from "../../types";
 
 export const defaultActor: EditableActor = {
     actorId: 0,
@@ -54,7 +54,7 @@ const initialState: ActorConfigurationState = {
     isEditing: false,
 };
 
-export const actorConfigurationSlice = createSlice({
+export const assistantSlice = createSlice({
     name: 'actorConfiguration',
     initialState,
     reducers: {
@@ -70,9 +70,9 @@ export const actorConfigurationSlice = createSlice({
 export const {
     setSelectedActor,
     setIsEditing,
-} = actorConfigurationSlice.actions;
+} = assistantSlice.actions;
 
 export const selectSelectedActor = (state: RootState) => state.actorConfiguration.selectedActor;
 export const selectIsEditing = (state: RootState) => state.actorConfiguration.isEditing;
 
-export default actorConfigurationSlice.reducer;
+export default assistantSlice.reducer;

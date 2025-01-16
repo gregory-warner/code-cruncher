@@ -3,7 +3,7 @@ import React from 'react';
 import {EditableActor, Prompt} from '../../../../../types';
 import {Box, Divider, Grid, TextField, Typography} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../../../../../store/hooks";
-import {selectIsEditing, selectSelectedActor, setSelectedActor} from "../../../store/actorConfigurationSlice";
+import {selectIsEditing, selectSelectedActor, setSelectedActor} from "../../../../assistant/assistantSlice";
 
 const ActorPromptDataSection = () => {
     const dispatch = useAppDispatch();

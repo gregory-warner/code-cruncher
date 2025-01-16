@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Grid, ListItem, TextField, Typography, useTheme} from "@mui/material";
 import {useAppDispatch} from "../../../../../store/hooks";
-import {setIsEditing, setSelectedActor} from "../../../store/actorConfigurationSlice";
+import {setIsEditing, setSelectedActor} from "../../../../assistant/assistantSlice";
 import {Actor} from "../../../../../types";
 
 interface ActorItemParams {

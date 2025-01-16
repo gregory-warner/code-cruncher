@@ -4,7 +4,7 @@ import {Box, Divider, Grid, Typography} from "@mui/material";
 import ModelSelect from "../../ModelSelect";
 import useModels from "../../../hooks/useModels";
 import {useAppDispatch, useAppSelector} from "../../../../../store/hooks";
-import {selectIsEditing, selectSelectedActor, setSelectedActor} from "../../../store/actorConfigurationSlice";
+import {selectIsEditing, selectSelectedActor, setSelectedActor} from "../../../../assistant/assistantSlice";
 import ActorLanguageModelSection from "./ActorLanguageModelSection";
 
 const ActorModelDataSection = () => {
