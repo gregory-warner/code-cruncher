@@ -12,6 +12,11 @@ const AppMenu = () => {
 
     const dispatch = useAppDispatch();
 
+    const resetSession = () => {
+        dispatch(setSessionId(0));
+        dispatch(setSession(null));
+    };
+
     return (
         <Grid container spacing={2}>
             <Grid item xs={3}>
@@ -23,10 +28,7 @@ const AppMenu = () => {
             </Grid>
             <Grid item xs={3}>
                 <Link to={'/configuration'}>
-                    <IconButton onClick={() => {
-                        dispatch(setSessionId(0));
-                        dispatch(setSession(null));
-                    }}>
+                    <IconButton onClick={resetSession}>
                         <PersonAddAlt1Icon />
                     </IconButton>
                 </Link>
