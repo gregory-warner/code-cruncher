@@ -111,11 +111,6 @@ export const createActor = async (actorData) => {
     try {
         const actor = getValidatedActorData(actorData);
 
-        const actorPrompt = await createPrompt(actor.prompt, transaction);
-        if (!actorPrompt instanceof Prompt || actorPrompt.promptId === 0) {
-            throw new Error('Unable to create actor prompt');
-        }
-
         const actorModel = await createAiModel(actor.aiModel, transaction);
         if (!actorModel instanceof AIModel || actorModel.modelId === 0) {
             throw new Error('Unable to create actor model');
@@ -126,9 +121,13 @@ export const createActor = async (actorData) => {
             username: actor.username,
             colorTheme: actor.colorTheme,
             title: actor.title,
-            promptId: actorPrompt.promptId,
             modelId: actorModel.modelId,
         }, { transaction });
+
+        const actorPrompt = await createPrompt({ ...actor.prompt, actorId: newActor.actorId }, transaction);
+        if (!actorPrompt instanceof Prompt || actorPrompt.promptId === 0) {
+            throw new Error('Unable to create actor prompt');
+        }
 
         await transaction.commit();
 
