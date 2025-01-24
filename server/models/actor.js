@@ -37,12 +37,6 @@ const Actor = sequelize.define('actor', {
         defaultValue: '',
         field: 'title',
     },
-    promptId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0,
-        field: 'prompt_id',
-    },
     modelId: {
         type: DataTypes.INTEGER,
         allowNull: false,
