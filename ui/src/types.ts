@@ -19,6 +19,7 @@ export interface CruncherSnackbar {
 
 export interface Prompt {
     promptId: number;
+    actorId: number;
     promptName: string;
     prompt: string;
     postfix: string;
@@ -61,13 +62,13 @@ export interface Actor {
     avatar: string;
     colorTheme: ColorTheme;
     title: string;
-    promptId: number;
     modelId: number;
     modelTypeId: ModelType;
     createdAt?: string;
     updatedAt?: string;
     deletedAt: null | string;
     prompt: Prompt;
+    prompts: Prompt[];
     aiModel: AIModel;
 }
 
