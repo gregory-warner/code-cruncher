@@ -11,7 +11,6 @@ import AIModel from "./aimodel.js";
 import MessageEventDetails from "./messageEventDetails.js";
 import MessageQuestionType from "./messageQuestionType.js";
 
-Actor.belongsTo(Prompt, { foreignKey: 'prompt_id' });
 Actor.belongsTo(AIModel, { foreignKey: 'model_id', as: 'aiModel' });
 
 LanguageModel.belongsTo(AIModel, { foreignKey: 'model_id', constraints: false, scope: { model_type_id: 0 } });
@@ -29,8 +28,8 @@ SessionParticipant.belongsTo(Session, { foreignKey: 'session_id' });
 Session.hasMany(Message, { foreignKey: 'session_id', as: 'messages' });
 Message.belongsTo(Session, { foreignKey: 'session_id' });
 
-Prompt.hasOne(Actor, { foreignKey: 'prompt_id' });
-Actor.belongsTo(Prompt, { foreignKey: 'prompt_id', constraints: false });
+Actor.hasMany(Prompt, { foreignKey: 'actor_id' });
+Prompt.belongsTo(Actor, { foreignKey: 'actor_id' });
 
 Message.belongsTo(SessionParticipant, { foreignKey: 'session_participant_id', as: 'participant' });
 SessionParticipant.hasMany(Message, { foreignKey: 'session_participant_id' });
