@@ -1,7 +1,7 @@
 import {Actor, Prompt} from '../models/models.js';
 import validator from 'validator';
 
-export const getValidatedPrompt = (data, requiredFields = ['promptName', 'prompt', 'postfix']) => {
+export const getValidatedPrompt = (data, requiredFields = ['promptName', 'prompt', 'postfix', 'actorId']) => {
     if (!data || typeof data !== 'object') {
         throw new Error('Invalid prompt data: ' + JSON.stringify(data));
     }

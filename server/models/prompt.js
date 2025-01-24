@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db.js';
+import Actor from "./actor.js";
 
 const Prompt = sequelize.define("prompt", {
     promptId: {
@@ -7,6 +8,16 @@ const Prompt = sequelize.define("prompt", {
         autoIncrement: true,
         primaryKey: true,
         field: "prompt_id",
+    },
+    actorId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Actor,
+            key: 'actor_id',
+        },
+        field: 'actor_id',
+        comment: 'references actors.actor_id',
     },
     promptName: {
         type: DataTypes.TEXT,
