@@ -1,15 +1,20 @@
 import {Actor, AIModel, LanguageModel, SessionParticipant} from '../models/models.js';
 import Prompt from '../models/prompt.js';
-import {createAiModel, updateActorModel} from './aiModelService.js';
+import {createAiModel, destroyActorAiModel, updateActorModel} from './aiModelService.js';
 import inputValidator from '../utils/validator.js';
 import validator from 'validator';
-import {createPrompt, updatePrompt} from "./promptService.js";
+import {createPrompt, deleteActorPrompts, updatePrompt} from "./promptService.js";
 import sequelize from "../db.js";
+import {deleteActorSessionParticipants} from "./sessionParticipantService.js";
 
 export const getActors = async () => {
-    return await Actor.findAll({
+    const actors = await Actor.findAll({
         include: [
-            { model: Prompt, required: true },
+            {
+                model: Prompt,
+                required: true,
+                paranoid: false,
+            },
             {
                 model: AIModel,
                 required: true,
@@ -22,6 +27,8 @@ export const getActors = async () => {
             },
         ],
     });
+
+    return actors.map(actor => actor.toJSON()).map(a => ({ ...a, prompt: a.prompts[0] }));
 };
 
 export const getActor = async (actorId) => {
