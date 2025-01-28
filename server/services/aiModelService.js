@@ -106,3 +106,14 @@ export const createAiModel = async (aiModel, transaction) => {
 
     return model;
 };
+
+export const destroyActorAiModel = async (actor, transaction) => {
+    await destroyModelType(actor.aiModel, transaction);
+    await AIModel.destroy({ where: { modelId: actor.modelId }, transaction });
+};
+
+const destroyModelType = async (aiModel, transaction) => {
+    if ('languageModel' in aiModel) {
+        await LanguageModel.destroy({ where: { modelId: aiModel.modelId }}, transaction);
+    }
+}
