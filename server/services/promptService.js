@@ -64,3 +64,17 @@ export const updatePrompt = async (actorId, data) => {
 
     return actor;
 };
+
+export const getAllPrompts = async (actorId) => {
+    return await Prompt.findAll({
+        where: {
+            actorId
+        },
+        paranoid: true,
+    });
+};
+
+export const deleteActorPrompts = async (actorId, transaction) => {
+    const prompts = await Prompt.findAll({ where: { actorId } });
+    prompts.forEach(async (prompt) => await prompt.destroy(transaction));
+};
