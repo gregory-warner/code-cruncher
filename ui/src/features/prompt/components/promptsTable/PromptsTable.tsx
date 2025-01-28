@@ -4,6 +4,7 @@ import PromptsTableHead from "./components/PromptsTableHead";
 import {EditableActor} from "../../../../types";
 import {useAppSelector} from "../../../../store/hooks";
 import {selectSelectedActor} from "../../../assistant/assistantSlice";
+import PromptsTableBody from "./components/PromptsTableBody";
 
 const PromptsTable = () => {
 
@@ -17,6 +18,7 @@ const PromptsTable = () => {
         <TableContainer>
             <Table>
                 <PromptsTableHead />
+                <PromptsTableBody />
             </Table>
         </TableContainer>
     );
