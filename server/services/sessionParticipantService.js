@@ -21,7 +21,7 @@ export const getSessionParticipants = async (sessionId) => {
                 as: 'actor',
                 paranoid: false,
                 include: [
-                    { model: Prompt, as: 'prompt', required: true, paranoid: false },
+                    { model: Prompt, required: true, paranoid: false },
                     { model: AIModel, as: 'aiModel', required: false },
                 ]
             },
@@ -39,7 +39,7 @@ export const getActiveSessionParticipants = async (sessionId) => {
                 model: Actor,
                 as: 'actor',
                 include: [
-                    { model: Prompt, as: 'prompt', required: true },
+                    { model: Prompt, required: true },
                     { model: AIModel, as: 'aiModel', required: true },
                 ]
             },
@@ -111,10 +111,9 @@ export const addDefaultParticipants = async (sessionId) => {
         participantId: user.userId,
         participantTypeId: sessionParticipant.user,
     })
-    // const actor = await getFirstActor();
-    // const actorParticipant = await addSessionParticipant({
-    //     sessionId,
-    //     participantId: actor.actorId,
-    //     participantTypeId: sessionParticipant.actor,
-    // })
+};
+
+export const deleteActorSessionParticipants = async (actorId, transaction) => {
+    await SessionParticipant.destroy({ where: { participantTypeId: sessionParticipant.actor, participantId: actorId }, transaction })
+
 };
