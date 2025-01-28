@@ -12,6 +12,7 @@ import {
     Actor,
     Message,
     MessageEventDetails,
+    Prompt,
     Session,
     SessionParticipant,
     User
@@ -234,12 +235,17 @@ export const serverApi  = createApi({
                 method: 'GET',
             }),
         }),
+        getAllPrompts: build.query<Prompt[], number>({
+            query: (actorId: number) => ({
+                url: `prompts/get-by-actor-id/${actorId}`,
+                method: 'GET',
+            }),
+        }),
     }),
 });
 
 export const {
     useLazyGetMessagesQuery,
-    useUpdateMessageMutation,
     useCreateActorMutation,
     useDeleteMessageMutation,
     useGetUserQuery,
@@ -253,11 +259,8 @@ export const {
     useAddMessageMutation,
     useGetMessagesQuery,
     useGetSessionQuery,
-    useUpdatePromptMutation,
-    useUpdateAIModelMutation,
     useCloneActorMutation,
     useUpdateActorMutation,
-    useGetSessionParticipantsQuery,
     useUpdateSessionTypeIdMutation,
     useUpdateAvatarMutation,
     useDeleteActorMutation,
@@ -267,4 +270,5 @@ export const {
     useAddMessageQuestionTypesMutation,
     useLazyGetSessionMessageEventDetailsQuery,
     useLazyGetSessionQuery,
+    useLazyGetAllPromptsQuery,
 } = serverApi;
