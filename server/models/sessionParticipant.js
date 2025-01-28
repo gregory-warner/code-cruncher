@@ -55,7 +55,11 @@ const SessionParticipant = sequelize.define('session_participant', {
                 if (instance.participantTypeId === participantTypeId.user && instance.user !== undefined) {
                     instance.participant = instance.user;
                 } else if (instance.participantTypeId === participantTypeId.actor && instance.actor !== undefined) {
-                    instance.participant = instance.actor;
+                    const actor = instance.actor.toJSON();
+                    instance.participant = {
+                        ...actor,
+                        prompt: actor.prompts.find(p => !p.deletedAt),
+                    };
                 }
                 // To prevent mistakes
                 delete instance.user;
