@@ -213,19 +213,11 @@ export const deleteActor = async (actorId) => {
         throw new Error(`Actor with id ${actorId} not found`);
     }
 
-    const prompt = await Prompt.findByPk(actor.promptId);
-    const modelType = 'languageModel' in actor.aiModel ? await LanguageModel.findOne({ where: {modelId: actor.modelId }}) : null;
-    if (modelType) {
-        await modelType.destroy({transaction});
-    }
-
+    await deleteActorPrompts(actor.actorId, transaction);
+    await destroyActorAiModel(actor, transaction);
+    await deleteActorSessionParticipants(actorId, transaction);
     await actor.destroy({transaction});
-    await prompt.destroy({transaction});
-    await AIModel.destroy({ where: { modelId: actor.modelId }, transaction });
-
-    await SessionParticipant.destroy({ where: { participantTypeId: 1, participantId: actorId }, transaction })
 
     await transaction.commit();
-
     return actor;
 };
