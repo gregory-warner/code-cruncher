@@ -1,6 +1,5 @@
 import {Actor, AIModel, Message, Prompt, SessionParticipant, User} from '../models/models.js';
 import {removeProperty} from "../utils/utils.js";
-import validator from "validator";
 
 export const getMessages = async (sessionId) => {
     return await Message.findAll({
@@ -16,7 +15,7 @@ export const getMessages = async (sessionId) => {
                         as: 'actor',
                         paranoid: false,
                         include: [
-                            { model: Prompt, as: 'prompt', required: true, paranoid: false },
+                            { model: Prompt, required: true, paranoid: false },
                             { model: AIModel, as: 'aiModel', required: false },
                         ]
                     },
