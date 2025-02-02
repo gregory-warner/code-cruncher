@@ -1,18 +1,18 @@
 import React from "react";
 import {Prompt} from "../../../../../types";
-import {TableCell, TableRow} from "@mui/material";
+import {TableRow} from "@mui/material";
 import {getFormattedDate} from "../../../util";
+import PromptTableColumn from "./PromptTableColumn";
 
 const PromptsTableRow = ({prompt}: {prompt: Prompt}) => {
 
     return (
         <TableRow>
-            <TableCell component='th' scope='row'>{prompt.promptId}</TableCell>
-            <TableCell component='th' scope='row'>{prompt.promptName}</TableCell>
-            <TableCell component='th' scope='row'>{prompt.prompt}</TableCell>
-            <TableCell component='th' scope='row'>{prompt.postfix}</TableCell>
-            <TableCell component='th' scope='row'>{getFormattedDate(prompt.createdAt)}</TableCell>
-            <TableCell component='th' scope='row'>{getFormattedDate(prompt.deletedAt)}</TableCell>
+            <PromptTableColumn text={prompt.promptId} />
+            <PromptTableColumn text={prompt.promptName} />
+            <PromptTableColumn text={prompt.prompt} />
+            <PromptTableColumn text={getFormattedDate(prompt.createdAt)} />
+            <PromptTableColumn text={getFormattedDate(prompt.deletedAt)} />
         </TableRow>
     );
 };
