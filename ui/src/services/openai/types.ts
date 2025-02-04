@@ -21,7 +21,8 @@ export interface PostLegacyParams {
 export interface OpenAIRequest {
     messages: OpenAIMessage[],
     model: string,
-    max_tokens: number,
+    max_tokens?: number,
+    max_completion_tokens?: number;
     temperature: number,
 }
 
