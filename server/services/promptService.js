@@ -47,22 +47,12 @@ export const updatePrompt = async (actorId, data) => {
     const requiredParameters = ['prompt', 'promptName', 'postfix'];
     const validatedPrompt = getValidatedPrompt(data, requiredParameters);
 
-    const actor = await Actor.findByPk(actorId);
-    if (!actor instanceof Actor) {
-        throw new Error(`Actor with id ${actorId} not found`);
-    }
+    Prompt.destroy({ where: { actorId } });
 
-    const newPrompt = await Prompt.create(validatedPrompt);
-
-    if (actor.promptId > 0) {
-        await Prompt.destroy({ where: { promptId: actor.promptId } });
-    }
-
-    actor.promptId = newPrompt.promptId;
-
-    await actor.save();
-
-    return actor;
+    return await Prompt.create({
+        ...validatedPrompt,
+        actorId,
+    });
 };
 
 export const getAllPrompts = async (actorId) => {
