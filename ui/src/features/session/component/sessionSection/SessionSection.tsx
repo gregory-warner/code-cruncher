@@ -30,18 +30,23 @@ const SessionSection = () => {
     const sessionStatus = useAppSelector(state => (sessionId ? selectSessionStatus(state, sessionId) : null));
 
     const runSession = async (sessionId: number) => {
-        const currentSpeaker = await getCurrentSpeaker(sessionId);
+        try {
+            const currentSpeaker = await getCurrentSpeaker(sessionId);
 
-        if (isActor(currentSpeaker.participant) && !sessionStatus.isLoading) {
-            dispatch(updateSessionStatusIsLoading({ sessionId, isLoading: true }));
-            const response = await chat(sessionId, currentSpeaker);
-            dispatch(updateSessionStatusIsLoading({ sessionId, isLoading: false }));
+            if (isActor(currentSpeaker.participant) && !sessionStatus.isLoading) {
+                dispatch(updateSessionStatusIsLoading({ sessionId, isLoading: true }));
+                const response = await chat(sessionId, currentSpeaker);
+                dispatch(updateSessionStatusIsLoading({ sessionId, isLoading: false }));
 
-            if (!response.messageId) {
-                dispatch(setSnackbar({ message: 'Unable to send message' }));
-                return;
+                if (!response.messageId) {
+                    dispatch(setSnackbar({ message: 'Unable to send message' }));
+                    return;
+                }
+
             }
-
+        } catch (e) {
+            dispatch(setSnackbar({ message: 'Unable to send message' }));
+            dispatch(updateSessionStatusIsLoading({ sessionId, isLoading: false }));
         }
     };
 
