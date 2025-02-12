@@ -4,6 +4,7 @@ import {ChatService} from "../types";
 import {AnyAction, ThunkAction} from "@reduxjs/toolkit";
 import {openaiApi} from "../../../services/openai/openaiApi";
 import {OpenAIMessage, OpenAIRequest, OpenAiResponse} from "../../../services/openai/types";
+import {OllamaMessage} from "../../../services/ollama/types";
 
 class OpenAIService implements ChatService {
     private actor: Actor;
@@ -14,19 +15,27 @@ class OpenAIService implements ChatService {
     }
 
     public formatMessages(messages: Message[]): OpenAIMessage[] {
-        const promptMessage: OpenAIMessage  = {
-            role: 'system',
-            content: this.actor.prompt.prompt,
-        };
-
         const formattedMessages: OpenAIMessage[] = messages.map(message => ({
             role: messengerTypes[message.messengerTypeId],
             content: message.content,
         }));
 
+        if (this.actor.prompt.prompt) {
+            return this.appendPrompt(formattedMessages);
+        }
+
+        return formattedMessages;
+    }
+
+    private appendPrompt(messages: OllamaMessage[]): OllamaMessage[] {
+        const promptMessage: OllamaMessage  = {
+            role: 'system',
+            content: this.actor.prompt.prompt,
+        };
+
         return [
             promptMessage,
-            ...formattedMessages,
+            ...messages,
         ];
     }
 
@@ -34,8 +43,9 @@ class OpenAIService implements ChatService {
         const ollamaMessages = this.formatMessages(messages);
         const request: OpenAIRequest = {
             model: this.actor.aiModel.modelName,
-            max_tokens: 4096, // todo: add this param
-            temperature: 0.6, // todo: add param
+            // max_tokens: 4096, // todo: add this param , missing in o1
+            max_completion_tokens: 4096, // for o1
+            temperature: 1, // 0.6, // todo: add param only 1 supported with o1
             messages: ollamaMessages,
         };
 
