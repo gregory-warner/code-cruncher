@@ -9,8 +9,6 @@ export const cloneActor = async (actorData) => {
     const transaction = await sequelize.transaction();
 
     try {
-        const actorPrompt = await clonePrompt(actor.prompt, transaction);
-
         const actorModel = await cloneModel(actor.aiModel, transaction);
 
         const newActor = await Actor.create({
@@ -19,9 +17,15 @@ export const cloneActor = async (actorData) => {
             avatar: actor.avatar,
             colorTheme: actor.colorTheme,
             title: actor.title,
-            promptId: actorPrompt.promptId,
             modelId: actorModel.modelId,
         }, {transaction});
+
+        const promptData = {
+            ...actor.prompt,
+            actorId: newActor.actorId,
+        }
+
+        await clonePrompt(promptData, transaction);
 
         await transaction.commit();
 
