@@ -24,13 +24,6 @@ export interface SessionStatus {
     score: Score;
 }
 
-export type PartialSessionStatus = Partial<SessionStatus>;
-
-export interface UpdateSessionStatus {
-    sessionId: number;
-    sessionStatus: PartialSessionStatus;
-}
-
 export interface UpdateSessionIsLoading {
     sessionId: number;
     isLoading: boolean;
@@ -39,11 +32,6 @@ export interface UpdateSessionIsLoading {
 export interface UpdateSessionCurrentSpeaker {
     sessionId: number;
     currentSpeaker: Speaker;
-}
-
-export interface UpdateSessionTypeId {
-    sessionId: number;
-    sessionTypeId: number;
 }
 
 export interface UpdateSelectedParticipant {

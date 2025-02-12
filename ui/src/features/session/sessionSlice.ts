@@ -113,7 +113,6 @@ export const {
 
 export const selectSessionId = (state: RootState): number => state.session.session?.sessionId ?? 0;
 export const selectSession = (state: RootState): Session|null => state.session.session;
-export const selectParticipants = (state: RootState): SessionParticipant[] => state.session.participants;
 export const selectSessionStatus = (state: RootState, sessionId: number): SessionStatus|null => state.session.sessionStatuses[sessionId] ?? null;
 export const selectCurrentSpeaker = (state: RootState, sessionId: number): Speaker|null => state.session.sessionStatuses[sessionId]?.currentSpeaker ?? null;
 export const selectSelectedParticipant = (state: RootState, sessionId: number): SessionParticipantType|null => state.session.sessionStatuses[sessionId]?.selectedParticipant ?? null;

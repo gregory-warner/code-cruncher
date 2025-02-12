@@ -26,6 +26,7 @@ export const listItemStyle: ListItemStyle = {
         },
     }),
     contentContainer: {
+        border: '1px solid red',
         flexGrow: 1,
     },
     numberContainer: {
@@ -33,6 +34,6 @@ export const listItemStyle: ListItemStyle = {
         justifyContent: 'flex-end',
     },
     labelContainer: {
-        paddingLeft: '3px',
+        paddingLeft: '1px',
     },
 };
