@@ -1,8 +1,8 @@
 # Code Cruncher
 
 ### Overview
-Code Cruncher is an educational project that leverages AI Large Language Models (LLMs) to generate programming questions. The project begins with basic programming questions that gradually increase in complexity. The problems start off by focusing on syntax and grammar, before moving on to more advanced topics such as the built-in functionality of the selected language. 
-The frontend is developed using TypeScript with Redux RTK, while the backend is powered by JavaScript ExpressJS, utilizing Sequelize ORM for database operations. The AI models used in the project can be sourced from OpenAI or a local LLM such as Ollama.
+Code Cruncher is an educational project that uses AI Large Language Models (LLMs) to generate programming questions. The program begins with basic programming questions that gradually increase in complexity. The questions focus on syntax, grammar, and the built-in classes and functionality of the selected language. 
+The frontend is developed using TypeScript with Redux RTK, while the backend uses JavaScript ExpressJS with Sequelize ORM for database operations. The AI models used in the project can be sourced from OpenAI or a local LLM such as Ollama.
 
 ### Demo
 [demo video](https://www.youtube.com/watch?v=Gj4YfQczS-M)
