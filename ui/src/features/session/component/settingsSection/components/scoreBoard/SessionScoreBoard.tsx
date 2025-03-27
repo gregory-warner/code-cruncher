@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import {Box, Grid, Paper, useTheme} from "@mui/material";
 import SessionScore from "./SessionScore";
 import useScore from "../../../../hooks/useScore";
-import {useAppDispatch, useAppSelector} from "../../../../../../store/hooks";
+import {useAppSelector} from "../../../../../../store/hooks";
 import {
     selectSessionId,
     selectSessionScore,
@@ -10,7 +10,6 @@ import {
 
 const SessionScoreBoard = () => {
     const theme = useTheme();
-    const dispatch = useAppDispatch();
 
     const sessionId = useAppSelector(selectSessionId);
     const score = useAppSelector(state => (

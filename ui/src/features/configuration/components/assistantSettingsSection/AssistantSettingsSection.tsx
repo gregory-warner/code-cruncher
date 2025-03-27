@@ -1,5 +1,4 @@
 import React from "react";
-import {Button, Grid, Typography, useTheme} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import SaveIcon from '@mui/icons-material/Save';
@@ -26,7 +25,6 @@ import ActionsSection from "../../../components/actionsSection/ActionsSection";
 import ActionsSectionButton from "../../../components/actionsSection/ActionsSectionButton";
 
 const AssistantSettingsSection = () => {
-    const theme = useTheme();
     const dispatch = useAppDispatch();
 
     const isEditing = useAppSelector(selectIsEditing);

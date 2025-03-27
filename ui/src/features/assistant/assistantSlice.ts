@@ -23,6 +23,7 @@ export const defaultActor: EditableActor = {
         }
     },
     prompt: {
+        actorId: 0,
         promptId: 0,
         promptName: '',
         postfix: '',
