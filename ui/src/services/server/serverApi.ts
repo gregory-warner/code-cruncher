@@ -145,6 +145,7 @@ export const serverApi  = createApi({
             }),
             invalidatesTags: () => [
                 { type: 'Sessions' },
+                { type: 'Session' },
             ],
         }),
         addParticipant: build.mutation<SessionParticipant, SessionParticipantRequest>({
