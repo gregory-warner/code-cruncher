@@ -22,6 +22,8 @@ import {Actor} from "../../../../types";
 import EditIcon from "@mui/icons-material/Edit";
 import CancelIcon from '@mui/icons-material/Cancel';
 import {fetchFileData, isValidUrl} from "../../../../utils/util";
+import ActionsSection from "../../../components/actionsSection/ActionsSection";
+import ActionsSectionButton from "../../../components/actionsSection/ActionsSectionButton";
 
 const AssistantSettingsSection = () => {
     const theme = useTheme();
@@ -86,92 +88,24 @@ const AssistantSettingsSection = () => {
         dispatch(setSelectedActor(null));
     };
 
+    const editButton = (
+        isEditing ? (
+            <ActionsSectionButton title={'Cancel'} startIcon={<CancelIcon />} onClick={onEdit} />
+            ) : (
+            <ActionsSectionButton title={'Edit'} startIcon={<EditIcon />} onClick={onEdit} disabled={!selectedActor} />
+        )
+    );
+
     return (
-        <Grid container>
-            <Grid container direction='row' alignItems='center'>
-                <Grid item xs={5} textAlign='left'>
-                    <Typography variant='h6' sx={{paddingLeft: '10px', paddingRight: '5px'}}>
-                        Actions
-                    </Typography>
-                </Grid>
-            </Grid>
-            <Grid container item xs={12} justifyContent="center" p={1} sx={{ color: theme.palette.secondary.main }}>
-                <Button
-                    fullWidth
-                    variant="outlined"
-                    color="secondary"
-                    startIcon={<AddIcon />}
-                    disabled={isEditing}
-                    onClick={onNew}
-                >
-                    New
-                </Button>
-            </Grid>
-            <Grid container item xs={12} justifyContent="center" p={1} sx={{ color: theme.palette.secondary.main }}>
-                <Button
-                    fullWidth
-                    variant="outlined"
-                    color='inherit'
-                    startIcon={<ContentCopyIcon />}
-                    disabled={!selectedActor || isEditing}
-                    onClick={onClone}
-                >
-                    Clone
-                </Button>
-            </Grid>
-            <Grid container item xs={12} justifyContent="center" p={1} sx={{ color: theme.palette.secondary.main }}>
-                {
-                    isEditing ? (
-                        <Button
-                            fullWidth
-                            variant="outlined"
-                            color="secondary"
-                            onClick={onEdit}
-                            startIcon={<CancelIcon />}
-                        >
-                            Cancel
-                        </Button>
-                    ) : (
-                        <Button
-                            disabled={!selectedActor}
-                            fullWidth
-                            variant="outlined"
-                            color="secondary"
-                            onClick={onEdit}
-                            startIcon={<EditIcon />}
-                        >
-                            Edit
-                        </Button>
-                    )
-                }
-            </Grid>
-            <Grid container item xs={12} justifyContent="center" p={1} sx={{ color: theme.palette.secondary.main }}>
-                <Button
-                    disabled={!isEditing}
-                    fullWidth
-                    variant="outlined"
-                    color="secondary"
-                    onClick={onSave}
-                    startIcon={<SaveIcon />}
-                >
-                    Save
-                </Button>
-            </Grid>
-            <Grid container item xs={12} justifyContent="center" p={1}>
-                <Button
-                    disabled={!selectedActor || isEditing}
-                    fullWidth
-                    variant="outlined"
-                    color="error"
-                    startIcon={<DeleteIcon />}
-                    onClick={onDelete}
-                >
-                    Delete
-                </Button>
-            </Grid>
-            <Grid container item xs={12}>
-            </Grid>
-        </Grid>
+        <ActionsSection
+            buttons={[
+               <ActionsSectionButton title={'New'} startIcon={<AddIcon />} onClick={onNew} disabled={isEditing} />,
+                <ActionsSectionButton title={'Clone'} startIcon={<ContentCopyIcon />} onClick={onClone} disabled={!selectedActor || isEditing} />,
+                editButton,
+                <ActionsSectionButton title={'Save'} startIcon={<SaveIcon />} onClick={onSave} disabled={!isEditing} />,
+                <ActionsSectionButton title={'Delete'} startIcon={<DeleteIcon />} onClick={onDelete} disabled={!selectedActor || isEditing} />,
+            ]}
+        />
     );
 };
 
