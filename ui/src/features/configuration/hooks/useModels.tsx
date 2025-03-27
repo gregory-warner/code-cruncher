@@ -17,22 +17,23 @@ const useModels = () => {
     const { data: ollama } = useModelsQuery();
     const { data: models } = useOpenaiModelsQuery();
 
-    if (!models || !ollama) return [];
+    if (!ollama) return [];
 
     const ollamaModels = ollama.models.map(model => ({
         ...model,
+        name: `Offline - ${model.name}`,
         isLocal: true,
         modelIdentifier: 'ollama',
         modelTypeId: getModelTypeId(model.name),
     }));
 
-    const openAiModels = models.data.map(model => ({
+    const openAiModels = models?.data.map(model => ({
         ...model,
-        name: model.id,
+        name: `Online - ${model.id}`,
         isLocal: false,
         modelIdentifier: 'openai',
         modelTypeId: getModelTypeId(model.id),
-    }));
+    })) ?? [];
 
     return [
         ...ollamaModels,
