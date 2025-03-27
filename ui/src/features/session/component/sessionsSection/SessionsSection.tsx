@@ -19,7 +19,6 @@ const SessionsSection = () => {
     const [createSession] = useCreateSessionMutation();
     const {data, isLoading} = useGetSessionsQuery();
 
-
     if (isLoading || !isUser(user)) {
         return (
             <CircularProgress

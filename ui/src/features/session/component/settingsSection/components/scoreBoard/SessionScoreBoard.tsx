@@ -6,7 +6,6 @@ import {useAppDispatch, useAppSelector} from "../../../../../../store/hooks";
 import {
     selectSessionId,
     selectSessionScore,
-    updateSessionStatusScore
 } from "../../../../sessionSlice";
 
 const SessionScoreBoard = () => {

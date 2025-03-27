@@ -1,4 +1,4 @@
-import {Button, Grid, Typography} from "@mui/material";
+import {Grid, Typography} from "@mui/material";
 import React from "react";
 import ParticipantsSection from "./components/ParticipantsSection";
 import ParticipantSettingsSection from "./components/ParticipantSettingsSection";

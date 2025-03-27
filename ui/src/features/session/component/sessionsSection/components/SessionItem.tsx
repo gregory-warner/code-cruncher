@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Box, Grid, IconButton, ListItem, TextField, Typography, useTheme} from "@mui/material";
+import {Grid, IconButton, ListItem, TextField, Typography, useTheme} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -26,6 +26,10 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
         setEditedSessionName(session.sessionName);
     }, [editMode]);
 
+    useEffect(() => {
+        updateCurrentSession(session);
+    }, [session]);
+
     const [deleteSession] = useDeleteSessionMutation();
     const [updateSessionName] = useUpdateSessionNameMutation();
 
@@ -34,11 +38,12 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
             updateSessionName({sessionName: editedSessionName, sessionId: session.sessionId});
         }
         setEditMode(!editMode);
+
     };
 
-    const updateCurrentSession = (session: Session) => {
+    const updateCurrentSession = (session?: Session|null) => {
         dispatch(setSession(session));
-        dispatch(setSessionId(session.sessionId));
+        dispatch(setSessionId(session?.sessionId ?? 0));
     };
 
     const onEdit = (e) => {
@@ -61,6 +66,7 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
             return;
         }
         deleteSession(session.sessionId);
+        updateCurrentSession(null);
     };
 
     return (
