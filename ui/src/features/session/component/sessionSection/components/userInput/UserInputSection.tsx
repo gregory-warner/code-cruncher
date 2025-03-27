@@ -19,7 +19,7 @@ const UserInputSection = () => {
                 isSessionLoading || session?.sessionTypeId === SessionType.General ? (
                     <UserChatInput  />
                 ) : (
-                    <UserCodeInput language={SessionType[session.sessionTypeId].toLowerCase()} />
+                    session && <UserCodeInput language={SessionType[session.sessionTypeId].toLowerCase()} />
                 )
             }
         </Box>
