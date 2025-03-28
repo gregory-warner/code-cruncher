@@ -6,7 +6,6 @@ import {
 } from '../../../sessionSlice';
 import {Avatar, Box, Grid, Typography, useTheme} from "@mui/material";
 import {chatServerUrl} from '../../../../../../config';
-import {Add} from '@mui/icons-material';
 import {SessionParticipantType} from "../../../../../types";
 import {
     useGetActiveSessionParticipantsQuery,
@@ -68,11 +67,6 @@ const ParticipantsSection = () => {
                         </Grid>
                     );
                 })}
-                <Grid item xs={3} onClick={() => onAvatarClick(null)}>
-                    <Avatar sx={getAvatarStyle(null)} >
-                        <Add />
-                    </Avatar>
-                </Grid>
             </Grid>
         </Grid>
     );
