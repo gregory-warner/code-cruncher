@@ -7,7 +7,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import {useAppDispatch} from "../../../../../store/hooks";
 import {Session} from "../../../../../types";
 import {useDeleteSessionMutation, useUpdateSessionNameMutation} from "../../../../../services/server/serverApi";
-import {setSession, setSessionId} from "../../../sessionSlice";
+import useSessionUpdater from "../../../hooks/useSessionUpdater";
 
 interface SessionItemParams {
     sessionId: number;
@@ -17,18 +17,14 @@ interface SessionItemParams {
 const SessionItem = ({ sessionId, session }: SessionItemParams) => {
     const theme = useTheme();
 
-    const dispatch = useAppDispatch();
-
     const [editMode, setEditMode] = useState(false);
     const [editedSessionName, setEditedSessionName] = useState<string>(session.sessionName);
+
+    const { updateSession, resetSession } = useSessionUpdater();
 
     useEffect(() => {
         setEditedSessionName(session.sessionName);
     }, [editMode]);
-
-    useEffect(() => {
-        updateCurrentSession(session);
-    }, [session]);
 
     const [deleteSession] = useDeleteSessionMutation();
     const [updateSessionName] = useUpdateSessionNameMutation();
@@ -41,11 +37,6 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
 
     };
 
-    const updateCurrentSession = (session?: Session|null) => {
-        dispatch(setSession(session));
-        dispatch(setSessionId(session?.sessionId ?? 0));
-    };
-
     const onEdit = (e) => {
         setEditedSessionName(e.target.value);
     };
@@ -56,6 +47,7 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
                 event.preventDefault();
                 return;
             }
+
             editSessionName();
         }
     }
@@ -65,8 +57,9 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
             setEditMode(false);
             return;
         }
+
         deleteSession(session.sessionId);
-        updateCurrentSession(null);
+        resetSession();
     };
 
     return (
@@ -88,7 +81,7 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
                     boxShadow: `0 0 10px ${theme.palette.primary.main}`,
                 },
             }}
-            onClick={() => updateCurrentSession(session)}
+            onClick={() => updateSession(session)}
         >
             <Grid container alignItems='center' sx={{ flexGrow: 1}}>
                 <Grid item xs={1}>

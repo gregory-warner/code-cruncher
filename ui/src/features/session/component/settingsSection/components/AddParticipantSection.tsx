@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {Box, Button, Grid, MenuItem, Select, Typography, useTheme} from "@mui/material";
+import {Button, Grid, MenuItem, Select, Typography, useTheme} from "@mui/material";
 import {useAddParticipantMutation, useGetActorsQuery} from "../../../../../services/server/serverApi";
 import {useAppDispatch, useAppSelector} from "../../../../../store/hooks";
-import {selectSessionId, selectSessionStatus} from "../../../sessionSlice";
+import {selectSessionId} from "../../../sessionSlice";
 import {ParticipantTypeId} from "../../../../../types";
 import {setSnackbar} from "../../../../../app/store/appSlice";
 
@@ -18,13 +18,9 @@ const AddParticipantSection = () => {
         setSelectedActorId(0);
     }, [sessionId]);
 
-    const { data: actors } = useGetActorsQuery();
+    const { data, isLoading } = useGetActorsQuery();
 
     const [addParticipant] = useAddParticipantMutation();
-
-    const sessionStatus = useAppSelector(state => (
-        sessionId ? selectSessionStatus(state, sessionId) : null)
-    );
 
     const onAddParticipant = async () => {
         if (!selectedActorId) {
@@ -42,9 +38,7 @@ const AddParticipantSection = () => {
         }
     };
 
-    if (!actors || !sessionId || sessionStatus?.selectedParticipant) {
-        return <Box />;
-    }
+    const actors = isLoading ? [] : data;
 
     return (
         <Grid container direction='column' alignItems='center' justifyItems='center' padding={1}>

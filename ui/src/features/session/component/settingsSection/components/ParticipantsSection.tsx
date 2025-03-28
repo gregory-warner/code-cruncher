@@ -36,6 +36,10 @@ const ParticipantsSection = () => {
         dispatch(updateSessionSelectedParticipant({ sessionId, participant }));
     };
 
+    if (!sessionId) {
+        return <Box />;
+    }
+
     return (
         <Grid container direction='column' alignItems='center' justifyItems='center' padding={1}>
             <Typography align='left' variant='subtitle2' sx={{width: '100%', pl: 1}}>
