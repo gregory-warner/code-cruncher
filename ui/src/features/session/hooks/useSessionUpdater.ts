@@ -24,7 +24,11 @@ const useSessionUpdater = () => {
         dispatch(setSessionId(session?.sessionId ?? 0));
     };
 
-    const deleteSessionById = async (sessionId: number) => {
+    const deleteSessionById = async (sessionId?: number|null) => {
+        if (!sessionId) {
+            return;
+        }
+
         await deleteSession(sessionId);
 
         const currentSessionId = session?.sessionId ?? 0;

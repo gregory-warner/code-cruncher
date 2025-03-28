@@ -2,12 +2,11 @@ import React, {useEffect, useState} from "react";
 import {Grid, IconButton, ListItem, TextField, Typography, useTheme} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
-import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
-import {useAppDispatch} from "../../../../../store/hooks";
 import {Session} from "../../../../../types";
 import {useDeleteSessionMutation, useUpdateSessionNameMutation} from "../../../../../services/server/serverApi";
 import useSessionUpdater from "../../../hooks/useSessionUpdater";
+import logger from "../../../../../../log/logger";
 
 interface SessionItemParams {
     sessionId: number;
@@ -20,13 +19,12 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
     const [editMode, setEditMode] = useState(false);
     const [editedSessionName, setEditedSessionName] = useState<string>(session.sessionName);
 
-    const { updateSession, resetSession } = useSessionUpdater();
+    const { updateSession, deleteSessionById } = useSessionUpdater();
 
     useEffect(() => {
         setEditedSessionName(session.sessionName);
     }, [editMode]);
 
-    const [deleteSession] = useDeleteSessionMutation();
     const [updateSessionName] = useUpdateSessionNameMutation();
 
     const editSessionName = () => {
@@ -58,8 +56,7 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
             return;
         }
 
-        deleteSession(session.sessionId);
-        resetSession();
+        deleteSessionById(session.sessionId);
     };
 
     return (
@@ -117,7 +114,7 @@ const SessionItem = ({ sessionId, session }: SessionItemParams) => {
                 </Grid>
                 <Grid item xs={2}>
                     <IconButton aria-label="delete" onClick={onClear}>
-                        {editMode ? <CloseIcon /> : <DeleteIcon />}
+                        {editMode && <CloseIcon /> }
                     </IconButton>
                 </Grid>
             </Grid>
