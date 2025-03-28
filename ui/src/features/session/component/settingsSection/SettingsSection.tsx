@@ -6,6 +6,7 @@ import AddParticipantSection from "./components/AddParticipantSection";
 import {useAppSelector} from "../../../../store/hooks";
 import {selectSession} from "../../sessionSlice";
 import SessionScoreBoard from "./components/scoreBoard/SessionScoreBoard";
+import ActionsSection from "../../../components/actionsSection/ActionsSection";
 
 const SettingsSection = () => {
     const session = useAppSelector(selectSession);
@@ -25,11 +26,15 @@ const SettingsSection = () => {
             <Grid container item xs={12}>
                 <ParticipantsSection />
             </Grid>
+            <ActionsSection
+                items={[
+                    <Grid container item xs={12}>
+                        <AddParticipantSection />
+                    </Grid>
+                ]}
+            />
             <Grid container item xs={12}>
                 <ParticipantSettingsSection />
-            </Grid>
-            <Grid container item xs={12}>
-                <AddParticipantSection />
             </Grid>
         </Grid>
     );

@@ -2,10 +2,10 @@ import {Grid, Typography} from "@mui/material";
 import React from "react";
 
 interface ActionsSectionProps {
-    buttons: React.ReactNode[]
+    items: React.ReactNode[]
 }
 
-const ActionsSection = ({ buttons }: ActionsSectionProps) => {
+const ActionsSection = ({ items }: ActionsSectionProps) => {
 
     return (
         <Grid container>
@@ -17,7 +17,7 @@ const ActionsSection = ({ buttons }: ActionsSectionProps) => {
                 </Grid>
             </Grid>
             {
-                buttons.map((button, index) => <React.Fragment key={index}>{button}</React.Fragment>)
+                items.map((item, index) => <React.Fragment key={index}>{item}</React.Fragment>)
             }
         </Grid>
     )

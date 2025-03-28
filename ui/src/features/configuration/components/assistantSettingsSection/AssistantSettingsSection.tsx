@@ -96,7 +96,7 @@ const AssistantSettingsSection = () => {
 
     return (
         <ActionsSection
-            buttons={[
+            items={[
                <ActionsSectionButton title={'New'} startIcon={<AddIcon />} onClick={onNew} disabled={isEditing} />,
                 <ActionsSectionButton title={'Clone'} startIcon={<ContentCopyIcon />} onClick={onClone} disabled={!selectedActor || isEditing} />,
                 editButton,
