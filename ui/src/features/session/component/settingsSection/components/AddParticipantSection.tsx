@@ -53,6 +53,7 @@ const AddParticipantSection = () => {
 
     return (
         <ActionsSectionDropdown
+            label='Add Participant'
             value={selectedActorId}
             items={dropdownItems}
             iconButton={<AddIcon onClick={onAddParticipant} />}
