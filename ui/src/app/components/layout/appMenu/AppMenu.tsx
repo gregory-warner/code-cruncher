@@ -7,6 +7,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import {Link} from "react-router-dom";
 import {useAppDispatch} from "../../../../store/hooks";
 import {setSession, setSessionId} from "../../../../features/session/sessionSlice";
+import {setIsEditing, setSelectedActor} from "../../../../features/assistant/assistantSlice";
 
 const AppMenu = () => {
 
@@ -15,6 +16,12 @@ const AppMenu = () => {
     const resetSession = () => {
         dispatch(setSessionId(0));
         dispatch(setSession(null));
+        resetSelection();
+    };
+
+    const resetSelection = () => {
+        dispatch(setIsEditing(false));
+        dispatch(setSelectedActor(null));
     };
 
     return (
