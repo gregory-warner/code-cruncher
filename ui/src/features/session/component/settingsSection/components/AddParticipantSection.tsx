@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Grid, MenuItem, Select, Typography, useTheme} from "@mui/material";
+import {Box, Button, Grid, MenuItem, Select, Typography, useTheme} from "@mui/material";
 import {useAddParticipantMutation, useGetActorsQuery} from "../../../../../services/server/serverApi";
 import {useAppDispatch, useAppSelector} from "../../../../../store/hooks";
 import {selectSessionId} from "../../../sessionSlice";
@@ -39,6 +39,10 @@ const AddParticipantSection = () => {
     };
 
     const actors = isLoading ? [] : data;
+
+    if (!sessionId || isLoading) {
+        return <Box />;
+    }
 
     return (
         <Grid container direction='column' alignItems='center' justifyItems='center' padding={1}>

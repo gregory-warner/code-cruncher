@@ -27,18 +27,14 @@ const SettingsSection = () => {
             <Grid container item xs={12}>
                 <ParticipantsSection />
             </Grid>
-            {
-                session && (
-                    <ActionsSection
-                        items={[
-                            <Grid container item xs={12}>
-                                <AddParticipantSection />
-                            </Grid>,
-                            <DeleteSession />
-                        ]}
-                    />
-                )
-            }
+            <ActionsSection
+                items={[
+                    <Grid container item xs={12}>
+                        <AddParticipantSection />
+                    </Grid>,
+                    <DeleteSession />
+                ]}
+            />
             <Grid container item xs={12}>
                 <ParticipantSettingsSection />
             </Grid>
