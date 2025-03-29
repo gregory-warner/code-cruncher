@@ -1,12 +1,36 @@
-import {useAppSelector} from "../../../store/hooks";
-import {selectSessionId} from "../sessionSlice";
-import {useLazyGetSessionParticipantsQuery} from "../../../services/server/serverApi";
-import {SessionParticipantType} from "../../../types";
+import {useAppDispatch, useAppSelector} from "../../../store/hooks";
+import {
+    useAddParticipantMutation,
+    useLazyGetSessionParticipantsQuery
+} from "../../../services/server/serverApi";
+import {ParticipantTypeId, SessionParticipantType} from "../../../types";
+import {setSnackbar} from "../../../app/store/appSlice";
+import {selectSession} from "../sessionSlice";
 
 export const useSessionParticipant = () => {
-    const sessionId = useAppSelector(selectSessionId);
+    const dispatch = useAppDispatch();
+    const session = useAppSelector(selectSession);
+
+    const sessionId = session?.sessionId ?? 0;
 
     const [getSessionParticipants] = useLazyGetSessionParticipantsQuery();
+    const [addParticipant] = useAddParticipantMutation();
+
+    const addParticipantToSession = async (assistantId?: number, sessionId?: number) => {
+        if (!assistantId || !sessionId) {
+            return;
+        }
+
+        const newParticipant = await addParticipant({
+            sessionId,
+            participantId: assistantId,
+            participantTypeId: ParticipantTypeId.actor,
+        }).unwrap();
+
+        if (!newParticipant.participantId) {
+            dispatch(setSnackbar({ message: `Unable to add new participant` }));
+        }
+    };
 
     const getSessionParticipant = async (participant: SessionParticipantType) => {
         const sessionParticipants = await getSessionParticipants(sessionId).unwrap();
@@ -19,5 +43,6 @@ export const useSessionParticipant = () => {
 
     return {
         getSessionParticipant,
+        addParticipantToSession,
     };
 };
