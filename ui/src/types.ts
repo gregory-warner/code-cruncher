@@ -163,6 +163,7 @@ export enum SessionType {
     PHP = 5,
     JavaScript = 6,
     Kotlin = 7,
+    Java = 8,
 }
 
 export interface MessageEventDetails {
