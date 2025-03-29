@@ -6,7 +6,7 @@ import {
 } from '../../../sessionSlice';
 import {Avatar, Box, Grid, Typography, useTheme} from "@mui/material";
 import {chatServerUrl} from '../../../../../../config';
-import {SessionParticipantType} from "../../../../../types";
+import {SessionParticipant, SessionParticipantType} from "../../../../../types";
 import {
     useGetActiveSessionParticipantsQuery,
 } from "../../../../../services/server/serverApi";
@@ -54,7 +54,7 @@ const ParticipantsSection = () => {
                     p: 1,
                 }}
             >
-                {sessionParticipants.map((sessionParticipant, index) => {
+                {sessionParticipants.map((sessionParticipant: SessionParticipant, index) => {
                     const participant = sessionParticipant.participant;
                     return (
                         <Grid item xs={3} key={`session-details-participant-${index}`} >

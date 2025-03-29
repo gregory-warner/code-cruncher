@@ -8,6 +8,7 @@ import {selectSession} from "../../sessionSlice";
 import SessionScoreBoard from "./components/scoreBoard/SessionScoreBoard";
 import ActionsSection from "../../../components/actionsSection/ActionsSection";
 import DeleteSession from "./components/sessionActions/DeleteSession";
+import RemoveParticipantSection from "./components/RemoveParticipantSection";
 
 const SettingsSection = () => {
     const session = useAppSelector(selectSession);
@@ -31,6 +32,9 @@ const SettingsSection = () => {
                 items={[
                     <Grid container item xs={12}>
                         <AddParticipantSection />
+                    </Grid>,
+                    <Grid container item xs={12}>
+                        <RemoveParticipantSection />
                     </Grid>,
                     <DeleteSession />
                 ]}
