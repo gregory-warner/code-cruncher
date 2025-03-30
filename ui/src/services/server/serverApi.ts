@@ -242,6 +242,16 @@ export const serverApi  = createApi({
                 method: 'GET',
             }),
         }),
+        deleteParticipantFromSession: build.mutation<{ sessionId, sessionParticipantId }, {sessionId: number, sessionParticipantId: number}>({
+            query: (deleteRequest) => ({
+                url: `sessions/${deleteRequest.sessionId}/${deleteRequest.sessionParticipantId}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: () => [
+                { type: 'Session' },
+                { type: 'SessionParticipants' },
+            ],
+        }),
     }),
 });
 
@@ -271,5 +281,5 @@ export const {
     useAddMessageQuestionTypesMutation,
     useLazyGetSessionMessageEventDetailsQuery,
     useLazyGetSessionQuery,
-    useLazyGetAllPromptsQuery,
+    useDeleteParticipantFromSessionMutation,
 } = serverApi;
