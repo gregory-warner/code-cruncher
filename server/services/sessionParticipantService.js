@@ -117,6 +117,6 @@ export const deleteActorSessionParticipants = async (actorId, transaction) => {
     await SessionParticipant.destroy({ where: { participantTypeId: sessionParticipant.actor, participantId: actorId }, transaction })
 };
 
-export const removeParticipantFromSession = async (sessionParticipantId, sessionId) => {
-    await SessionParticipant.destroy({ where: { sessionId, sessionParticipantId } });
+export const removeParticipantFromSession = async (sessionId, sessionParticipantId) => {
+    return await SessionParticipant.destroy({ where: { sessionId, sessionParticipantId } });
 };

@@ -10,7 +10,8 @@ import {
 import {
     addSessionParticipant, deleteSessionParticipants,
     getActiveSessionParticipants,
-    getSessionParticipants
+    getSessionParticipants,
+    removeParticipantFromSession
 } from "../services/sessionParticipantService.js";
 import validator from "../utils/validator.js";
 
@@ -99,12 +100,12 @@ router.delete("/:sessionId/:sessionParticipantId", async (req, res, next) => {
    try {
        const { sessionId, sessionParticipantId } = req.params;
 
-       if (!validator.isNumber(sessionid) || !validator.isNumber(sessionParticipantId)) {
+       if (!validator.isNumber(sessionId) || !validator.isNumber(sessionParticipantId)) {
            throw new Error('Parameters must be valid numbers');
        }
 
-       const deletedParticipant = await deleteSessionParticipants(sessionId, sessionParticipantId);
-       return res.json(deletedParticipant);
+       const deletedParticipantCount = await removeParticipantFromSession(parseInt(sessionId), parseInt(sessionParticipantId));
+       return res.json(deletedParticipantCount);
    }  catch (err) {
        next(err);
    }
