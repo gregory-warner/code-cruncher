@@ -1,4 +1,4 @@
-import {FormControl, Grid, InputLabel, Select, SelectChangeEvent, useTheme} from "@mui/material";
+import {FormControl, Grid, IconButton, InputLabel, Select, SelectChangeEvent, useTheme} from "@mui/material";
 import React from "react";
 
 interface ActionsSectionDropdownProps {
@@ -29,7 +29,9 @@ const ActionsSectionDropdown =({ label, value, items, iconButton, onChange, disa
                     </Select>
                 </FormControl>
             </Grid>
-            <Grid item alignContent='center' xs={1} pl={1}>{iconButton}</Grid>
+            <Grid item alignContent='center' xs={1} pl={1}>
+                <IconButton disabled={disabled}>{iconButton}</IconButton>
+            </Grid>
         </Grid>
     );
 }
