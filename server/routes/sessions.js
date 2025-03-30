@@ -8,10 +8,11 @@ import {
     updateSessionTypeId
 } from '../services/sessionService.js';
 import {
-    addSessionParticipant,
+    addSessionParticipant, deleteSessionParticipants,
     getActiveSessionParticipants,
     getSessionParticipants
 } from "../services/sessionParticipantService.js";
+import validator from "../utils/validator.js";
 
 router.get("/", async (req, res, next) => {
     try {
@@ -92,6 +93,21 @@ router.delete("/:id", async (req, res, next) => {
     } catch (err) {
         next(err);
     }
+});
+
+router.delete("/:sessionId/:sessionParticipantId", async (req, res, next) => {
+   try {
+       const { sessionId, sessionParticipantId } = req.params;
+
+       if (!validator.isNumber(sessionid) || !validator.isNumber(sessionParticipantId)) {
+           throw new Error('Parameters must be valid numbers');
+       }
+
+       const deletedParticipant = await deleteSessionParticipants(sessionId, sessionParticipantId);
+       return res.json(deletedParticipant);
+   }  catch (err) {
+       next(err);
+   }
 });
 
 export default router;
