@@ -1,11 +1,12 @@
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import {
-    useAddParticipantMutation,
+    useAddParticipantMutation, useDeleteParticipantFromSessionMutation,
     useLazyGetSessionParticipantsQuery
 } from "../../../services/server/serverApi";
-import {ParticipantTypeId, SessionParticipantType} from "../../../types";
+import {ParticipantTypeId, SessionParticipant, SessionParticipantType} from "../../../types";
 import {setSnackbar} from "../../../app/store/appSlice";
 import {selectSession} from "../sessionSlice";
+import {isUser} from "../../../utils/util";
 
 export const useSessionParticipant = () => {
     const dispatch = useAppDispatch();
@@ -14,7 +15,9 @@ export const useSessionParticipant = () => {
     const sessionId = session?.sessionId ?? 0;
 
     const [getSessionParticipants] = useLazyGetSessionParticipantsQuery();
+
     const [addParticipant] = useAddParticipantMutation();
+    const [deleteParticipant] = useDeleteParticipantFromSessionMutation();
 
     const addParticipantToSession = async (assistantId?: number, sessionId?: number) => {
         if (!assistantId || !sessionId) {
@@ -32,6 +35,16 @@ export const useSessionParticipant = () => {
         }
     };
 
+    const deleteParticipantFromSession = async (sessionId: number, sessionParticipant: SessionParticipant) => {
+        if (!sessionId || isUser(sessionParticipant.participant)) {
+            return;
+        }
+
+        const sessionParticipantId = sessionParticipant.sessionParticipantId;
+
+        await deleteParticipant({ sessionId, sessionParticipantId }).unwrap();
+    };
+
     const getSessionParticipant = async (participant: SessionParticipantType) => {
         const sessionParticipants = await getSessionParticipants(sessionId).unwrap();
 
@@ -44,5 +57,7 @@ export const useSessionParticipant = () => {
     return {
         getSessionParticipant,
         addParticipantToSession,
+        deleteParticipantFromSession,
+        getSessionParticipants,
     };
 };
