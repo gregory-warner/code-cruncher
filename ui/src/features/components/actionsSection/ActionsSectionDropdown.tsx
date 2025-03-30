@@ -14,8 +14,8 @@ const ActionsSectionDropdown =({ label, value, items, iconButton, onChange, disa
     const theme = useTheme();
 
     return (
-        <Grid container item xs={12} alignContent='center' justifyContent='center' p={1} sx={{ color: theme.palette.secondary.main }}>
-            <Grid xs={11}>
+        <Grid container item xs={12} alignContent='center' justifyContent='center' pt={1} sx={{ color: theme.palette.secondary.main }}>
+            <Grid xs={10}>
                 <FormControl fullWidth>
                     <InputLabel id='id-actions-section-dropdown-label'>{label}</InputLabel>
                     <Select
