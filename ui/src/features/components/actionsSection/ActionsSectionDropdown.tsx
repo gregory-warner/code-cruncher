@@ -7,9 +7,10 @@ interface ActionsSectionDropdownProps {
     items: JSX.Element[];
     iconButton: React.ReactElement;
     onChange: (e: SelectChangeEvent<any>) => void;
+    disabled: boolean;
 }
 
-const ActionsSectionDropdown =({ label, value, items, iconButton, onChange }: ActionsSectionDropdownProps) => {
+const ActionsSectionDropdown =({ label, value, items, iconButton, onChange, disabled }: ActionsSectionDropdownProps) => {
     const theme = useTheme();
 
     return (
@@ -22,6 +23,7 @@ const ActionsSectionDropdown =({ label, value, items, iconButton, onChange }: Ac
                         value={value}
                         onChange={onChange}
                         displayEmpty
+                        disabled={disabled}
                     >
                         {items}
                     </Select>
