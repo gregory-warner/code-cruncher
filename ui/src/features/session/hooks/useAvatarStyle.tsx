@@ -1,7 +1,6 @@
 import {SessionParticipantType} from "../../../types";
-import {useParticipant} from "./useParticipant";
 import {useAppSelector} from "../../../store/hooks";
-import {selectCurrentSpeaker, selectSessionId} from "../sessionSlice";
+import {selectCurrentSpeaker, selectSelectedParticipant, selectSessionId} from "../sessionSlice";
 import {useTheme} from "@mui/material";
 
 interface AvatarStyle {
@@ -23,7 +22,9 @@ const useAvatarStyle = () => {
 
     const sessionId = useAppSelector(selectSessionId);
 
-    const { selectedParticipant } = useParticipant();
+    const selectedParticipant = useAppSelector(state => (
+        sessionId ? selectSelectedParticipant(state, sessionId) : null)
+    );
 
     const currentSpeaker = useAppSelector(state => (
         sessionId ? selectCurrentSpeaker(state, sessionId) : null)

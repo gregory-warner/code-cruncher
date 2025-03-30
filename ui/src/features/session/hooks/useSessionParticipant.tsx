@@ -1,23 +1,48 @@
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import {
-    useAddParticipantMutation, useDeleteParticipantFromSessionMutation,
+    useAddParticipantMutation,
+    useDeleteParticipantFromSessionMutation,
+    useGetActiveSessionParticipantsQuery,
     useLazyGetSessionParticipantsQuery
 } from "../../../services/server/serverApi";
 import {ParticipantTypeId, SessionParticipant, SessionParticipantType} from "../../../types";
 import {setSnackbar} from "../../../app/store/appSlice";
-import {selectSession} from "../sessionSlice";
+import {selectSelectedParticipant, selectSession} from "../sessionSlice";
 import {isUser} from "../../../utils/util";
+import {useEffect, useState} from "react";
+import {skipToken} from "@reduxjs/toolkit/query";
 
 export const useSessionParticipant = () => {
     const dispatch = useAppDispatch();
     const session = useAppSelector(selectSession);
-
     const sessionId = session?.sessionId ?? 0;
+
+    const selectedParticipant = useAppSelector(state => (
+        sessionId ? selectSelectedParticipant(state, sessionId) : null)
+    );
+
+    const { data, isLoading: areParticipantsLoading } = useGetActiveSessionParticipantsQuery(sessionId ? sessionId : skipToken);
+    const participants = data ?? [];
+
+    const [participantMap, setParticipantMap] = useState<Map<number, SessionParticipant>>(new Map());
 
     const [getSessionParticipants] = useLazyGetSessionParticipantsQuery();
 
     const [addParticipant] = useAddParticipantMutation();
     const [deleteParticipant] = useDeleteParticipantFromSessionMutation();
+
+    useEffect(() => {
+        if (!Array.isArray(participants)) {
+            return;
+        }
+
+        const map = new Map();
+        for (const participant of participants) {
+            map.set(participant.sessionParticipantId, participant);
+        }
+
+        setParticipantMap(map);
+    }, [participants]);
 
     const addParticipantToSession = async (assistantId?: number, sessionId?: number) => {
         if (!assistantId || !sessionId) {
@@ -35,12 +60,15 @@ export const useSessionParticipant = () => {
         }
     };
 
-    const deleteParticipantFromSession = async (sessionId: number, sessionParticipant: SessionParticipant) => {
-        if (!sessionId || isUser(sessionParticipant.participant)) {
+    const deleteSessionParticipant = async (sessionParticipantId: number) => {
+        if (!sessionId || !participantMap.has(sessionParticipantId)) {
             return;
         }
 
-        const sessionParticipantId = sessionParticipant.sessionParticipantId;
+        const sessionParticipant = participantMap.get(sessionParticipantId);
+        if (isUser(sessionParticipant.participant)) {
+            return;
+        }
 
         await deleteParticipant({ sessionId, sessionParticipantId }).unwrap();
     };
@@ -57,7 +85,8 @@ export const useSessionParticipant = () => {
     return {
         getSessionParticipant,
         addParticipantToSession,
-        deleteParticipantFromSession,
-        getSessionParticipants,
+        deleteSessionParticipant,
+        participants,
+        selectedParticipant,
     };
 };
