@@ -54,12 +54,12 @@ export default {
       },
       strictPort: true,
       host: true,
-      port: 3005,
+      port: 3010,
     },
     preview: {
       open: true,
       host: true,
-      port: 3005,
+      port: 3010,
     },
     test: {
       globals: true,
