@@ -10,7 +10,7 @@ services:
     env_file:
       - .env
     networks:
-      - crunchi-network
+      - code-network
   pgdb:
     image: postgres
     ports:
@@ -22,7 +22,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWD}
       POSTGRES_DB: ${POSTGRES_DATABASE}
     networks:
-      - crunchi-network
+      - code-network
   server:
     build:
       context: .
@@ -32,16 +32,36 @@ services:
       - ./server/uploads/img:/app/server/uploads/img
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
-      - "9229:9229"
     env_file:
       - .env
     depends_on:
       - pgdb
     networks:
-      - crunchi-network
-    # command: yarn nodemon -L --inspect=0.0.0.0:9229 --signal SIGINT --nolazy server.js
+      - code-network
+  db-prompt:
+    image: 'postgres:latest'
+    environment:
+      POSTGRES_USER: ${PROMPT_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${PROMPT_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${PROMPT_POSTGRES_DB}
+    ports:
+      - ${PROMPT_POSTGRES_PORT}:${POSTGRES_PORT}
+    networks:
+      - code-network
+  prompt-service:
+    build:
+      context: ./services/spring-boot-prompt-service
+      dockerfile: Dockerfile-prompt
+    ports:
+      - ${PROMPT_SERVICE_PORT}:${PROMPT_SERVICE_PORT}
+    environment:
+      SPRING_CONFIG_LOCATION: file:/config/application.properties
+    volumes:
+      - ./config:/config
+    depends_on:
+      - db-prompt
+    networks:
+      - code-network
 networks:
-  crunchi-network:
+  code-network:
     external: true
-
-  
