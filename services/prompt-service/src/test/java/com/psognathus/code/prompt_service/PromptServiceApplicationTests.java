@@ -1,10 +1,10 @@
-package com.psognathus.code.spring_boot_prompt_service;
+package com.psognathus.code.prompt_service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SpringBootPromptServiceApplicationTests {
+class PromptServiceApplicationTests {
 
 	@Test
 	void contextLoads() {

@@ -50,7 +50,7 @@ services:
       - code-network
   prompt-service:
     build:
-      context: ./services/spring-boot-prompt-service
+      context: services/prompt-service
       dockerfile: Dockerfile-prompt
     ports:
       - ${PROMPT_SERVICE_PORT}:${PROMPT_SERVICE_PORT}
