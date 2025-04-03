@@ -46,6 +46,8 @@ services:
       POSTGRES_DB: ${PROMPT_POSTGRES_DB}
     ports:
       - ${PROMPT_POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+      - ./data/db-prompt:/var/lib/postgresql/data
     networks:
       - code-network
   prompt-service:

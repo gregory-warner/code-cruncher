@@ -7,17 +7,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 public class PromptServiceApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(PromptServiceApplication.class, args);
 	}
-
 }
 
 @RestController
 class HelloController {
 	@GetMapping("/")
 	public String hello() {
-		return "Hello.";
+		return "hey";
 	}
 }
