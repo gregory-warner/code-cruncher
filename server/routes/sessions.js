@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import {
+    cloneSession,
     createSession,
     deleteSession,
     getSessionById, getSessions,
@@ -8,7 +9,7 @@ import {
     updateSessionTypeId
 } from '../services/sessionService.js';
 import {
-    addSessionParticipant, deleteSessionParticipants,
+    addSessionParticipant,
     getActiveSessionParticipants,
     getSessionParticipants,
     removeParticipantFromSession
@@ -109,6 +110,19 @@ router.delete("/:sessionId/:sessionParticipantId", async (req, res, next) => {
    }  catch (err) {
        next(err);
    }
+});
+
+router.post("/clone/:sessionId", async (req, res, next) => {
+    const { sessionId } = req.params;
+
+    if (!validator.isNumber(sessionId)) {
+        throw new Error('Session ID must be valid numbers');
+    }
+
+
+    const sessionClone = await cloneSession(sessionId);
+
+    return res.json({ sessionId: sessionClone.sessionId });
 });
 
 export default router;
