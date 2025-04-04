@@ -112,7 +112,7 @@ router.delete("/:sessionId/:sessionParticipantId", async (req, res, next) => {
    }
 });
 
-router.post("/clone/:sessionId", async (req, res, next) => {
+router.post("/clone/:sessionId", async (req, res) => {
     const { sessionId } = req.params;
 
     if (!validator.isNumber(sessionId)) {
