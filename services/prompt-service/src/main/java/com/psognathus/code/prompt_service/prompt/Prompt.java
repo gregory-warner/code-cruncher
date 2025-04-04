@@ -25,7 +25,7 @@ public class Prompt {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    private Long actorId;
+    private Long assistantId;
     private String promptName;
     private String prompt;
     private boolean isDeleted = false;
@@ -33,9 +33,9 @@ public class Prompt {
     public Prompt() {
     }
 
-    public Prompt(Long promptId, Long actorId, String promptName, String prompt, boolean isDeleted) {
+    public Prompt(Long promptId, Long assistantId, String promptName, String prompt, boolean isDeleted) {
         this.promptId = promptId;
-        this.actorId = actorId;
+        this.assistantId = assistantId;
         this.promptName = promptName;
         this.prompt = prompt;
         this.isDeleted = isDeleted;
@@ -53,12 +53,12 @@ public class Prompt {
         return createdAt;
     }
 
-    public Long getActorId() {
-        return actorId;
+    public Long getAssistantId() {
+        return assistantId;
     }
 
-    public void setActorId(Long actorId) {
-        this.actorId = actorId;
+    public void setAssistantId(Long assistantId) {
+        this.assistantId = assistantId;
     }
 
     public String getPromptName() {
