@@ -32,23 +32,34 @@ public class Prompt {
 
     private String prompt;
 
+    private String postfix;
+
     private boolean isDeleted = false;
 
     public Prompt() {
     }
 
-    public Prompt(Long promptId, Long assistantId, String promptName, String prompt, boolean isDeleted) {
+    public Prompt(Long promptId, Long assistantId, String promptName, String prompt, boolean isDeleted, String postfix) {
         this.promptId = promptId;
         this.assistantId = assistantId;
         this.name = promptName;
         this.prompt = prompt;
         this.isDeleted = isDeleted;
+        this.postfix = postfix;
     }
 
     public Prompt(Long assistantId, String promptName, String prompt) {
         this.assistantId = assistantId;
         this.name = promptName;
         this.prompt = prompt;
+    }
+
+    public String getPostfix() {
+        return postfix;
+    }
+
+    public void setPostfix(String postfix) {
+        this.postfix = postfix;
     }
 
     public Long getPromptId() {
