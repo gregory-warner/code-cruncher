@@ -22,6 +22,11 @@ public class PromptController {
         return promptService.createPrompt(data);
     }
 
+    @PostMapping("/update")
+    public Prompt updatePrompt(@Valid @RequestBody PromptData data) {
+        return promptService.updatePrompt(data);
+    }
+
     @DeleteMapping("/{id}")
     public Prompt deletePrompt(@PathVariable Long id) {
         return promptService.deletePrompt(id);
