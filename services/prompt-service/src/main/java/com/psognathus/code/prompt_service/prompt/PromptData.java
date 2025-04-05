@@ -1,16 +1,20 @@
 package com.psognathus.code.prompt_service.prompt;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Min;
 
 public class PromptData {
+    @NotNull(message = "Assistant ID is required")
+    @Min(1)
     private Long assistantId;
-    @NotEmpty(message = "Prompt name cannot be empty")
-    private String promptName;
-    private String prompt;
+
+    private String name = "";
+
+    private String prompt = "";
 
     public PromptData(Long assistantId, String promptName, String prompt) {
         this.assistantId = assistantId;
-        this.promptName = promptName;
+        this.name = promptName;
         this.prompt = prompt;
     }
 
@@ -22,12 +26,12 @@ public class PromptData {
         this.assistantId = assistantId;
     }
 
-    public String getPromptName() {
-        return promptName;
+    public String getName() {
+        return name;
     }
 
-    public void setPromptName(String promptName) {
-        this.promptName = promptName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPrompt() {

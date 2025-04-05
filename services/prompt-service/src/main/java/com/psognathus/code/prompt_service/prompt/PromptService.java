@@ -12,12 +12,12 @@ public class PromptService {
     private PromptRepository promptRepository;
 
     public Prompt createPrompt(PromptData data) {
-        Prompt prompt = new Prompt();
+        Prompt prompt = new Prompt(data.getAssistantId(), data.getName(), data.getPrompt());
 
         return promptRepository.save(prompt);
     }
 
-    public Prompt deletePrompt(Integer id) {
+    public Prompt deletePrompt(Long id) {
         Prompt prompt = promptRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No prompt found with ID " + id));
         promptRepository.delete(prompt);
         return prompt;

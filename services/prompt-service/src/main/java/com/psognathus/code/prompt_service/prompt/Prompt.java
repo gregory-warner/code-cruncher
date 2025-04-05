@@ -13,11 +13,12 @@ import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "prompt")
-@SQLDelete(sql = "UPDATE prompt SET is_deleted = true where id = ?")
+@SQLDelete(sql = "UPDATE prompt SET is_deleted = true where prompt_id = ?")
 @Where(clause = "is_deleted = false")
 public class Prompt {
 
     @Id
+    @Column(name = "prompt_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long promptId;
 
@@ -26,8 +27,11 @@ public class Prompt {
     private LocalDateTime createdAt;
 
     private Long assistantId;
-    private String promptName;
+
+    private String name;
+
     private String prompt;
+
     private boolean isDeleted = false;
 
     public Prompt() {
@@ -36,9 +40,15 @@ public class Prompt {
     public Prompt(Long promptId, Long assistantId, String promptName, String prompt, boolean isDeleted) {
         this.promptId = promptId;
         this.assistantId = assistantId;
-        this.promptName = promptName;
+        this.name = promptName;
         this.prompt = prompt;
         this.isDeleted = isDeleted;
+    }
+
+    public Prompt(Long assistantId, String promptName, String prompt) {
+        this.assistantId = assistantId;
+        this.name = promptName;
+        this.prompt = prompt;
     }
 
     public Long getPromptId() {
@@ -61,12 +71,12 @@ public class Prompt {
         this.assistantId = assistantId;
     }
 
-    public String getPromptName() {
-        return promptName;
+    public String getName() {
+        return name;
     }
 
-    public void setPromptName(String promptName) {
-        this.promptName = promptName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPrompt() {
