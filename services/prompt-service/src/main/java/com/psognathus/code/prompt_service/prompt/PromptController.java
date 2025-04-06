@@ -8,7 +8,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/prompt")
+@RequestMapping("/api/prompt")
 public class PromptController {
     @Autowired
     private PromptService promptService;
