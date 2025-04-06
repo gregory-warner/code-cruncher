@@ -7,11 +7,13 @@ import {selectSession} from "../../sessionSlice";
 import SessionScoreBoard from "./components/scoreBoard/SessionScoreBoard";
 import ActionsSection from "../../../components/actionsSection/ActionsSection";
 import DeleteSession from "./components/sessionActions/DeleteSession";
-import {useGetActorsQuery} from "../../../../services/server/serverApi";
+import {useCloneSessionMutation, useGetActorsQuery} from "../../../../services/server/serverApi";
 import ActionsSectionDropdown from "../../../components/actionsSection/ActionsSectionDropdown";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from '@mui/icons-material/Remove';
 import {useSessionParticipant} from "../../hooks/useSessionParticipant";
+import ActionsSectionButton from "../../../components/actionsSection/ActionsSectionButton";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const SettingsSection = () => {
     const session = useAppSelector(selectSession);
@@ -22,6 +24,8 @@ const SettingsSection = () => {
     const { data: actors, isLoading: areActorsLoading } = useGetActorsQuery();
 
     const { addParticipantToSession, deleteSessionParticipant, participants  } = useSessionParticipant();
+
+    const [cloneSession] = useCloneSessionMutation();
 
     useEffect(() => {
         setSelectedActorId(null);
@@ -73,6 +77,12 @@ const SettingsSection = () => {
                             disabled={!session}
                         />
                     </Grid>,
+                    <ActionsSectionButton
+                        title={'Clone Session'}
+                        startIcon={<ContentCopyIcon />}
+                        onClick={() => cloneSession(session.sessionId)}
+                        disabled={!session?.sessionId}
+                    />,
                     <DeleteSession />
                 ]}
             />

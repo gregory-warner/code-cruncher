@@ -106,7 +106,7 @@ export const cloneSession = async (sessionId) => {
             }
         }
 
-        const messages = await Message.findAll({ where: { sessionId } });
+        const messages = await Message.findAll({ where: { sessionId }, order: [['messageId', 'ASC']] });
         for (const message of messages) {
             const messageClone = await Message.create({
                 sessionId: newSessionId,

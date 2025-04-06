@@ -252,6 +252,16 @@ export const serverApi  = createApi({
                 { type: 'SessionParticipants' },
             ],
         }),
+        cloneSession: build.mutation<Session, number>({
+            query: (sessionId: number) => ({
+                url: `sessions/clone/${sessionId}`,
+                method: 'POST',
+            }),
+            invalidatesTags: () => [
+                { type: 'Sessions' },
+                { type: 'Session' },
+            ],
+        }),
     }),
 });
 
@@ -282,4 +292,5 @@ export const {
     useLazyGetSessionMessageEventDetailsQuery,
     useLazyGetSessionQuery,
     useDeleteParticipantFromSessionMutation,
+    useCloneSessionMutation,
 } = serverApi;
