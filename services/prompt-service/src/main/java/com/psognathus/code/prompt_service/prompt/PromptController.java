@@ -5,6 +5,7 @@ import com.psognathus.code.prompt_service.prompt.PromptResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/prompt")
@@ -14,7 +15,12 @@ public class PromptController {
 
     @GetMapping("/")
     public PromptResponse home() {
-        return new PromptResponse(200, "Hello!");
+        return new PromptResponse(200, "Hello! Welcome to the Prompt service.");
+    }
+
+    @GetMapping("/get-all/{assistantId}")
+    public List<Prompt> getAllByAssistantId(@PathVariable Long assistantId) {
+        return promptService.getAllPrompts(assistantId);
     }
 
     @PostMapping("/")

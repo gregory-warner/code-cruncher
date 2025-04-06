@@ -10,6 +10,6 @@ public interface PromptRepository extends JpaRepository<Prompt, Long> {
 
     List<Prompt> findByAssistantId(Long assistantId);
 
-    @Query("SELECT p from prompt p where p.assistant_id = :assistantId")
+    @Query("SELECT p from Prompt p where p.assistantId = :assistantId")
     List<Prompt> findAllByAssistantId(@Param("assistantId") Long assistantId);
 }

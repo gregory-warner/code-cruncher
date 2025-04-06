@@ -37,4 +37,8 @@ public class PromptService {
         this.deleteAssistantPrompts(data.getAssistantId());
         return this.createPrompt(data);
     }
+
+    public List<Prompt> getAllPrompts(Long assistantId) {
+        return promptRepository.findAllByAssistantId(assistantId);
+    }
 }
